@@ -6,6 +6,7 @@ import { getSource } from '@/content/sources'
 import { documentsFor, isDocAuto } from '@/domain/documents'
 import { useAppStore } from '@/store/useAppStore'
 import { useI18n } from '@/i18n'
+import { usePageChrome } from '@/i18n/usePageChrome'
 import { Card, Pill, ProgressRing } from '@/components/ui'
 import s from './Documents.module.css'
 
@@ -16,6 +17,7 @@ export function Documents() {
   const documentsDone = useAppStore((st) => st.documentsDone)
   const toggleDocument = useAppStore((st) => st.toggleDocument)
   const [onlyRemaining, setOnlyRemaining] = useState(false)
+  usePageChrome(t('nav.documents'))
 
   useEffect(() => {
     if (!profile) navigate('/onboarding', { replace: true })

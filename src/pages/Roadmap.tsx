@@ -10,6 +10,7 @@ import { computeDeadlines, nearestDeadline } from '@/domain/deadlines'
 import { staleness } from '@/domain/freshness'
 import { useAppStore } from '@/store/useAppStore'
 import { useI18n, formatRange } from '@/i18n'
+import { usePageChrome } from '@/i18n/usePageChrome'
 import { Button, Callout, Card, Pill, ProgressRing } from '@/components/ui'
 import { StageIcon } from '@/components/StageIcon'
 import s from './Roadmap.module.css'
@@ -187,6 +188,7 @@ export function Roadmap() {
   const dates = useAppStore((st) => st.dates)
   const nearest = useMemo(() => (profile ? nearestDeadline(computeDeadlines(profile, dates, new Date())) : null), [profile, dates])
   const stale = useMemo(() => staleness(CONTENT_META, new Date()), [])
+  usePageChrome(t('nav.roadmap'))
 
   if (!profile || !progress) return null
 
@@ -255,7 +257,7 @@ export function Roadmap() {
             )}
             <div className={s.hudMeta}>
               <Pill tone="dark">
-                {progress.doneStages} / {progress.totalStages} · {t('roadmap.stages')}
+                {t('roadmap.stagesDoneOf', { done: progress.doneStages, total: progress.totalStages })}
               </Pill>
               {nearest && (
                 <Link to={`/stage/${nearest.rule.stage}`} className={s.hudDeadline}>

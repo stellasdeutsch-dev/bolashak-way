@@ -125,7 +125,6 @@ export interface ChecklistItem {
   text: L
   /** Required items gate stage completion. Default true. */
   required?: boolean
-  hint?: L
   link?: SourceId
   appliesTo?: Rule
   /** When the rule matches the profile the item counts as done without a click. */

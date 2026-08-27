@@ -7,6 +7,7 @@ import { SOURCES } from '@/content/sources'
 import { buildSnapshot, downloadSnapshot, parseSnapshot } from '@/domain/exportImport'
 import { useAppStore, type ThemePref } from '@/store/useAppStore'
 import { LOCALES, useI18n } from '@/i18n'
+import { usePageChrome } from '@/i18n/usePageChrome'
 import { Button, Card, ConfirmDialog, Pill, SourceLink } from '@/components/ui'
 import s from './Settings.module.css'
 
@@ -17,6 +18,7 @@ export function Settings() {
   const [confirmReset, setConfirmReset] = useState(false)
   const [importStatus, setImportStatus] = useState<'ok' | 'fail' | null>(null)
   const fileRef = useRef<HTMLInputElement>(null)
+  usePageChrome(t('nav.settings'))
 
   const category = state.profile ? CATEGORIES[state.profile.category] : null
   const workerGroup = useMemo(() => WORKER_GROUPS.find((g) => g.id === state.profile?.workerGroup), [state.profile])

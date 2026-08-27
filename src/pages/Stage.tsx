@@ -16,6 +16,7 @@ import { evaluate, foreignThreshold, foreignCertMeets, experienceRequirement, me
 import { isDocAuto } from '@/domain/documents'
 import { useAppStore } from '@/store/useAppStore'
 import { useI18n, pick } from '@/i18n'
+import { usePageChrome } from '@/i18n/usePageChrome'
 import { Button, Callout, Card, FallbackBadge, Pill, SourceLink } from '@/components/ui'
 import { StageIcon } from '@/components/StageIcon'
 import s from './Stage.module.css'
@@ -261,6 +262,7 @@ export function StagePage() {
 
   const progress = useMemo(() => (profile ? computeProgress({ profile, checked, stagesDone }) : null), [profile, checked, stagesDone])
   const stage = id ? getStage(id) : undefined
+  usePageChrome(stage ? cf(stage.title).text : undefined)
 
   if (!profile || !progress) return null
   if (!stage || !progress.byId.has(stage.id)) {

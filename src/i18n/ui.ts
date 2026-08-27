@@ -33,6 +33,7 @@ export const UI = {
     year: { ru: 'Конкурсный год', kk: 'Конкурс жылы', en: 'Competition year' },
   },
   onboarding: {
+    shortMonths: { ru: '{n} мес. непрерывно', kk: '{n} ай үздіксіз', en: '{n} months continuous' },
     welcomeKicker: { ru: 'Ваш путь к стипендии', kk: 'Стипендияға жолыңыз', en: 'Your path to the scholarship' },
     welcomeTitle: { ru: 'Болашак по шагам', kk: 'Болашақ қадам-қадаммен', en: 'Bolashak step by step' },
     welcomeText: {
@@ -82,6 +83,7 @@ export const UI = {
     estimateDone: { ru: 'подача позади', kk: 'тапсыру артта', en: 'application submitted' },
     chapter: { ru: 'Глава', kk: 'Тарау', en: 'Chapter' },
     stages: { ru: 'этапов', kk: 'кезең', en: 'stages' },
+    stagesDoneOf: { ru: 'Пройдено {done} из {total}', kk: '{total} кезеңнің {done}-і өтілді', en: '{done} of {total} stages done' },
     locked: { ru: 'Заблокировано', kk: 'Құлыпталған', en: 'Locked' },
     lockedHint: { ru: 'Откроется после главы «{chapter}»', kk: '«{chapter}» тарауынан кейін ашылады', en: 'Unlocks after chapter "{chapter}"' },
     available: { ru: 'Доступно', kk: 'Қолжетімді', en: 'Available' },

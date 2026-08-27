@@ -136,3 +136,79 @@ svg {
     scroll-behavior: auto !important;
   }
 }
+
+/* — print: people carry these lists to the CIP office on paper — */
+@media print {
+  :root {
+    --bg: #fff;
+    --surface: #fff;
+    --surface-2: #fff;
+    --surface-3: #fff;
+    --text-1: #000;
+    --text-2: #222;
+    --text-3: #444;
+    --line: #bbb;
+    --line-strong: #888;
+  }
+
+  body {
+    background: #fff;
+    color: #000;
+  }
+
+  header,
+  nav,
+  button,
+  [class*='tabbar'],
+  [class*='sticky'],
+  [class*='hud'],
+  [class*='legend'],
+  [class*='footerNav'],
+  [class*='track'],
+  [class*='langSwitch'],
+  [class*='iconBtn'] {
+    display: none !important;
+  }
+
+  main {
+    padding: 0 !important;
+    max-width: none !important;
+  }
+
+  [class*='card'],
+  [class*='Card'] {
+    box-shadow: none !important;
+    border: 1px solid #bbb !important;
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  /* Checkboxes are rendered as buttons on screen; print them as ballot boxes. */
+  [class*='checkItem'],
+  [class*='docRow'] {
+    display: flex !important;
+    break-inside: avoid;
+  }
+
+  [class*='box']::before {
+    content: '☐ ';
+    font-size: 15px;
+  }
+
+  [class*='boxDone']::before,
+  [class*='boxAuto']::before {
+    content: '☑ ';
+  }
+
+  [class*='box'] svg {
+    display: none;
+  }
+
+  /* Links are useless on paper unless the address is printed too. */
+  a[href^='http']::after {
+    content: ' (' attr(href) ')';
+    font-size: 11px;
+    color: #444;
+    word-break: break-all;
+  }
+}

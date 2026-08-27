@@ -1,4 +1,4 @@
-import { useEffect, type ReactNode } from 'react'
+import { useEffect, type ReactNode, useRef } from 'react'
 import { Info, TriangleAlert, ExternalLink } from 'lucide-react'
 import { getSource } from '@/content/sources'
 import type { SourceId } from '@/content/types'
@@ -135,17 +135,41 @@ export function ConfirmDialog({
   onCancel: () => void
 }) {
   const { t } = useI18n()
+  const dialogRef = useRef<HTMLDivElement>(null)
+  const restoreTo = useRef<HTMLElement | null>(null)
+
   useEffect(() => {
     if (!open) return
-    const onKey = (e: KeyboardEvent) => e.key === 'Escape' && onCancel()
+    restoreTo.current = document.activeElement as HTMLElement
+    dialogRef.current?.querySelector<HTMLElement>('button')?.focus()
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') return onCancel()
+      // Trap Tab inside the dialog while it is open.
+      if (e.key === 'Tab' && dialogRef.current) {
+        const focusable = dialogRef.current.querySelectorAll<HTMLElement>('button:not([disabled]), a[href], input')
+        if (focusable.length === 0) return
+        const first = focusable[0]
+        const last = focusable[focusable.length - 1]
+        if (e.shiftKey && document.activeElement === first) {
+          e.preventDefault()
+          last.focus()
+        } else if (!e.shiftKey && document.activeElement === last) {
+          e.preventDefault()
+          first.focus()
+        }
+      }
+    }
     document.addEventListener('keydown', onKey)
-    return () => document.removeEventListener('keydown', onKey)
+    return () => {
+      document.removeEventListener('keydown', onKey)
+      restoreTo.current?.focus?.()
+    }
   }, [open, onCancel])
 
   if (!open) return null
   return (
     <div className={s.overlay} role="dialog" aria-modal="true" aria-label={title} onClick={onCancel}>
-      <div className={s.dialog} onClick={(e) => e.stopPropagation()}>
+      <div className={s.dialog} ref={dialogRef} onClick={(e) => e.stopPropagation()}>
         <h2 className={s.dialogTitle}>{title}</h2>
         <p className={s.dialogText}>{text}</p>
         <div className={s.dialogActions}>

@@ -198,6 +198,7 @@ export function Onboarding() {
                     aria-pressed={draft.workerGroup === g.id}
                   >
                     {c(g.title)}
+                    {g.shortMonths && <span className={s.chipBadge}>{t('onboarding.shortMonths', { n: g.shortMonths })}</span>}
                   </button>
                 ))}
               </div>

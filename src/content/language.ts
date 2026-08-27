@@ -55,12 +55,6 @@ export function requiredScore(group: LanguageGroup, exam: ExamId): number | null
 }
 
 /** Lowest score that still allows participation (level I for preferential, else level III). */
-export function minimumEntryScore(group: LanguageGroup, exam: ExamId): number | null {
-  if (group === 'none' || group === 'science' || exam === 'other') return null
-  const row = ENGLISH_THRESHOLDS[group].find((r) => r.exam === exam)
-  if (!row) return null
-  return row.first ?? row.second ?? row.third
-}
 
 export const KAZAKH_REQUIREMENT: { text: L; source: SourceId } = {
   text: {
