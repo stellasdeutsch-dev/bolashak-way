@@ -6,7 +6,10 @@ import { SOURCES } from '@/content/sources'
 import { DOCUMENTS } from '@/content/documents'
 import { FAQ } from '@/content/faq'
 import { computeProgress, applicableStages, applicableItems } from '@/domain/progress'
-import { evaluate, foreignCertMeets } from '@/domain/applicability'
+import { evaluate, foreignCertMeets, experienceRequirement, meetsExperience } from '@/domain/applicability'
+import { computeDeadlines, nearestDeadline } from '@/domain/deadlines'
+import { searchAll } from '@/domain/search'
+import { staleness } from '@/domain/freshness'
 import { documentsFor } from '@/domain/documents'
 import { buildSnapshot, parseSnapshot } from '@/domain/exportImport'
 import { toProfile, emptyDraft, isStepComplete, draftFromProfile } from '@/domain/profile'
@@ -255,5 +258,184 @@ describe('onboarding step bounds', () => {
     const draft = { ...emptyDraft(), track: 'master' as const, category: 'master_self' as const }
     expect(isStepComplete(draft, 4)).toBe(false)
     expect(isStepComplete(draft, -1)).toBe(false)
+  })
+})
+
+describe('experience requirements', () => {
+  it('closes the experience item once the profile satisfies the category', () => {
+    const medic = profile({ category: 'master_medical', experience: { years: 2, continuousMonths: 18 } })
+    expect(meetsExperience(medic)).toBe(true)
+    expect(experienceRequirement(medic)).toEqual({ years: 1, continuousMonths: null })
+  })
+
+  it('rejects an engineer without the required year of experience', () => {
+    expect(meetsExperience(profile({ category: 'master_engineer', experience: { years: 0, continuousMonths: 0 } }))).toBe(false)
+  })
+
+  it('asks AI-system and nuclear interns for 6 continuous months instead of 12', () => {
+    const ai = (months: number) =>
+      profile({ track: 'internship', category: 'internship', workerGroup: 'ai_user', experience: { years: 3, continuousMonths: months } })
+    expect(experienceRequirement(ai(6))).toEqual({ years: 3, continuousMonths: 6 })
+    expect(meetsExperience(ai(6))).toBe(true)
+    expect(meetsExperience(ai(5))).toBe(false)
+    // A media worker on the same track still needs the full year.
+    const media = profile({ track: 'internship', category: 'internship', workerGroup: 'media', experience: { years: 3, continuousMonths: 6 } })
+    expect(meetsExperience(media)).toBe(false)
+  })
+
+  it('never claims experience is met for categories that do not require any', () => {
+    expect(experienceRequirement(profile())).toBeNull()
+    expect(meetsExperience(profile({ experience: { years: 10, continuousMonths: 120 } }))).toBe(false)
+  })
+})
+
+describe('next action', () => {
+  it('points at the first unchecked required step and moves on as steps are ticked', () => {
+    const p = profile()
+    const first = computeProgress({ profile: p, checked: [], stagesDone: [] })
+    expect(first.nextItem).not.toBeNull()
+    const firstId = `${first.nextItem!.stage.stage.id}:${first.nextItem!.item.id}`
+    expect(first.nextItem!.item.required).not.toBe(false)
+
+    const second = computeProgress({ profile: p, checked: [firstId], stagesDone: [] })
+    expect(second.nextItem).not.toBeNull()
+    expect(`${second.nextItem!.stage.stage.id}:${second.nextItem!.item.id}`).not.toBe(firstId)
+  })
+
+  it('has no next action once every stage is marked done', () => {
+    const p = profile()
+    const all = applicableStages(p).map((s) => s.id)
+    expect(computeProgress({ profile: p, checked: [], stagesDone: all }).nextItem).toBeNull()
+  })
+})
+
+describe('snapshot validation', () => {
+  const good = () =>
+    buildSnapshot(
+      {
+        profile: profile(),
+        onboardedAt: '2026-08-01T00:00:00.000Z',
+        checked: ['eligibility:citizen'],
+        stagesDone: ['eligibility'],
+        documentsDone: ['anketa'],
+        notes: { eligibility: 'ок' },
+        dates: { award_date: '2026-09-01' },
+      },
+      '2026-08-21T10:00:00.000Z',
+    )
+
+  it('rejects a payload whose category is not in the content model', () => {
+    const snap = { ...good(), profile: { ...profile(), category: 'xxx' } }
+    expect(parseSnapshot(JSON.stringify(snap))).toBeNull()
+  })
+
+  it('rejects a profile whose category does not belong to its track', () => {
+    const snap = { ...good(), profile: { ...profile(), track: 'internship' } }
+    expect(parseSnapshot(JSON.stringify(snap))).toBeNull()
+  })
+
+  it('drops unknown ids and dates but keeps the valid ones', () => {
+    const snap = {
+      ...good(),
+      checked: ['eligibility:citizen', 'nope:nope'],
+      stagesDone: ['eligibility', 'ghost'],
+      documentsDone: ['anketa', 'ghost-doc'],
+      notes: { eligibility: 'ок', ghost: 'x' },
+      dates: { award_date: '2026-09-01', ghost_key: '2026-01-01', study_start: 'not-a-date' },
+    }
+    const parsed = parseSnapshot(JSON.stringify(snap))!
+    expect(parsed.checked).toEqual(['eligibility:citizen'])
+    expect(parsed.stagesDone).toEqual(['eligibility'])
+    expect(parsed.documentsDone).toEqual(['anketa'])
+    expect(Object.keys(parsed.notes)).toEqual(['eligibility'])
+    expect(parsed.dates).toEqual({ award_date: '2026-09-01' })
+  })
+
+  it('round-trips a clean snapshot unchanged', () => {
+    const parsed = parseSnapshot(JSON.stringify(good()))!
+    expect(parsed.profile).toEqual(profile())
+    expect(parsed.dates.award_date).toBe('2026-09-01')
+  })
+})
+
+describe('personal deadlines', () => {
+  const at = (iso: string) => new Date(`${iso}T12:00:00Z`)
+
+  it('counts 90 days to the contract, and 60 for a scientific internship', () => {
+    const academic = computeDeadlines(profile(), { award_date: '2026-09-01' }, at('2026-09-02'))
+    const contract = academic.find((d) => d.rule.id === 'contract')!
+    expect(contract.due).toBe('2026-11-30')
+    expect(contract.rule.source).toBe('pp573')
+
+    const science = profile({ track: 'science_internship', category: 'science_internship' })
+    const ns = computeDeadlines(science, { award_date: '2026-09-01' }, at('2026-09-02'))
+    expect(ns.find((d) => d.rule.id === 'contract_ns')!.due).toBe('2026-10-31')
+    expect(ns.some((d) => d.rule.id === 'contract')).toBe(false)
+  })
+
+  it('flags obligations as soon or overdue relative to the given day', () => {
+    const soon = computeDeadlines(profile(), { award_date: '2026-09-01' }, at('2026-11-20'))
+    expect(soon.find((d) => d.rule.id === 'contract')!.status).toBe('soon')
+    const late = computeDeadlines(profile(), { award_date: '2026-09-01' }, at('2026-12-10'))
+    const overdue = late.find((d) => d.rule.id === 'contract')!
+    expect(overdue.status).toBe('overdue')
+    expect(overdue.daysLeft).toBe(-10)
+  })
+
+  it('rolls the recurring employment certificate to the next occurrence', () => {
+    const list = computeDeadlines(profile(), { work_start: '2026-01-15' }, at('2026-08-01'))
+    const cert = list.find((d) => d.rule.id === 'workback_cert')!
+    expect(cert.due).toBe('2027-01-15')
+    expect(cert.occurrence).toBe(2)
+  })
+
+  it('returns nothing for rules whose anchor date is missing', () => {
+    expect(computeDeadlines(profile(), {}, at('2026-09-02'))).toEqual([])
+  })
+
+  it('prefers an overdue obligation over an upcoming one in the header', () => {
+    const list = computeDeadlines(profile(), { award_date: '2026-01-01', work_start: '2026-08-01' }, at('2026-09-01'))
+    expect(nearestDeadline(list)!.status).toBe('overdue')
+    expect(nearestDeadline([])).toBeNull()
+  })
+})
+
+describe('search', () => {
+  it('finds interview slots and document questions', () => {
+    const p = profile()
+    const slots = searchAll('слоты', p, 'ru')
+    expect(slots.length).toBeGreaterThan(0)
+    expect(slots.some((r) => r.stageId === 'interview')).toBe(true)
+
+    const medcert = searchAll('072', p, 'ru')
+    expect(medcert.length).toBeGreaterThan(0)
+  })
+
+  it('ignores case and ё, and needs at least two characters', () => {
+    const p = profile()
+    expect(searchAll('С', p, 'ru')).toEqual([])
+    expect(searchAll('СЛОТЫ', p, 'ru').length).toBeGreaterThan(0)
+  })
+
+  it('never returns content from stages that do not apply to the profile', () => {
+    const p = profile()
+    const applicable = new Set(applicableStages(p).map((s) => s.id))
+    for (const r of searchAll('курс', p, 'ru')) expect(applicable.has(r.stageId)).toBe(true)
+  })
+})
+
+describe('data freshness', () => {
+  it('warns once the content has not been verified for six months', () => {
+    const meta = { lastVerified: '2026-01-10', competitionYear: 2026 }
+    expect(staleness(meta, new Date('2026-05-10T12:00:00Z')).stale).toBe(false)
+    const aged = staleness(meta, new Date('2026-08-10T12:00:00Z'))
+    expect(aged.monthsSinceVerified).toBe(7)
+    expect(aged.staleByAge).toBe(true)
+  })
+
+  it('warns when the competition year has rolled over', () => {
+    const s = staleness({ lastVerified: '2026-12-20', competitionYear: 2026 }, new Date('2027-01-05T12:00:00Z'))
+    expect(s.staleByYear).toBe(true)
+    expect(s.stale).toBe(true)
   })
 })
