@@ -37,10 +37,15 @@
 .primary {
   background: linear-gradient(135deg, var(--accent) 0%, var(--accent-2) 100%);
   color: #fff;
-  box-shadow: var(--glow);
+  box-shadow: var(--glow), var(--gloss);
 }
 .primary:hover:not(:disabled) {
-  box-shadow: var(--glow-strong);
+  box-shadow: var(--glow-strong), var(--gloss);
+  transform: translateY(-1px);
+}
+.secondary,
+.ghost {
+  box-shadow: var(--shadow-card), var(--gloss-soft);
 }
 .secondary {
   background: var(--steel);
@@ -76,13 +81,15 @@
 
 .card {
   background: var(--surface);
+  border: var(--card-hairline);
   border-radius: var(--r-xl);
   box-shadow: var(--shadow-card);
   padding: 24px;
 }
 .cardDark {
-  background: linear-gradient(160deg, var(--navy) 0%, var(--navy-3) 100%);
+  background: var(--navy-sheen), linear-gradient(160deg, var(--navy) 0%, var(--navy-3) 100%);
   color: var(--on-navy);
+  border: 1px solid rgba(255, 255, 255, 0.06);
   border-radius: var(--r-xl);
   box-shadow: var(--shadow-navy);
   padding: 24px;

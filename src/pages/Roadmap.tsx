@@ -7,6 +7,7 @@ import { CONTENT_META } from '@/content/meta'
 import type { ChapterId } from '@/content/types'
 import { computeProgress, type StageProgress } from '@/domain/progress'
 import { computeDeadlines, nearestDeadline } from '@/domain/deadlines'
+import { documentsFor } from '@/domain/documents'
 import { staleness } from '@/domain/freshness'
 import { useAppStore } from '@/store/useAppStore'
 import { useI18n, formatRange } from '@/i18n'
@@ -35,7 +36,7 @@ function useTrackWidth() {
 }
 
 type Row =
-  | { kind: 'chapter'; id: string; chapter: (typeof CHAPTERS)[number]; number: number }
+  | { kind: 'chapter'; id: string; chapter: (typeof CHAPTERS)[number]; number: number; done: number; total: number }
   | { kind: 'stage'; id: string; item: StageProgress }
 
 /** Fallback until the real banner height is measured (it wraps to 2–3 lines on narrow screens). */
@@ -116,6 +117,13 @@ function RoadmapTrack({ rows, currentId, continueLabel }: { rows: Row[]; current
   return (
     <div className={s.track} ref={ref} style={{ height }}>
       <svg className={s.trackSvg} viewBox={`0 0 ${width} ${height}`} preserveAspectRatio="none" aria-hidden="true">
+        <defs>
+          {/* The walked part of the path fades from green into the accent at the current node. */}
+          <linearGradient id="walkedGradient" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stopColor="var(--success)" />
+            <stop offset="100%" stopColor="var(--accent)" />
+          </linearGradient>
+        </defs>
         <path className={s.trackLine} d={path} />
         {donePath && <path className={s.trackLineDone} d={donePath} />}
       </svg>
@@ -131,10 +139,14 @@ function RoadmapTrack({ rows, currentId, continueLabel }: { rows: Row[]; current
             style={{ top: bannerTops[row.id] }}
           >
             <span className={s.chapterNum}>{String(row.number).padStart(2, '0')}</span>
-            <div>
+            <div className={s.chapterText}>
               <h2 className={s.chapterTitle}>{c(row.chapter.title)}</h2>
               <p className={s.chapterSub}>{c(row.chapter.subtitle)}</p>
             </div>
+            <span className={[s.chapterCount, row.done === row.total ? s.chapterCountDone : ''].join(' ')}>
+              {row.done === row.total && <Check size={13} strokeWidth={3} aria-hidden="true" />}
+              {t('roadmap.chapterProgress', { done: row.done, total: row.total })}
+            </span>
           </div>
         ) : null,
       )}
@@ -212,6 +224,7 @@ export function Roadmap() {
   const dates = useAppStore((st) => st.dates)
   const nearest = useMemo(() => (profile ? nearestDeadline(computeDeadlines(profile, dates, new Date())) : null), [profile, dates])
   const stale = useMemo(() => staleness(CONTENT_META, new Date()), [])
+  const docCount = useMemo(() => (profile ? documentsFor(profile).reduce((n, g) => n + g.items.length, 0) : 0), [profile])
   usePageChrome(t('nav.roadmap'))
 
   if (!profile || !progress) return null
@@ -225,7 +238,14 @@ export function Roadmap() {
   })).filter((g) => g.items.length > 0)
 
   const rows: Row[] = byChapter.flatMap((group, idx) => [
-    { kind: 'chapter' as const, id: `chapter-${group.chapter.id}`, chapter: group.chapter, number: idx + 1 },
+    {
+      kind: 'chapter' as const,
+      id: `chapter-${group.chapter.id}`,
+      chapter: group.chapter,
+      number: idx + 1,
+      done: group.items.filter((i) => i.status === 'done').length,
+      total: group.items.length,
+    },
     ...group.items.map((item) => ({ kind: 'stage' as const, id: item.stage.id, item })),
   ])
 
@@ -254,13 +274,34 @@ export function Roadmap() {
             <Sparkles size={13} aria-hidden="true" />
             {t('roadmap.forCategory')}
           </Pill>
-          <h1 className={`display ${s.introTitle}`} style={{ marginTop: 12 }}>
+          <h1 className={`display ${s.introTitle}`}>
             {t('roadmap.yourPath')}
             <b>{c(category.short)}</b>
           </h1>
           <p className={s.introSub}>{c(category.desc)}</p>
+          <div className={s.stats}>
+            <span className={s.stat}>
+              <b className={s.statNum}>{String(progress.totalStages).padStart(2, '0')}</b>
+              <span className={s.statLabel}>{t('roadmap.statStages')}</span>
+            </span>
+            <span className={s.stat}>
+              <b className={s.statNum}>{String(docCount).padStart(2, '0')}</b>
+              <span className={s.statLabel}>{t('roadmap.statDocuments')}</span>
+            </span>
+            {progress.estimateMonths && (
+              <span className={s.stat} title={c(CONTENT_META.estimateNote)}>
+                <b className={s.statNum}>{formatRange(progress.estimateMonths[0], progress.estimateMonths[1])}</b>
+                <span className={s.statLabel}>
+                  {t('common.months')} {t('roadmap.estimate')}
+                </span>
+              </span>
+            )}
+          </div>
         </div>
-        <ProgressRing value={progress.ratio} size={92} stroke={9} />
+        <div className={s.introRing}>
+          <ProgressRing value={progress.ratio} size={104} stroke={10} />
+          <span className={s.introRingLabel}>{t('roadmap.progress')}</span>
+        </div>
       </Card>
 
       <div className={s.sticky}>

@@ -92,6 +92,9 @@ export const UI = {
     autoDone: { ru: 'закрыто по вашим ответам', kk: 'жауаптарыңыз бойынша жабылды', en: 'closed based on your answers' },
     items: { ru: '{done} из {total} шагов', kk: '{total} қадамның {done}-і', en: '{done} of {total} steps' },
     yourPath: { ru: 'Ваш путь', kk: 'Сіздің жолыңыз', en: 'Your path' },
+    statStages: { ru: 'этапов в вашем пути', kk: 'жолыңыздағы кезең', en: 'stages on your path' },
+    statDocuments: { ru: 'документов собрать', kk: 'құжат жинау керек', en: 'documents to collect' },
+    chapterProgress: { ru: '{done} из {total}', kk: '{total} ішінен {done}', en: '{done} of {total}' },
     forCategory: { ru: 'Роадмап для категории', kk: 'Санатқа арналған жол картасы', en: 'Roadmap for category' },
   },
   stage: {

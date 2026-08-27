@@ -319,6 +319,11 @@ export function StagePage() {
           </h1>
           <p className={s.heroSummary}>{c(stage.summary)}</p>
           <div className={s.heroMeta}>
+            {sp.requiredTotal > 0 && !sp.autoDone && (
+              <Pill tone="dark">
+                {t('roadmap.items', { done: sp.requiredDone, total: sp.requiredTotal })}
+              </Pill>
+            )}
             {stage.estimateWeeks && (
               <Pill tone="dark">
                 {t('stage.estimate')}: {stage.estimateWeeks[0]}–{stage.estimateWeeks[1]} {t('stage.weeks')}
