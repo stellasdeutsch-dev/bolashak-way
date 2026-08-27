@@ -33,52 +33,67 @@ function useTrackWidth() {
   return { ref, width }
 }
 
-/** Winding column of nodes for one chapter, connected by a dotted curve. */
-function ChapterTrack({ items, currentId }: { items: StageProgress[]; currentId?: string }) {
+type Row =
+  | { kind: 'chapter'; id: string; chapter: (typeof CHAPTERS)[number]; number: number }
+  | { kind: 'stage'; id: string; item: StageProgress }
+
+const BANNER_H = 104
+
+/**
+ * One continuous winding path through every stage, with dark chapter banners sitting
+ * on top of it — the line never breaks at a chapter boundary.
+ */
+function RoadmapTrack({ rows, currentId, continueLabel }: { rows: Row[]; currentId?: string; continueLabel: string }) {
   const { ref, width } = useTrackWidth()
   const { t, c } = useI18n()
 
   const gap = gapFor(width)
-  const points = useMemo(() => {
+
+  const { points, height, bannerTops } = useMemo(() => {
     const amp = Math.min(110, Math.max(0, width / 2 - 96))
-    return items.map((_, i) => ({
-      x: width / 2 + Math.sin(i * 1.05 + 0.4) * amp,
-      y: TOP_PAD + 40 + i * gap,
-    }))
-  }, [items, width, gap])
+    const pts: { x: number; y: number }[] = []
+    const tops: Record<string, number> = {}
+    let cursor = TOP_PAD
+    let stageIndex = 0
+    for (const row of rows) {
+      if (row.kind === 'chapter') {
+        tops[row.id] = cursor
+        // Extra room so the "continue" cloud of the first node never touches the banner.
+        cursor += BANNER_H + 26
+      } else {
+        pts.push({ x: width / 2 + Math.sin(stageIndex * 1.05 + 0.4) * amp, y: cursor + 40 })
+        cursor += gap
+        stageIndex += 1
+      }
+    }
+    return { points: pts, height: cursor + 72, bannerTops: tops }
+  }, [rows, width, gap])
 
-  const height = TOP_PAD + 40 + Math.max(0, items.length - 1) * gap + 104
+  const stages = useMemo(() => rows.filter((r): r is Extract<Row, { kind: 'stage' }> => r.kind === 'stage'), [rows])
 
-  const path = useMemo(() => {
-    if (points.length < 2) return ''
-    return points
-      .map((p, i) => {
-        if (i === 0) return `M ${p.x} ${p.y}`
-        const prev = points[i - 1]
-        const midY = (prev.y + p.y) / 2
-        return `C ${prev.x} ${midY}, ${p.x} ${midY}, ${p.x} ${p.y}`
-      })
-      .join(' ')
-  }, [points])
+  const curve = (list: { x: number; y: number }[]) =>
+    list.length < 2
+      ? ''
+      : list
+          .map((pt, i) => {
+            if (i === 0) return `M ${pt.x} ${pt.y}`
+            const prev = list[i - 1]
+            const midY = (prev.y + pt.y) / 2
+            return `C ${prev.x} ${midY}, ${pt.x} ${midY}, ${pt.x} ${pt.y}`
+          })
+          .join(' ')
+
+  const path = useMemo(() => curve(points), [points])
 
   const donePath = useMemo(() => {
-    // Only the unbroken run of completed nodes from the start counts as "walked".
+    // Only the unbroken run of completed stages from the very start counts as "walked".
     let lastDone = -1
-    for (const [i, it] of items.entries()) {
-      if (it.status !== 'done') break
+    for (const [i, row] of stages.entries()) {
+      if (row.item.status !== 'done') break
       lastDone = i
     }
-    if (lastDone < 1) return ''
-    return points
-      .slice(0, lastDone + 1)
-      .map((p, i) => {
-        if (i === 0) return `M ${p.x} ${p.y}`
-        const prev = points[i - 1]
-        const midY = (prev.y + p.y) / 2
-        return `C ${prev.x} ${midY}, ${p.x} ${midY}, ${p.x} ${p.y}`
-      })
-      .join(' ')
-  }, [items, points])
+    return lastDone < 1 ? '' : curve(points.slice(0, lastDone + 1))
+  }, [stages, points])
 
   return (
     <div className={s.track} ref={ref} style={{ height }}>
@@ -87,8 +102,21 @@ function ChapterTrack({ items, currentId }: { items: StageProgress[]; currentId?
         {donePath && <path className={s.trackLineDone} d={donePath} />}
       </svg>
 
-      {items.map((item, i) => {
-        const p = points[i]
+      {rows.map((row) =>
+        row.kind === 'chapter' ? (
+          <div key={row.id} className={s.banner} style={{ top: bannerTops[row.id] }}>
+            <span className={s.chapterNum}>{String(row.number).padStart(2, '0')}</span>
+            <div>
+              <h2 className={s.chapterTitle}>{c(row.chapter.title)}</h2>
+              <p className={s.chapterSub}>{c(row.chapter.subtitle)}</p>
+            </div>
+          </div>
+        ) : null,
+      )}
+
+      {stages.map((row, i) => {
+        const item = row.item
+        const pt = points[i]
         const isCurrent = item.stage.id === currentId
         const bubbleClass = [
           s.bubble,
@@ -113,9 +141,10 @@ function ChapterTrack({ items, currentId }: { items: StageProgress[]; currentId?
             id={`node-${item.stage.id}`}
             to={`/stage/${item.stage.id}`}
             className={[s.node, item.status === 'locked' ? s.nodeLocked : ''].join(' ')}
-            style={{ left: p.x, top: p.y - 37 }}
+            style={{ left: pt.x, top: pt.y - 37 }}
             aria-label={`${c(item.stage.title)} — ${statusLabel}`}
           >
+            {isCurrent && item.status !== 'done' && <span className={s.cloud}>{continueLabel}</span>}
             <span className={bubbleClass}>
               {item.status === 'in-progress' && (
                 <span className={s.ringWrap}>
@@ -168,6 +197,11 @@ export function Roadmap() {
     chapter: ch,
     items: progress.stages.filter((s2) => s2.stage.chapter === (ch.id as ChapterId)),
   })).filter((g) => g.items.length > 0)
+
+  const rows: Row[] = byChapter.flatMap((group, idx) => [
+    { kind: 'chapter' as const, id: `chapter-${group.chapter.id}`, chapter: group.chapter, number: idx + 1 },
+    ...group.items.map((item) => ({ kind: 'stage' as const, id: item.stage.id, item })),
+  ])
 
   const jumpToCurrent = () => {
     if (!current) return
@@ -263,18 +297,7 @@ export function Roadmap() {
         </div>
       </div>
 
-      {byChapter.map((group, idx) => (
-        <section key={group.chapter.id} className={s.chapter}>
-          <header className={s.chapterHead}>
-            <span className={s.chapterNum}>{String(idx + 1).padStart(2, '0')}</span>
-            <div>
-              <h2 className={s.chapterTitle}>{c(group.chapter.title)}</h2>
-              <p className={s.chapterSub}>{c(group.chapter.subtitle)}</p>
-            </div>
-          </header>
-          <ChapterTrack items={group.items} currentId={current?.stage.id} />
-        </section>
-      ))}
+      <RoadmapTrack rows={rows} currentId={current?.stage.id} continueLabel={t('common.continue')} />
 
       <div className={s.legend}>
         <span className={s.legendItem}>
