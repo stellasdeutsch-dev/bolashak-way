@@ -439,3 +439,16 @@ describe('data freshness', () => {
     expect(s.stale).toBe(true)
   })
 })
+
+describe('FAQ translations', () => {
+  it('covers every chat-sourced question in Kazakh and English', () => {
+    const chat = FAQ.filter((f) => f.source === 'chat-faq')
+    expect(chat.length).toBeGreaterThan(0)
+    for (const f of chat) {
+      expect(f.q.kk, `${f.id} q.kk`).toBeTruthy()
+      expect(f.q.en, `${f.id} q.en`).toBeTruthy()
+      expect(f.a.kk, `${f.id} a.kk`).toBeTruthy()
+      expect(f.a.en, `${f.id} a.en`).toBeTruthy()
+    }
+  })
+})

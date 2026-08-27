@@ -1,5 +1,6 @@
 import type { FaqItem } from './types'
 import { GENERATED_FAQ } from './faq.generated'
+import { FAQ_TRANSLATIONS } from './faq.i18n'
 
 /**
  * FAQ shown on stage screens. Two origins:
@@ -94,7 +95,13 @@ export const OFFICIAL_FAQ: FaqItem[] = [
   },
 ]
 
-export const FAQ: FaqItem[] = [...OFFICIAL_FAQ, ...GENERATED_FAQ]
+/** Chat-sourced entries are Russian-only until the overlay supplies kk/en. */
+const TRANSLATED_FAQ: FaqItem[] = GENERATED_FAQ.map((item) => {
+  const tr = FAQ_TRANSLATIONS[item.id]
+  return tr ? { ...item, q: { ...item.q, ...tr.q }, a: { ...item.a, ...tr.a } } : item
+})
+
+export const FAQ: FaqItem[] = [...OFFICIAL_FAQ, ...TRANSLATED_FAQ]
 
 export const faqForStage = (stage: string): FaqItem[] =>
   FAQ.filter((f) => f.stage === stage).sort((a, b) => {
