@@ -1,0 +1,90 @@
+/* Design tokens — light first, dark overrides. Visual language follows the reference:
+   soft grey canvas, white 28–32px cards, deep navy sections, glossy blue pill CTAs. */
+:root {
+  color-scheme: light;
+
+  --bg: #f2f4f8;
+  --bg-elev: #e9edf4;
+  --surface: #ffffff;
+  --surface-2: #f6f8fb;
+  --surface-3: #eef1f6;
+  --navy: #0b1220;
+  --navy-2: #121b2e;
+  --navy-3: #1a2540;
+  --on-navy: #ffffff;
+  --on-navy-muted: rgba(255, 255, 255, 0.62);
+
+  --text: #111827;
+  --text-2: #4b5565;
+  --text-3: #8a94a6;
+  --text-on-accent: #ffffff;
+
+  --line: rgba(17, 24, 39, 0.08);
+  --line-strong: rgba(17, 24, 39, 0.16);
+
+  --accent: #2f7bff;
+  --accent-2: #5aa9ff;
+  --accent-deep: #1f5fd6;
+  --accent-tint: rgba(47, 123, 255, 0.1);
+  --accent-tint-2: rgba(47, 123, 255, 0.18);
+  --steel: #6c8ead;
+  --steel-tint: rgba(108, 142, 173, 0.16);
+  --success: #1db56a;
+  --success-tint: rgba(29, 181, 106, 0.12);
+  --warn: #f59e0b;
+  --warn-tint: rgba(245, 158, 11, 0.14);
+  --danger: #e5484d;
+  --danger-tint: rgba(229, 72, 77, 0.1);
+  --locked: #c3cad6;
+
+  --shadow-card: 0 1px 2px rgba(11, 18, 32, 0.04), 0 16px 40px rgba(11, 18, 32, 0.07);
+  --shadow-card-lift: 0 2px 4px rgba(11, 18, 32, 0.05), 0 28px 60px rgba(11, 18, 32, 0.12);
+  --shadow-navy: 0 20px 60px rgba(11, 18, 32, 0.3);
+  --glow: 0 12px 32px rgba(47, 123, 255, 0.42);
+  --glow-strong: 0 16px 44px rgba(47, 123, 255, 0.55);
+  --focus: 0 0 0 4px rgba(47, 123, 255, 0.32);
+
+  --r-xl: 32px;
+  --r-lg: 24px;
+  --r-md: 16px;
+  --r-sm: 12px;
+  --r-pill: 999px;
+
+  --font: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --ease-spring: cubic-bezier(0.32, 0.72, 0, 1);
+  --ease-out: cubic-bezier(0.25, 0.1, 0.25, 1);
+
+  --header-h: 64px;
+  --tabbar-h: 68px;
+  --content-max: 1120px;
+}
+
+:root[data-theme='dark'] {
+  color-scheme: dark;
+  --bg: #070c16;
+  --bg-elev: #0c1322;
+  --surface: #111a2c;
+  --surface-2: #16213a;
+  --surface-3: #1c2842;
+  --navy: #0b1220;
+  --navy-2: #101a2e;
+  --navy-3: #182442;
+  --text: #eef2f9;
+  --text-2: #aab4c6;
+  --text-3: #6f7b91;
+  --line: rgba(255, 255, 255, 0.08);
+  --line-strong: rgba(255, 255, 255, 0.18);
+  --accent: #3b8dff;
+  --accent-2: #6fb4ff;
+  --accent-tint: rgba(59, 141, 255, 0.16);
+  --accent-tint-2: rgba(59, 141, 255, 0.26);
+  --steel: #7f9fbd;
+  --steel-tint: rgba(127, 159, 189, 0.2);
+  --success-tint: rgba(29, 181, 106, 0.18);
+  --warn-tint: rgba(245, 158, 11, 0.18);
+  --danger-tint: rgba(229, 72, 77, 0.16);
+  --locked: #3a4660;
+  --shadow-card: 0 1px 2px rgba(0, 0, 0, 0.3), 0 16px 40px rgba(0, 0, 0, 0.35);
+  --shadow-card-lift: 0 2px 4px rgba(0, 0, 0, 0.35), 0 28px 60px rgba(0, 0, 0, 0.5);
+  --glow: 0 12px 32px rgba(59, 141, 255, 0.4);
+}

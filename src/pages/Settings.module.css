@@ -1,0 +1,101 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.title {
+  font-size: clamp(24px, 5vw, 34px);
+}
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.sectionTitle {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--text-3);
+}
+.row {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.grow {
+  flex: 1;
+  min-width: 160px;
+}
+.hint {
+  font-size: 13.5px;
+  color: var(--text-3);
+  line-height: 1.5;
+}
+.body {
+  font-size: 14.5px;
+  color: var(--text-2);
+  line-height: 1.6;
+}
+.segmented {
+  display: inline-flex;
+  padding: 4px;
+  border-radius: var(--r-pill);
+  background: var(--surface-3);
+  gap: 2px;
+  flex-wrap: wrap;
+}
+.segment {
+  padding: 9px 16px;
+  border-radius: var(--r-pill);
+  font-size: 13.5px;
+  font-weight: 550;
+  color: var(--text-2);
+}
+.segmentActive {
+  background: var(--surface);
+  color: var(--text);
+  box-shadow: 0 1px 3px rgba(11, 18, 32, 0.14);
+}
+.profileGrid {
+  display: grid;
+  gap: 10px;
+}
+.profileRow {
+  display: flex;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 12px 14px;
+  border-radius: var(--r-md);
+  background: var(--surface-2);
+  font-size: 14px;
+}
+.profileKey {
+  color: var(--text-3);
+}
+.profileVal {
+  font-weight: 600;
+  text-align: right;
+}
+.sourceList {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-height: 260px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+.fileInput {
+  display: none;
+}
+.status {
+  font-size: 13.5px;
+  font-weight: 600;
+}
+.statusOk {
+  color: var(--success);
+}
+.statusFail {
+  color: var(--danger);
+}

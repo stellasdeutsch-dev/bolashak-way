@@ -1,0 +1,9 @@
+<!doctype html><html lang="ru"><head><meta charset="utf-8"><title>Bolashak Way</title>
+<script>
+  // Static-host SPA fallback: the app uses a hash router, so turn /repo/stage/foo into /repo/#/stage/foo.
+  var l = window.location;
+  var parts = l.pathname.split('/');
+  var base = parts.slice(0, 2).join('/') + '/';
+  var rest = parts.slice(2).join('/');
+  l.replace(l.origin + base + '#/' + rest + l.search);
+</script></head><body></body></html>

@@ -1,0 +1,241 @@
+/* Shared primitives: pills, cards, rings, chips. */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  border-radius: var(--r-pill);
+  font-weight: 600;
+  white-space: nowrap;
+  transition: transform 0.18s var(--ease-spring), box-shadow 0.18s var(--ease-out), background 0.18s var(--ease-out);
+}
+.btn:active {
+  transform: translateY(1px) scale(0.99);
+}
+.btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.md {
+  padding: 14px 24px;
+  font-size: 15px;
+}
+.lg {
+  padding: 18px 34px;
+  font-size: 14px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.sm {
+  padding: 9px 16px;
+  font-size: 13px;
+}
+
+.primary {
+  background: linear-gradient(135deg, var(--accent) 0%, var(--accent-2) 100%);
+  color: #fff;
+  box-shadow: var(--glow);
+}
+.primary:hover:not(:disabled) {
+  box-shadow: var(--glow-strong);
+}
+.secondary {
+  background: var(--steel);
+  color: #fff;
+}
+.secondary:hover:not(:disabled) {
+  filter: brightness(1.06);
+}
+.ghost {
+  background: var(--surface);
+  color: var(--text);
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow-card);
+}
+.ghost:hover:not(:disabled) {
+  border-color: var(--line-strong);
+}
+.quiet {
+  background: transparent;
+  color: var(--text-2);
+}
+.quiet:hover:not(:disabled) {
+  color: var(--text);
+  background: var(--surface-3);
+}
+.danger {
+  background: var(--danger-tint);
+  color: var(--danger);
+}
+.full {
+  width: 100%;
+}
+
+.card {
+  background: var(--surface);
+  border-radius: var(--r-xl);
+  box-shadow: var(--shadow-card);
+  padding: 24px;
+}
+.cardDark {
+  background: linear-gradient(160deg, var(--navy) 0%, var(--navy-3) 100%);
+  color: var(--on-navy);
+  border-radius: var(--r-xl);
+  box-shadow: var(--shadow-navy);
+  padding: 24px;
+}
+.cardPad0 {
+  padding: 0;
+}
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 14px;
+  border-radius: var(--r-pill);
+  background: var(--surface-3);
+  color: var(--text-2);
+  font-size: 12.5px;
+  font-weight: 500;
+}
+.pillAccent {
+  background: var(--accent-tint);
+  color: var(--accent-deep);
+}
+.pillSuccess {
+  background: var(--success-tint);
+  color: var(--success);
+}
+.pillWarn {
+  background: var(--warn-tint);
+  color: #a4680b;
+}
+.pillDark {
+  background: rgba(255, 255, 255, 0.09);
+  color: var(--on-navy-muted);
+}
+
+.ring {
+  position: relative;
+  display: grid;
+  place-items: center;
+  flex: none;
+}
+.ringSvg {
+  transform: rotate(-90deg);
+  overflow: visible;
+}
+.ringTrack {
+  stroke: var(--surface-3);
+}
+.ringDark .ringTrack {
+  stroke: rgba(255, 255, 255, 0.14);
+}
+.ringValue {
+  stroke: url(#ringGradient);
+  stroke-linecap: round;
+  transition: stroke-dashoffset 0.6s var(--ease-spring);
+}
+.ringLabel {
+  position: absolute;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums;
+}
+
+.callout {
+  display: flex;
+  gap: 12px;
+  padding: 16px 18px;
+  border-radius: var(--r-lg);
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+}
+.calloutInfo {
+  background: var(--accent-tint);
+  border-color: transparent;
+}
+.calloutWarn {
+  background: var(--warn-tint);
+  border-color: transparent;
+}
+.calloutIcon {
+  flex: none;
+  margin-top: 2px;
+  color: var(--accent-deep);
+}
+.calloutWarn .calloutIcon {
+  color: #a4680b;
+}
+.calloutBody {
+  font-size: 14.5px;
+  line-height: 1.55;
+  color: var(--text);
+}
+.calloutSource {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 8px;
+  font-size: 12.5px;
+  color: var(--text-2);
+}
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  background: rgba(11, 18, 32, 0.55);
+  backdrop-filter: blur(6px);
+  animation: fade 0.2s var(--ease-out);
+}
+.dialog {
+  width: min(440px, 100%);
+  background: var(--surface);
+  border-radius: var(--r-xl);
+  box-shadow: var(--shadow-card-lift);
+  padding: 28px;
+}
+.dialogTitle {
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  margin-bottom: 10px;
+}
+.dialogText {
+  color: var(--text-2);
+  font-size: 15px;
+  line-height: 1.55;
+  margin-bottom: 22px;
+}
+.dialogActions {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+}
+
+@keyframes fade {
+  from {
+    opacity: 0;
+  }
+}
+
+.fallbackBadge {
+  display: inline-block;
+  margin-left: 8px;
+  padding: 2px 8px;
+  border-radius: var(--r-pill);
+  background: var(--surface-3);
+  color: var(--text-3);
+  font-size: 11px;
+  font-weight: 500;
+  vertical-align: middle;
+}
