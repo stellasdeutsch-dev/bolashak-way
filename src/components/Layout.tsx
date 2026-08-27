@@ -1,6 +1,7 @@
-import type { ReactNode } from 'react'
+import { useEffect, useState, type ReactNode }  from 'react'
 import { NavLink, Link } from 'react-router'
-import { Map as MapIcon, FolderCheck, Settings as SettingsIcon } from 'lucide-react'
+import { Map as MapIcon, FolderCheck, Settings as SettingsIcon, Search } from 'lucide-react'
+import { SearchOverlay } from './SearchOverlay'
 import { LOCALES, useI18n } from '@/i18n'
 import { useAppStore } from '@/store/useAppStore'
 import s from './Layout.module.css'
@@ -33,6 +34,24 @@ export function LangSwitch() {
 
 export function Layout({ children }: { children: ReactNode }) {
   const { t } = useI18n()
+  const hasProfile = useAppStore((st) => st.profile !== null)
+  const [searchOpen, setSearchOpen] = useState(false)
+
+  // "/" is the conventional shortcut for search; ignore it while typing in a field.
+  useEffect(() => {
+    if (!hasProfile) return
+    const onKey = (e: KeyboardEvent) => {
+      const el = document.activeElement
+      const typing = el instanceof HTMLInputElement || el instanceof HTMLTextAreaElement || (el as HTMLElement | null)?.isContentEditable
+      if (e.key === '/' && !typing && !e.metaKey && !e.ctrlKey) {
+        e.preventDefault()
+        setSearchOpen(true)
+      }
+    }
+    document.addEventListener('keydown', onKey)
+    return () => document.removeEventListener('keydown', onKey)
+  }, [hasProfile])
+
   return (
     <div className={s.shell}>
       <header className={s.header}>
@@ -55,6 +74,11 @@ export function Layout({ children }: { children: ReactNode }) {
             ))}
           </nav>
           <span className={s.spacer} />
+          {hasProfile && (
+            <button className={s.iconBtn} onClick={() => setSearchOpen(true)} aria-label={t('search.open')} title={t('search.open')}>
+              <Search size={17} aria-hidden="true" />
+            </button>
+          )}
           <LangSwitch />
         </div>
       </header>
@@ -69,6 +93,7 @@ export function Layout({ children }: { children: ReactNode }) {
           </NavLink>
         ))}
       </nav>
+      <SearchOverlay open={searchOpen} onClose={() => setSearchOpen(false)} />
     </div>
   )
 }

@@ -145,3 +145,19 @@
     padding-bottom: 56px;
   }
 }
+
+.iconBtn {
+  border: 1px solid var(--line);
+  background: var(--surface);
+  color: var(--text-2);
+  border-radius: 12px;
+  padding: 8px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+}
+
+.iconBtn:hover {
+  background: var(--surface-2);
+  color: var(--text-1);
+}

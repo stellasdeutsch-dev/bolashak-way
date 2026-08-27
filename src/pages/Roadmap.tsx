@@ -7,9 +7,10 @@ import { CONTENT_META } from '@/content/meta'
 import type { ChapterId } from '@/content/types'
 import { computeProgress, type StageProgress } from '@/domain/progress'
 import { computeDeadlines, nearestDeadline } from '@/domain/deadlines'
+import { staleness } from '@/domain/freshness'
 import { useAppStore } from '@/store/useAppStore'
 import { useI18n, formatRange } from '@/i18n'
-import { Button, Card, Pill, ProgressRing } from '@/components/ui'
+import { Button, Callout, Card, Pill, ProgressRing } from '@/components/ui'
 import { StageIcon } from '@/components/StageIcon'
 import s from './Roadmap.module.css'
 
@@ -156,6 +157,7 @@ export function Roadmap() {
   )
   const dates = useAppStore((st) => st.dates)
   const nearest = useMemo(() => (profile ? nearestDeadline(computeDeadlines(profile, dates, new Date())) : null), [profile, dates])
+  const stale = useMemo(() => staleness(CONTENT_META, new Date()), [])
 
   if (!profile || !progress) return null
 
@@ -176,6 +178,16 @@ export function Roadmap() {
 
   return (
     <div className={s.page}>
+      {stale.stale && (
+        <Callout tone="warn" source="pravila">
+          <strong>{t('stale.title')}</strong>
+          <br />
+          {stale.staleByAge && <>{t('stale.byAge', { n: stale.monthsSinceVerified })} </>}
+          {stale.staleByYear && <>{t('stale.byYear', { year: CONTENT_META.competitionYear })} </>}
+          {t('stale.action')}
+        </Callout>
+      )}
+
       <Card className={s.intro}>
         <div className={s.introText}>
           <Pill tone="accent">
