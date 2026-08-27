@@ -363,3 +363,7 @@
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
+
+.hudDeadline {
+  text-decoration: none;
+}

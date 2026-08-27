@@ -6,6 +6,7 @@ import { CATEGORIES } from '@/content/categories'
 import { CONTENT_META } from '@/content/meta'
 import type { ChapterId } from '@/content/types'
 import { computeProgress, type StageProgress } from '@/domain/progress'
+import { computeDeadlines, nearestDeadline } from '@/domain/deadlines'
 import { useAppStore } from '@/store/useAppStore'
 import { useI18n, formatRange } from '@/i18n'
 import { Button, Card, Pill, ProgressRing } from '@/components/ui'
@@ -153,6 +154,8 @@ export function Roadmap() {
     () => (profile ? computeProgress({ profile, checked, stagesDone }) : null),
     [profile, checked, stagesDone],
   )
+  const dates = useAppStore((st) => st.dates)
+  const nearest = useMemo(() => (profile ? nearestDeadline(computeDeadlines(profile, dates, new Date())) : null), [profile, dates])
 
   if (!profile || !progress) return null
 
@@ -208,6 +211,19 @@ export function Roadmap() {
               <Pill tone="dark">
                 {progress.doneStages} / {progress.totalStages} · {t('roadmap.stages')}
               </Pill>
+              {nearest && (
+                <Link to={`/stage/${nearest.rule.stage}`} className={s.hudDeadline}>
+                  <Pill tone={nearest.status === 'overdue' ? 'warn' : 'accent'}>
+                    {c(nearest.rule.label).slice(0, 42)}
+                    {c(nearest.rule.label).length > 42 ? '…' : ''} ·{' '}
+                    {nearest.daysLeft < 0
+                      ? t('deadlines.overdue', { n: Math.abs(nearest.daysLeft) })
+                      : nearest.daysLeft === 0
+                        ? t('deadlines.today')
+                        : t('deadlines.daysLeft', { n: nearest.daysLeft })}
+                  </Pill>
+                </Link>
+              )}
               {progress.estimateMonths && (
                 <span title={c(CONTENT_META.estimateNote)}>
                   <Pill tone="dark">

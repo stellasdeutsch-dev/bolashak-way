@@ -8,8 +8,10 @@ import { getSource } from '@/content/sources'
 import { CONTENT_META } from '@/content/meta'
 import { ENGLISH_THRESHOLDS, KAZAKH_REQUIREMENT, LANGUAGE_GROUP_BY_CATEGORY, LANGUAGE_NOTES } from '@/content/language'
 import { getCategory } from '@/content/categories'
-import type { FaqItem, StageId } from '@/content/types'
+import type { DateKey, FaqItem, StageId } from '@/content/types'
 import { computeProgress } from '@/domain/progress'
+import { computeDeadlines } from '@/domain/deadlines'
+import { DEADLINE_RULES } from '@/content/deadlines'
 import { evaluate, foreignThreshold, foreignCertMeets, experienceRequirement, meetsExperience } from '@/domain/applicability'
 import { isDocAuto } from '@/domain/documents'
 import { useAppStore } from '@/store/useAppStore'
@@ -107,6 +109,60 @@ function LanguageTable() {
       </p>
       <div style={{ marginTop: 10 }}>
         <SourceLink id="prikaz318" />
+      </div>
+    </Card>
+  )
+}
+
+/** Anchor dates the user enters, and the official terms counted from them. */
+function DeadlinePanel({ stage }: { stage: StageId }) {
+  const { t, c } = useI18n()
+  const profile = useAppStore((st) => st.profile)!
+  const dates = useAppStore((st) => st.dates)
+  const setDate = useAppStore((st) => st.setDate)
+
+  const anchors = useMemo(() => {
+    const seen = new Set<DateKey>()
+    for (const r of DEADLINE_RULES) {
+      if (r.stage === stage && evaluate(r.appliesTo, profile)) seen.add(r.anchor)
+    }
+    return [...seen]
+  }, [stage, profile])
+
+  const due = useMemo(() => computeDeadlines(profile, dates, new Date()).filter((d) => d.rule.stage === stage), [profile, dates, stage])
+  if (anchors.length === 0) return null
+
+  return (
+    <Card>
+      <div className={s.section}>
+        <span className={s.sectionTitle}>{t('deadlines.title')}</span>
+        <p className={s.body} style={{ fontSize: 13.5 }}>{t('deadlines.intro')}</p>
+        {anchors.map((key) => (
+          <label key={key} className={s.dateField}>
+            <span className={s.dateLabel}>{t(`deadlines.${key}`)}</span>
+            <span className={s.dateRow}>
+              <input type="date" className={s.dateInput} value={dates[key] ?? ''} onChange={(e) => setDate(key, e.target.value || null)} />
+              {dates[key] && (
+                <Button variant="quiet" size="sm" onClick={() => setDate(key, null)}>
+                  {t('deadlines.clear')}
+                </Button>
+              )}
+            </span>
+          </label>
+        ))}
+        {due.map((d) => (
+          <div key={d.rule.id} className={s.dueRow}>
+            <span className={s.dueText}>{c(d.rule.label)}</span>
+            <span className={s.dueMeta}>
+              <Pill tone={d.status === 'overdue' ? 'warn' : d.status === 'soon' ? 'accent' : 'success'}>
+                {t('deadlines.due')}: {d.due} ·{' '}
+                {d.daysLeft < 0 ? t('deadlines.overdue', { n: Math.abs(d.daysLeft) }) : d.daysLeft === 0 ? t('deadlines.today') : t('deadlines.daysLeft', { n: d.daysLeft })}
+              </Pill>
+              {d.rule.recurring && <span className={s.tag}>{t('deadlines.every6')}</span>}
+              <SourceLink id={d.rule.source} />
+            </span>
+          </div>
+        ))}
       </div>
     </Card>
   )
@@ -406,6 +462,8 @@ export function StagePage() {
           </div>
         </Card>
       )}
+
+      <DeadlinePanel stage={stage.id} />
 
       {stage.deadlines && stage.deadlines.length > 0 && (
         <Card>

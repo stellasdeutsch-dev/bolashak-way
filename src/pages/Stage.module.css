@@ -296,3 +296,60 @@
   border-bottom: none;
   padding-bottom: 0;
 }
+
+.dateField {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 10px 0;
+}
+
+.dateLabel {
+  font-size: 13px;
+  color: var(--text-2);
+}
+
+.dateRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.dateInput {
+  font: inherit;
+  font-size: 15px;
+  padding: 10px 14px;
+  border-radius: 12px;
+  border: 1px solid var(--line-strong);
+  background: var(--surface-2);
+  color: var(--text-1);
+  min-width: 170px;
+}
+
+.dateInput:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+  border-color: var(--accent);
+}
+
+.dueRow {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px 0;
+  border-top: 1px solid var(--line);
+}
+
+.dueText {
+  font-size: 14.5px;
+  line-height: 1.5;
+  color: var(--text-1);
+}
+
+.dueMeta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
