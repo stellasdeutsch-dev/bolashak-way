@@ -187,3 +187,24 @@
     font-size: 11.5px;
   }
 }
+
+@keyframes contentIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.main {
+  animation: contentIn 0.32s var(--ease-spring) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .main {
+    animation: none;
+  }
+}

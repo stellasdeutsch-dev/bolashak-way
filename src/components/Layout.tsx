@@ -1,5 +1,5 @@
 import { useEffect, useState, type ReactNode }  from 'react'
-import { NavLink, Link } from 'react-router'
+import { NavLink, Link, useLocation } from 'react-router'
 import { Map as MapIcon, FolderCheck, Settings as SettingsIcon, Search } from 'lucide-react'
 import { SearchOverlay } from './SearchOverlay'
 import { LOCALES, useI18n } from '@/i18n'
@@ -36,6 +36,7 @@ export function Layout({ children }: { children: ReactNode }) {
   const { t } = useI18n()
   const hasProfile = useAppStore((st) => st.profile !== null)
   const [searchOpen, setSearchOpen] = useState(false)
+  const { pathname } = useLocation()
 
   // "/" is the conventional shortcut for search; ignore it while typing in a field.
   useEffect(() => {
@@ -83,7 +84,10 @@ export function Layout({ children }: { children: ReactNode }) {
         </div>
       </header>
 
-      <main className={s.main}>{children}</main>
+      {/* Keyed by route so the content fades in on every navigation. */}
+      <main className={s.main} key={pathname}>
+        {children}
+      </main>
 
       <nav className={s.tabbar} aria-label={t('nav.roadmap')}>
         {NAV.map(({ to, key, Icon }) => (
