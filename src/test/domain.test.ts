@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import type { CategoryId, Profile } from '@/content/types'
+import type { CategoryId, L, Profile } from '@/content/types'
 import { CATEGORIES, CATEGORIES_BY_TRACK } from '@/content/categories'
 import { STAGES } from '@/content/stages'
 import { SOURCES } from '@/content/sources'
@@ -10,6 +10,8 @@ import { evaluate, foreignCertMeets, experienceRequirement, meetsExperience } fr
 import { computeDeadlines, nearestDeadline } from '@/domain/deadlines'
 import { searchAll } from '@/domain/search'
 import { staleness } from '@/domain/freshness'
+import { DEADLINE_RULES } from '@/content/deadlines'
+import { KAZAKH_REQUIREMENT, LANGUAGE_NOTES } from '@/content/language'
 import { documentsFor } from '@/domain/documents'
 import { buildSnapshot, parseSnapshot } from '@/domain/exportImport'
 import { toProfile, emptyDraft, isStepComplete, draftFromProfile } from '@/domain/profile'
@@ -440,15 +442,54 @@ describe('data freshness', () => {
   })
 })
 
-describe('FAQ translations', () => {
-  it('covers every chat-sourced question in Kazakh and English', () => {
-    const chat = FAQ.filter((f) => f.source === 'chat-faq')
-    expect(chat.length).toBeGreaterThan(0)
-    for (const f of chat) {
-      expect(f.q.kk, `${f.id} q.kk`).toBeTruthy()
-      expect(f.q.en, `${f.id} q.en`).toBeTruthy()
-      expect(f.a.kk, `${f.id} a.kk`).toBeTruthy()
-      expect(f.a.en, `${f.id} a.en`).toBeTruthy()
+describe('translations', () => {
+  /** Every localisable string in the content, labelled so a failure names the culprit. */
+  const allStrings = (): { label: string; value: L }[] => {
+    const out: { label: string; value: L }[] = []
+    const add = (label: string, value: L | undefined) => {
+      if (value && typeof value.ru === 'string') out.push({ label, value })
     }
+    for (const s of STAGES) {
+      add(`stage.${s.id}.kicker`, s.kicker)
+      add(`stage.${s.id}.title`, s.title)
+      add(`stage.${s.id}.summary`, s.summary)
+      add(`stage.${s.id}.why`, s.why)
+      s.checklist.forEach((i) => add(`stage.${s.id}.check.${i.id}`, i.text))
+      s.mistakes.forEach((m, i) => add(`stage.${s.id}.mistake.${i}`, m))
+      s.deadlines?.forEach((d, i) => add(`stage.${s.id}.deadline.${i}`, d.text))
+      s.notes?.forEach((n, i) => add(`stage.${s.id}.note.${i}`, n.text))
+    }
+    for (const c of Object.values(CATEGORIES)) {
+      add(`category.${c.id}.title`, c.title)
+      add(`category.${c.id}.short`, c.short)
+      add(`category.${c.id}.desc`, c.desc)
+      add(`category.${c.id}.workBack`, c.workBack)
+      c.requirements.forEach((r, i) => add(`category.${c.id}.req.${i}`, r.text))
+    }
+    for (const d of DOCUMENTS) {
+      add(`doc.${d.id}.title`, d.title)
+      add(`doc.${d.id}.note`, d.note)
+    }
+    for (const f of FAQ) {
+      add(`faq.${f.id}.q`, f.q)
+      add(`faq.${f.id}.a`, f.a)
+    }
+    for (const r of DEADLINE_RULES) add(`deadline.${r.id}`, r.label)
+    for (const n of LANGUAGE_NOTES) add('language.note', n.text)
+    add('language.kazakh', KAZAKH_REQUIREMENT.text)
+    return out
+  }
+
+  it('has Kazakh and English for every content string', () => {
+    const strings = allStrings()
+    expect(strings.length).toBeGreaterThan(400)
+    const missing = strings.filter((s) => !s.value.kk || !s.value.en).map((s) => s.label)
+    expect(missing, `untranslated: ${missing.slice(0, 12).join(', ')}`).toEqual([])
+  })
+
+  it('never leaves a translation identical to the Russian source by accident', () => {
+    // Proper nouns and codes legitimately repeat; anything longer is a copy-paste slip.
+    const suspicious = allStrings().filter((s) => s.value.ru.length > 40 && (s.value.kk === s.value.ru || s.value.en === s.value.ru))
+    expect(suspicious.map((s) => s.label)).toEqual([])
   })
 })

@@ -9,7 +9,8 @@
     "preview": "vite preview",
     "test": "vitest run",
     "test:watch": "vitest",
-    "import:faq": "node scripts/import-faq.mjs"
+    "import:faq": "node scripts/import-faq.mjs",
+    "i18n:coverage": "tsx scripts/i18n-coverage.mjs"
   },
   "dependencies": {
     "lucide-react": "^0.540.0",

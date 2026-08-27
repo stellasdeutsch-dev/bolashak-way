@@ -1,9 +1,10 @@
 import { describe, expect, it, beforeEach } from 'vitest'
 import { render, screen, fireEvent, within } from '@testing-library/react'
-import { HashRouter } from 'react-router'
+import { HashRouter, MemoryRouter, Route, Routes } from 'react-router'
 import { Onboarding } from '@/pages/Onboarding/Onboarding'
 import { Roadmap } from '@/pages/Roadmap'
 import { Settings } from '@/pages/Settings'
+import { StagePage } from '@/pages/Stage'
 import { Layout } from '@/components/Layout'
 import { useAppStore } from '@/store/useAppStore'
 import { applicableStages } from '@/domain/progress'
@@ -119,5 +120,35 @@ describe('search overlay', () => {
     const dialog = screen.getByRole('dialog')
     fireEvent.change(within(dialog).getByRole('searchbox'), { target: { value: 'слоты' } })
     expect(within(dialog).getAllByText(/слоты/i).length).toBeGreaterThan(0)
+  })
+})
+
+describe('every stage renders for every category', () => {
+  const sample: Profile[] = [
+    medic,
+    { track: 'master', category: 'master_self', workerGroup: null, invitation: 'unconditional', foreignCert: { exam: 'ielts', score: 7 }, kazakhCert: true, experience: null },
+    { track: 'internship', category: 'internship', workerGroup: 'ai_user', invitation: 'applied', foreignCert: { exam: 'toefl_ibt', score: 60 }, kazakhCert: false, experience: { years: 3, continuousMonths: 6 } },
+    { track: 'science_internship', category: 'science_internship', workerGroup: null, invitation: 'none', foreignCert: null, kazakhCert: false, experience: { years: 5, continuousMonths: 24 } },
+    { track: 'bachelor', category: 'bachelor', workerGroup: null, invitation: 'none', foreignCert: null, kazakhCert: false, experience: null },
+  ]
+
+  it.each(sample.map((p) => [p.category, p] as const))('renders all stages of %s without crashing', (_name, profile) => {
+    for (const stage of applicableStages(profile)) {
+      useAppStore.setState({
+        profile,
+        onboardedAt: new Date().toISOString(),
+        // Anchor dates so the deadline panel renders its computed rows too.
+        dates: { award_date: '2026-09-01', study_start: '2026-10-01', study_end: '2027-06-30', return_date: '2027-07-10', work_start: '2027-08-01' },
+      })
+      const view = render(
+        <MemoryRouter initialEntries={[`/stage/${stage.id}`]}>
+          <Routes>
+            <Route path="/stage/:id" element={<StagePage />} />
+          </Routes>
+        </MemoryRouter>,
+      )
+      expect(document.querySelector('h1')).not.toBeNull()
+      view.unmount()
+    }
   })
 })

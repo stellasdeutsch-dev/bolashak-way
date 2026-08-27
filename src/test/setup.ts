@@ -7,3 +7,6 @@ class ResizeObserverStub {
   disconnect() {}
 }
 globalThis.ResizeObserver ??= ResizeObserverStub as unknown as typeof ResizeObserver
+
+// jsdom has no layout, so scrollTo is unimplemented and only adds noise in tests.
+window.scrollTo = () => {}
