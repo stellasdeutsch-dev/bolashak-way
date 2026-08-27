@@ -391,6 +391,17 @@ describe('personal deadlines', () => {
     expect(cert.occurrence).toBe(2)
   })
 
+  it('gives each track its own reporting duty and none to scientific internships', () => {
+    const dates = { work_start: '2026-01-15' }
+    const ids = (p: Profile) => computeDeadlines(p, dates, at('2026-08-01')).map((d) => d.rule.id)
+    expect(ids(profile())).toContain('workback_cert')
+    const intern = profile({ track: 'internship', category: 'internship', workerGroup: 'media' })
+    expect(ids(intern)).toEqual(['workback_cert_internship'])
+    // ПП 791 puts the monitoring on the administrator, so the person gets no 6-month duty.
+    const science = profile({ track: 'science_internship', category: 'science_internship' })
+    expect(ids(science)).toEqual([])
+  })
+
   it('returns nothing for rules whose anchor date is missing', () => {
     expect(computeDeadlines(profile(), {}, at('2026-09-02'))).toEqual([])
   })
