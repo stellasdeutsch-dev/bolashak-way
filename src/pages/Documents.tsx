@@ -64,13 +64,19 @@ export function Documents() {
         </Card>
       )}
 
-      {visible.map((group) => {
+      {visible.map((group, idx) => {
         const stage = getStage(group.stage)
+        const groupDone = group.items.filter((d) => isDone(d.id, isDocAuto(d, profile))).length
         return (
           <Card key={group.stage}>
             <div className={s.group}>
               <div className={s.groupHead}>
+                <span className={s.groupNum}>{String(idx + 1).padStart(2, '0')}</span>
                 <h2 className={s.groupTitle}>{stage ? c(stage.title) : group.stage}</h2>
+                <span className={s.groupSpacer} />
+                <span className={[s.groupCount, groupDone === group.items.length ? s.groupCountDone : ''].join(' ')}>
+                  {t('roadmap.chapterProgress', { done: groupDone, total: group.items.length })}
+                </span>
               </div>
               {group.items.map((d) => {
                 const auto = isDocAuto(d, profile)

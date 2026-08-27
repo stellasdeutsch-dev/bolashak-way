@@ -1,10 +1,11 @@
 .wrap {
-  min-height: calc(100dvh - var(--header-h));
+  min-height: min(calc(100dvh - var(--header-h)), 720px);
   display: flex;
   flex-direction: column;
   gap: 20px;
   padding: 8px 0 32px;
 }
+
 
 .dots {
   display: flex;
@@ -46,10 +47,10 @@
   font-weight: 600;
 }
 .question {
-  font-size: clamp(23px, 5.2vw, 34px);
+  font-size: clamp(24px, 5.4vw, 36px);
   font-weight: 700;
-  letter-spacing: -0.025em;
-  line-height: 1.15;
+  letter-spacing: -0.028em;
+  line-height: 1.12;
 }
 .hint {
   color: var(--text-2);
@@ -83,10 +84,14 @@
 }
 .option:hover {
   transform: translateY(-2px);
+  box-shadow: var(--shadow-card-lift);
 }
-.optionActive {
+.optionActive,
+.optionActive:hover {
   border-color: var(--accent);
   background: color-mix(in srgb, var(--accent-tint) 55%, var(--surface));
+  box-shadow: 0 10px 30px rgba(47, 123, 255, 0.18);
+  transform: none;
 }
 .optionIcon {
   flex: none;
@@ -101,6 +106,7 @@
 .optionActive .optionIcon {
   background: linear-gradient(135deg, var(--accent), var(--accent-2));
   color: #fff;
+  box-shadow: 0 6px 16px rgba(47, 123, 255, 0.4), var(--gloss);
 }
 .optionBody {
   min-width: 0;
