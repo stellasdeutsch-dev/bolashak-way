@@ -231,7 +231,7 @@ describe('onboarding draft', () => {
 describe('export / import', () => {
   it('round-trips a snapshot and rejects foreign payloads', () => {
     const snap = buildSnapshot(
-      { profile: profile(), onboardedAt: '2026-08-01T00:00:00.000Z', checked: ['eligibility:citizen'], stagesDone: ['eligibility'], documentsDone: ['anketa'], notes: { eligibility: 'проверить справку' } },
+      { profile: profile(), onboardedAt: '2026-08-01T00:00:00.000Z', checked: ['eligibility:citizen'], stagesDone: ['eligibility'], documentsDone: ['anketa'], notes: { eligibility: 'проверить справку' }, dates: { award_date: '2026-09-01' } },
       '2026-08-21T10:00:00.000Z',
     )
     const parsed = parseSnapshot(JSON.stringify(snap))

@@ -31,6 +31,7 @@ export function Settings() {
           stagesDone: state.stagesDone,
           documentsDone: state.documentsDone,
           notes: state.notes,
+          dates: state.dates,
         },
         new Date().toISOString(),
       ),

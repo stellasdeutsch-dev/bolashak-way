@@ -198,14 +198,22 @@ export function Roadmap() {
                 : t('roadmap.allDone')}
             </div>
             <div className={s.hudTitle}>{current ? c(current.stage.title) : c(category.workBack)}</div>
+            {progress.nextItem && (
+              <Link className={s.hudNext} to={`/stage/${progress.nextItem.stage.stage.id}`}>
+                <span className={s.hudNextLabel}>{t('roadmap.nextAction')}</span>
+                <span className={s.hudNextText}>{c(progress.nextItem.item.text)}</span>
+              </Link>
+            )}
             <div className={s.hudMeta}>
               <Pill tone="dark">
                 {progress.doneStages} / {progress.totalStages} · {t('roadmap.stages')}
               </Pill>
               {progress.estimateMonths && (
-                <Pill tone="dark">
-                  ≈ {formatRange(progress.estimateMonths[0], progress.estimateMonths[1])} {t('common.months')} {t('roadmap.estimate')}
-                </Pill>
+                <span title={c(CONTENT_META.estimateNote)}>
+                  <Pill tone="dark">
+                    ≈ {formatRange(progress.estimateMonths[0], progress.estimateMonths[1])} {t('common.months')} {t('roadmap.estimate')}
+                  </Pill>
+                </span>
               )}
             </div>
           </div>

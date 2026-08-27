@@ -6,10 +6,11 @@ import { DOCUMENTS } from '@/content/documents'
 import { faqForStage } from '@/content/faq'
 import { getSource } from '@/content/sources'
 import { CONTENT_META } from '@/content/meta'
-import { ENGLISH_THRESHOLDS, LANGUAGE_GROUP_BY_CATEGORY } from '@/content/language'
+import { ENGLISH_THRESHOLDS, KAZAKH_REQUIREMENT, LANGUAGE_GROUP_BY_CATEGORY, LANGUAGE_NOTES } from '@/content/language'
+import { getCategory } from '@/content/categories'
 import type { FaqItem, StageId } from '@/content/types'
 import { computeProgress } from '@/domain/progress'
-import { evaluate, foreignThreshold, foreignCertMeets } from '@/domain/applicability'
+import { evaluate, foreignThreshold, foreignCertMeets, experienceRequirement, meetsExperience } from '@/domain/applicability'
 import { isDocAuto } from '@/domain/documents'
 import { useAppStore } from '@/store/useAppStore'
 import { useI18n, pick } from '@/i18n'
@@ -54,7 +55,7 @@ function FaqRow({ item }: { item: FaqItem }) {
 }
 
 function LanguageTable() {
-  const { t, c } = useI18n()
+  const { t } = useI18n()
   const profile = useAppStore((st) => st.profile)!
   const group = LANGUAGE_GROUP_BY_CATEGORY[profile.category]
   if (group === 'none' || group === 'science') return null
@@ -102,14 +103,79 @@ function LanguageTable() {
         </table>
       </div>
       <p className={s.body} style={{ marginTop: 12, fontSize: 13.5 }}>
-        {c({
-          ru: 'I порог — языковые курсы в Казахстане или за рубежом (кроме английского); II — языковые курсы за рубежом; III — сразу на академическое обучение или стажировку.',
-          kk: 'I шек — Қазақстанда не шетелде тіл курстары (ағылшыннан басқа); II — шетелде тіл курстары; III — бірден оқуға не тағылымдамаға.',
-          en: 'Level I — language courses in Kazakhstan or abroad (except English); II — language courses abroad; III — straight to study or internship.',
-        })}
+        {t('stage.levelsNote')}
       </p>
       <div style={{ marginTop: 10 }}>
         <SourceLink id="prikaz318" />
+      </div>
+    </Card>
+  )
+}
+
+/** Special cases and non-English thresholds from прикз №318, shown under the table. */
+function LanguageNotes() {
+  const { t, cf } = useI18n()
+  return (
+    <Card>
+      <div className={s.section}>
+        <span className={s.sectionTitle}>{t('stage.languageNotes')}</span>
+        {LANGUAGE_NOTES.map((n, i) => {
+          const text = cf(n.text)
+          return (
+            <p key={i} className={s.reqRow}>
+              <span>
+                {text.text}
+                {text.fallback && <FallbackBadge />}
+              </span>
+              <SourceLink id={n.source} />
+            </p>
+          )
+        })}
+      </div>
+    </Card>
+  )
+}
+
+/** The category's own admission requirements plus a live check of the entered experience. */
+function CategoryRequirements() {
+  const { t, cf } = useI18n()
+  const profile = useAppStore((st) => st.profile)!
+  const category = getCategory(profile.category)
+  const req = experienceRequirement(profile)
+  const ok = meetsExperience(profile)
+  const parts: string[] = []
+  if (req?.years != null) parts.push(`${req.years} ${t('stage.years')}`)
+  if (req?.continuousMonths != null) parts.push(`${req.continuousMonths} ${t('stage.monthsContinuous')}`)
+
+  return (
+    <Card>
+      <div className={s.section}>
+        <span className={s.sectionTitle}>{t('stage.categoryRequirements')}</span>
+        {req && (
+          <div className={s.scoreRow}>
+            <Pill tone="accent">
+              {t('stage.yourExperience')}:{' '}
+              {profile.experience
+                ? `${profile.experience.years} ${t('stage.years')} · ${profile.experience.continuousMonths} ${t('stage.monthsContinuous')}`
+                : t('stage.expNone')}
+            </Pill>
+            <Pill tone={ok ? 'success' : 'warn'}>
+              {ok ? t('stage.expMeets') : t('stage.expBelow')}: {t('stage.expRequired')} {parts.join(' · ')}
+            </Pill>
+          </div>
+        )}
+        {category.requirements.map((r, i) => {
+          const text = cf(r.text)
+          return (
+            <p key={i} className={s.reqRow}>
+              <span>
+                {text.text}
+                {text.fallback && <FallbackBadge />}
+              </span>
+              <SourceLink id={r.source} />
+            </p>
+          )
+        })}
       </div>
     </Card>
   )
@@ -242,7 +308,27 @@ export function StagePage() {
         </Callout>
       ))}
 
-      {stage.id === 'foreign' && <LanguageTable />}
+      {stage.id === 'category' && <CategoryRequirements />}
+      {stage.id === 'foreign' && (
+        <>
+          <LanguageTable />
+          <LanguageNotes />
+        </>
+      )}
+      {stage.id === 'kazakh' && (
+        <Callout tone="info" source={KAZAKH_REQUIREMENT.source}>
+          <strong>{t('stage.kazakhTitle')}</strong>
+          <br />
+          {c(KAZAKH_REQUIREMENT.text)}
+        </Callout>
+      )}
+      {stage.id === 'workback' && (
+        <Callout tone="info" source="pp573">
+          <strong>{t('stage.workBackTitle')}</strong>
+          <br />
+          {c(getCategory(profile.category).workBack)}
+        </Callout>
+      )}
 
       <Card>
         <div className={s.section}>
