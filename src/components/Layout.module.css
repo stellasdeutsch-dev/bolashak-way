@@ -147,6 +147,7 @@
 }
 
 .iconBtn {
+  flex: none;
   border: 1px solid var(--line);
   background: var(--surface);
   color: var(--text-2);
@@ -160,4 +161,29 @@
 .iconBtn:hover {
   background: var(--surface-2);
   color: var(--text-1);
+}
+
+/* At 320px the brand, search and three language chips must still fit on one row. */
+@media (max-width: 400px) {
+  .headerInner {
+    gap: 8px;
+    padding: 12px 14px;
+  }
+
+  .brand {
+    font-size: 15px;
+    gap: 8px;
+    min-width: 0;
+  }
+
+  .brandText {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .langBtn {
+    padding: 6px 7px;
+    font-size: 11.5px;
+  }
 }

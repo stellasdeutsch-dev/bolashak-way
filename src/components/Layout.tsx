@@ -63,7 +63,7 @@ export function Layout({ children }: { children: ReactNode }) {
                 <circle cx="46" cy="34" r="5" fill="currentColor" />
               </svg>
             </span>
-            Bolashak&nbsp;Way
+            <span className={s.brandText}>Bolashak&nbsp;Way</span>
           </Link>
           <nav className={s.deskNav}>
             {NAV.map(({ to, key, Icon }) => (

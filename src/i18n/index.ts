@@ -33,6 +33,28 @@ export function useI18n() {
   return { locale, t, c, cf }
 }
 
+/** Russian needs three plural forms; Kazakh needs none; English needs two. */
+function ruPlural(n: number, one: string, few: string, many: string): string {
+  const mod10 = n % 10
+  const mod100 = n % 100
+  if (mod10 === 1 && mod100 !== 11) return one
+  if (mod10 >= 2 && mod10 <= 4 && (mod100 < 12 || mod100 > 14)) return few
+  return many
+}
+
+/** "1 год" / "2 года" / "5 лет" — used wherever an experience figure is shown. */
+export function formatYears(n: number, locale: Locale): string {
+  if (locale === 'kk') return `${n} жыл`
+  if (locale === 'en') return `${n} ${n === 1 ? 'year' : 'years'}`
+  return `${n} ${ruPlural(n, 'год', 'года', 'лет')}`
+}
+
+export function formatMonths(n: number, locale: Locale): string {
+  if (locale === 'kk') return `${n} ай`
+  if (locale === 'en') return `${n} ${n === 1 ? 'month' : 'months'}`
+  return `${n} ${ruPlural(n, 'месяц', 'месяца', 'месяцев')}`
+}
+
 export function formatRange(min: number, max: number) {
   return min === max ? `${min}` : `${min}–${max}`
 }

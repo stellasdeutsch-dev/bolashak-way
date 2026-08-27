@@ -15,7 +15,7 @@ import { DEADLINE_RULES } from '@/content/deadlines'
 import { evaluate, foreignThreshold, foreignCertMeets, experienceRequirement, meetsExperience } from '@/domain/applicability'
 import { isDocAuto } from '@/domain/documents'
 import { useAppStore } from '@/store/useAppStore'
-import { useI18n, pick } from '@/i18n'
+import { useI18n, pick, formatMonths, formatYears } from '@/i18n'
 import { usePageChrome } from '@/i18n/usePageChrome'
 import { Button, Callout, Card, FallbackBadge, Pill, SourceLink } from '@/components/ui'
 import { StageIcon } from '@/components/StageIcon'
@@ -195,14 +195,14 @@ function LanguageNotes() {
 
 /** The category's own admission requirements plus a live check of the entered experience. */
 function CategoryRequirements() {
-  const { t, cf } = useI18n()
+  const { t, cf, locale } = useI18n()
   const profile = useAppStore((st) => st.profile)!
   const category = getCategory(profile.category)
   const req = experienceRequirement(profile)
   const ok = meetsExperience(profile)
   const parts: string[] = []
-  if (req?.years != null) parts.push(`${req.years} ${t('stage.years')}`)
-  if (req?.continuousMonths != null) parts.push(`${req.continuousMonths} ${t('stage.monthsContinuous')}`)
+  if (req?.years != null) parts.push(`${formatYears(req.years, locale)} ${t('stage.yearsTotal')}`)
+  if (req?.continuousMonths != null) parts.push(`${formatMonths(req.continuousMonths, locale)} ${t('stage.monthsContinuous')}`)
 
   return (
     <Card>
@@ -213,7 +213,7 @@ function CategoryRequirements() {
             <Pill tone="accent">
               {t('stage.yourExperience')}:{' '}
               {profile.experience
-                ? `${profile.experience.years} ${t('stage.years')} · ${profile.experience.continuousMonths} ${t('stage.monthsContinuous')}`
+                ? `${formatYears(profile.experience.years, locale)} ${t('stage.yearsTotal')} · ${formatMonths(profile.experience.continuousMonths, locale)} ${t('stage.monthsContinuous')}`
                 : t('stage.expNone')}
             </Pill>
             <Pill tone={ok ? 'success' : 'warn'}>

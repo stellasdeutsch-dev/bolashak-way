@@ -136,8 +136,8 @@ export const UI = {
     expMeets: { ru: 'Стаж подходит', kk: 'Өтіл жеткілікті', en: 'Experience is sufficient' },
     expBelow: { ru: 'Стажа не хватает', kk: 'Өтіл жетпейді', en: 'Not enough experience' },
     expNone: { ru: 'стаж не указан', kk: 'өтіл көрсетілмеген', en: 'no experience entered' },
-    years: { ru: 'лет общего стажа', kk: 'жыл жалпы өтіл', en: 'years total' },
-    monthsContinuous: { ru: 'мес. непрерывно по специализации', kk: 'ай үздіксіз мамандық бойынша', en: 'months continuous in the field' },
+    yearsTotal: { ru: 'общего стажа', kk: 'жалпы өтіл', en: 'total' },
+    monthsContinuous: { ru: 'непрерывно по специализации', kk: 'үздіксіз мамандық бойынша', en: 'continuous in the field' },
     levelsNote: {
       ru: 'I порог — языковые курсы в Казахстане или за рубежом (кроме английского); II — языковые курсы за рубежом; III — сразу на академическое обучение или стажировку.',
       kk: 'I шек — Қазақстанда немесе шетелде тіл курстары (ағылшыннан басқа); II — шетелде тіл курстары; III — бірден академиялық оқуға немесе тағылымдамаға.',

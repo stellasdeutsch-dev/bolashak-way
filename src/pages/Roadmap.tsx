@@ -38,7 +38,10 @@ type Row =
   | { kind: 'chapter'; id: string; chapter: (typeof CHAPTERS)[number]; number: number }
   | { kind: 'stage'; id: string; item: StageProgress }
 
+/** Fallback until the real banner height is measured (it wraps to 2–3 lines on narrow screens). */
 const BANNER_H = 104
+/** Clearance between a banner and the first node under it, so the "continue" cloud fits. */
+const BANNER_GAP = 46
 
 /**
  * One continuous winding path through every stage, with dark chapter banners sitting
@@ -47,6 +50,20 @@ const BANNER_H = 104
 function RoadmapTrack({ rows, currentId, continueLabel }: { rows: Row[]; currentId?: string; continueLabel: string }) {
   const { ref, width } = useTrackWidth()
   const { t, c } = useI18n()
+  const bannerRefs = useRef<Record<string, HTMLDivElement | null>>({})
+  const [bannerHeights, setBannerHeights] = useState<Record<string, number>>({})
+
+  // Banners wrap differently per language and width, so their height is measured, not assumed.
+  useLayoutEffect(() => {
+    const measured: Record<string, number> = {}
+    for (const [id, el] of Object.entries(bannerRefs.current)) {
+      if (el) measured[id] = el.offsetHeight
+    }
+    setBannerHeights((prev) => {
+      const same = Object.keys(measured).length === Object.keys(prev).length && Object.entries(measured).every(([k, v]) => prev[k] === v)
+      return same ? prev : measured
+    })
+  }, [rows, width])
 
   const gap = gapFor(width)
 
@@ -60,7 +77,7 @@ function RoadmapTrack({ rows, currentId, continueLabel }: { rows: Row[]; current
       if (row.kind === 'chapter') {
         tops[row.id] = cursor
         // Extra room so the "continue" cloud of the first node never touches the banner.
-        cursor += BANNER_H + 26
+        cursor += (bannerHeights[row.id] ?? BANNER_H) + BANNER_GAP
       } else {
         pts.push({ x: width / 2 + Math.sin(stageIndex * 1.05 + 0.4) * amp, y: cursor + 40 })
         cursor += gap
@@ -68,7 +85,7 @@ function RoadmapTrack({ rows, currentId, continueLabel }: { rows: Row[]; current
       }
     }
     return { points: pts, height: cursor + 72, bannerTops: tops }
-  }, [rows, width, gap])
+  }, [rows, width, gap, bannerHeights])
 
   const stages = useMemo(() => rows.filter((r): r is Extract<Row, { kind: 'stage' }> => r.kind === 'stage'), [rows])
 
@@ -105,7 +122,14 @@ function RoadmapTrack({ rows, currentId, continueLabel }: { rows: Row[]; current
 
       {rows.map((row) =>
         row.kind === 'chapter' ? (
-          <div key={row.id} className={s.banner} style={{ top: bannerTops[row.id] }}>
+          <div
+            key={row.id}
+            ref={(el) => {
+              bannerRefs.current[row.id] = el
+            }}
+            className={s.banner}
+            style={{ top: bannerTops[row.id] }}
+          >
             <span className={s.chapterNum}>{String(row.number).padStart(2, '0')}</span>
             <div>
               <h2 className={s.chapterTitle}>{c(row.chapter.title)}</h2>
@@ -262,13 +286,15 @@ export function Roadmap() {
               {nearest && (
                 <Link to={`/stage/${nearest.rule.stage}`} className={s.hudDeadline}>
                   <Pill tone={nearest.status === 'overdue' ? 'warn' : 'accent'}>
-                    {c(nearest.rule.label).slice(0, 42)}
-                    {c(nearest.rule.label).length > 42 ? '…' : ''} ·{' '}
-                    {nearest.daysLeft < 0
-                      ? t('deadlines.overdue', { n: Math.abs(nearest.daysLeft) })
-                      : nearest.daysLeft === 0
-                        ? t('deadlines.today')
-                        : t('deadlines.daysLeft', { n: nearest.daysLeft })}
+                    <span title={c(nearest.rule.label)}>
+                      {nearest.daysLeft < 0
+                        ? t('deadlines.overdue', { n: Math.abs(nearest.daysLeft) })
+                        : nearest.daysLeft === 0
+                          ? t('deadlines.today')
+                          : t('deadlines.daysLeft', { n: nearest.daysLeft })}
+                      {' · '}
+                      {c(nearest.rule.label)}
+                    </span>
                   </Pill>
                 </Link>
               )}
