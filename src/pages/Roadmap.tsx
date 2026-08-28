@@ -1,6 +1,6 @@
-import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
+import { useEffect, useMemo } from 'react'
 import { Link, useNavigate } from 'react-router'
-import { ArrowDown, Check, Lock, Sparkles } from 'lucide-react'
+import { ArrowDown, Check, ChevronRight, Lock, Sparkles } from 'lucide-react'
 import { CHAPTERS } from '@/content/stages'
 import { CATEGORIES } from '@/content/categories'
 import { CONTENT_META } from '@/content/meta'
@@ -16,153 +16,42 @@ import { Button, Callout, Card, Pill, ProgressRing } from '@/components/ui'
 import { StageIcon } from '@/components/StageIcon'
 import s from './Roadmap.module.css'
 
-const TOP_PAD = 12
-/** Nodes need more vertical room on narrow screens, where labels wrap to two lines. */
-const gapFor = (width: number) => (width < 420 ? 158 : width < 720 ? 146 : 134)
-
-function useTrackWidth() {
-  const ref = useRef<HTMLDivElement>(null)
-  const [width, setWidth] = useState(360)
-  useLayoutEffect(() => {
-    const el = ref.current
-    if (!el) return
-    const update = () => setWidth(el.clientWidth)
-    update()
-    const ro = new ResizeObserver(update)
-    ro.observe(el)
-    return () => ro.disconnect()
-  }, [])
-  return { ref, width }
-}
-
 type Row =
   | { kind: 'chapter'; id: string; chapter: (typeof CHAPTERS)[number]; number: number; done: number; total: number }
   | { kind: 'stage'; id: string; item: StageProgress }
 
-/** Fallback until the real banner height is measured (it wraps to 2–3 lines on narrow screens). */
-const BANNER_H = 104
-/** Clearance between a banner and the first node under it, so the "continue" cloud fits. */
-const BANNER_GAP = 46
-
 /**
- * One continuous winding path through every stage, with dark chapter banners sitting
- * on top of it — the line never breaks at a chapter boundary.
+ * A straight vertical path: one spine on the left, every stage a row on it, the
+ * content read left-to-right. Chosen over a winding trail because 17–19 stages
+ * have to be scannable — the same shape Coursera and Khan Academy use for a syllabus.
  */
 function RoadmapTrack({ rows, currentId, continueLabel }: { rows: Row[]; currentId?: string; continueLabel: string }) {
-  const { ref, width } = useTrackWidth()
   const { t, c } = useI18n()
-  const bannerRefs = useRef<Record<string, HTMLDivElement | null>>({})
-  const [bannerHeights, setBannerHeights] = useState<Record<string, number>>({})
-
-  // Banners wrap differently per language and width, so their height is measured, not assumed.
-  useLayoutEffect(() => {
-    const measured: Record<string, number> = {}
-    for (const [id, el] of Object.entries(bannerRefs.current)) {
-      if (el) measured[id] = el.offsetHeight
-    }
-    setBannerHeights((prev) => {
-      const same = Object.keys(measured).length === Object.keys(prev).length && Object.entries(measured).every(([k, v]) => prev[k] === v)
-      return same ? prev : measured
-    })
-  }, [rows, width])
-
-  const gap = gapFor(width)
-
-  const { points, height, bannerTops } = useMemo(() => {
-    const amp = Math.min(110, Math.max(0, width / 2 - 96))
-    const pts: { x: number; y: number }[] = []
-    const tops: Record<string, number> = {}
-    let cursor = TOP_PAD
-    let stageIndex = 0
-    for (const row of rows) {
-      if (row.kind === 'chapter') {
-        tops[row.id] = cursor
-        // Extra room so the "continue" cloud of the first node never touches the banner.
-        cursor += (bannerHeights[row.id] ?? BANNER_H) + BANNER_GAP
-      } else {
-        pts.push({ x: width / 2 + Math.sin(stageIndex * 1.05 + 0.4) * amp, y: cursor + 40 })
-        cursor += gap
-        stageIndex += 1
-      }
-    }
-    return { points: pts, height: cursor + 72, bannerTops: tops }
-  }, [rows, width, gap, bannerHeights])
-
-  const stages = useMemo(() => rows.filter((r): r is Extract<Row, { kind: 'stage' }> => r.kind === 'stage'), [rows])
-
-  const curve = (list: { x: number; y: number }[]) =>
-    list.length < 2
-      ? ''
-      : list
-          .map((pt, i) => {
-            if (i === 0) return `M ${pt.x} ${pt.y}`
-            const prev = list[i - 1]
-            const midY = (prev.y + pt.y) / 2
-            return `C ${prev.x} ${midY}, ${pt.x} ${midY}, ${pt.x} ${pt.y}`
-          })
-          .join(' ')
-
-  const path = useMemo(() => curve(points), [points])
-
-  const donePath = useMemo(() => {
-    // Only the unbroken run of completed stages from the very start counts as "walked".
-    let lastDone = -1
-    for (const [i, row] of stages.entries()) {
-      if (row.item.status !== 'done') break
-      lastDone = i
-    }
-    return lastDone < 1 ? '' : curve(points.slice(0, lastDone + 1))
-  }, [stages, points])
+  const stageIds = rows.filter((r) => r.kind === 'stage').map((r) => r.id)
+  const firstStageId = stageIds[0]
+  const lastStageId = stageIds[stageIds.length - 1]
 
   return (
-    <div className={s.track} ref={ref} style={{ height }}>
-      <svg className={s.trackSvg} viewBox={`0 0 ${width} ${height}`} preserveAspectRatio="none" aria-hidden="true">
-        <defs>
-          {/* The walked part of the path fades from green into the accent at the current node. */}
-          <linearGradient id="walkedGradient" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor="var(--success)" />
-            <stop offset="100%" stopColor="var(--accent)" />
-          </linearGradient>
-        </defs>
-        <path className={s.trackLine} d={path} />
-        {donePath && <path className={s.trackLineDone} d={donePath} />}
-      </svg>
-
-      {rows.map((row) =>
-        row.kind === 'chapter' ? (
-          <div
-            key={row.id}
-            ref={(el) => {
-              bannerRefs.current[row.id] = el
-            }}
-            className={s.banner}
-            style={{ top: bannerTops[row.id] }}
-          >
-            <span className={s.chapterNum}>{String(row.number).padStart(2, '0')}</span>
-            <div className={s.chapterText}>
-              <h2 className={s.chapterTitle}>{c(row.chapter.title)}</h2>
-              <p className={s.chapterSub}>{c(row.chapter.subtitle)}</p>
+    <div className={s.track}>
+      {rows.map((row) => {
+        if (row.kind === 'chapter') {
+          return (
+            <div key={row.id} className={s.banner}>
+              <span className={s.chapterNum}>{String(row.number).padStart(2, '0')}</span>
+              <div className={s.chapterText}>
+                <h2 className={s.chapterTitle}>{c(row.chapter.title)}</h2>
+                <p className={s.chapterSub}>{c(row.chapter.subtitle)}</p>
+              </div>
+              <span className={[s.chapterCount, row.done === row.total ? s.chapterCountDone : ''].join(' ')}>
+                {row.done === row.total && <Check size={13} strokeWidth={3} aria-hidden="true" />}
+                {t('roadmap.chapterProgress', { done: row.done, total: row.total })}
+              </span>
             </div>
-            <span className={[s.chapterCount, row.done === row.total ? s.chapterCountDone : ''].join(' ')}>
-              {row.done === row.total && <Check size={13} strokeWidth={3} aria-hidden="true" />}
-              {t('roadmap.chapterProgress', { done: row.done, total: row.total })}
-            </span>
-          </div>
-        ) : null,
-      )}
+          )
+        }
 
-      {stages.map((row, i) => {
         const item = row.item
-        const pt = points[i]
         const isCurrent = item.stage.id === currentId
-        const bubbleClass = [
-          s.bubble,
-          item.status === 'locked' ? s.bubbleLocked : '',
-          item.status === 'available' && !isCurrent ? s.bubbleAvailable : '',
-          item.status === 'in-progress' ? s.bubbleProgress : '',
-          item.status === 'done' ? s.bubbleDone : '',
-          isCurrent && item.status !== 'done' ? `${s.bubbleCurrent} ${s.pulse}` : '',
-        ].join(' ')
         const statusLabel =
           item.status === 'done'
             ? t('roadmap.doneState')
@@ -177,28 +66,54 @@ function RoadmapTrack({ rows, currentId, continueLabel }: { rows: Row[]; current
             key={item.stage.id}
             id={`node-${item.stage.id}`}
             to={`/stage/${item.stage.id}`}
-            className={[s.node, item.status === 'locked' ? s.nodeLocked : ''].join(' ')}
-            style={{ left: pt.x, top: pt.y - 37 }}
+            className={[s.row, item.status === 'locked' ? s.rowLocked : '', isCurrent ? s.rowCurrent : ''].join(' ')}
             aria-label={`${c(item.stage.title)} — ${statusLabel}`}
           >
-            {isCurrent && item.status !== 'done' && <span className={s.cloud}>{continueLabel}</span>}
-            <span className={bubbleClass}>
-              {item.status === 'in-progress' && (
-                <span className={s.ringWrap}>
-                  <ProgressRing value={item.requiredTotal ? item.requiredDone / item.requiredTotal : 0} size={74} stroke={4} label="" />
+            <span
+              className={[
+                s.rail,
+                item.stage.id === firstStageId ? s.railFirst : '',
+                item.stage.id === lastStageId ? s.railLast : '',
+                item.status === 'done' ? s.railDone : '',
+              ].join(' ')}
+            >
+              <span
+                className={[
+                  s.bubble,
+                  item.status === 'locked' ? s.bubbleLocked : '',
+                  item.status === 'available' && !isCurrent ? s.bubbleAvailable : '',
+                  item.status === 'in-progress' ? s.bubbleProgress : '',
+                  item.status === 'done' ? s.bubbleDone : '',
+                  isCurrent && item.status !== 'done' ? s.bubbleCurrent : '',
+                ].join(' ')}
+              >
+                <StageIcon name={item.stage.icon} size={22} />
+                <span className={[s.badge, item.status === 'done' ? s.badgeDone : ''].join(' ')}>
+                  {item.status === 'done' ? (
+                    <Check size={12} strokeWidth={3} />
+                  ) : item.status === 'locked' ? (
+                    <Lock size={10} />
+                  ) : (
+                    <span className={s.badgeNum}>{item.index + 1}</span>
+                  )}
                 </span>
-              )}
-              <StageIcon name={item.stage.icon} size={26} />
-              <span className={[s.badge, item.status === 'done' ? s.badgeDone : ''].join(' ')}>
-                {item.status === 'done' ? <Check size={14} strokeWidth={3} /> : item.status === 'locked' ? <Lock size={12} /> : <span style={{ fontSize: 11, fontWeight: 700 }}>{item.index + 1}</span>}
               </span>
             </span>
-            <span className={s.nodeLabel}>{c(item.stage.title)}</span>
-            <span className={s.nodeMeta}>
-              {item.status === 'done' && item.autoDone
-                ? t('roadmap.autoDone')
-                : t('roadmap.items', { done: item.requiredDone, total: item.requiredTotal })}
+
+            <span className={s.rowBody}>
+              <span className={s.rowTitle}>
+                {c(item.stage.title)}
+                {isCurrent && item.status !== 'done' && <span className={s.nowTag}>{continueLabel}</span>}
+              </span>
+              <span className={s.rowSummary}>{c(item.stage.summary)}</span>
+              <span className={s.rowMeta}>
+                {item.status === 'done' && item.autoDone
+                  ? t('roadmap.autoDone')
+                  : t('roadmap.items', { done: item.requiredDone, total: item.requiredTotal })}
+              </span>
             </span>
+
+            <ChevronRight className={s.rowChevron} size={18} aria-hidden="true" />
           </Link>
         )
       })}
