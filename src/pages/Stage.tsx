@@ -5,6 +5,7 @@ import { CHAPTERS, getStage } from '@/content/stages'
 import { DOCUMENTS } from '@/content/documents'
 import { faqForStage } from '@/content/faq'
 import { excerptsForStage } from '@/content/excerpts'
+import { videosForStage } from '@/content/videos'
 import { getSource } from '@/content/sources'
 import { CONTENT_META } from '@/content/meta'
 import { ENGLISH_THRESHOLDS, KAZAKH_REQUIREMENT, LANGUAGE_GROUP_BY_CATEGORY, LANGUAGE_NOTES } from '@/content/language'
@@ -20,6 +21,7 @@ import { useI18n, pick, formatMonths, formatYears } from '@/i18n'
 import { usePageChrome } from '@/i18n/usePageChrome'
 import { Button, Callout, Card, FallbackBadge, Pill, SourceLink } from '@/components/ui'
 import { StageIcon } from '@/components/StageIcon'
+import { VideoList } from '@/components/Videos'
 import s from './Stage.module.css'
 
 function FaqRow({ item }: { item: FaqItem }) {
@@ -158,6 +160,21 @@ function Excerpts({ stage }: { stage: StageId }) {
             </div>
           )
         })}
+      </div>
+    </Card>
+  )
+}
+
+function StageVideos({ stage }: { stage: StageId }) {
+  const { t } = useI18n()
+  const profile = useAppStore((st) => st.profile)!
+  const items = videosForStage(stage).filter((v) => evaluate(v.appliesTo, profile))
+  if (items.length === 0) return null
+  return (
+    <Card>
+      <div className={s.section}>
+        <span className={s.sectionTitle}>{t('video.title')}</span>
+        <VideoList items={items} />
       </div>
     </Card>
   )
@@ -570,6 +587,8 @@ export function StagePage() {
       )}
 
       <Excerpts stage={stage.id} />
+
+      <StageVideos stage={stage.id} />
 
       {stage.mistakes.length > 0 && (
         <Card>

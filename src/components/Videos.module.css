@@ -1,0 +1,189 @@
+.wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-top: 10px;
+}
+
+.hint {
+  margin: 0;
+  font-size: 13.5px;
+  line-height: 1.6;
+  color: var(--text-2);
+}
+
+.list {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(auto-fill, minmax(268px, 1fr));
+}
+
+.item {
+  display: flex;
+  flex-direction: column;
+  gap: 11px;
+  padding: 11px;
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  background: var(--surface-2);
+}
+
+/* Poster stands in for the player until the reader asks for it. */
+.facade,
+.frame {
+  position: relative;
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border-radius: var(--r-md);
+  background: var(--navy);
+}
+
+.facade {
+  padding: 0;
+  border: none;
+  cursor: pointer;
+}
+
+.thumb {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* hqdefault is 4:3 with black bars; cropping to the middle removes them. */
+  object-position: center;
+  transform: scale(1.36);
+  display: block;
+}
+
+.frame iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+.playBadge {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  width: 58px;
+  height: 58px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  color: var(--text-on-accent);
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  box-shadow: var(--glow), 0 6px 18px rgb(0 0 0 / 0.28);
+  padding-left: 3px;
+  transition: transform 180ms var(--ease-spring);
+}
+
+.facade:hover .playBadge,
+.facade:focus-visible .playBadge {
+  transform: scale(1.09);
+}
+
+.facade:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .playBadge {
+    transition: none;
+  }
+  .facade:hover .playBadge,
+  .facade:focus-visible .playBadge {
+    transform: none;
+  }
+}
+
+.meta {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.itemTitle {
+  margin: 0;
+  font-size: 14.5px;
+  font-weight: 600;
+  line-height: 1.45;
+  color: var(--text);
+}
+
+.metaRow {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 7px;
+  font-size: 12.5px;
+  color: var(--text-3);
+}
+
+.chip {
+  padding: 2px 8px;
+  border-radius: var(--r-pill);
+  background: var(--steel-tint);
+  color: var(--text-2);
+  font-weight: 600;
+  font-size: 11.5px;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.langSwitch {
+  display: inline-flex;
+  gap: 3px;
+  padding: 3px;
+  border-radius: var(--r-pill);
+  background: var(--surface-3);
+}
+
+.langBtn {
+  border: none;
+  background: none;
+  cursor: pointer;
+  padding: 3px 9px;
+  border-radius: var(--r-pill);
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  color: var(--text-3);
+}
+
+.langBtnOn {
+  background: var(--surface);
+  color: var(--text);
+  box-shadow: var(--shadow-card);
+}
+
+.external {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--accent-deep);
+  text-decoration: none;
+}
+
+.external:hover {
+  text-decoration: underline;
+}
+
+@media print {
+  .facade,
+  .frame,
+  .langSwitch {
+    display: none;
+  }
+}

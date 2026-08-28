@@ -164,6 +164,30 @@ export interface Stage {
   notes?: { appliesTo?: Rule; tone?: 'info' | 'warn'; text: L; source?: SourceId }[]
 }
 
+/** One official upload of a video, in the language it is spoken in. */
+export interface VideoClip {
+  lang: 'ru' | 'kk'
+  /** Video id on the Center for International Programmes' own YouTube channel. */
+  youtubeId: string
+  /** Title exactly as published on the channel. Never translated or paraphrased. */
+  title: string
+  /** Upload date on the channel (ISO), shown so the viewer can judge how current it is. */
+  published: string
+  durationSec: number
+}
+
+/**
+ * An official video. The same recording is often published twice — once in Russian,
+ * once in Kazakh — so one item holds every language variant of it.
+ */
+export interface VideoItem {
+  id: string
+  /** Stage it belongs to. Items without a stage are overview videos shown on the About page. */
+  stage?: StageId
+  clips: VideoClip[]
+  appliesTo?: Rule
+}
+
 export interface Chapter {
   id: ChapterId
   title: L

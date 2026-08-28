@@ -271,6 +271,12 @@ export const SOURCES: Record<SourceId, Source> = {
     url: 'https://testcenter.kz/',
     title: { ru: 'Национальный центр тестирования — КАЗТЕСТ', kk: 'Ұлттық тестілеу орталығы — ҚАЗТЕСТ', en: 'National Testing Center — KAZTEST' },
   },
+  youtube: {
+    id: 'youtube',
+    org: 'youtube.com',
+    url: 'https://www.youtube.com/@bolashaqpresidentialschola8029',
+    title: { ru: 'Официальный YouTube-канал Центра международных программ', kk: 'Халықаралық бағдарламалар орталығының ресми YouTube арнасы', en: 'Official YouTube channel of the Center for International Programmes' },
+  },
   'chat-faq': {
     id: 'chat-faq',
     org: 'Чаты претендентов',

@@ -3,6 +3,27 @@ import type { Locale } from '@/content/types'
 /** UI chrome strings. Content (stages, documents, FAQ) is localised separately in src/content. */
 export const UI = {
   app: { name: 'Bolashak Way' },
+  video: {
+    title: { ru: 'Официальные видео', kk: 'Ресми бейнелер', en: 'Official videos' },
+    hint: {
+      ru: 'Ролики с YouTube-канала Центра международных программ. Смотрите дату: видео могло быть снято для прошлого конкурса, а правила с тех пор могли поменяться.',
+      kk: 'Халықаралық бағдарламалар орталығының YouTube арнасындағы роликтер. Күніне қараңыз: бейне өткен конкурсқа түсірілген болуы мүмкін, содан бері қағидалар өзгеруі ықтимал.',
+      en: 'Clips from the Center for International Programmes\' YouTube channel. Check the date: a video may have been made for an earlier competition and the rules may have changed since.',
+    },
+    play: { ru: 'Смотреть', kk: 'Көру', en: 'Watch' },
+    openOnYoutube: { ru: 'Открыть на YouTube', kk: 'YouTube-та ашу', en: 'Open on YouTube' },
+    langLabel: { ru: 'Язык видео', kk: 'Бейне тілі', en: 'Video language' },
+    inRussian: { ru: 'На русском', kk: 'Орысша', en: 'In Russian' },
+    inKazakh: { ru: 'На казахском', kk: 'Қазақша', en: 'In Kazakh' },
+    minutes: { ru: '{n} мин', kk: '{n} мин', en: '{n} min' },
+    seconds: { ru: '{n} сек', kk: '{n} сек', en: '{n} sec' },
+    aboutTitle: { ru: 'Посмотреть, а не читать', kk: 'Оқудың орнына көру', en: 'Watch instead of reading' },
+    aboutBody: {
+      ru: 'Если читать не хочется — вот те же вещи в двух роликах от самого Центра международных программ.',
+      kk: 'Оқығыңыз келмесе — сол дүниелер Халықаралық бағдарламалар орталығының екі роликінде.',
+      en: 'If you would rather not read, here are the same things in two clips from the Center for International Programmes itself.',
+    },
+  },
   about: {
     kicker: { ru: 'Если вы здесь впервые', kk: 'Мұнда алғаш келсеңіз', en: 'If this is your first time here' },
     heroLead: { ru: 'Простыми словами', kk: 'Қарапайым тілмен', en: 'In plain words' },

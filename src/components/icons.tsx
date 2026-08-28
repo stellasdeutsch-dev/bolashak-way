@@ -453,3 +453,18 @@ export const IconFingerprint = (p: IconProps) => (
     <path d="M8.6 19.8c.7-1.6 1-3.3 1-5" />
   </Svg>
 )
+
+export const IconVideo = (p: IconProps) => (
+  <Svg {...p}>
+    <F d="M2.8 6.6h11.4v10.8H2.8Z" />
+    <rect x="2.8" y="6.6" width="11.4" height="10.8" rx="2.6" />
+    <path d="m14.2 13 4.6 2.8c.7.4 1.6-.1 1.6-.9V9.1c0-.8-.9-1.3-1.6-.9L14.2 11Z" />
+  </Svg>
+)
+
+/** Solid triangle: reads as a play button even on top of a photo. */
+export const IconPlay = (p: IconProps) => (
+  <Svg {...p} strokeWidth={1.4}>
+    <path d="M9 6.6 17.4 12 9 17.4Z" fill="currentColor" />
+  </Svg>
+)

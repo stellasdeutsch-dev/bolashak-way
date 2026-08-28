@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest'
 import { EXCERPTS, excerptsForStage } from '@/content/excerpts'
 import { STAGES } from '@/content/stages'
 import { ABOUT_BLOCKS, ABOUT_INTRO } from '@/content/about'
+import { OVERVIEW_VIDEOS, VIDEOS, videosForStage } from '@/content/videos'
 import { getSource } from '@/content/sources'
 import { evaluate } from '@/domain/applicability'
 import type { Profile } from '@/content/types'
@@ -82,5 +83,38 @@ describe('about page', () => {
       for (const p of b.points ?? []) expect(p.kk && p.en, `${b.num} point`).toBeTruthy()
       for (const src of b.sources ?? []) expect(getSource(src), `${b.num} → ${src}`).toBeDefined()
     }
+  })
+})
+
+describe('official videos', () => {
+  it('keeps every clip a real, unique upload with a date and a length', () => {
+    const stageIds = new Set(STAGES.map((st) => st.id))
+    const seen = new Set<string>()
+    for (const v of VIDEOS) {
+      if (v.stage) expect(stageIds.has(v.stage), `${v.id} → unknown stage ${v.stage}`).toBe(true)
+      expect(v.clips.length, `${v.id} has no clips`).toBeGreaterThan(0)
+      const langs = v.clips.map((cl) => cl.lang)
+      expect(new Set(langs).size, `${v.id} has two clips in the same language`).toBe(langs.length)
+      for (const cl of v.clips) {
+        expect(cl.youtubeId, `${v.id} → bad YouTube id`).toMatch(/^[\w-]{11}$/)
+        expect(seen.has(cl.youtubeId), `${cl.youtubeId} is listed twice`).toBe(false)
+        seen.add(cl.youtubeId)
+        expect(cl.published).toMatch(/^\d{4}-\d{2}-\d{2}$/)
+        expect(cl.durationSec).toBeGreaterThan(0)
+        expect(cl.title.trim().length).toBeGreaterThan(5)
+      }
+    }
+  })
+
+  it('separates overview videos from stage videos', () => {
+    expect(OVERVIEW_VIDEOS.length).toBeGreaterThan(0)
+    for (const v of OVERVIEW_VIDEOS) expect(v.stage).toBeUndefined()
+    for (const v of VIDEOS.filter((x) => x.stage)) expect(OVERVIEW_VIDEOS).not.toContain(v)
+  })
+
+  it('shows the eGov walkthrough to an academic track and the "500 scientists" one to a scientist', () => {
+    const ids = (p: Profile) => videosForStage('apply').filter((v) => evaluate(v.appliesTo, p)).map((v) => v.id)
+    expect(ids(medic)).toEqual(['apply_egov', 'apply_walkthrough'])
+    expect(ids(scientist)).toEqual(['apply_ns'])
   })
 })

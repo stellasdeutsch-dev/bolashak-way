@@ -2,11 +2,13 @@ import { Link } from 'react-router'
 import { ABOUT_BLOCKS, ABOUT_INTRO } from '@/content/about'
 import { CONTENT_META } from '@/content/meta'
 import { CHAPTERS } from '@/content/stages'
+import { OVERVIEW_VIDEOS } from '@/content/videos'
 import { useI18n } from '@/i18n'
 import { usePageChrome } from '@/i18n/usePageChrome'
 import { useAppStore } from '@/store/useAppStore'
 import { Button, Card, Pill, SourceLink } from '@/components/ui'
 import { IconArrowRight as ArrowRight, IconSparkles as Sparkles } from '@/components/icons'
+import { VideoList } from '@/components/Videos'
 import s from './About.module.css'
 
 /** The whole programme in plain language, for someone who has never heard of it. */
@@ -72,6 +74,15 @@ export function About() {
             </li>
           ))}
         </ol>
+      </Card>
+
+      <Card className={s.block}>
+        <div className={s.blockHead}>
+          <span className={s.num}>{String(ABOUT_BLOCKS.length + 2).padStart(2, '0')}</span>
+          <h2 className={s.blockTitle}>{t('video.aboutTitle')}</h2>
+        </div>
+        <p className={s.body}>{t('video.aboutBody')}</p>
+        <VideoList items={OVERVIEW_VIDEOS} />
       </Card>
 
       <Card dark className={s.cta}>
