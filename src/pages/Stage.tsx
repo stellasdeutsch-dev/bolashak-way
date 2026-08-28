@@ -169,9 +169,11 @@ function DeadlinePanel({ stage }: { stage: StageId }) {
   )
 }
 
-/** Special cases and non-English thresholds from прикз №318, shown under the table. */
+/** Special cases and non-English thresholds from приказ №318, shown under the table. */
 function LanguageNotes() {
   const { t, cf } = useI18n()
+  // Every note comes from the same order, so the link belongs to the block, not each line.
+  const sources = [...new Set(LANGUAGE_NOTES.map((n) => n.source))]
   return (
     <Card>
       <div className={s.section}>
@@ -184,10 +186,15 @@ function LanguageNotes() {
                 {text.text}
                 {text.fallback && <FallbackBadge />}
               </span>
-              <SourceLink id={n.source} />
+              {sources.length > 1 && <SourceLink id={n.source} />}
             </p>
           )
         })}
+        {sources.length === 1 && (
+          <div className={s.blockSource}>
+            <SourceLink id={sources[0]} />
+          </div>
+        )}
       </div>
     </Card>
   )
@@ -200,6 +207,7 @@ function CategoryRequirements() {
   const category = getCategory(profile.category)
   const req = experienceRequirement(profile)
   const ok = meetsExperience(profile)
+  const reqSources = [...new Set(category.requirements.map((r) => r.source))]
   const parts: string[] = []
   if (req?.years != null) parts.push(`${formatYears(req.years, locale)} ${t('stage.yearsTotal')}`)
   if (req?.continuousMonths != null) parts.push(`${formatMonths(req.continuousMonths, locale)} ${t('stage.monthsContinuous')}`)
@@ -229,10 +237,15 @@ function CategoryRequirements() {
                 {text.text}
                 {text.fallback && <FallbackBadge />}
               </span>
-              <SourceLink id={r.source} />
+              {reqSources.length > 1 && <SourceLink id={r.source} />}
             </p>
           )
         })}
+        {reqSources.length === 1 && (
+          <div className={s.blockSource}>
+            <SourceLink id={reqSources[0]} />
+          </div>
+        )}
       </div>
     </Card>
   )
@@ -355,7 +368,7 @@ export function StagePage() {
         </Callout>
       )}
 
-      <Card>
+      <Card className={s.whyCard}>
         <div className={s.section}>
           <span className={s.sectionTitle}>{t('stage.why')}</span>
           <p className={s.body}>
@@ -476,8 +489,9 @@ export function StagePage() {
         <Card>
           <div className={s.section}>
             <span className={s.sectionTitle}>{t('stage.deadlines')}</span>
+            {/* Deadlines are facts, not warnings — amber stays reserved for mistakes and locks. */}
             {stage.deadlines.map((d, i) => (
-              <Callout key={i} tone="warn" source={d.source}>
+              <Callout key={i} tone="info" source={d.source}>
                 {c(d.text)}
               </Callout>
             ))}

@@ -55,11 +55,40 @@
   gap: 14px;
 }
 .sectionTitle {
+  display: flex;
+  align-items: center;
+  gap: 9px;
   font-size: 12px;
   font-weight: 700;
   letter-spacing: 0.09em;
   text-transform: uppercase;
   color: var(--text-3);
+}
+/* Short accent tick before every section label — a quiet anchor for the eye. */
+.sectionTitle::before {
+  content: '';
+  flex: none;
+  width: 14px;
+  height: 3px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, var(--accent), var(--accent-2));
+}
+
+/* One source for a whole block instead of repeating the same link under every line. */
+.blockSource {
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid var(--line);
+}
+
+/* The "why" card carries the reasoning, so it reads as a quote rather than another white box. */
+.whyCard {
+  background: linear-gradient(135deg, var(--accent-tint) 0%, var(--surface) 62%);
+  border-left: 3px solid var(--accent);
+}
+.whyCard .body {
+  color: var(--text);
+  font-size: 16px;
 }
 .body {
   font-size: 15.5px;
@@ -217,11 +246,20 @@
 .faqOpen .faqChevron {
   transform: rotate(180deg);
 }
+/* The answer sits in a tinted bubble — the reference's chat-bubble motif, and it
+   also makes clear where the question ends and the administration's answer begins. */
 .faqAnswer {
-  padding: 0 2px 16px;
+  margin: 0 0 16px 0;
+  padding: 14px 16px;
+  border-radius: var(--r-md);
+  border-top-left-radius: 6px;
+  background: var(--surface-2);
   font-size: 14.5px;
   line-height: 1.62;
   color: var(--text-2);
+}
+.faqBtn:hover {
+  color: var(--accent);
 }
 .faqTags {
   display: flex;
