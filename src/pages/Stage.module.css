@@ -408,3 +408,54 @@
   gap: 10px;
   flex-wrap: wrap;
 }
+
+/* — collapsed verbatim quotes — */
+.quoteItem {
+  border-top: 1px solid var(--line);
+}
+.quoteItem:first-of-type {
+  border-top: none;
+}
+.quoteBtn {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  width: 100%;
+  text-align: left;
+  padding: 14px 2px;
+  font: inherit;
+  color: var(--text);
+}
+.quoteBtn:hover .quoteToggle {
+  color: var(--accent);
+}
+.quoteClause {
+  font-size: 14.5px;
+  font-weight: 600;
+}
+.quoteToggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  flex: none;
+  font-size: 13px;
+  color: var(--text-3);
+}
+.quote {
+  margin: 0 0 16px;
+  padding: 14px 16px;
+  border-left: 3px solid var(--steel);
+  border-radius: 0 var(--r-md) var(--r-md) 0;
+  background: var(--surface-2);
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--text-2);
+}
+.quoteMeta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 12px;
+}

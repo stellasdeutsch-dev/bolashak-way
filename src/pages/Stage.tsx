@@ -4,6 +4,7 @@ import { ArrowLeft, ArrowRight, Check, ChevronDown, CircleAlert, ExternalLink, L
 import { CHAPTERS, getStage } from '@/content/stages'
 import { DOCUMENTS } from '@/content/documents'
 import { faqForStage } from '@/content/faq'
+import { excerptsForStage } from '@/content/excerpts'
 import { getSource } from '@/content/sources'
 import { CONTENT_META } from '@/content/meta'
 import { ENGLISH_THRESHOLDS, KAZAKH_REQUIREMENT, LANGUAGE_GROUP_BY_CATEGORY, LANGUAGE_NOTES } from '@/content/language'
@@ -110,6 +111,53 @@ function LanguageTable() {
       </p>
       <div style={{ marginTop: 10 }}>
         <SourceLink id="prikaz318" />
+      </div>
+    </Card>
+  )
+}
+
+/**
+ * Verbatim clauses, collapsed. Reading the exact wording is sometimes the only way to
+ * settle a doubt, and sending someone into a 60-page act to find one sentence is worse
+ * than showing that sentence here.
+ */
+function Excerpts({ stage }: { stage: StageId }) {
+  const { t } = useI18n()
+  const profile = useAppStore((st) => st.profile)!
+  const [openId, setOpenId] = useState<string | null>(null)
+  const items = excerptsForStage(stage).filter((e) => evaluate(e.appliesTo, profile))
+  if (items.length === 0) return null
+
+  return (
+    <Card>
+      <div className={s.section}>
+        <span className={s.sectionTitle}>{t('stage.excerpts')}</span>
+        <p className={s.body} style={{ fontSize: 13.5 }}>{t('stage.excerptsHint')}</p>
+        {items.map((e) => {
+          const open = openId === e.id
+          return (
+            <div key={e.id} className={s.quoteItem}>
+              <button className={s.quoteBtn} onClick={() => setOpenId(open ? null : e.id)} aria-expanded={open}>
+                <span className={s.quoteClause}>
+                  {getSource(e.source).org} · {e.clause}
+                </span>
+                <span className={s.quoteToggle}>
+                  {open ? t('stage.hideQuote') : t('stage.showQuote')}
+                  <ChevronDown size={15} className={s.faqChevron} aria-hidden="true" />
+                </span>
+              </button>
+              {open && (
+                <blockquote className={s.quote} lang="ru">
+                  {e.text}
+                  <span className={s.quoteMeta}>
+                    <span className={s.tag}>{t('stage.excerptNote')}</span>
+                    <SourceLink id={e.source} />
+                  </span>
+                </blockquote>
+              )}
+            </div>
+          )
+        })}
       </div>
     </Card>
   )
@@ -498,6 +546,8 @@ export function StagePage() {
           </div>
         </Card>
       )}
+
+      <Excerpts stage={stage.id} />
 
       {stage.mistakes.length > 0 && (
         <Card>
