@@ -43,6 +43,9 @@
   --gloss-soft: inset 0 1px 0 rgba(255, 255, 255, 0.22);
   /* Light that keeps large navy blocks from looking flat. */
   --navy-sheen: radial-gradient(120% 90% at 12% -10%, rgba(90, 169, 255, 0.22) 0%, rgba(90, 169, 255, 0) 55%);
+  /* Faint dot grid so large navy panels have texture instead of reading as flat ink. */
+  --navy-grid: radial-gradient(rgba(255, 255, 255, 0.055) 1px, transparent 1px);
+  --navy-grid-size: 22px 22px;
   --card-hairline: 1px solid rgba(17, 24, 39, 0.05);
   --shadow-card-lift: 0 2px 4px rgba(11, 18, 32, 0.05), 0 28px 60px rgba(11, 18, 32, 0.12);
   --shadow-navy: 0 20px 60px rgba(11, 18, 32, 0.3);
@@ -92,6 +95,7 @@
   --locked: #3a4660;
   --card-hairline: 1px solid rgba(255, 255, 255, 0.06);
   --navy-sheen: radial-gradient(120% 90% at 12% -10%, rgba(111, 180, 255, 0.16) 0%, rgba(111, 180, 255, 0) 55%);
+  --navy-grid: radial-gradient(rgba(255, 255, 255, 0.045) 1px, transparent 1px);
   --shadow-card: 0 1px 2px rgba(0, 0, 0, 0.3), 0 16px 40px rgba(0, 0, 0, 0.35);
   --shadow-card-lift: 0 2px 4px rgba(0, 0, 0, 0.35), 0 28px 60px rgba(0, 0, 0, 0.5);
   --glow: 0 12px 32px rgba(59, 141, 255, 0.4);

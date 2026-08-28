@@ -1,5 +1,5 @@
-import { useEffect, type ReactNode, useRef } from 'react'
-import { Info, TriangleAlert, ExternalLink } from 'lucide-react'
+import { useEffect, useState, type ReactNode, useRef } from 'react'
+import { IconInfo as Info, IconAlertTriangle as TriangleAlert, IconExternal as ExternalLink } from '@/components/icons'
 import { getSource } from '@/content/sources'
 import type { SourceId } from '@/content/types'
 import { useI18n } from '@/i18n'
@@ -59,6 +59,12 @@ export function ProgressRing({
   const r = (size - stroke) / 2
   const c = 2 * Math.PI * r
   const clamped = Math.max(0, Math.min(1, value))
+  // Start empty and fill on mount, so the ring reads as progress rather than a static dial.
+  const [shown, setShown] = useState(0)
+  useEffect(() => {
+    const id = requestAnimationFrame(() => setShown(clamped))
+    return () => cancelAnimationFrame(id)
+  }, [clamped])
   return (
     <div className={[s.ring, dark ? s.ringDark : ''].join(' ')} style={{ width: size, height: size }}>
       <svg className={s.ringSvg} width={size} height={size} aria-hidden="true">
@@ -77,7 +83,7 @@ export function ProgressRing({
           fill="none"
           strokeWidth={stroke}
           strokeDasharray={c}
-          strokeDashoffset={c * (1 - clamped)}
+          strokeDashoffset={c * (1 - shown)}
         />
       </svg>
       <span className={s.ringLabel} style={{ fontSize: size / 3.6 }}>

@@ -1,6 +1,6 @@
 import { useMemo, useRef, useState } from 'react'
 import { useNavigate } from 'react-router'
-import { Download, Mail, Phone, RotateCcw, Trash2, Upload, UserCog } from 'lucide-react'
+import { IconDownload as Download, IconMail as Mail, IconPhone as Phone, IconReset as RotateCcw, IconTrash as Trash2, IconUpload as Upload, IconUserCog as UserCog } from '@/components/icons'
 import { CATEGORIES, WORKER_GROUPS } from '@/content/categories'
 import { CONTENT_META } from '@/content/meta'
 import { SOURCES } from '@/content/sources'

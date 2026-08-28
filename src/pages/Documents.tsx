@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
 import { useNavigate } from 'react-router'
-import { Check, Download, FileStack } from 'lucide-react'
+import { IconCheck as Check, IconDownload as Download, IconFileStack as FileStack } from '@/components/icons'
 import { getStage } from '@/content/stages'
 import { getSource } from '@/content/sources'
 import { documentsFor, isDocAuto } from '@/domain/documents'

@@ -1,9 +1,12 @@
 import { useMemo, useState, type ReactNode } from 'react'
 import { useNavigate, useSearchParams } from 'react-router'
 import {
-  ArrowLeft, ArrowRight, GraduationCap, Landmark, Briefcase, FlaskConical, School,
-  MailCheck, MailQuestion, MailX, Languages, BadgeCheck, Ban, Clock, Sparkles, Fingerprint,
-} from 'lucide-react'
+  IconArrowLeft as ArrowLeft, IconArrowRight as ArrowRight, IconGraduationCap as GraduationCap,
+  IconLandmark as Landmark, IconBriefcase as Briefcase, IconFlask as FlaskConical, IconSchool as School,
+  IconMailCheck as MailCheck, IconMailQuestion as MailQuestion, IconMailX as MailX, IconLanguages as Languages,
+  IconBadgeCheck as BadgeCheck, IconBan as Ban, IconClock as Clock, IconSparkles as Sparkles,
+  IconFingerprint as Fingerprint,
+} from '@/components/icons'
 import { CATEGORIES, CATEGORIES_BY_TRACK, WORKER_GROUPS } from '@/content/categories'
 import { CONTENT_META } from '@/content/meta'
 import type { ExamId, Invitation, Track } from '@/content/types'

@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { useNavigate } from 'react-router'
-import { Search, X } from 'lucide-react'
+import { IconSearch as Search, IconClose as X } from '@/components/icons'
 import { MIN_QUERY, searchAll, type ResultKind, type SearchResult } from '@/domain/search'
 import { useAppStore } from '@/store/useAppStore'
 import { useI18n } from '@/i18n'

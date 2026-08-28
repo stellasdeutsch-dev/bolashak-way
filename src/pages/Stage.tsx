@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router'
-import { ArrowLeft, ArrowRight, Check, ChevronDown, CircleAlert, ExternalLink, Lock, Sparkles, TriangleAlert } from 'lucide-react'
+import { IconArrowLeft as ArrowLeft, IconArrowRight as ArrowRight, IconCheck as Check, IconChevronDown as ChevronDown, IconAlertCircle as CircleAlert, IconExternal as ExternalLink, IconLock as Lock, IconSparkles as Sparkles, IconAlertTriangle as TriangleAlert } from '@/components/icons'
 import { CHAPTERS, getStage } from '@/content/stages'
 import { DOCUMENTS } from '@/content/documents'
 import { faqForStage } from '@/content/faq'

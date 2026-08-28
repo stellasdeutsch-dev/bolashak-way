@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router'
-import { Compass } from 'lucide-react'
+import { IconCompass as Compass } from '@/components/icons'
 import { useI18n } from '@/i18n'
 import { Button, Card, Pill } from '@/components/ui'
 

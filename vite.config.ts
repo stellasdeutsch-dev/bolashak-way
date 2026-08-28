@@ -33,10 +33,7 @@ export default defineConfig({
       output: {
         // Content changes far more often than the framework; keep them in separate chunks.
         manualChunks(id) {
-          if (id.includes('node_modules')) {
-            if (id.includes('lucide-react')) return 'icons'
-            return 'vendor'
-          }
+          if (id.includes('node_modules')) return 'vendor'
           if (id.includes('/src/content/')) return 'content'
           return undefined
         },

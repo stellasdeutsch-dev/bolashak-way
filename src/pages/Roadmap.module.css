@@ -17,7 +17,9 @@
   gap: 16px;
   padding: 14px 16px;
   border-radius: var(--r-lg);
-  background: var(--navy-sheen), linear-gradient(160deg, var(--navy) 0%, var(--navy-3) 100%);
+  /* Dot grid over the sheen over the gradient — order matters, the grid must sit on top. */
+  background-image: var(--navy-grid), var(--navy-sheen), linear-gradient(160deg, var(--navy) 0%, var(--navy-3) 100%);
+  background-size: var(--navy-grid-size), auto, auto;
   color: var(--on-navy);
   border: 1px solid rgba(255, 255, 255, 0.07);
   box-shadow: var(--shadow-navy);
@@ -220,7 +222,9 @@
   padding: 18px 20px;
   margin: 18px 0 10px;
   border-radius: 24px;
-  background: var(--navy-sheen), linear-gradient(135deg, var(--navy) 0%, var(--navy-2) 100%);
+  /* Dot grid over the sheen over the gradient — order matters, the grid must sit on top. */
+  background-image: var(--navy-grid), var(--navy-sheen), linear-gradient(135deg, var(--navy) 0%, var(--navy-2) 100%);
+  background-size: var(--navy-grid-size), auto, auto;
   color: #fff;
   border: 1px solid rgba(255, 255, 255, 0.07);
   box-shadow: var(--shadow-navy);
@@ -656,5 +660,46 @@
 
   .chapterSub {
     font-size: 12px;
+  }
+}
+
+/* Rows fade up in sequence, so the path reads as one line being drawn rather than
+   a list appearing at once. Capped at ten steps — beyond that the wait is felt. */
+@keyframes rowIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.row,
+.banner {
+  animation: rowIn 0.42s var(--ease-spring) both;
+  animation-delay: calc(var(--i, 0) * 45ms);
+}
+
+/* The current node breathes to catch the eye without demanding it. */
+@keyframes nodePulse {
+  0%, 100% {
+    box-shadow: var(--glow), var(--gloss);
+  }
+  50% {
+    box-shadow: var(--glow-strong), var(--gloss);
+  }
+}
+
+.bubbleCurrent {
+  animation: nodePulse 2.6s var(--ease-out) infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .row,
+  .banner,
+  .bubbleCurrent {
+    animation: none;
   }
 }

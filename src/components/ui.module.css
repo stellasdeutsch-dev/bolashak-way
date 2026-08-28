@@ -87,7 +87,9 @@
   padding: 24px;
 }
 .cardDark {
-  background: var(--navy-sheen), linear-gradient(160deg, var(--navy) 0%, var(--navy-3) 100%);
+  /* Dot grid over the sheen over the gradient — order matters, the grid must sit on top. */
+  background-image: var(--navy-grid), var(--navy-sheen), linear-gradient(160deg, var(--navy) 0%, var(--navy-3) 100%);
+  background-size: var(--navy-grid-size), auto, auto;
   color: var(--on-navy);
   border: 1px solid rgba(255, 255, 255, 0.06);
   border-radius: var(--r-xl);
@@ -245,4 +247,25 @@
   font-size: 11px;
   font-weight: 500;
   vertical-align: middle;
+}
+
+/* The ring fills over a beat; long enough to notice, short enough not to wait for. */
+.ringValue {
+  transition: stroke-dashoffset 0.9s var(--ease-spring);
+}
+
+/* A tick that draws itself when an item is checked. */
+@keyframes drawCheck {
+  from {
+    stroke-dashoffset: 26;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ringValue {
+    transition: none;
+  }
 }

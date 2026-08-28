@@ -139,7 +139,7 @@ export interface Deadline {
 export interface Stage {
   id: StageId
   chapter: ChapterId
-  /** lucide icon name, resolved in components/StageIcon.tsx */
+  /** Icon name from the app's own set, resolved in components/StageIcon.tsx */
   icon: string
   /** Light first line of the two-tone heading. */
   kicker: L

@@ -1,6 +1,6 @@
-import { useEffect, useMemo } from 'react'
+import { useEffect, useMemo, type CSSProperties } from 'react'
 import { Link, useNavigate } from 'react-router'
-import { ArrowDown, Check, ChevronRight, Lock, Sparkles } from 'lucide-react'
+import { IconArrowDown as ArrowDown, IconCheck as Check, IconChevronRight as ChevronRight, IconLock as Lock, IconSparkles as Sparkles } from '@/components/icons'
 import { CHAPTERS } from '@/content/stages'
 import { CATEGORIES } from '@/content/categories'
 import { CONTENT_META } from '@/content/meta'
@@ -33,10 +33,12 @@ function RoadmapTrack({ rows, currentId, continueLabel }: { rows: Row[]; current
 
   return (
     <div className={s.track}>
-      {rows.map((row) => {
+      {rows.map((row, i) => {
+        // The cascade should settle quickly even on a 19-stage path.
+        const index = Math.min(i, 10)
         if (row.kind === 'chapter') {
           return (
-            <div key={row.id} className={s.banner}>
+            <div key={row.id} className={s.banner} style={{ '--i': index } as CSSProperties}>
               <span className={s.chapterNum}>{String(row.number).padStart(2, '0')}</span>
               <div className={s.chapterText}>
                 <h2 className={s.chapterTitle}>{c(row.chapter.title)}</h2>
@@ -67,6 +69,7 @@ function RoadmapTrack({ rows, currentId, continueLabel }: { rows: Row[]; current
             id={`node-${item.stage.id}`}
             to={`/stage/${item.stage.id}`}
             className={[s.row, item.status === 'locked' ? s.rowLocked : '', isCurrent ? s.rowCurrent : ''].join(' ')}
+            style={{ '--i': index } as CSSProperties}
             aria-label={`${c(item.stage.title)} — ${statusLabel}`}
           >
             <span
