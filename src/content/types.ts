@@ -147,6 +147,11 @@ export interface Stage {
   /** One-sentence summary for the roadmap card. */
   summary: L
   why: L
+  /**
+   * Plain-language orientation shown at the very top of the stage, before anything else:
+   * what this stage actually is, what it wants from you, and what you walk away with.
+   */
+  inShort?: { what: L; you: L; result: L }
   checklist: ChecklistItem[]
   mistakes: L[]
   deadlines?: Deadline[]

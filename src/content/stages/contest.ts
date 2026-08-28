@@ -17,6 +17,11 @@ export const CONTEST_STAGES: Stage[] = [
       kk: 'Бірінші тур іріктейді. Шекті балды жинамасаңыз — екінші турға өтпейсіз, қайта тапсыру болмайды. Мұндағы қиындықтың жартысы техникалық, сондықтан компьютер мен интернетті алдын ала тексеріңіз.',
       en: 'Round one filters people out. Miss the cut-off and you do not reach round two, and there is no retake. Half the trouble here is technical, so check your computer and connection in advance.',
     },
+    inShort: {
+      what: { ru: 'Первый тур конкурса — компьютерное тестирование с проктором. Числовой и вербальный тесты плюс личностный опросник.', kk: 'Конкурстың бірінші туры — прокторы бар компьютерлік тестілеу. Сандық және вербалды тест, тұлғалық сауалнама.', en: 'Round one of the competition — proctored computer testing. Numerical and verbal tests plus a personality questionnaire.' },
+      you: { ru: 'Подготовить технику и связь, прорешать образцы и пройти все три компонента до конца.', kk: 'Техника мен байланысты дайындап, үлгілерді шығарып, үш компоненттің бәрін соңына дейін өту.', en: 'Get your setup and connection ready, work through the samples and finish all three parts.' },
+      result: { ru: 'Балл в личном кабинете. Ниже порога — второго тура не будет, пересдачи не предусмотрены.', kk: 'Жеке кабинеттегі балл. Шектен төмен болса — екінші тур болмайды, қайта тапсыру көзделмеген.', en: 'A score in your account. Below the cut-off there is no second round, and no retakes.' },
+    },
     checklist: [
       {
         id: 'credentials',
@@ -124,6 +129,11 @@ export const CONTEST_STAGES: Stage[] = [
       kk: 'Комиссия саланы қаншалық білетініңізді, теориядан не білетініңізді және ЖОО мен елді қаншалық саналы таңдағаныңызды қарайды. Мотивациялық хатыңызға да сүйенеді. Бұл сұрақтарға алдын ала дайындалуға болады.',
       en: 'The commission looks at how well you know your field, what you know in theory and how deliberately you chose the university and country. Your motivation letter feeds into this. You can prepare for these questions.',
     },
+    inShort: {
+      what: { ru: 'Второй тур — анонимное собеседование с экспертной комиссией. Разговор о вашей профессии и о том, почему вы выбрали именно эту программу.', kk: 'Екінші тур — сараптама комиссиясымен анонимді әңгімелесу. Кәсібіңіз және неге дәл осы бағдарламаны таңдағаныңыз туралы әңгіме.', en: 'Round two — an anonymous interview with the expert commission. A conversation about your profession and why you chose this programme.' },
+      you: { ru: 'Записаться на слот в личном кабинете и разобраться в своей программе, вузе и стране.', kk: 'Жеке кабинетте слотқа жазылып, бағдарламаңызды, ЖОО мен елді түсіну.', en: 'Book a slot in your account and know your programme, university and country.' },
+      result: { ru: 'Рекомендация комиссии, которая уйдёт вместе с вашим баллом на третий тур.', kk: 'Балыңызбен бірге үшінші турға баратын комиссия ұсынымы.', en: 'The commission\'s recommendation, which goes to round three together with your score.' },
+    },
     checklist: [
       {
         id: 'slot',
@@ -218,6 +228,11 @@ export const CONTEST_STAGES: Stage[] = [
       ru: 'Финальная точка конкурса. Рабочий орган передаёт ваши материалы: результаты тестирования, рекомендации экспертной комиссии и место в ранжировании. Республиканская комиссия присуждает стипендию или отказывает, а результат публикуют на официальном сайте.',
       kk: 'Конкурстың соңғы нүктесі. Жұмыс органы материалдарыңызды береді: тестілеу нәтижесі, сараптама комиссиясының ұсынымы және рейтингтегі орныңыз. Республикалық комиссия стипендия тағайындайды не бас тартады, нәтиже ресми сайтта жарияланады.',
       en: 'The last step of the competition. The working body hands over your file: test results, the expert commission\'s recommendation and your place in the ranking. The Republican Commission either awards the scholarship or refuses, and the outcome is published on the official site.',
+    },
+    inShort: {
+      what: { ru: 'Третий тур. Республиканская комиссия смотрит итоги двух туров и ранжирование и решает, кому дать стипендию.', kk: 'Үшінші тур. Республикалық комиссия екі тур қорытындысы мен рейтингті қарап, стипендияны кімге беруді шешеді.', en: 'Round three. The Republican Commission looks at both rounds and the ranking and decides who gets the scholarship.' },
+      you: { ru: 'Ничего — вы ждёте. Решение публикуют на официальном сайте, персонального письма не будет.', kk: 'Ештеңе — күтесіз. Шешім ресми сайтта жарияланады, жеке хат келмейді.', en: 'Nothing — you wait. The decision is published on the official site; there will be no personal letter.' },
+      result: { ru: 'Ваша фамилия в списке победителей — или отказ, и тогда следующая попытка только в новом конкурсном году.', kk: 'Жеңімпаздар тізіміндегі тегіңіз — не бас тарту, ондайда келесі мүмкіндік жаңа конкурс жылында ғана.', en: 'Your name on the winners list — or a refusal, in which case the next attempt is a new competition year.' },
     },
     checklist: [
       {

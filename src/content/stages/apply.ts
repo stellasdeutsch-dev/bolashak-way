@@ -17,6 +17,11 @@ export const APPLY_STAGES: Stage[] = [
       kk: 'Ең ұзақ кезең. Нотариалды аударма, анықтама, үзінді көшірме және мотивациялық хат апталар алады. Қабылдау мерзімі жарияланған бойда бастаңыз, одан ерте болса — жақсы.',
       en: 'The longest stage. Notarised translations, certificates, statements and the motivation letter take weeks. Start as soon as the dates are announced — earlier if you can.',
     },
+    inShort: {
+      what: { ru: 'Сбор бумаг. Самый долгий и муторный этап: переводы, справки, выписки и мотивационное письмо.', kk: 'Қағаз жинау. Ең ұзақ әрі әуре кезең: аудармалар, анықтамалар, үзінді көшірмелер және мотивациялық хат.', en: 'Paperwork. The longest and most tedious stage: translations, certificates, statements and the motivation letter.' },
+      you: { ru: 'Собрать пакет именно своей категории. Список ниже уже подстроен под ваши ответы.', kk: 'Дәл өз санатыңыздың топтамасын жинау. Төмендегі тізім жауаптарыңызға жиналған.', en: 'Assemble the package for your category. The list below is already built from your answers.' },
+      result: { ru: 'Готовый комплект документов, с которым можно идти на подачу.', kk: 'Тапсыруға баруға болатын дайын құжаттар жинағы.', en: 'A complete set of documents, ready to submit.' },
+    },
     checklist: [
       {
         id: 'anketa',
@@ -195,6 +200,11 @@ export const APPLY_STAGES: Stage[] = [
       ru: 'Сроки приёма объявляют каждый год и публикуют не позднее чем за 10 календарных дней до начала. Пропустили окно — ждать до следующего конкурсного года.',
       kk: 'Қабылдау мерзімін жыл сайын жариялайды, басталуға 10 күнтізбелік күн қалғанда хабарлайды. Терезені өткізіп алсаңыз — келесі конкурс жылын күтесіз.',
       en: 'The intake dates are announced each year, at least 10 calendar days before they open. Miss the window and you wait for the next competition year.',
+    },
+    inShort: {
+      what: { ru: 'Собственно подача. Через портал egov.kz, а для научной стажировки — лично в Центр международных программ в Астане.', kk: 'Тапсырудың өзі. egov.kz порталы арқылы, ал ғылыми тағылымдамаға — Астанадағы Халықаралық бағдарламалар орталығына өзі.', en: 'The submission itself. Through egov.kz — or, for a scientific internship, in person at the Center for International Programs in Astana.' },
+      you: { ru: 'Узнать сроки приёма и подать пакет внутри этого окна. Оно открывается раз в год.', kk: 'Қабылдау мерзімін біліп, топтаманы сол терезе ішінде тапсыру. Ол жылына бір рет ашылады.', en: 'Find the intake dates and submit inside that window. It opens once a year.' },
+      result: { ru: 'Уведомление в личном кабинете: документы приняли и допустили к конкурсу — или отказали с указанием причины.', kk: 'Жеке кабинеттегі хабарлама: құжат қабылданып, конкурсқа жіберілді — не себебі көрсетіліп, бас тартылды.', en: 'A notice in your account: your documents were accepted and admitted — or refused with the reason given.' },
     },
     checklist: [
       {

@@ -17,6 +17,11 @@ export const ABROAD_STAGES: Stage[] = [
       kk: 'Міндеттемелер ұшумен бітпейді. Шарт бойынша үлгерімді ұстау, транскриптті уақытында жіберу және куратормен байланыста болу керек. Шартты бұзсаңыз — қаржыландыруды тоқтатуы мүмкін.',
       en: 'Your obligations do not end when the plane takes off. The contract asks you to keep your grades up, send transcripts on time and stay in touch with your curator. Break the terms and funding can be suspended.',
     },
+    inShort: {
+      what: { ru: 'Сама учёба или стажировка за границей. Обязательства при этом не заканчиваются: договор требует отчётности.', kk: 'Шетелдегі оқудың не тағылымдаманың өзі. Міндеттеме бітпейді: шарт есептілікті талап етеді.', en: 'The studies or internship abroad themselves. Your obligations do not stop: the contract requires reporting.' },
+      you: { ru: 'Встать на учёт, оформить страховку, сдать куратору учебный план и присылать транскрипты после каждого семестра.', kk: 'Есепке тұру, сақтандыру рәсімдеу, кураторға оқу жоспарын тапсыру және әр семестрден кейін транскрипт жіберу.', en: 'Register locally, arrange insurance, give your curator the study plan and send transcripts after each semester.' },
+      result: { ru: 'Завершённая программа и диплом — без нарушений договора и приостановки финансирования.', kk: 'Аяқталған бағдарлама және диплом — шартты бұзбай, қаржыландыру тоқтамай.', en: 'A completed programme and a diploma — with no contract breaches and no funding suspension.' },
+    },
     checklist: [
       {
         id: 'police',
@@ -128,6 +133,11 @@ export const ABROAD_STAGES: Stage[] = [
       kk: 'Осы жерден өтеу есептеле бастайды, ал бәрі құжатқа байланысты. Өтінішсіз, диплом мен транскрипт аудармасынсыз және кіру белгісінсіз ісіңізді Түлектермен жұмыс басқармасына бермейді.',
       en: 'This is where the work-back clock starts, and it all rests on paperwork. Without the application, the translated diploma and transcript and the entry stamp, your file is not handed to the alumni department.',
     },
+    inShort: {
+      what: { ru: 'Возвращение домой и закрытие учебной части. С этого момента начинается отсчёт отработки.', kk: 'Үйге оралу және оқу бөлігін жабу. Осы сәттен өтеу есептеле бастайды.', en: 'Coming home and closing out the study part. From this point the work-back clock starts.' },
+      you: { ru: 'Вернуться в течение 30 дней, подать заявление о завершении и сдать нотариальные переводы диплома и транскрипта.', kk: '30 күн ішінде оралу, аяқтау туралы өтініш беру және диплом мен транскрипттің нотариалды аудармасын тапсыру.', en: 'Return within 30 days, file the completion application and hand in notarised translations of the diploma and transcript.' },
+      result: { ru: 'Ваше дело переходит в Управление по работе с выпускниками — начинается отработка.', kk: 'Ісіңіз Түлектермен жұмыс басқармасына өтеді — өтеу басталады.', en: 'Your file moves to the alumni department — the work-back begins.' },
+    },
     checklist: [
       {
         id: 'return30',
@@ -234,6 +244,11 @@ export const ABROAD_STAGES: Stage[] = [
       ru: 'Ради отработки стипендия и даётся. Сколько лет работать — зависит от категории и региона, а подтверждать это нужно документами каждые полгода. Пока обязательства не закрыты, залог остаётся под обременением.',
       kk: 'Стипендия өтеу үшін беріледі. Қанша жыл жұмыс істеу — санат пен өңірге байланысты, ал мұны әр жарты жылда құжатпен растау керек. Міндеттеме жабылмайынша, кепіл ауыртпалықта қалады.',
       en: 'The work-back is why the scholarship exists. How many years you owe depends on your category and region, and you confirm it with documents every six months. Until it is closed, the pledged property stays encumbered.',
+    },
+    inShort: {
+      what: { ru: 'То, ради чего давалась стипендия: несколько лет работы в Казахстане по полученной специальности.', kk: 'Стипендия не үшін берілді, соның өзі: Қазақстанда алған мамандық бойынша бірнеше жыл жұмыс.', en: 'The reason the scholarship existed: several years working in Kazakhstan in the field you studied.' },
+      you: { ru: 'Работать по специальности и каждые полгода подтверждать это справками.', kk: 'Мамандық бойынша жұмыс істеп, әр жарты жылда оны анықтамамен растау.', en: 'Work in your field and confirm it with certificates every six months.' },
+      result: { ru: 'Исполненные обязательства и снятое обременение с залоговой недвижимости.', kk: 'Орындалған міндеттемелер және кепілдегі мүліктен алынған ауыртпалық.', en: 'Obligations discharged and the encumbrance lifted from the pledged property.' },
     },
     checklist: [
       {

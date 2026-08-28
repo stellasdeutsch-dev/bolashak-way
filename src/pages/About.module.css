@@ -1,0 +1,164 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.hero {
+  padding: 30px 28px;
+}
+.heroTitle {
+  margin-top: 14px;
+  font-size: clamp(26px, 5.4vw, 38px);
+}
+.heroText {
+  margin-top: 14px;
+  font-size: 15.5px;
+  line-height: 1.65;
+  color: var(--on-navy-muted);
+  max-width: 66ch;
+}
+
+.block {
+  padding: 24px 26px;
+}
+.blockHead {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  margin-bottom: 12px;
+}
+.num {
+  font-size: 26px;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  color: var(--text-3);
+  opacity: 0.45;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+  flex: none;
+}
+.blockTitle {
+  font-size: 19px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+.body {
+  font-size: 15.5px;
+  line-height: 1.68;
+  color: var(--text-2);
+  max-width: 68ch;
+}
+
+.points {
+  list-style: none;
+  margin: 16px 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.point {
+  position: relative;
+  padding: 12px 16px 12px 34px;
+  border-radius: var(--r-md);
+  background: var(--surface-2);
+  font-size: 14.5px;
+  line-height: 1.55;
+  color: var(--text-2);
+}
+/* A small accent dot instead of a bullet glyph — steadier across the three languages. */
+.point::before {
+  content: '';
+  position: absolute;
+  left: 15px;
+  top: 20px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+
+.sources {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px solid var(--line);
+}
+
+.chapters {
+  list-style: none;
+  margin: 16px 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.chapter {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+}
+.chapterNum {
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--accent);
+  font-variant-numeric: tabular-nums;
+  flex: none;
+  padding-top: 1px;
+}
+.chapterTitle {
+  display: block;
+  font-size: 15px;
+  font-weight: 650;
+  color: var(--text);
+}
+.chapterSub {
+  display: block;
+  margin-top: 2px;
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: var(--text-3);
+}
+
+.cta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+  padding: 26px 28px;
+}
+.ctaTitle {
+  font-size: 19px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+.ctaText {
+  margin-top: 6px;
+  font-size: 14.5px;
+  line-height: 1.55;
+  color: var(--on-navy-muted);
+  max-width: 52ch;
+}
+
+.footnote {
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--text-3);
+  padding: 0 6px 8px;
+}
+
+@media (max-width: 520px) {
+  .hero {
+    padding: 24px 20px;
+  }
+  .block {
+    padding: 20px 18px;
+  }
+  .cta {
+    padding: 22px 20px;
+  }
+}

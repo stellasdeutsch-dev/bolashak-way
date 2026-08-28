@@ -416,6 +416,28 @@ export function StagePage() {
         </Callout>
       )}
 
+      {stage.inShort && (
+        <Card className={s.shortCard}>
+          <div className={s.section}>
+            <span className={s.sectionTitle}>{t('stage.inShort')}</span>
+            <dl className={s.shortList}>
+              <div className={s.shortRow}>
+                <dt className={s.shortLabel}>{t('stage.inShortWhat')}</dt>
+                <dd className={s.shortValue}>{c(stage.inShort.what)}</dd>
+              </div>
+              <div className={s.shortRow}>
+                <dt className={s.shortLabel}>{t('stage.inShortYou')}</dt>
+                <dd className={s.shortValue}>{c(stage.inShort.you)}</dd>
+              </div>
+              <div className={s.shortRow}>
+                <dt className={s.shortLabel}>{t('stage.inShortResult')}</dt>
+                <dd className={s.shortValue}>{c(stage.inShort.result)}</dd>
+              </div>
+            </dl>
+          </div>
+        </Card>
+      )}
+
       <Card className={s.whyCard}>
         <div className={s.section}>
           <span className={s.sectionTitle}>{t('stage.why')}</span>

@@ -6,6 +6,7 @@ import { Roadmap } from '@/pages/Roadmap'
 import { StagePage } from '@/pages/Stage'
 import { Documents } from '@/pages/Documents'
 import { Settings } from '@/pages/Settings'
+import { About } from '@/pages/About'
 import { NotFound } from '@/pages/NotFound'
 import { useAppStore } from '@/store/useAppStore'
 
@@ -75,6 +76,7 @@ export default function App() {
               </Guarded>
             }
           />
+          <Route path="/about" element={<About />} />
           <Route path="/settings" element={<Settings />} />
           <Route path="*" element={<NotFound />} />
         </Routes>

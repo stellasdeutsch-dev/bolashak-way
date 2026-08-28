@@ -19,6 +19,11 @@ export const AWARDED_STAGES: Stage[] = [
       kk: 'Бүкіл рәсімдегі ең қатаң мерзім. Шартқа уақытында қол қоймасаңыз — жұмыс органы стипендиядан айыру рәсімін бастайды. Кепіл не кепілдік міндеттеме орындалмаған жағдайға керек: мемлекет жұмсалғанын осылай қайтарады.',
       en: 'The tightest deadline in the whole process. Miss it and the working body starts withdrawing the scholarship. The property pledge or guarantee exists in case obligations are not met: that is how the state gets its money back.',
     },
+    inShort: {
+      what: { ru: 'Юридическое оформление победы. Договор об учёбе плюс обеспечение обязательств — залог недвижимости или гарантия поручителя.', kk: 'Жеңістің заңды рәсімделуі. Оқу туралы шарт және міндеттемені қамтамасыз ету — жылжымайтын мүлік кепілі не кепілгердің кепілдігі.', en: 'Making the win official. The study contract plus security — a property pledge or a guarantor\'s guarantee.' },
+      you: { ru: 'Уложиться в 90 календарных дней (для научной стажировки — 60) и собрать документы гаранта или собственника залога.', kk: '90 күнтізбелік күнге (ғылыми тағылымдамаға — 60) сыйып, кепілгер не кепіл иесінің құжаттарын жинау.', en: 'Fit into 90 calendar days (60 for a scientific internship) and gather the guarantor\'s or property owner\'s documents.' },
+      result: { ru: 'Подписанный договор — основание, по которому государство начинает платить за вашу учёбу.', kk: 'Қол қойылған шарт — мемлекет оқуыңызды төлей бастайтын негіз.', en: 'A signed contract — the basis on which the state starts paying for your studies.' },
+    },
     checklist: [
       {
         id: 'legal_dept',
@@ -138,6 +143,11 @@ export const AWARDED_STAGES: Stage[] = [
       kk: 'Магистратураның жеңілдікті санаттары тілді тағайындалғаннан кейін толықтырады. Курс қажет екенін Республикалық комиссия шешімінде жазады, ұзақтығын бекітілген кестеден алады.',
       en: 'Preferential master\'s categories top up their language after the award. The Republican Commission states in its decision that courses are needed, and their length comes from the approved table.',
     },
+    inShort: {
+      what: { ru: 'Языковая подготовка за счёт стипендии. Её назначают льготным категориям магистратуры решением Республиканской комиссии.', kk: 'Стипендия есебінен тілдік дайындық. Оны магистратураның жеңілдікті санаттарына Республикалық комиссия шешімімен тағайындайды.', en: 'Language training paid by the scholarship. It is assigned to preferential master\'s categories by the Republican Commission\'s decision.' },
+      you: { ru: 'Пройти курсы в Казахстане, сдать промежуточный тест, затем курсы за рубежом и итоговый тест.', kk: 'Қазақстанда курстан өтіп, аралық тест тапсыру, содан кейін шетелдегі курс және қорытынды тест.', en: 'Take the courses in Kazakhstan, pass the interim test, then the courses abroad and the final test.' },
+      result: { ru: 'Уровень языка, с которым вас примет вуз. Не сдали и пересдачу — теряете право на дальнейшую учёбу.', kk: 'ЖОО қабылдайтын тіл деңгейі. Қайта тапсыруды да тапсырмасаңыз — одан әрі оқу құқығынан айырыласыз.', en: 'A language level a university will accept. Fail the retake too and you lose the right to continue.' },
+    },
     checklist: [
       {
         id: 'kz_courses',
@@ -214,6 +224,11 @@ export const AWARDED_STAGES: Stage[] = [
       kk: 'Жеңілдікті санаттарда бұл қадам конкурс пен тілдік дайындықтан кейін жүреді. Стипендия 5-тен аспайтын өтінімді рәсімдеп, беруді төлейді.',
       en: 'For preferential categories this step comes after the competition and the language training. The scholarship pays for preparing and filing up to 5 applications.',
     },
+    inShort: {
+      what: { ru: 'Поступление в вуз, но уже после присуждения стипендии и языковых курсов. Так устроен путь у льготных категорий.', kk: 'ЖОО-ға түсу, бірақ стипендия тағайындалып, тіл курстарынан кейін. Жеңілдікті санаттардың жолы осылай құрылған.', en: 'Getting into a university — but after the award and the language courses. That is how the path works for preferential categories.' },
+      you: { ru: 'Подать заявки в вузы из Списка (оплачивается до 5) и получить безусловное зачисление.', kk: 'Тізімдегі ЖОО-ларға өтінім беру (5-еуіне дейін төленеді) және сөзсіз қабылдау алу.', en: 'Apply to universities from the list (up to 5 are covered) and get unconditional admission.' },
+      result: { ru: 'Приглашение, которое вы передаёте куратору — дальше начинается подготовка к выезду.', kk: 'Кураторға беретін шақыру — содан кейін шығуға дайындық басталады.', en: 'An offer you hand to your curator — after that, getting ready to leave begins.' },
+    },
     checklist: [
       {
         id: 'apply_after',
@@ -270,6 +285,11 @@ export const AWARDED_STAGES: Stage[] = [
       ru: 'Порядок здесь важен. Сначала письмо о финансовой гарантии от Центра — его ждут и посольство, и вуз. Потом визовые документы от вуза. Потом виза, её вы оформляете сами. И только в конце — заявление на авиабилет.',
       kk: 'Мұнда рет маңызды. Алдымен Орталықтан қаржылық кепілдік хаты — оны елшілік те, ЖОО да күтеді. Содан кейін ЖОО-дан виза құжаттары. Сосын виза, оны өзіңіз рәсімдейсіз. Ең соңында — авиабилетке өтініш.',
       en: 'Order matters here. First the financial guarantee letter from the Center — both the embassy and the university want it. Then the visa papers from the university. Then the visa, which you arrange yourself. And only at the end, the ticket request.',
+    },
+    inShort: {
+      what: { ru: 'Организационная подготовка к отъезду. Здесь важен порядок действий, иначе застрянете на визе или билете.', kk: 'Кетуге ұйымдастырушылық дайындық. Мұнда әрекеттер реті маңызды, әйтпесе визада не билетте кідіресіз.', en: 'Getting organised for departure. Order matters here, or you will get stuck on the visa or the ticket.' },
+      you: { ru: 'Взять письмо о финансовой гарантии, получить визовые документы от вуза, оформить визу и банковскую карту.', kk: 'Қаржылық кепілдік хатын алу, ЖОО-дан виза құжаттарын алу, виза мен банк картасын рәсімдеу.', en: 'Get the financial guarantee letter, the visa papers from the university, then the visa and a bank card.' },
+      result: { ru: 'Виза, карта и авиабилет — можно лететь.', kk: 'Виза, карта және авиабилет — ұшуға болады.', en: 'A visa, a card and a ticket — you can fly.' },
     },
     checklist: [
       {

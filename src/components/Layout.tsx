@@ -1,6 +1,9 @@
 import { useEffect, useState, type ReactNode }  from 'react'
 import { NavLink, Link, useLocation } from 'react-router'
-import { IconMap as MapIcon, IconFolderCheck as FolderCheck, IconSettings as SettingsIcon, IconSearch as Search } from '@/components/icons'
+import {
+  IconMap as MapIcon, IconFolderCheck as FolderCheck, IconSettings as SettingsIcon,
+  IconSearch as Search, IconBookOpen as BookOpen,
+} from '@/components/icons'
 import { SearchOverlay } from './SearchOverlay'
 import { LOCALES, useI18n } from '@/i18n'
 import { useAppStore } from '@/store/useAppStore'
@@ -9,6 +12,7 @@ import s from './Layout.module.css'
 const NAV = [
   { to: '/', key: 'nav.roadmap', Icon: MapIcon },
   { to: '/documents', key: 'nav.documents', Icon: FolderCheck },
+  { to: '/about', key: 'nav.about', Icon: BookOpen },
   { to: '/settings', key: 'nav.settings', Icon: SettingsIcon },
 ]
 

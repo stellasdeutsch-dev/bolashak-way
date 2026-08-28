@@ -3,8 +3,34 @@ import type { Locale } from '@/content/types'
 /** UI chrome strings. Content (stages, documents, FAQ) is localised separately in src/content. */
 export const UI = {
   app: { name: 'Bolashak Way' },
+  about: {
+    kicker: { ru: 'Если вы здесь впервые', kk: 'Мұнда алғаш келсеңіз', en: 'If this is your first time here' },
+    heroLead: { ru: 'Простыми словами', kk: 'Қарапайым тілмен', en: 'In plain words' },
+    heroTitle: { ru: 'Что такое Болашак и как подать', kk: 'Болашақ деген не және қалай тапсыру керек', en: 'What Bolashak is and how to apply' },
+    chaptersTitle: { ru: 'Пять глав пути', kk: 'Жолдың бес тарауы', en: 'The five chapters of the path' },
+    chaptersBody: {
+      ru: 'Роадмап в приложении разбит на пять глав. Внутри каждой — этапы с чеклистами, документами и сроками.',
+      kk: 'Қолданбадағы жол картасы бес тарауға бөлінген. Әрқайсысының ішінде — тексеру тізімі, құжаттары мен мерзімдері бар кезеңдер.',
+      en: 'The roadmap in the app is split into five chapters. Inside each are stages with checklists, documents and deadlines.',
+    },
+    ctaTitle: { ru: 'Собрать путь под себя', kk: 'Жолды өзіңізге жинау', en: 'Build the path for yourself' },
+    ctaText: {
+      ru: 'Четыре вопроса — и останутся только те этапы и документы, которые касаются вашей категории.',
+      kk: 'Төрт сұрақ — сонда тек сіздің санатыңызға қатысты кезеңдер мен құжаттар қалады.',
+      en: 'Four questions and only the stages and documents that apply to your category remain.',
+    },
+    ctaButton: { ru: 'Начать', kk: 'Бастау', en: 'Start' },
+    ctaBackTitle: { ru: 'Вернуться к своему пути', kk: 'Өз жолыңызға оралу', en: 'Back to your path' },
+    ctaBackText: {
+      ru: 'Роадмап уже собран под вашу категорию — продолжайте с того места, где остановились.',
+      kk: 'Жол картасы санатыңызға жиналған — тоқтаған жеріңізден жалғастырыңыз.',
+      en: 'Your roadmap is already built for your category — pick up where you left off.',
+    },
+    ctaBack: { ru: 'К роадмапу', kk: 'Жол картасына', en: 'To the roadmap' },
+  },
   nav: {
     roadmap: { ru: 'Роадмап', kk: 'Жол картасы', en: 'Roadmap' },
+    about: { ru: 'О программе', kk: 'Бағдарлама туралы', en: 'How it works' },
     documents: { ru: 'Документы', kk: 'Құжаттар', en: 'Documents' },
     settings: { ru: 'Настройки', kk: 'Баптаулар', en: 'Settings' },
   },
@@ -98,6 +124,10 @@ export const UI = {
     forCategory: { ru: 'Роадмап для категории', kk: 'Санатқа арналған жол картасы', en: 'Roadmap for category' },
   },
   stage: {
+    inShort: { ru: 'Если коротко', kk: 'Қысқаша айтқанда', en: 'In short' },
+    inShortWhat: { ru: 'Что это за этап', kk: 'Бұл қандай кезең', en: 'What this stage is' },
+    inShortYou: { ru: 'Что нужно от вас', kk: 'Сізден не керек', en: 'What it wants from you' },
+    inShortResult: { ru: 'Чем заканчивается', kk: 'Немен аяқталады', en: 'What you end up with' },
     why: { ru: 'Зачем это нужно', kk: 'Бұл не үшін қажет', en: 'Why it matters' },
     checklist: { ru: 'Что сделать', kk: 'Не істеу керек', en: 'What to do' },
     documents: { ru: 'Документы этого этапа', kk: 'Осы кезеңнің құжаттары', en: 'Documents for this stage' },
