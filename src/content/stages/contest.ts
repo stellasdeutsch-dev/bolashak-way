@@ -13,9 +13,9 @@ export const CONTEST_STAGES: Stage[] = [
       en: 'Numerical and verbal tests plus a personality questionnaire. A qualifying round with a cut-off score.',
     },
     why: {
-      ru: 'Первый тур отсеивает: не набравший установленный пороговый балл ко второму туру не допускается, а повторное прохождение тестирования не предусмотрено. Половина проблем на этом этапе — техническая, поэтому подготовьте компьютер и связь заранее.',
-      kk: 'Бірінші тур іріктейді: шекті балды жинамаған екінші турға жіберілмейді, қайта тапсыру көзделмеген. Мәселелердің жартысы — техникалық.',
-      en: 'Round I is a filter: anyone below the cut-off is not admitted to round II, and retaking is not provided for. Half the trouble here is technical, so prepare your computer and connection in advance.',
+      ru: 'Первый тур отсеивает. Не набрали пороговый балл — во второй тур не попадаете, пересдачи не будет. Половина проблем здесь техническая, поэтому компьютер и интернет проверьте заранее.',
+      kk: 'Бірінші тур іріктейді. Шекті балды жинамасаңыз — екінші турға өтпейсіз, қайта тапсыру болмайды. Мұндағы қиындықтың жартысы техникалық, сондықтан компьютер мен интернетті алдын ала тексеріңіз.',
+      en: 'Round one filters people out. Miss the cut-off and you do not reach round two, and there is no retake. Half the trouble here is technical, so check your computer and connection in advance.',
     },
     checklist: [
       {
@@ -30,27 +30,27 @@ export const CONTEST_STAGES: Stage[] = [
       {
         id: 'samples',
         text: {
-          ru: 'Прорешали образцы: числовой тест, вербальный тест и личностный опросник.',
+          ru: 'Прорешали образцы: числовой тест, вербальный и личностный опросник.',
           kk: 'Үлгілерді шығардыңыз: сандық тест, вербалды тест және тұлғалық сауалнама.',
-          en: 'You worked through the samples: numerical test, verbal test and personality questionnaire.',
+          en: 'You worked through the samples: the numerical test, the verbal one and the personality questionnaire.',
         },
         link: 'test_numeric',
       },
       {
         id: 'tech',
         text: {
-          ru: 'Подготовили технику: только компьютер, Chrome последней версии, рабочая веб-камера и микрофон, устойчивый интернет без VPN, один монитор, закрыты программы записи экрана.',
-          kk: 'Техниканы дайындадыңыз: тек компьютер, соңғы Chrome, жұмыс істейтін камера мен микрофон, VPN-сіз тұрақты интернет, бір монитор.',
-          en: 'Your setup is ready: desktop only, latest Chrome, working webcam and microphone, stable connection without VPN, a single monitor, screen recorders closed.',
+          ru: 'Подготовили технику: только компьютер, свежий Chrome, рабочие камера и микрофон, стабильный интернет без VPN, один монитор, программы записи экрана закрыты.',
+          kk: 'Техниканы дайындадыңыз: тек компьютер, жаңа Chrome, жұмыс істейтін камера мен микрофон, VPN-сіз тұрақты интернет, бір монитор, экран жазатын бағдарламалар жабық.',
+          en: 'Your setup is ready: a computer only, a fresh Chrome, a working camera and microphone, a stable connection without VPN, one monitor, screen recorders closed.',
         },
         link: 'ns_contest',
       },
       {
         id: 'rules',
         text: {
-          ru: 'Прочитали правила: можно обычный калькулятор, ручку и бумагу; калькулятор на смартфоне и других устройствах связи запрещён.',
-          kk: 'Ережелерді оқыдыңыз: қарапайым калькулятор, қалам мен қағаз рұқсат; смартфондағы калькулятор тыйым салынған.',
-          en: 'You read the rules: a plain calculator, pen and paper are allowed; calculators on phones and other communication devices are not.',
+          ru: 'Прочитали правила: обычный калькулятор, ручка и бумага можно; калькулятор на телефоне и других устройствах связи нельзя.',
+          kk: 'Ережелерді оқыдыңыз: қарапайым калькулятор, қалам мен қағаз болады; телефондағы және басқа байланыс құралдарындағы калькулятор болмайды.',
+          en: 'You read the rules: a plain calculator, pen and paper are fine; a calculator on a phone or any other communication device is not.',
         },
         link: 'pravila',
       },
@@ -65,9 +65,9 @@ export const CONTEST_STAGES: Stage[] = [
       {
         id: 'result',
         text: {
-          ru: 'Увидели результаты в личном кабинете (итоговый файл открывается по кнопке в кабинете).',
-          kk: 'Нәтижелерді жеке кабинеттен көрдіңіз (қорытынды файл кабинеттегі батырмамен ашылады).',
-          en: 'You saw the results in your personal account (the summary file opens via the button there).',
+          ru: 'Увидели результаты в личном кабинете — итоговый файл открывается там по кнопке.',
+          kk: 'Нәтижені жеке кабинеттен көрдіңіз — қорытынды файл сонда батырмамен ашылады.',
+          en: 'You saw the results in your account — the summary file opens there with a button.',
         },
         link: 'cabinet',
       },
@@ -75,33 +75,33 @@ export const CONTEST_STAGES: Stage[] = [
     deadlines: [
       {
         text: {
-          ru: 'О месте и времени первого и второго туров претендента извещают на портале, а также по электронной и телефонной связи не позднее чем за 10 календарных дней (для научных стажировок — за 5 календарных дней).',
-          kk: 'Бірінші және екінші тур орны мен уақыты туралы порталда, электрондық және телефон байланысы арқылы 10 күнтізбелік күн бұрын хабарланады (ғылыми тағылымдамада — 5 күн).',
-          en: 'Applicants are notified of the time and place of rounds I and II on the portal, by email and phone at least 10 calendar days in advance (5 days for scientific internships).',
+          ru: 'О месте и времени первого и второго туров сообщают на портале, а также по почте и телефону — не позднее чем за 10 календарных дней. Для научных стажировок — за 5 дней.',
+          kk: 'Бірінші және екінші тур орны мен уақытын порталда, сондай-ақ пошта мен телефон арқылы хабарлайды — 10 күнтізбелік күннен кешіктірмей. Ғылыми тағылымдамада — 5 күн бұрын.',
+          en: 'You are told the time and place of rounds one and two on the portal, and by email and phone, at least 10 calendar days ahead. For scientific internships it is 5 days.',
         },
         source: 'pp573',
       },
     ],
     mistakes: [
       {
-        ru: 'Закрыть окно или вкладку сайта во время теста — результаты этапа автоматически аннулируются. Начатый тест нужно пройти до конца.',
-        kk: 'Тест кезінде терезені не қойындыны жабу — кезең нәтижелері автоматты түрде жойылады.',
-        en: 'Closing the browser window or tab during the test automatically voids the round\'s results. A started test must be finished.',
+        ru: 'Закрыть окно или вкладку во время теста. Результаты тура аннулируются автоматически, а начатый тест нужно довести до конца.',
+        kk: 'Тест кезінде терезені не қойындыны жабу. Тур нәтижесі автоматты түрде жойылады, ал басталған тестті соңына дейін өту керек.',
+        en: 'Closing the window or tab during the test. The round\'s results are voided automatically, and a test you started has to be finished.',
       },
       {
-        ru: 'Сдавать через общий роутер провайдера: ошибка «сервер не отвечает» чаще всего решается переходом на мобильный интернет LTE или другую сеть.',
-        kk: 'Провайдердің ортақ роутері арқылы тапсыру: «сервер жауап бермейді» қатесі көбіне LTE-ге ауысқанда шешіледі.',
-        en: 'Testing through a shared provider router: the "server not responding" error is usually fixed by switching to mobile LTE or another network.',
+        ru: 'Сдавать через общий роутер провайдера. Ошибка «сервер не отвечает» чаще всего лечится переходом на мобильный интернет LTE или другую сеть.',
+        kk: 'Провайдердің ортақ роутері арқылы тапсыру. «Сервер жауап бермейді» қатесі көбіне мобильді LTE-ге не басқа желіге ауысқанда шешіледі.',
+        en: 'Sitting the test through a shared provider router. The "server not responding" error usually goes away on mobile LTE or another network.',
       },
       {
-        ru: 'Писать о техническом сбое через несколько дней: обращение на info@bolashak.gov.kz нужно отправить в тот же день, с ФИО, типом теста, точным временем сбоя и скриншотом с видимым временем.',
-        kk: 'Техникалық ақау туралы бірнеше күннен кейін жазу: info@bolashak.gov.kz-ке сол күні жазу керек.',
-        en: 'Reporting a technical failure days later: write to info@bolashak.gov.kz the same day with your name, the test type, the exact time and a screenshot showing the clock.',
+        ru: 'Написать о сбое через несколько дней. Обращение на info@bolashak.gov.kz отправляют в тот же день: ФИО, тип теста, точное время сбоя и скриншот, где видно время.',
+        kk: 'Ақау туралы бірнеше күннен кейін жазу. info@bolashak.gov.kz-ке сол күні жазу керек: аты-жөні, тест түрі, ақаудың нақты уақыты және уақыты көрінетін скриншот.',
+        en: 'Reporting a failure days later. Write to info@bolashak.gov.kz the same day: your name, the test type, the exact time and a screenshot with the clock visible.',
       },
       {
-        ru: 'Паниковать из-за кнопки «Завершить тест»: ответы сохраняются при нажатии «Далее» на каждом вопросе, а не в момент завершения.',
-        kk: '«Тестті аяқтау» батырмасынан қорқу: жауаптар әр сұрақта «Келесі» басылғанда сақталады.',
-        en: 'Panicking about the "Finish test" button: answers are saved when you press "Next" on each question, not at the end.',
+        ru: 'Паниковать из-за кнопки «Завершить тест». Ответы сохраняются каждый раз, когда вы жмёте «Далее», а не в конце.',
+        kk: '«Тестті аяқтау» батырмасынан қорқу. Жауаптар «Келесі» батырмасын басқан сайын сақталады, соңында емес.',
+        en: 'Panicking about the "Finish test" button. Answers are saved every time you press "Next", not at the end.',
       },
     ],
     sources: ['pravila', 'ns_contest', 'pp573', 'test_numeric', 'test_verbal', 'test_personality', 'cabinet'],
@@ -120,26 +120,26 @@ export const CONTEST_STAGES: Stage[] = [
       en: 'A conversation with the independent expert commission about your professional background and programme choice.',
     },
     why: {
-      ru: 'Комиссия проверяет уровень профессиональной подготовки, теоретических знаний и осознанность выбора вуза и страны — с учётом того, что вы написали в мотивационном письме. К этим вопросам можно и нужно готовиться.',
-      kk: 'Комиссия кәсіби дайындықты, теориялық білімді және ЖОО мен ел таңдаудың саналылығын тексереді — мотивациялық хатыңызды ескере отырып.',
-      en: 'The commission assesses your professional background, theoretical knowledge and how deliberate your choice of university and country is — in light of your motivation letter.',
+      ru: 'Комиссия смотрит, насколько вы разбираетесь в своей области, что знаете в теории и насколько осознанно выбрали вуз и страну. Опирается она в том числе на ваше мотивационное письмо. К этим вопросам можно подготовиться заранее.',
+      kk: 'Комиссия саланы қаншалық білетініңізді, теориядан не білетініңізді және ЖОО мен елді қаншалық саналы таңдағаныңызды қарайды. Мотивациялық хатыңызға да сүйенеді. Бұл сұрақтарға алдын ала дайындалуға болады.',
+      en: 'The commission looks at how well you know your field, what you know in theory and how deliberately you chose the university and country. Your motivation letter feeds into this. You can prepare for these questions.',
     },
     checklist: [
       {
         id: 'slot',
         text: {
-          ru: 'Записались на слот в личном кабинете после завершения тестирования.',
-          kk: 'Тестілеу аяқталған соң жеке кабинетте слотқа жазылдыңыз.',
-          en: 'You booked a slot in your personal account after finishing the testing.',
+          ru: 'Записались на слот в личном кабинете — они открываются после тестирования.',
+          kk: 'Жеке кабинетте слотқа жазылдыңыз — олар тестілеуден кейін ашылады.',
+          en: 'You booked a slot in your account — they open after the testing.',
         },
         link: 'cabinet',
       },
       {
         id: 'prepare_uni',
         text: {
-          ru: 'Изучили выбранную программу и вуз на официальном сайте: содержание, требования к кандидатам, научно-преподавательский состав.',
-          kk: 'Таңдалған бағдарлама мен ЖОО-ны ресми сайтта зерттедіңіз: мазмұны, талаптары, ғылыми-педагогикалық құрам.',
-          en: 'You studied the chosen programme and university on their official site: content, applicant requirements, faculty.',
+          ru: 'Изучили программу и вуз на официальном сайте: что внутри программы, чего ждут от кандидатов, кто преподаёт.',
+          kk: 'Бағдарлама мен ЖОО-ны ресми сайттан зерттедіңіз: бағдарламаның ішінде не бар, кандидаттардан не күтеді, кім сабақ береді.',
+          en: 'You studied the programme and the university on their official site: what is inside the programme, what they expect from applicants, who teaches.',
         },
         link: 'pravila',
       },
@@ -156,9 +156,9 @@ export const CONTEST_STAGES: Stage[] = [
       {
         id: 'research_blocks',
         text: {
-          ru: 'Подготовились к четырём блокам: научно-исследовательская подготовка, теоретические знания, осознанность выбора исследования и организации, логическое мышление.',
-          kk: 'Төрт блокқа дайындалдыңыз: ғылыми-зерттеу дайындығы, теориялық білім, таңдаудың саналылығы, логикалық ойлау.',
-          en: 'You prepared for the four blocks: research background, theoretical knowledge, the rationale of your research and host choice, logical reasoning.',
+          ru: 'Подготовились к четырём блокам вопросов: ваша исследовательская подготовка, теория, почему именно это исследование и эта организация, логика рассуждений.',
+          kk: 'Сұрақтың төрт блогына дайындалдыңыз: зерттеу дайындығыңыз, теория, неге дәл осы зерттеу мен осы ұйым, ойлау логикаңыз.',
+          en: 'You prepared for the four blocks of questions: your research background, theory, why this research and this host, and how you reason.',
         },
         appliesTo: { track: ['science_internship'] },
         link: 'ns_contest',
@@ -175,28 +175,28 @@ export const CONTEST_STAGES: Stage[] = [
     deadlines: [
       {
         text: {
-          ru: 'Ссылка на собеседование приходит на электронную почту за день до назначенной даты; слоты выгружаются волнами по направлениям, обычно на две недели вперёд.',
-          kk: 'Әңгімелесу сілтемесі белгіленген күннен бір күн бұрын поштаға келеді; слоттар бағыттар бойынша толқынмен шығады.',
-          en: 'The interview link arrives by email the day before; slots are released in waves by field, usually two weeks ahead.',
+          ru: 'Ссылка на собеседование приходит на почту за день до назначенной даты. Слоты выкладывают волнами по направлениям, обычно на две недели вперёд.',
+          kk: 'Әңгімелесу сілтемесі белгіленген күннен бір күн бұрын поштаға келеді. Слоттарды бағыттар бойынша толқынмен, әдетте екі апта бұрын шығарады.',
+          en: 'The interview link comes by email the day before. Slots are released in waves by field, usually two weeks ahead.',
         },
         source: 'chat-faq',
       },
     ],
     mistakes: [
       {
-        ru: 'Ждать, что слот назначат за вас: записаться нужно самостоятельно, а список дат обновляется волнами — обновляйте страницу через CTRL + SHIFT + R.',
-        kk: 'Слотты сізге тағайындайды деп күту: өзіңіз жазылуыңыз керек, күндер толқынмен жаңарады.',
-        en: 'Waiting for a slot to be assigned: you book it yourself, and dates appear in waves — refresh with CTRL + SHIFT + R.',
+        ru: 'Ждать, что слот назначат за вас. Записываться нужно самому, а даты появляются волнами — обновляйте страницу через CTRL + SHIFT + R.',
+        kk: 'Слотты сізге тағайындайды деп күту. Өзіңіз жазылуыңыз керек, ал күндер толқынмен шығады — бетті CTRL + SHIFT + R арқылы жаңартыңыз.',
+        en: 'Waiting for someone to assign you a slot. You book it yourself, and dates appear in waves — refresh the page with CTRL + SHIFT + R.',
       },
       {
-        ru: 'Готовиться только по своей специальности: у льготных категорий тоже спрашивают про программу обучения, вуз и страну.',
-        kk: 'Тек өз мамандығы бойынша дайындалу: жеңілдікті санаттардан да бағдарлама, ЖОО және ел туралы сұралады.',
-        en: 'Preparing only your subject: preferential categories are also asked about the programme, university and country.',
+        ru: 'Готовиться только по своей специальности. Про программу, вуз и страну спрашивают всех, включая льготные категории.',
+        kk: 'Тек өз мамандығы бойынша дайындалу. Бағдарлама, ЖОО және ел туралы бәрінен сұрайды, жеңілдікті санаттардан да.',
+        en: 'Preparing only your subject. Everyone is asked about the programme, the university and the country — preferential categories included.',
       },
       {
-        ru: 'Не сообщить заранее о невозможности прийти в назначенный день: писать нужно на info@bolashak.gov.kz с ФИО, датой слота и причиной.',
-        kk: 'Белгіленген күні келе алмайтынын алдын ала хабарламау: info@bolashak.gov.kz-ке жазу қажет.',
-        en: 'Not reporting in advance that you cannot attend: write to info@bolashak.gov.kz with your name, slot date and reason.',
+        ru: 'Молчать, если не получается прийти в назначенный день. Напишите на info@bolashak.gov.kz: ФИО, дата слота и причина.',
+        kk: 'Белгіленген күні келе алмасаңыз, үндемей қалу. info@bolashak.gov.kz-ке жазыңыз: аты-жөні, слот күні және себебі.',
+        en: 'Staying silent if you cannot make your slot. Write to info@bolashak.gov.kz: your name, the slot date and the reason.',
       },
     ],
     sources: ['pravila', 'ns_contest', 'pp573', 'cabinet', 'chat-faq'],
@@ -215,17 +215,17 @@ export const CONTEST_STAGES: Stage[] = [
       en: 'The commission reviews both rounds and the ranking and takes the final decision.',
     },
     why: {
-      ru: 'Это финальная точка конкурса: рабочий орган вносит материалы с результатами тестирования, рекомендациями экспертной комиссии и ранжированием, а Республиканская комиссия присуждает стипендию либо отказывает. Результат публикуется на официальном сайте администратора.',
-      kk: 'Бұл конкурстың соңғы нүктесі: жұмыс органы материалдарды енгізеді, Республикалық комиссия стипендия тағайындайды не бас тартады. Нәтиже әкімшінің ресми сайтында жарияланады.',
-      en: 'The final point of the competition: the working body submits the test results, expert recommendations and ranking; the Republican Commission awards or refuses the scholarship. The outcome is published on the administrator\'s website.',
+      ru: 'Финальная точка конкурса. Рабочий орган передаёт ваши материалы: результаты тестирования, рекомендации экспертной комиссии и место в ранжировании. Республиканская комиссия присуждает стипендию или отказывает, а результат публикуют на официальном сайте.',
+      kk: 'Конкурстың соңғы нүктесі. Жұмыс органы материалдарыңызды береді: тестілеу нәтижесі, сараптама комиссиясының ұсынымы және рейтингтегі орныңыз. Республикалық комиссия стипендия тағайындайды не бас тартады, нәтиже ресми сайтта жарияланады.',
+      en: 'The last step of the competition. The working body hands over your file: test results, the expert commission\'s recommendation and your place in the ranking. The Republican Commission either awards the scholarship or refuses, and the outcome is published on the official site.',
     },
     checklist: [
       {
         id: 'wait',
         text: {
-          ru: 'Дождались публикации результатов на официальном сайте администратора.',
-          kk: 'Әкімшінің ресми сайтында нәтижелердің жариялануын күттіңіз.',
-          en: 'You waited for the results to be published on the administrator\'s website.',
+          ru: 'Дождались публикации результатов на официальном сайте.',
+          kk: 'Ресми сайтта нәтиженің жариялануын күттіңіз.',
+          en: 'You waited for the results to appear on the official site.',
         },
         link: 'pravila',
       },
@@ -241,9 +241,9 @@ export const CONTEST_STAGES: Stage[] = [
     deadlines: [
       {
         text: {
-          ru: 'Администратор вносит материалы в рабочий орган не позднее чем за 15 календарных дней до третьего тура. О решении претендента извещают размещением информации на сайте администратора в течение 3 рабочих дней.',
-          kk: 'Әкімші материалдарды үшінші турға 15 күнтізбелік күн қалғанда енгізеді. Шешім туралы 3 жұмыс күні ішінде сайтта хабарланады.',
-          en: 'The administrator submits materials at least 15 calendar days before round III. The decision is published on the administrator\'s website within 3 working days.',
+          ru: 'Материалы уходят в рабочий орган не позднее чем за 15 календарных дней до третьего тура. О решении сообщают публикацией на сайте администратора в течение 3 рабочих дней.',
+          kk: 'Материалдар үшінші турға 15 күнтізбелік күн қалғанда жұмыс органына жіберіледі. Шешім туралы 3 жұмыс күні ішінде әкімші сайтындағы жариялау арқылы хабарлайды.',
+          en: 'The file goes to the working body at least 15 calendar days before round three. The decision is announced on the administrator\'s site within 3 working days.',
         },
         source: 'pp573',
       },

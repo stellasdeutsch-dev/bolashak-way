@@ -11,14 +11,14 @@ export const PREPARE_STAGES: Stage[] = [
     kicker: { ru: 'Первый шаг', kk: 'Бірінші қадам', en: 'First step' },
     title: { ru: 'Проверьте базовые условия', kk: 'Негізгі шарттарды тексеріңіз', en: 'Check the basic conditions' },
     summary: {
-      ru: 'Гражданство, образование, отсутствие долгов и запас времени до пенсионного возраста.',
-      kk: 'Азаматтық, білім, берешектің болмауы және зейнеткерлік жасқа дейінгі уақыт қоры.',
-      en: 'Citizenship, education, no outstanding debts and enough time before retirement age.',
+      ru: 'Гражданство, образование, долги и хватит ли времени до пенсии.',
+      kk: 'Азаматтық, білім, берешек және зейнетке дейін уақыт жете ме.',
+      en: 'Citizenship, education, debts, and whether you have time before retirement.',
     },
     why: {
-      ru: 'Эти условия проверяются до всего остального: если хотя бы одно не выполняется, документы не примут независимо от баллов и приглашения. Пять минут самопроверки экономят месяцы.',
-      kk: 'Бұл шарттар бәрінен бұрын тексеріледі: біреуі орындалмаса, балдар мен шақыруға қарамастан құжаттар қабылданбайды. Бес минуттық өзін-өзі тексеру айларды үнемдейді.',
-      en: 'These conditions are checked before anything else: if even one fails, documents are rejected regardless of scores or invitations. Five minutes of self-check saves months.',
+      ru: 'Это проверяют первым делом. Не сошлось хоть что-то одно — документы не примут, каким бы ни был балл и приглашение. Пять минут сейчас сэкономят месяцы.',
+      kk: 'Мұны ең алдымен тексереді. Біреуі сәйкес келмесе, балл мен шақыруға қарамастан құжат қабылданбайды. Қазір бес минут кетеді, бірақ айларды үнемдейді.',
+      en: 'This is checked first. If even one item does not hold, your documents are turned down whatever your score or offer. Five minutes now saves months.',
     },
     checklist: [
       {
@@ -33,36 +33,36 @@ export const PREPARE_STAGES: Stage[] = [
       {
         id: 'education',
         text: {
-          ru: 'У вас есть документ об образовании нужного уровня: аттестат о среднем образовании — для бакалавриата, высшее образование или степень бакалавра — для остальных программ.',
-          kk: 'Сізде қажетті деңгейдегі білім туралы құжат бар: бакалавриат үшін — орта білім аттестаты, қалған бағдарламалар үшін — жоғары білім не бакалавр дәрежесі.',
-          en: 'You hold the right education document: a secondary-school certificate for the bachelor track, higher education or a bachelor degree for the rest.',
+          ru: 'У вас есть нужный диплом или аттестат: для бакалавриата — аттестат о среднем образовании, для остального — высшее образование или степень бакалавра.',
+          kk: 'Сізде қажетті диплом не аттестат бар: бакалавриатқа — орта білім аттестаты, қалғанына — жоғары білім не бакалавр дәрежесі.',
+          en: 'You have the right diploma or certificate: a school certificate for the bachelor track, higher education or a bachelor degree for everything else.',
         },
         link: 'pp573',
       },
       {
         id: 'pension_age',
         text: {
-          ru: 'Совокупные сроки языковых курсов, обучения или стажировки и последующей отработки укладываются в общеустановленный пенсионный возраст на момент подачи документов.',
-          kk: 'Тіл курстары, оқу не тағылымдама және кейінгі өтеу мерзімдерінің жиынтығы құжат тапсыру кезіндегі зейнеткерлік жасқа сыяды.',
-          en: 'Your language courses, study or internship and the subsequent work-back all fit within the statutory retirement age as of the application date.',
+          ru: 'Курсы, учёба и отработка вместе заканчиваются до пенсионного возраста. Считают на день подачи документов.',
+          kk: 'Курс, оқу және өтеу бірге зейнеткерлік жасқа дейін аяқталады. Есеп құжат тапсырған күнге жүргізіледі.',
+          en: 'Courses, study and work-back together finish before retirement age. It is counted as of the day you apply.',
         },
         link: 'pp573',
       },
       {
         id: 'no_debt',
         text: {
-          ru: 'У вас нет невыполненных обязательств по отработке и задолженности перед администратором стипендии по ранее полученным программам.',
-          kk: 'Бұрынғы бағдарламалар бойынша өтеу міндеттемелері мен әкімші алдындағы берешегіңіз жоқ.',
-          en: 'You have no outstanding work-back obligations or debts to the scholarship administrator from earlier programmes.',
+          ru: 'За вами нет незакрытой отработки и долгов перед Центром международных программ по прошлым программам.',
+          kk: 'Өткен бағдарламалар бойынша жабылмаған өтеу де, Халықаралық бағдарламалар орталығы алдында берешек те жоқ.',
+          en: 'You have no unfinished work-back and no debt to the Center for International Programs from earlier programmes.',
         },
         link: 'pp573',
       },
       {
         id: 'once',
         text: {
-          ru: 'Вы понимаете, что стипендия присуждается однократно на каждую степень и на стажировку.',
-          kk: 'Стипендия әр дәрежеге және тағылымдамаға бір рет берілетінін түсінесіз.',
-          en: 'You understand that the scholarship is awarded once per degree and once for an internship.',
+          ru: 'Вы знаете, что стипендию дают один раз на каждую степень и один раз на стажировку.',
+          kk: 'Стипендия әр дәрежеге бір рет, тағылымдамаға бір рет берілетінін білесіз.',
+          en: 'You know the scholarship is given once per degree and once for an internship.',
         },
         required: false,
         link: 'pp573',
@@ -70,14 +70,14 @@ export const PREPARE_STAGES: Stage[] = [
     ],
     mistakes: [
       {
-        ru: 'Считать, что «отработка начнётся когда-нибудь потом»: её срок входит в расчёт пенсионного возраста уже на этапе подачи.',
-        kk: '«Өтеу кейін басталады» деп ойлау: оның мерзімі құжат тапсыру кезінде зейнеткерлік жас есебіне кіреді.',
-        en: 'Assuming the work-back "starts some day later": its duration is counted against retirement age already at application time.',
+        ru: 'Думать, что отработка — дело далёкого будущего. Её срок считают уже сейчас, при подаче.',
+        kk: 'Өтеуді алыс болашақтың ісі деп ойлау. Оның мерзімін дәл қазір, тапсыру кезінде есептейді.',
+        en: 'Treating the work-back as something far off. Its length is counted right now, when you apply.',
       },
       {
-        ru: 'Подавать документы при незакрытых обязательствах по прошлой стипендии или стажировке — такие претенденты к конкурсу не допускаются.',
-        kk: 'Өткен стипендия немесе тағылымдама бойынша міндеттемелер жабылмай құжат тапсыру — мұндай үміткерлер конкурсқа жіберілмейді.',
-        en: 'Applying while obligations from a previous scholarship or internship remain open — such applicants are not admitted to the competition.',
+        ru: 'Подавать документы, не закрыв прошлую стипендию или стажировку. С такими долгами до конкурса не допускают.',
+        kk: 'Өткен стипендия не тағылымдаманы жаппай тұрып құжат тапсыру. Мұндай берешекпен конкурсқа жібермейді.',
+        en: 'Applying before closing a previous scholarship or internship. With that outstanding you are not admitted.',
       },
     ],
     sources: ['pp573', 'pravila'],
@@ -91,22 +91,22 @@ export const PREPARE_STAGES: Stage[] = [
     kicker: { ru: 'Ваша дорожка', kk: 'Сіздің жолыңыз', en: 'Your track' },
     title: { ru: 'Категория подачи и её требования', kk: 'Тапсыру санаты және оның талаптары', en: 'Your application category' },
     summary: {
-      ru: 'От категории зависят стаж, GPA, язык, документы и даже порядок этапов.',
-      kk: 'Өтіл, GPA, тіл, құжаттар және кезеңдер реті санатқа байланысты.',
-      en: 'Experience, GPA, language, documents and even the order of stages depend on your category.',
+      ru: 'От неё зависят стаж, GPA, язык, документы и даже порядок этапов.',
+      kk: 'Одан өтіл, GPA, тіл, құжаттар және кезеңдер реті тәуелді.',
+      en: 'It decides your experience, GPA, language, documents and even the order of stages.',
     },
     why: {
-      ru: 'Болашак — это не одна процедура, а несколько параллельных: у льготных категорий сначала конкурс и языковые курсы, а вуз ищут после присуждения; у самостоятельно поступивших наоборот. Проверьте требования именно своей категории — они ниже.',
-      kk: 'Болашақ — бір емес, бірнеше қатар рәсім: жеңілдікті санаттарда алдымен конкурс пен тіл курстары, ЖОО тағайындалғаннан кейін ізделеді; өз бетінше түскендерде керісінше.',
-      en: 'Bolashak is not one procedure but several parallel ones: preferential categories first pass the competition and language courses and only then find a university; self-admitted applicants do the opposite.',
+      ru: 'Болашак — это не один путь, а несколько. У льготных категорий сначала конкурс и языковые курсы, а вуз ищут уже после присуждения. У тех, кто поступает сам, всё наоборот. Ниже — требования только вашей категории.',
+      kk: 'Болашақ — бір емес, бірнеше жол. Жеңілдікті санаттарда алдымен конкурс пен тіл курстары, ЖОО тағайындалғаннан кейін ізделеді. Өз бетінше түсетіндерде керісінше. Төменде — тек сіздің санатыңыздың талаптары.',
+      en: 'Bolashak is not one path but several. Preferential categories go through the competition and language courses first and look for a university afterwards. If you get in on your own, it is the other way round. Below are the requirements for your category only.',
     },
     checklist: [
       {
         id: 'category_known',
         text: {
-          ru: 'Вы определили свою категорию и прочитали её требования (список ниже составлен под ваш выбор).',
-          kk: 'Санатыңызды анықтап, оның талаптарын оқыдыңыз (төмендегі тізім таңдауыңызға сай).',
-          en: 'You identified your category and read its requirements (the list below matches your choice).',
+          ru: 'Вы поняли свою категорию и прочитали её требования — список ниже собран под ваш выбор.',
+          kk: 'Санатыңызды түсініп, талаптарын оқыдыңыз — төмендегі тізім таңдауыңызға жиналған.',
+          en: 'You have worked out your category and read its requirements — the list below is built from your answers.',
         },
         autoCompleteWhen: { always: true },
       },
@@ -123,9 +123,9 @@ export const PREPARE_STAGES: Stage[] = [
       {
         id: 'experience',
         text: {
-          ru: 'Стаж подтверждается документами о трудовой деятельности и выпиской о пенсионных отчислениях за требуемый период.',
-          kk: 'Өтіл еңбек қызметі құжаттарымен және талап етілетін кезеңдегі зейнетақы аударымдары туралы үзінді көшірмемен расталады.',
-          en: 'Your experience is confirmed by employment documents and a pension-contribution statement for the required period.',
+          ru: 'Стаж вы подтверждаете справками с работы и выпиской о пенсионных отчислениях за нужный период.',
+          kk: 'Өтілді жұмыстан алған анықтамамен және қажетті кезеңдегі зейнетақы аударымдары туралы үзінді көшірмемен растайсыз.',
+          en: 'You prove your experience with employment papers and a pension-contribution statement for the required period.',
         },
         appliesTo: { category: ['master_rural', 'master_engineer', 'master_medical', 'master_civil', 'master_nuclear', 'phd_nuclear', 'internship', 'science_internship'] },
         autoCompleteWhen: { meetsExperience: true },
@@ -134,9 +134,9 @@ export const PREPARE_STAGES: Stage[] = [
       {
         id: 'related',
         text: {
-          ru: 'Специальность диплома соответствует выбранной по перечню родственных специальностей.',
-          kk: 'Диплом мамандығы туыстас мамандықтар тізбесі бойынша таңдалғанға сәйкес келеді.',
-          en: 'Your diploma specialty matches the chosen one under the related-specialties list.',
+          ru: 'Специальность в дипломе подходит к выбранной — сверьтесь с перечнем родственных специальностей.',
+          kk: 'Дипломдағы мамандық таңдағаныңызға келеді — туыстас мамандықтар тізбесімен салыстырыңыз.',
+          en: 'Your diploma specialty fits the one you chose — check it against the related-specialties list.',
         },
         appliesTo: { category: [...PREFERENTIAL] },
         link: 'related2026',
@@ -144,9 +144,9 @@ export const PREPARE_STAGES: Stage[] = [
       {
         id: 'employer',
         text: {
-          ru: 'Работодатель готов дать заявку на подготовку специалиста с сохранением места работы.',
-          kk: 'Жұмыс беруші жұмыс орнын сақтай отырып маман даярлауға өтінім беруге дайын.',
-          en: 'Your employer is ready to issue a request to train you while keeping your job.',
+          ru: 'Работодатель готов дать заявку на вашу учёбу и сохранить за вами место.',
+          kk: 'Жұмыс беруші оқуыңызға өтінім беріп, орныңызды сақтауға дайын.',
+          en: 'Your employer is ready to request your training and keep your job open.',
         },
         appliesTo: { category: ['master_civil', 'master_nuclear', 'phd_nuclear', 'internship', 'science_internship'] },
         link: 'employer_form',
@@ -154,9 +154,9 @@ export const PREPARE_STAGES: Stage[] = [
       {
         id: 'publications',
         text: {
-          ru: 'Есть минимум одна статья или обзор в Web of Science / Scopus либо статья в издании из Списка 1 или 2 Перечня, утверждённая работодателем.',
-          kk: 'Web of Science / Scopus-та кемінде бір мақала не шолу, не Тізбенің 1 не 2 тізіміндегі басылымдағы мақала бар, жұмыс беруші бекіткен.',
-          en: 'You have at least one Web of Science / Scopus article or review, or an article in a List 1 / List 2 journal, approved by your employer.',
+          ru: 'У вас есть хотя бы одна статья или обзор в Web of Science или Scopus — либо статья в издании из Списка 1 или 2 Перечня. Её утверждает работодатель.',
+          kk: 'Сізде Web of Science не Scopus-та кемінде бір мақала не шолу бар — не Тізбенің 1 не 2 тізіміндегі басылымда мақала. Оны жұмыс беруші бекітеді.',
+          en: 'You have at least one article or review in Web of Science or Scopus — or an article in a List 1 or List 2 journal. Your employer approves it.',
         },
         appliesTo: { category: ['science_internship'] },
         link: 'ns_requirements',
@@ -164,9 +164,9 @@ export const PREPARE_STAGES: Stage[] = [
       {
         id: 'accreditation',
         text: {
-          ru: 'У вашей научной организации есть действующее свидетельство об аккредитации субъекта научной деятельности.',
-          kk: 'Ғылыми ұйымыңызда ғылыми қызмет субъектісінің қолданыстағы аккредиттеу куәлігі бар.',
-          en: 'Your research organisation holds a valid accreditation certificate as a research entity.',
+          ru: 'У вашей научной организации есть действующая аккредитация.',
+          kk: 'Ғылыми ұйымыңыздың қолданыстағы аккредиттеуі бар.',
+          en: 'Your research organisation holds a valid accreditation.',
         },
         appliesTo: { category: ['science_internship'] },
         link: 'ns_documents',
@@ -174,9 +174,9 @@ export const PREPARE_STAGES: Stage[] = [
       {
         id: 'olympiad',
         text: {
-          ru: 'Есть диплом I, II или III степени международной олимпиады или конкурса за последние 3 года, и специальность совпадает с предметом олимпиады.',
-          kk: 'Соңғы 3 жылдағы халықаралық олимпиада не конкурстың I, II, III дәрежелі дипломы бар және мамандық олимпиада пәніне сәйкес.',
-          en: 'You hold a 1st, 2nd or 3rd degree diploma from an international olympiad or competition in the last 3 years, matching your specialty.',
+          ru: 'У вас есть диплом I, II или III степени международной олимпиады или конкурса за последние 3 года, и он по вашей специальности.',
+          kk: 'Сізде соңғы 3 жылда халықаралық олимпиада не конкурстың I, II не III дәрежелі дипломы бар және ол мамандығыңыз бойынша.',
+          en: 'You have a 1st, 2nd or 3rd place diploma from an international olympiad or contest in the last 3 years, in your specialty.',
         },
         appliesTo: { category: ['bachelor'] },
         link: 'olympiads',
@@ -184,14 +184,14 @@ export const PREPARE_STAGES: Stage[] = [
     ],
     mistakes: [
       {
-        ru: 'Путать «общий стаж 3 года» и «непрерывно последние 12 месяцев в выбранной области» — для стажировок нужны оба условия одновременно.',
-        kk: '«Жалпы өтіл 3 жыл» мен «таңдалған салада үздіксіз соңғы 12 ай» шарттарын шатастыру — тағылымдамаға екеуі де қажет.',
-        en: 'Confusing "3 years total" with "12 continuous months in the chosen field" — internships require both at once.',
+        ru: 'Путать «3 года общего стажа» и «12 месяцев подряд по своей специальности». Для стажировок нужно и то, и другое.',
+        kk: '«3 жыл жалпы өтіл» мен «мамандық бойынша қатарынан 12 ай» дегенді шатастыру. Тағылымдамаға екеуі де керек.',
+        en: 'Mixing up "3 years in total" and "12 months in a row in your field". Internships need both.',
       },
       {
-        ru: 'Считать стаж без пенсионных отчислений: подтверждением служит выписка из ЕНПФ за весь требуемый период, включая оплачиваемый трудовой отпуск.',
-        kk: 'Зейнетақы аударымдарынсыз өтілді есептеу: растау — БЖЗҚ үзінді көшірмесі, ақылы еңбек демалысын қоса.',
-        en: 'Counting experience without pension contributions: the proof is a pension-fund statement for the whole required period, paid leave included.',
+        ru: 'Считать стаж по трудовой книжке. Смотрят на выписку из ЕНПФ за весь период, включая оплачиваемый отпуск.',
+        kk: 'Өтілді еңбек кітапшасы бойынша есептеу. Бүкіл кезеңдегі БЖЗҚ үзінді көшірмесіне қарайды, ақылы демалысты қоса.',
+        en: 'Counting experience from your work record book. What matters is the pension-fund statement for the whole period, paid leave included.',
       },
     ],
     sources: ['pravila', 'pp573', 'ns_requirements'],
@@ -205,14 +205,14 @@ export const PREPARE_STAGES: Stage[] = [
     kicker: { ru: 'Что изучать', kk: 'Нені оқу керек', en: 'What to study' },
     title: { ru: 'Специальность из приоритетного перечня', kk: 'Басым тізбедегі мамандық', en: 'A specialty from the priority list' },
     summary: {
-      ru: 'Стипендия присуждается только по специальностям из утверждённого перечня на конкурсный год.',
-      kk: 'Стипендия конкурс жылына бекітілген тізбедегі мамандықтар бойынша ғана беріледі.',
-      en: 'The scholarship is awarded only for specialties from the list approved for the competition year.',
+      ru: 'Стипендию дают только по специальностям из перечня на этот конкурсный год.',
+      kk: 'Стипендияны осы конкурс жылының тізбесіндегі мамандықтар бойынша ғана береді.',
+      en: 'The scholarship covers only specialties on this year\'s list.',
     },
     why: {
-      ru: 'Перечень приоритетных специальностей формируется каждый год под потребность экономики и ограничивает количество стипендий по направлениям. Программа мечты в отличном вузе не даст ничего, если специальности нет в перечне текущего года.',
-      kk: 'Басым мамандықтар тізбесі жыл сайын экономика қажеттілігіне сай жасалады және бағыттар бойынша стипендия санын шектейді. Тізбеде жоқ мамандық ештеңе бермейді.',
-      en: 'The priority-specialty list is rebuilt yearly around the economy\'s needs and caps the number of scholarships per field. A dream programme is useless if its specialty is not on this year\'s list.',
+      ru: 'Перечень пересобирают каждый год под нужды экономики, и он же ограничивает число мест по направлениям. Отличная программа в сильном вузе не поможет, если вашей специальности в перечне этого года нет.',
+      kk: 'Тізбені жыл сайын экономика қажеттілігіне қарай қайта жасайды, әрі ол бағыттар бойынша орын санын шектейді. Күшті ЖОО-дағы тамаша бағдарлама да көмектеспейді, егер мамандығыңыз осы жылғы тізбеде болмаса.',
+      en: 'The list is rebuilt every year around what the economy needs, and it also caps the places per field. A great programme at a strong university will not help if your specialty is missing from this year\'s list.',
     },
     checklist: [
       {
@@ -248,9 +248,9 @@ export const PREPARE_STAGES: Stage[] = [
       {
         id: 'related_check',
         text: {
-          ru: 'Сверили специальность диплома с перечнем родственных специальностей — выбранная программа должна ей соответствовать.',
-          kk: 'Диплом мамандығын туыстас мамандықтар тізбесімен салыстырдыңыз — таңдалған бағдарлама сәйкес болуы керек.',
-          en: 'You checked your diploma specialty against the related-specialties list — the chosen programme must match it.',
+          ru: 'Сверили специальность в дипломе с перечнем родственных специальностей — выбранная программа должна ей подходить.',
+          kk: 'Дипломдағы мамандықты туыстас мамандықтар тізбесімен салыстырдыңыз — таңдаған бағдарлама оған келуі керек.',
+          en: 'You compared your diploma specialty with the related-specialties list — the programme you picked has to fit it.',
         },
         link: 'related2026',
         appliesTo: { category: [...PREFERENTIAL] },
@@ -258,9 +258,9 @@ export const PREPARE_STAGES: Stage[] = [
       {
         id: 'quota',
         text: {
-          ru: 'Посмотрели распределение стипендий на год: сколько мест выделено на ваше направление.',
-          kk: 'Жылдық стипендия бөлінісін қарадыңыз: бағытыңызға қанша орын бөлінген.',
-          en: 'You reviewed this year\'s scholarship distribution: how many places your field receives.',
+          ru: 'Посмотрели, сколько мест выделили вашему направлению в этом году.',
+          kk: 'Биыл бағытыңызға қанша орын бөлінгенін қарадыңыз.',
+          en: 'You checked how many places your field got this year.',
         },
         required: false,
         link: 'distribution2026',
@@ -268,14 +268,14 @@ export const PREPARE_STAGES: Stage[] = [
     ],
     mistakes: [
       {
-        ru: 'Брать перечень прошлого года: списки специальностей и лимиты по направлениям меняются ежегодно.',
-        kk: 'Өткен жылғы тізбені алу: мамандықтар тізімі мен бағыттар бойынша шектеулер жыл сайын өзгереді.',
-        en: 'Using last year\'s list: specialty lists and per-field caps change every year.',
+        ru: 'Смотреть перечень прошлого года. Списки специальностей и число мест меняются каждый год.',
+        kk: 'Өткен жылғы тізбеге қарау. Мамандықтар тізімі мен орын саны жыл сайын өзгереді.',
+        en: 'Looking at last year\'s list. Specialties and the number of places change every year.',
       },
       {
-        ru: 'Проверять только название программы в вузе, а не её соответствие специальности из перечня и родственным специальностям диплома.',
-        kk: 'Тек ЖОО бағдарламасының атауын тексеру, оның тізбедегі мамандыққа сәйкестігін тексермеу.',
-        en: 'Checking only the university programme title instead of its match to the listed specialty and your diploma\'s related specialties.',
+        ru: 'Смотреть только на название программы в вузе. Важно, попадает ли она в специальность из перечня и подходит ли к вашему диплому.',
+        kk: 'Тек ЖОО бағдарламасының атауына қарау. Маңыздысы — ол тізбедегі мамандыққа кіре ме және дипломыңызға келе ме.',
+        en: 'Going by the programme\'s name alone. What matters is whether it falls under a listed specialty and fits your diploma.',
       },
     ],
     sources: ['pps2026', 'pps_internship2026', 'related2026', 'ns_priorities', 'distribution2026'],
@@ -289,14 +289,14 @@ export const PREPARE_STAGES: Stage[] = [
     kicker: { ru: 'Куда поедете', kk: 'Қайда барасыз', en: 'Where you will go' },
     title: { ru: 'Вуз или организация из Списка', kk: 'Тізімдегі ЖОО немесе ұйым', en: 'A university or organisation from the list' },
     summary: {
-      ru: 'Подходят только вузы и организации из официального списка на текущий год.',
-      kk: 'Тек ағымдағы жылғы ресми тізімдегі ЖОО мен ұйымдар жарайды.',
-      en: 'Only universities and organisations from the official list for the current year qualify.',
+      ru: 'Подойдут только вузы и организации из официального списка на этот год.',
+      kk: 'Тек осы жылғы ресми тізімдегі ЖОО мен ұйымдар жарайды.',
+      en: 'Only universities and organisations from this year\'s official list will do.',
     },
     why: {
-      ru: 'Список ведущих зарубежных вузов утверждается рабочим органом и обновляется ежегодно. Приглашение из вуза вне списка не даёт права на стипендию, а для стажировок организация должна входить в соответствующий список (для научных стажировок возможно индивидуальное решение рабочего органа).',
-      kk: 'Жетекші шетелдік ЖОО тізімі жұмыс органымен бекітіліп, жыл сайын жаңарады. Тізімнен тыс ЖОО шақыруы стипендияға құқық бермейді.',
-      en: 'The list of leading foreign universities is approved by the working body and updated annually. An offer from an unlisted university gives no right to the scholarship.',
+      ru: 'Список ведущих зарубежных вузов утверждают заново каждый год. Приглашение из вуза вне списка права на стипендию не даёт. Для стажировок организация тоже должна быть в своём списке — исключение только у научных стажировок, там рабочий орган может рассмотреть организацию отдельно.',
+      kk: 'Жетекші шетелдік ЖОО тізімі жыл сайын қайта бекітіледі. Тізімнен тыс ЖОО шақыруы стипендияға құқық бермейді. Тағылымдамаға да ұйым өз тізімінде болуы керек — тек ғылыми тағылымдамада жұмыс органы ұйымды жеке қарай алады.',
+      en: 'The list of leading foreign universities is re-approved every year. An offer from a university outside it gives no right to the scholarship. For internships the organisation must also be listed — the only exception is scientific internships, where the working body can review an organisation separately.',
     },
     checklist: [
       {
@@ -322,18 +322,18 @@ export const PREPARE_STAGES: Stage[] = [
       {
         id: 'programme',
         text: {
-          ru: 'Изучили саму программу: требования к иностранным абитуриентам, длительность, даты начала и дедлайны подачи.',
-          kk: 'Бағдарламаны зерттедіңіз: шетелдік талапкерлерге қойылатын талаптар, ұзақтығы, басталу күні және тапсыру мерзімі.',
-          en: 'You studied the programme itself: requirements for international applicants, duration, start dates and application deadlines.',
+          ru: 'Разобрались в самой программе: что требуют от иностранцев, сколько длится обучение, когда начало и до какого числа принимают заявки.',
+          kk: 'Бағдарламаның өзін түсіндіңіз: шетелдіктерден не талап етеді, оқу қанша уақыт, қашан басталады, өтінімді қай күнге дейін қабылдайды.',
+          en: 'You looked into the programme itself: what it asks of international students, how long it runs, when it starts and by when applications close.',
         },
         link: 'admission_guide',
       },
       {
         id: 'rankings',
         text: {
-          ru: 'Посмотрели предметные рейтинги вуза (QS, Times Higher Education, ARWU) — это пригодится на собеседовании.',
-          kk: 'ЖОО-ның пәндік рейтингтерін қарадыңыз (QS, THE, ARWU) — бұл әңгімелесуде керек болады.',
-          en: 'You checked the university\'s subject rankings (QS, THE, ARWU) — useful at the interview.',
+          ru: 'Посмотрели предметные рейтинги вуза (QS, Times Higher Education, ARWU) — про это спрашивают на собеседовании.',
+          kk: 'ЖОО-ның пәндік рейтингтерін қарадыңыз (QS, Times Higher Education, ARWU) — әңгімелесуде осы туралы сұрайды.',
+          en: 'You looked at the university\'s subject rankings (QS, Times Higher Education, ARWU) — they come up at the interview.',
         },
         required: false,
         link: 'admission_guide',
@@ -351,14 +351,14 @@ export const PREPARE_STAGES: Stage[] = [
     ],
     mistakes: [
       {
-        ru: 'Ориентироваться на общий рейтинг вуза, а не на его наличие в утверждённом списке текущего года.',
-        kk: 'Бекітілген тізімдегі болуына емес, ЖОО жалпы рейтингіне қарау.',
-        en: 'Going by the university\'s overall ranking instead of its presence in the approved list for the year.',
+        ru: 'Смотреть на общий рейтинг вуза вместо того, чтобы проверить его в списке на этот год.',
+        kk: 'Осы жылғы тізімнен тексерудің орнына ЖОО жалпы рейтингіне қарау.',
+        en: 'Going by overall ranking instead of checking the university against this year\'s list.',
       },
       {
-        ru: 'Не проверить дедлайны вуза: в топовые программы подача открывается почти за год до начала обучения.',
-        kk: 'ЖОО мерзімдерін тексермеу: үздік бағдарламаларға өтініш оқу басталуға бір жыл қалғанда ашылады.',
-        en: 'Ignoring university deadlines: top programmes open applications nearly a year before the start date.',
+        ru: 'Не посмотреть дедлайны вуза. В сильные программы заявки открываются почти за год до начала учёбы.',
+        kk: 'ЖОО мерзімдерін қарамау. Күшті бағдарламаларға өтінім оқу басталуға бір жылдай қалғанда ашылады.',
+        en: 'Not checking the university\'s deadlines. Strong programmes open applications almost a year before classes start.',
       },
     ],
     sources: ['vuzy_page', 'vuzy2026', 'ns_orgs', 'admission_guide'],
@@ -372,14 +372,14 @@ export const PREPARE_STAGES: Stage[] = [
     kicker: { ru: 'Государственный язык', kk: 'Мемлекеттік тіл', en: 'State language' },
     title: { ru: 'Сертификат по казахскому языку', kk: 'Қазақ тілі сертификаты', en: 'Kazakh language certificate' },
     summary: {
-      ru: 'КАЗТЕСТ или Qazaq Resmi Test с результатом не ниже B1 — обязателен для всех категорий.',
-      kk: 'B1 деңгейінен төмен емес ҚАЗТЕСТ немесе Qazaq Resmi Test — барлық санаттар үшін міндетті.',
-      en: 'KAZTEST or Qazaq Resmi Test at level B1 or above — mandatory for every category.',
+      ru: 'КАЗТЕСТ или Qazaq Resmi Test не ниже B1 — нужен всем без исключения.',
+      kk: 'B1-ден төмен емес ҚАЗТЕСТ не Qazaq Resmi Test — бәріне керек.',
+      en: 'KAZTEST or Qazaq Resmi Test at B1 or higher — everyone needs it.',
     },
     why: {
-      ru: 'Это единственное языковое требование, одинаковое для всех: от бакалавриата до научной стажировки. Сертификат нужен уже в пакете документов, а не позже, поэтому запишитесь на экзамен заранее.',
-      kk: 'Бұл — бакалавриаттан ғылыми тағылымдамаға дейін бәріне бірдей жалғыз тілдік талап. Сертификат құжаттар топтамасында бірден қажет.',
-      en: 'This is the one language requirement identical for everyone, from bachelor to scientific internship. The certificate is needed in the document package itself, so book the exam early.',
+      ru: 'Это единственное языковое требование, одинаковое для всех — от бакалавриата до научной стажировки. Сертификат нужен сразу, вместе с документами, а не потом. Записывайтесь на экзамен заранее: дат немного.',
+      kk: 'Бұл — бакалавриаттан ғылыми тағылымдамаға дейін бәріне бірдей жалғыз тілдік талап. Сертификат кейін емес, құжаттармен бірге бірден қажет. Емтиханға алдын ала жазылыңыз: күндер аз.',
+      en: 'This is the one language requirement that is the same for everyone, from bachelor to scientific internship. The certificate goes in with your documents, not later. Book the exam early — there are few dates.',
     },
     checklist: [
       {
@@ -404,9 +404,9 @@ export const PREPARE_STAGES: Stage[] = [
       {
         id: 'verify',
         text: {
-          ru: 'Проверили, что в сертификате Qazaq Resmi Test указан ваш ID-номер и есть QR-код для проверки подлинности на qrt.kz.',
-          kk: 'Qazaq Resmi Test сертификатында ID нөміріңіз және qrt.kz-те тексеруге QR-код бар екенін тексердіңіз.',
-          en: 'You verified that your Qazaq Resmi Test certificate shows your ID number and a QR code for authenticity checks at qrt.kz.',
+          ru: 'Проверили, что в сертификате Qazaq Resmi Test стоит ваш ID-номер и есть QR-код — по нему подлинность сверяют на qrt.kz.',
+          kk: 'Qazaq Resmi Test сертификатында ID нөміріңіз бар екенін және QR-код тұрғанын тексердіңіз — түпнұсқалығын qrt.kz-те сол арқылы тексереді.',
+          en: 'You checked that your Qazaq Resmi Test certificate carries your ID number and a QR code — authenticity is verified through it at qrt.kz.',
         },
         required: false,
         link: 'qrt',
@@ -414,14 +414,14 @@ export const PREPARE_STAGES: Stage[] = [
     ],
     mistakes: [
       {
-        ru: 'Откладывать КАЗТЕСТ на последние дни приёма документов: даты экзамена ограничены, а без сертификата пакет неполный.',
-        kk: 'ҚАЗТЕСТ-ті құжат қабылдаудың соңғы күндеріне қалдыру: емтихан күндері шектеулі, сертификатсыз топтама толық емес.',
-        en: 'Leaving KAZTEST to the last days of the intake: exam dates are limited and the package is incomplete without the certificate.',
+        ru: 'Оставлять КАЗТЕСТ на последние дни приёма. Дат экзамена немного, а без сертификата пакет неполный.',
+        kk: 'ҚАЗТЕСТ-ті қабылдаудың соңғы күндеріне қалдыру. Емтихан күндері аз, ал сертификатсыз топтама толық емес.',
+        en: 'Leaving KAZTEST until the last days of the intake. There are few exam dates, and without the certificate your package is incomplete.',
       },
       {
-        ru: 'Принести сертификат с истёкшим сроком действия — он должен быть действительным на момент подачи.',
-        kk: 'Мерзімі өткен сертификат әкелу — ол тапсыру кезінде жарамды болуы керек.',
-        en: 'Bringing an expired certificate — it must be valid at the moment of application.',
+        ru: 'Принести просроченный сертификат. На день подачи он должен быть действующим.',
+        kk: 'Мерзімі өткен сертификат әкелу. Тапсыру күні ол жарамды болуы керек.',
+        en: 'Bringing an expired certificate. It has to be valid on the day you apply.',
       },
     ],
     sources: ['prikaz318', 'pravila', 'qrt', 'kaztest'],
@@ -436,22 +436,22 @@ export const PREPARE_STAGES: Stage[] = [
     kicker: { ru: 'Язык обучения', kk: 'Оқу тілі', en: 'Language of study' },
     title: { ru: 'Сертификат по иностранному языку', kk: 'Шет тілі сертификаты', en: 'Foreign language certificate' },
     summary: {
-      ru: 'Три пороговых уровня приказа № 318: от них зависит, поедете вы сразу учиться или сначала на языковые курсы.',
-      kk: '№ 318 бұйрықтың үш шекті деңгейі: бірден оқуға бару не алдымен тіл курстарына бару соған байланысты.',
-      en: 'Three threshold levels of Order No. 318 decide whether you go straight to study or to language courses first.',
+      ru: 'Три пороговых уровня приказа № 318. От них зависит, поедете вы сразу учиться или сначала на языковые курсы.',
+      kk: '№ 318 бұйрықтың үш шекті деңгейі. Бірден оқуға барасыз ба, әлде алдымен тіл курсына ба — соған байланысты.',
+      en: 'Order No. 318 sets three threshold levels. They decide whether you go straight to study or to language courses first.',
     },
     why: {
-      ru: 'Порог зависит от категории. Льготным категориям магистратуры хватает первого порога для участия — недостающий язык добирается на курсах за счёт стипендии. Самостоятельно поступившим и стажёрам нужен сразу третий пороговый уровень.',
-      kk: 'Шек санатқа байланысты. Магистратураның жеңілдікті санаттарына қатысу үшін бірінші шек жеткілікті — тіл курстарда толықтырылады. Өз бетінше түскендер мен тағылымдамашыларға бірден үшінші деңгей керек.',
-      en: 'The threshold depends on your category. Preferential master\'s categories only need level I to compete — the rest is covered by funded language courses. Self-admitted applicants and interns need level III right away.',
+      ru: 'Порог зависит от вашей категории. Льготным категориям магистратуры для участия хватит первого порога — язык добирают на курсах за счёт стипендии. Тем, кто поступает сам, и стажёрам нужен сразу третий.',
+      kk: 'Шек санатыңызға байланысты. Магистратураның жеңілдікті санаттарына қатысу үшін бірінші шек жетеді — тілді курста стипендия есебінен толықтырады. Өз бетінше түсетіндер мен тағылымдамашыларға бірден үшінші керек.',
+      en: 'The threshold depends on your category. Preferential master\'s categories need only level I to enter — the language is topped up on funded courses. If you get in on your own, or you are an intern, you need level III straight away.',
     },
     checklist: [
       {
         id: 'know_threshold',
         text: {
-          ru: 'Знаете, какой пороговый уровень требуется вашей категории (таблица ниже).',
-          kk: 'Санатыңызға қандай шекті деңгей қажет екенін білесіз (төмендегі кесте).',
-          en: 'You know which threshold level your category needs (table below).',
+          ru: 'Знаете, какой порог нужен вашей категории — он в таблице ниже.',
+          kk: 'Санатыңызға қандай шек керегін білесіз — ол төмендегі кестеде.',
+          en: 'You know which threshold your category needs — it is in the table below.',
         },
         link: 'prikaz318',
       },
@@ -477,9 +477,9 @@ export const PREPARE_STAGES: Stage[] = [
       {
         id: 'validity',
         text: {
-          ru: 'Проверили срок действия сертификата: IELTS и TOEFL действуют 2 года.',
-          kk: 'Сертификат мерзімін тексердіңіз: IELTS пен TOEFL 2 жыл жарамды.',
-          en: 'You checked the certificate validity: IELTS and TOEFL last 2 years.',
+          ru: 'Проверили, когда истекает сертификат: IELTS и TOEFL действуют 2 года.',
+          kk: 'Сертификат қашан аяқталатынын тексердіңіз: IELTS пен TOEFL 2 жыл жарамды.',
+          en: 'You checked when the certificate expires: IELTS and TOEFL are valid for 2 years.',
         },
         required: false,
         link: 'admission_guide',
@@ -487,9 +487,9 @@ export const PREPARE_STAGES: Stage[] = [
       {
         id: 'uni_requirement',
         text: {
-          ru: 'Сверили балл с требованием самого вуза — оно может быть выше требований стипендии.',
-          kk: 'Балды ЖОО талабымен салыстырдыңыз — ол стипендия талабынан жоғары болуы мүмкін.',
-          en: 'You compared the score with the university\'s own requirement — it may be higher than the scholarship\'s.',
+          ru: 'Сверили балл с требованием самого вуза — оно бывает выше, чем у стипендии.',
+          kk: 'Балды ЖОО-ның өз талабымен салыстырдыңыз — ол стипендия талабынан жоғары болуы мүмкін.',
+          en: 'You compared your score with the university\'s own requirement — it is often higher than the scholarship\'s.',
         },
         required: false,
         link: 'admission_guide',
@@ -500,9 +500,9 @@ export const PREPARE_STAGES: Stage[] = [
         appliesTo: { category: ['master_self', 'phd_self', 'residency'] },
         tone: 'info',
         text: {
-          ru: 'Для самостоятельно поступивших сертификат иностранного языка не входит в перечень документов на портале — язык подтверждает вуз своим безусловным приглашением. При этом в таблице приказа № 318 для этой категории указан третий пороговый уровень (IELTS 6.0 или эквивалент), поэтому держите сертификат наготове.',
-          kk: 'Өз бетінше түскендер үшін шет тілі сертификаты порталдағы құжаттар тізбесіне кірмейді — тілді ЖОО өзінің сөзсіз шақыруымен растайды. Дегенмен № 318 бұйрық кестесінде осы санатқа үшінші шекті деңгей көрсетілген.',
-          en: 'For self-admitted applicants the foreign-language certificate is not in the portal document list — the university confirms the language with its unconditional offer. Order No. 318 still lists a level-III threshold for this category, so keep the certificate at hand.',
+          ru: 'Если вы поступаете сами, сертификат иностранного языка в список документов на портале не входит: язык за вас подтверждает вуз своим безусловным приглашением. Но в таблице приказа № 318 для этой категории стоит третий порог — IELTS 6.0 или эквивалент. Так что сертификат лучше иметь под рукой.',
+          kk: 'Өз бетінше түссеңіз, шет тілі сертификаты порталдағы құжаттар тізіміне кірмейді: тілді сіздің орныңызға ЖОО сөзсіз шақыруымен растайды. Бірақ № 318 бұйрық кестесінде бұл санатқа үшінші шек — IELTS 6.0 не баламасы — көрсетілген. Сондықтан сертификат қолда болғаны жөн.',
+          en: 'If you get in on your own, the foreign-language certificate is not on the portal\'s document list: the university vouches for your language with its unconditional offer. But Order No. 318 still puts this category at level III — IELTS 6.0 or equivalent. Keep the certificate at hand.',
         },
         source: 'prikaz318',
       },
@@ -510,28 +510,28 @@ export const PREPARE_STAGES: Stage[] = [
         appliesTo: { category: ['science_internship'] },
         tone: 'info',
         text: {
-          ru: 'Для научных стажировок минимальные баллы утверждает рабочий орган отдельным файлом, он опубликован на странице требований. Сверяйтесь именно с ним.',
-          kk: 'Ғылыми тағылымдама үшін ең төменгі балдарды жұмыс органы жеке файлмен бекітеді, ол талаптар бетінде жарияланған.',
-          en: 'For scientific internships the minimum scores are approved by the working body in a separate file published on the requirements page. Check that file.',
+          ru: 'Для научных стажировок минимальные баллы рабочий орган утверждает отдельным файлом — он лежит на странице требований. Сверяйтесь с ним, а не с общей таблицей.',
+          kk: 'Ғылыми тағылымдамаға ең төменгі балдарды жұмыс органы жеке файлмен бекітеді — ол талаптар бетінде тұр. Жалпы кестемен емес, сонымен салыстырыңыз.',
+          en: 'For scientific internships the working body approves the minimum scores in a separate file on the requirements page. Check that one, not the general table.',
         },
         source: 'ns_minscore',
       },
     ],
     mistakes: [
       {
-        ru: 'Сдавать General IELTS вместо Academic: для поступления в вуз нужен академический модуль.',
-        kk: 'Academic орнына General IELTS тапсыру: ЖОО-ға түсу үшін академиялық модуль қажет.',
-        en: 'Taking General IELTS instead of Academic: university admission requires the academic module.',
+        ru: 'Сдать General IELTS вместо Academic. Для поступления нужен именно академический модуль.',
+        kk: 'Academic орнына General IELTS тапсыру. Оқуға түсуге дәл академиялық модуль керек.',
+        en: 'Taking General IELTS instead of Academic. Admission needs the academic module.',
       },
       {
-        ru: 'Смотреть только общий балл: у вузов часто есть минимум по каждой секции.',
-        kk: 'Тек жалпы балға қарау: ЖОО-ларда әр секция бойынша минимум болады.',
-        en: 'Looking only at the overall score: universities often set a minimum per section.',
+        ru: 'Смотреть только на общий балл. У вузов обычно есть минимум по каждой секции.',
+        kk: 'Тек жалпы балға қарау. ЖОО-ларда әдетте әр секция бойынша минимум болады.',
+        en: 'Looking only at the overall score. Universities usually set a minimum for each section too.',
       },
       {
-        ru: 'Не учитывать особые случаи: например, по медицинским направлениям в Германии требуется DSH-3, а претенденты в вузы Германии проходят собеседование с DAAD за свой счёт.',
-        kk: 'Ерекше жағдайларды ескермеу: мысалы, Германиядағы медицина бағыттарына DSH-3 қажет.',
-        en: 'Ignoring special cases: German medical programmes require DSH-3, and applicants to German universities attend a DAAD interview at their own expense.',
+        ru: 'Не учесть особые случаи. Например, на медицинские направления в Германии нужен DSH-3, а всем, кто поступает в немецкие вузы, предстоит собеседование с DAAD за свой счёт.',
+        kk: 'Ерекше жағдайларды ескермеу. Мысалы, Германиядағы медицина бағыттарына DSH-3 керек, ал неміс ЖОО-ларына түсетіндердің бәрі DAAD-пен әңгімелесуден өз есебінен өтеді.',
+        en: 'Missing the special cases. German medical programmes need DSH-3, and anyone applying to a German university sits a DAAD interview at their own expense.',
       },
     ],
     sources: ['prikaz318', 'pravila', 'ns_minscore'],
@@ -546,31 +546,31 @@ export const PREPARE_STAGES: Stage[] = [
     kicker: { ru: 'Приглашение', kk: 'Шақыру', en: 'The offer' },
     title: { ru: 'Поступление и безусловное приглашение', kk: 'Түсу және сөзсіз шақыру', en: 'Admission and the unconditional offer' },
     summary: {
-      ru: 'Без безусловного приглашения документы на конкурс не принимаются.',
-      kk: 'Сөзсіз шақырусыз конкурсқа құжаттар қабылданбайды.',
-      en: 'Without an unconditional offer your application is not accepted.',
+      ru: 'Без безусловного приглашения документы на конкурс не примут.',
+      kk: 'Сөзсіз шақырусыз құжаттарды конкурсқа қабылдамайды.',
+      en: 'Without an unconditional offer your documents will not be accepted.',
     },
     why: {
-      ru: 'Приглашение должно быть безусловным — то есть без академических условий (доучить язык, донести документы). Оговорка допускается только по финансовым условиям, ведь оплату берёт на себя стипендия. В письме должны быть ваши данные, специальность, сроки и стоимость обучения.',
-      kk: 'Шақыру сөзсіз болуы керек — академиялық шарттарсыз. Ескертпе тек қаржылық шарттар бойынша рұқсат етіледі. Хатта деректеріңіз, мамандық, мерзім және оқу құны болуы тиіс.',
-      en: 'The offer must be unconditional — no academic conditions. Only financial conditions may remain, since the scholarship pays. The letter must state your details, specialty, study period and cost.',
+      ru: 'Приглашение должно быть безусловным — без учебных условий вроде «доучите язык» или «донесите транскрипт». Условие про оплату оставить можно: её берёт на себя стипендия. В письме должны быть ваши данные, специальность, сроки и стоимость обучения.',
+      kk: 'Шақыру сөзсіз болуы керек — «тілді жетілдіріңіз» не «транскрипт әкеліңіз» деген оқу шарттарынсыз. Төлем туралы шартты қалдыруға болады: оны стипендия төлейді. Хатта деректеріңіз, мамандық, мерзім және оқу құны болуы тиіс.',
+      en: 'The offer has to be unconditional — no study conditions like "improve your language" or "send a transcript". A condition about payment is fine: the scholarship covers it. The letter must show your details, specialty, dates and the cost of study.',
     },
     checklist: [
       {
         id: 'season',
         text: {
-          ru: 'Выбрали семестр поступления: осенний (сентябрь–декабрь) или весенний (январь–июнь), и подстроились под дедлайны вуза.',
-          kk: 'Түсу семестрін таңдадыңыз: күзгі (қыркүйек–желтоқсан) не көктемгі (қаңтар–маусым) және ЖОО мерзімдеріне бейімделдіңіз.',
-          en: 'You picked your intake — autumn (Sept–Dec) or spring (Jan–June) — and aligned with the university deadlines.',
+          ru: 'Выбрали, когда начинать: осенью (сентябрь–декабрь) или весной (январь–июнь), и подстроились под сроки вуза.',
+          kk: 'Қашан бастайтыныңызды таңдадыңыз: күзде (қыркүйек–желтоқсан) не көктемде (қаңтар–маусым), және ЖОО мерзіміне бейімделдіңіз.',
+          en: 'You chose when to start — autumn (September–December) or spring (January–June) — and fitted the university\'s deadlines.',
         },
         link: 'admission_guide',
       },
       {
         id: 'apply_uni',
         text: {
-          ru: 'Подали аппликационные формы в вузы. По стипендии оплачивается оформление и подача не более 5 анкетных форм.',
-          kk: 'ЖОО-ларға өтінім нысандарын тапсырдыңыз. Стипендия бойынша 5-тен аспайтын нысанды рәсімдеу төленеді.',
-          en: 'You submitted university applications. The scholarship covers preparing and filing up to 5 application forms.',
+          ru: 'Подали заявки в вузы. Стипендия оплачивает оформление и подачу не более 5 анкет.',
+          kk: 'ЖОО-ларға өтінім бердіңіз. Стипендия 5-тен аспайтын анкетаны рәсімдеу мен беруді төлейді.',
+          en: 'You applied to universities. The scholarship pays for preparing and filing up to 5 applications.',
         },
         link: 'pp573',
       },
@@ -596,18 +596,18 @@ export const PREPARE_STAGES: Stage[] = [
       {
         id: 'translation',
         text: {
-          ru: 'Сделали нотариально заверенный перевод приглашения на казахский или русский язык.',
-          kk: 'Шақырудың қазақ не орыс тіліне нотариалды куәландырылған аудармасын жасадыңыз.',
-          en: 'You had the offer notarially translated into Kazakh or Russian.',
+          ru: 'Перевели приглашение на казахский или русский и заверили перевод у нотариуса.',
+          kk: 'Шақыруды қазақ не орыс тіліне аударып, аударманы нотариуста куәландырдыңыз.',
+          en: 'You had the offer translated into Kazakh or Russian and notarised.',
         },
         link: 'pravila',
       },
       {
         id: 'programme_internship',
         text: {
-          ru: 'Составили программу стажировки, утверждённую направляющей и принимающей организациями, с нотариальным переводом.',
-          kk: 'Жіберуші және қабылдаушы ұйымдар бекіткен тағылымдама бағдарламасын нотариалды аудармасымен дайындадыңыз.',
-          en: 'You prepared the internship programme approved by both sending and host organisations, with a notarised translation.',
+          ru: 'Составили программу стажировки, её утвердили обе стороны — и ваша организация, и принимающая. Перевод заверили у нотариуса.',
+          kk: 'Тағылымдама бағдарламасын жасадыңыз, оны екі тарап та — өз ұйымыңыз да, қабылдаушы да — бекітті. Аударманы нотариуста куәландырдыңыз.',
+          en: 'You drew up the internship programme and both sides approved it — your organisation and the host. The translation is notarised.',
         },
         appliesTo: { track: ['internship'] },
         link: 'internship_program',
@@ -615,9 +615,9 @@ export const PREPARE_STAGES: Stage[] = [
       {
         id: 'programme_science',
         text: {
-          ru: 'Составили программу научной стажировки по требованиям рабочего органа: утверждает работодатель, согласует зарубежная организация.',
-          kk: 'Жұмыс органының талаптарына сай ғылыми тағылымдама бағдарламасын дайындадыңыз: жұмыс беруші бекітеді, шетелдік ұйым келіседі.',
-          en: 'You prepared the scientific internship programme per the working body\'s requirements: approved by your employer and agreed with the host organisation.',
+          ru: 'Составили программу научной стажировки по требованиям рабочего органа: её утверждает работодатель, а согласовывает зарубежная организация.',
+          kk: 'Жұмыс органының талаптарына сай ғылыми тағылымдама бағдарламасын жасадыңыз: оны жұмыс беруші бекітеді, шетелдік ұйым келіседі.',
+          en: 'You drew up the scientific internship programme to the working body\'s requirements: your employer approves it and the host organisation agrees it.',
         },
         appliesTo: { track: ['science_internship'] },
         link: 'ns_program',
@@ -625,9 +625,9 @@ export const PREPARE_STAGES: Stage[] = [
       {
         id: 'free_tuition',
         text: {
-          ru: 'Если обучение бесплатное от вуза или другой организации — приложили документы о полном покрытии расходов на весь период обучения.',
-          kk: 'Оқу ЖОО не басқа ұйым тарапынан тегін болса — бүкіл кезеңге шығыстардың толық жабылуы туралы құжаттарды қостыңыз.',
-          en: 'If your studies are free of charge, you attached documents proving full cost coverage for the whole period.',
+          ru: 'Если вуз или другая организация учит вас бесплатно — приложили документы о том, что расходы покрыты на весь срок обучения.',
+          kk: 'ЖОО не басқа ұйым сізді тегін оқытса — шығыстардың бүкіл оқу мерзіміне жабылғаны туралы құжаттарды қостыңыз.',
+          en: 'If a university or another organisation covers your studies, you attached proof that the costs are covered for the whole period.',
         },
         required: false,
         link: 'pravila',
@@ -638,9 +638,9 @@ export const PREPARE_STAGES: Stage[] = [
         appliesTo: { category: [...PREFERENTIAL] },
         tone: 'warn',
         text: {
-          ru: 'Для вашей категории приглашение на этапе подачи не требуется: вуз подбирается после присуждения стипендии и языковых курсов. Этап оставлен для ознакомления — вернётесь к нему в главе «После присуждения».',
-          kk: 'Сіздің санатыңызға тапсыру кезінде шақыру талап етілмейді: ЖОО стипендия тағайындалып, тіл курстарынан кейін таңдалады.',
-          en: 'Your category does not need an offer at application time: the university is chosen after the award and language courses. This stage is here for reference — you will return to it later.',
+          ru: 'Вашей категории приглашение при подаче не нужно: вуз подбирают уже после того, как стипендию присудили и вы прошли языковые курсы. Этап оставлен, чтобы знать, что вас ждёт — вернётесь к нему в главе «После присуждения».',
+          kk: 'Сіздің санатыңызға тапсыру кезінде шақыру керек емес: ЖОО стипендия тағайындалып, тіл курстарынан өткеннен кейін таңдалады. Кезең не күтіп тұрғанын білу үшін қалдырылған — оған «Тағайындалғаннан кейін» тарауында ораласыз.',
+          en: 'Your category does not need an offer when applying: the university is picked after the award and the language courses. The stage is here so you know what is coming — you will return to it in the "After the award" chapter.',
         },
         source: 'pravila',
       },

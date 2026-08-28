@@ -8,14 +8,14 @@ export const APPLY_STAGES: Stage[] = [
     kicker: { ru: 'Пакет', kk: 'Топтама', en: 'The package' },
     title: { ru: 'Соберите пакет документов', kk: 'Құжаттар топтамасын жинаңыз', en: 'Assemble the document package' },
     summary: {
-      ru: 'Полный список зависит от категории. Неполный пакет можно донести, но только в срок приёма.',
-      kk: 'Толық тізім санатқа байланысты. Толық емес топтаманы қабылдау мерзімінде толықтыруға болады.',
-      en: 'The list depends on your category. An incomplete package can be topped up, but only within the intake window.',
+      ru: 'Что именно нужно — зависит от категории. Если чего-то не хватит, донести можно, но только пока идёт приём.',
+      kk: 'Не керегі санатқа байланысты. Бірдеңе жетпесе, толықтыруға болады, бірақ тек қабылдау жүріп жатқанда.',
+      en: 'What exactly you need depends on your category. If something is missing you can bring it later, but only while the intake is open.',
     },
     why: {
-      ru: 'Это самый трудоёмкий этап: нотариальные переводы, справки, выписки и мотивационное письмо занимают недели. Начинайте, как только объявили сроки приёма, — а лучше раньше.',
-      kk: 'Бұл ең еңбекті кезең: нотариалды аудармалар, анықтамалар, үзінді көшірмелер мен мотивациялық хат апталар алады. Қабылдау мерзімі жарияланған бойда бастаңыз.',
-      en: 'This is the most laborious stage: notarised translations, certificates, statements and the motivation letter take weeks. Start as soon as the intake dates are announced — earlier if you can.',
+      ru: 'Самый долгий этап. Нотариальные переводы, справки, выписки и мотивационное письмо занимают недели. Начинайте, как только объявили сроки приёма, а лучше раньше.',
+      kk: 'Ең ұзақ кезең. Нотариалды аударма, анықтама, үзінді көшірме және мотивациялық хат апталар алады. Қабылдау мерзімі жарияланған бойда бастаңыз, одан ерте болса — жақсы.',
+      en: 'The longest stage. Notarised translations, certificates, statements and the motivation letter take weeks. Start as soon as the dates are announced — earlier if you can.',
     },
     checklist: [
       {
@@ -30,17 +30,17 @@ export const APPLY_STAGES: Stage[] = [
       {
         id: 'id',
         text: {
-          ru: 'Готовы удостоверение личности и паспорт (для научной стажировки — оригиналы и копии, оригиналы вернут после сверки).',
-          kk: 'Жеке куәлік пен паспорт дайын (ғылыми тағылымдамаға — түпнұсқа мен көшірме, түпнұсқа салыстырудан кейін қайтарылады).',
-          en: 'Your ID card and passport are ready (for scientific internships — originals and copies; originals are returned after verification).',
+          ru: 'Готовы удостоверение личности и паспорт. На научную стажировку нужны оригиналы и копии — оригиналы вернут после сверки.',
+          kk: 'Жеке куәлік пен паспорт дайын. Ғылыми тағылымдамаға түпнұсқа мен көшірме керек — түпнұсқаны салыстырғаннан кейін қайтарады.',
+          en: 'Your ID card and passport are ready. For a scientific internship you need originals and copies — the originals come back after checking.',
         },
       },
       {
         id: 'diploma',
         text: {
-          ru: 'Диплом с приложением. Если учились за рубежом — удостоверение о признании или нострификации документа об образовании.',
-          kk: 'Диплом қосымшасымен. Шетелде оқыған болсаңыз — білім туралы құжатты тану не нострификациялау куәлігі.',
-          en: 'Your diploma with its transcript. If you studied abroad — a recognition or nostrification certificate.',
+          ru: 'Диплом с приложением. Если учились за границей — ещё удостоверение о признании или нострификации.',
+          kk: 'Диплом қосымшасымен. Шетелде оқыған болсаңыз — тану не нострификация куәлігі де керек.',
+          en: 'Your diploma with the transcript. If you studied abroad, add a recognition or nostrification certificate.',
         },
         appliesTo: { not: { track: ['bachelor'] } },
       },
@@ -75,9 +75,9 @@ export const APPLY_STAGES: Stage[] = [
       {
         id: 'motivation',
         text: {
-          ru: 'Мотивационное письмо — эссе не более 500 слов на казахском или русском, с датой и подписью в конце.',
-          kk: 'Мотивациялық хат — қазақ не орыс тілінде 500 сөзден аспайтын эссе, соңында күні мен қолы қойылған.',
-          en: 'Motivation letter — an essay of at most 500 words in Kazakh or Russian, dated and signed at the end.',
+          ru: 'Мотивационное письмо: эссе до 500 слов на казахском или русском. В конце обязательно дата и подпись.',
+          kk: 'Мотивациялық хат: қазақ не орыс тілінде 500 сөзге дейінгі эссе. Соңында күні мен қолы міндетті.',
+          en: 'A motivation letter: an essay of up to 500 words in Kazakh or Russian. It must be dated and signed at the end.',
         },
         appliesTo: { not: { category: ['residency', 'phd_self', 'science_internship'] } },
         link: 'pravila',
@@ -85,18 +85,18 @@ export const APPLY_STAGES: Stage[] = [
       {
         id: 'employment',
         text: {
-          ru: 'Документы о трудовой деятельности и выписка о перечисленных обязательных пенсионных взносах за требуемый период.',
-          kk: 'Еңбек қызметі туралы құжаттар және талап етілетін кезеңдегі міндетті зейнетақы жарналары туралы үзінді көшірме.',
-          en: 'Employment documents and a statement of mandatory pension contributions for the required period.',
+          ru: 'Справки о работе и выписка о пенсионных отчислениях за нужный период.',
+          kk: 'Жұмыс туралы анықтамалар және қажетті кезеңдегі зейнетақы аударымдары туралы үзінді көшірме.',
+          en: 'Employment papers and a pension-contribution statement for the required period.',
         },
         appliesTo: { category: ['master_rural', 'master_engineer', 'master_medical', 'master_civil', 'master_nuclear', 'phd_nuclear', 'internship', 'science_internship'] },
       },
       {
         id: 'employer_request',
         text: {
-          ru: 'Заявка работодателя на подготовку специалиста с условием сохранения места работы по утверждённой форме.',
-          kk: 'Жұмыс орнын сақтау шартымен маман даярлауға жұмыс берушінің бекітілген нысандағы өтінімі.',
-          en: 'Employer request to train the specialist with the job retained, on the approved form.',
+          ru: 'Заявка от работодателя на вашу учёбу — по утверждённой форме, с сохранением места работы.',
+          kk: 'Жұмыс берушінің оқуыңызға өтінімі — бекітілген нысан бойынша, жұмыс орны сақталады.',
+          en: 'Your employer\'s request to train you, on the approved form, with your job kept.',
         },
         appliesTo: { category: ['master_civil', 'master_nuclear', 'phd_nuclear', 'internship', 'science_internship'] },
         link: 'employer_form',
@@ -104,18 +104,18 @@ export const APPLY_STAGES: Stage[] = [
       {
         id: 'lang_certs',
         text: {
-          ru: 'Сертификаты по казахскому и иностранному языкам с результатами не ниже минимальных требований.',
-          kk: 'Қазақ және шет тілдері бойынша ең төменгі талаптардан төмен емес сертификаттар.',
-          en: 'Kazakh and foreign language certificates meeting at least the minimum requirements.',
+          ru: 'Сертификаты по казахскому и иностранному языкам — не ниже минимальных баллов.',
+          kk: 'Қазақ және шет тілі сертификаттары — ең төменгі балдардан төмен емес.',
+          en: 'Kazakh and foreign language certificates — at or above the minimum scores.',
         },
         link: 'prikaz318',
       },
       {
         id: 'offer_docs',
         text: {
-          ru: 'Документы о безусловном зачислении или приглашении с нотариальным переводом на казахский или русский.',
-          kk: 'Сөзсіз қабылдау не шақыру туралы құжаттар, қазақ не орыс тіліне нотариалды аудармасымен.',
-          en: 'Unconditional admission or invitation documents with a notarised Kazakh or Russian translation.',
+          ru: 'Приглашение или документ о зачислении, переведённый на казахский или русский и заверенный нотариусом.',
+          kk: 'Шақыру не қабылдау туралы құжат, қазақ не орыс тіліне аударылып, нотариуста куәландырылған.',
+          en: 'The offer or admission document, translated into Kazakh or Russian and notarised.',
         },
         appliesTo: { not: { category: ['master_rural', 'master_engineer', 'master_medical', 'master_civil', 'master_nuclear'] } },
       },
@@ -124,7 +124,7 @@ export const APPLY_STAGES: Stage[] = [
         text: {
           ru: 'Индивидуальный учебный план, согласованный с зарубежным вузом, с нотариальным переводом.',
           kk: 'Шетелдік ЖОО-мен келісілген жеке оқу жоспары, нотариалды аудармасымен.',
-          en: 'An individual study plan agreed with the foreign university, notarially translated.',
+          en: 'An individual study plan agreed with the foreign university, with a notarised translation.',
         },
         appliesTo: { category: ['phd_self', 'phd_nuclear'] },
       },
@@ -141,9 +141,9 @@ export const APPLY_STAGES: Stage[] = [
       {
         id: 'publications_list',
         text: {
-          ru: 'Список научных результатов, утверждённый работодателем, и копия свидетельства об аккредитации организации.',
-          kk: 'Жұмыс беруші бекіткен ғылыми нәтижелер тізімі және ұйымның аккредиттеу куәлігінің көшірмесі.',
-          en: 'A list of research results approved by your employer and a copy of the organisation\'s accreditation certificate.',
+          ru: 'Список научных публикаций, утверждённый работодателем, и копия свидетельства об аккредитации вашей организации.',
+          kk: 'Жұмыс беруші бекіткен ғылыми жарияланымдар тізімі және ұйымыңыздың аккредиттеу куәлігінің көшірмесі.',
+          en: 'A list of your publications approved by your employer, plus a copy of your organisation\'s accreditation certificate.',
         },
         appliesTo: { track: ['science_internship'] },
         link: 'ns_documents',
@@ -151,9 +151,9 @@ export const APPLY_STAGES: Stage[] = [
       {
         id: 'transcript_current',
         text: {
-          ru: 'Официальный документ об успеваемости от зарубежного вуза (если вы уже там учитесь) с нотариальным переводом.',
-          kk: 'Шетелдік ЖОО-дан үлгерім туралы ресми құжат (онда оқып жүрсеңіз) нотариалды аудармасымен.',
-          en: 'An official academic-performance document from your foreign university (if you already study there), notarially translated.',
+          ru: 'Если вы уже учитесь за рубежом — официальная справка об успеваемости от вуза с нотариальным переводом.',
+          kk: 'Шетелде оқып жүрсеңіз — ЖОО-дан үлгерім туралы ресми анықтама, нотариалды аудармасымен.',
+          en: 'If you already study abroad — an official academic record from the university, notarially translated.',
         },
         required: false,
         appliesTo: { category: ['master_self', 'phd_self', 'residency'] },
@@ -161,19 +161,19 @@ export const APPLY_STAGES: Stage[] = [
     ],
     mistakes: [
       {
-        ru: 'Оставлять нотариальный перевод на последний день: переводы приглашения, программы стажировки и других документов делаются заранее.',
-        kk: 'Нотариалды аударманы соңғы күнге қалдыру: аудармалар алдын ала жасалады.',
-        en: 'Leaving notarised translations to the last day: translations of the offer, programme and other documents take time.',
+        ru: 'Оставить нотариальные переводы на последний день. Приглашение, программу стажировки и остальное переводят заранее — это не делается за час.',
+        kk: 'Нотариалды аударманы соңғы күнге қалдыру. Шақыруды, тағылымдама бағдарламасын және қалғанын алдын ала аударады — бұл бір сағатта бітпейді.',
+        en: 'Leaving notarised translations to the last day. The offer, the internship programme and the rest are translated in advance — it is not an hour\'s work.',
       },
       {
-        ru: 'Мотивационное письмо длиннее 500 слов или без даты и подписи в конце.',
-        kk: 'Мотивациялық хаттың 500 сөзден ұзын болуы не соңында күні мен қолының болмауы.',
-        en: 'A motivation letter longer than 500 words or missing the date and signature at the end.',
+        ru: 'Написать мотивационное письмо длиннее 500 слов или забыть поставить дату и подпись в конце.',
+        kk: 'Мотивациялық хатты 500 сөзден ұзын жазу не соңында күні мен қолын қоюды ұмыту.',
+        en: 'Writing a motivation letter over 500 words, or forgetting the date and signature at the end.',
       },
       {
-        ru: 'Просроченная справка 072/у: оформляйте её ближе к подаче, а не за полгода.',
-        kk: 'Мерзімі өткен 072/у анықтамасы: оны тапсыруға жақын рәсімдеңіз.',
-        en: 'An expired form 072/u certificate: get it close to the application date, not half a year ahead.',
+        ru: 'Оформить справку 072/у слишком рано — к подаче она уже просрочена. Делайте её ближе к сроку.',
+        kk: '072/у анықтамасын тым ерте алу — тапсыруға оның мерзімі өтіп кетеді. Мерзімге жақын жасатыңыз.',
+        en: 'Getting form 072/u too early — by the time you apply it has expired. Do it close to the deadline.',
       },
     ],
     sources: ['pravila', 'pp573', 'ns_documents', 'obrazcy'],
@@ -187,22 +187,22 @@ export const APPLY_STAGES: Stage[] = [
     kicker: { ru: 'Подача', kk: 'Тапсыру', en: 'Submission' },
     title: { ru: 'Подайте заявку на конкурс', kk: 'Конкурсқа өтініш беріңіз', en: 'Submit your application' },
     summary: {
-      ru: 'Через портал электронного правительства; научная стажировка — нарочно в ЦМП в Астане.',
-      kk: 'Электрондық үкімет порталы арқылы; ғылыми тағылымдама — Астанадағы ХБО-ға қолма-қол.',
-      en: 'Via the e-government portal; scientific internships — in person at the CIP in Astana.',
+      ru: 'Через портал egov.kz. На научную стажировку документы несут лично в ЦМП в Астане.',
+      kk: 'egov.kz порталы арқылы. Ғылыми тағылымдамаға құжатты Астанадағы ХБО-ға өзі апарады.',
+      en: 'Through egov.kz. For a scientific internship you bring the documents to the CIP office in Astana yourself.',
     },
     why: {
-      ru: 'Сроки приёма документов утверждаются ежегодно и публикуются не позднее чем за 10 календарных дней до начала приёма. Пропустить окно — значит ждать следующий конкурсный год.',
-      kk: 'Құжат қабылдау мерзімдері жыл сайын бекітіліп, қабылдау басталуға 10 күнтізбелік күн қалғанда жарияланады. Терезені өткізіп алу — келесі жылды күту.',
-      en: 'Intake dates are approved annually and published no later than 10 calendar days before the intake opens. Missing the window means waiting a year.',
+      ru: 'Сроки приёма объявляют каждый год и публикуют не позднее чем за 10 календарных дней до начала. Пропустили окно — ждать до следующего конкурсного года.',
+      kk: 'Қабылдау мерзімін жыл сайын жариялайды, басталуға 10 күнтізбелік күн қалғанда хабарлайды. Терезені өткізіп алсаңыз — келесі конкурс жылын күтесіз.',
+      en: 'The intake dates are announced each year, at least 10 calendar days before they open. Miss the window and you wait for the next competition year.',
     },
     checklist: [
       {
         id: 'dates',
         text: {
-          ru: 'Узнали сроки приёма документов текущего конкурсного года.',
-          kk: 'Ағымдағы конкурс жылының құжат қабылдау мерзімін білдіңіз.',
-          en: 'You checked this year\'s intake dates.',
+          ru: 'Узнали, когда в этом году принимают документы.',
+          kk: 'Биыл құжатты қашан қабылдайтынын білдіңіз.',
+          en: 'You found out when documents are accepted this year.',
         },
         link: 'pravila',
       },
@@ -219,9 +219,9 @@ export const APPLY_STAGES: Stage[] = [
       {
         id: 'in_person',
         text: {
-          ru: 'Подали документы нарочно: бумажный пакет и сканированная версия на электронном носителе, Астана, ул. Сыганак 70, БЦ «Сыганак», 5 этаж, каб. 508.',
-          kk: 'Құжаттарды қолма-қол тапсырдыңыз: қағаз топтама және электрондық тасымалдағыштағы сканерленген нұсқа, Астана, Сығанақ к-сі 70, 5-қабат, 508-кабинет.',
-          en: 'You submitted in person: the paper package plus a scanned copy on a storage device — Astana, Syganak st. 70, 5th floor, room 508.',
+          ru: 'Отнесли документы лично: бумажный пакет плюс скан на флешке или диске. Астана, ул. Сыганак 70, БЦ «Сыганак», 5 этаж, каб. 508.',
+          kk: 'Құжатты өзіңіз апардыңыз: қағаз топтама және флешкадағы не дискідегі сканер көшірмесі. Астана, Сығанақ к-сі 70, «Сығанақ» БО, 5-қабат, 508-кабинет.',
+          en: 'You delivered the documents yourself: the paper package plus a scan on a flash drive or disc. Astana, Syganak street 70, Syganak business centre, floor 5, room 508.',
         },
         appliesTo: { track: ['science_internship'] },
         link: 'ns_documents',
@@ -229,9 +229,9 @@ export const APPLY_STAGES: Stage[] = [
       {
         id: 'poa',
         text: {
-          ru: 'Если подаёт представитель — оформили нотариально заверенную доверенность.',
-          kk: 'Өкіл тапсырса — нотариалды куәландырылған сенімхат рәсімдедіңіз.',
-          en: 'If a representative submits for you — a notarised power of attorney is prepared.',
+          ru: 'Если документы подаёт кто-то за вас — оформили нотариальную доверенность.',
+          kk: 'Құжатты сіздің орныңызға біреу тапсырса — нотариалды сенімхат рәсімдедіңіз.',
+          en: 'If someone submits on your behalf — you arranged a notarised power of attorney.',
         },
         required: false,
         appliesTo: { track: ['science_internship'] },
@@ -240,18 +240,18 @@ export const APPLY_STAGES: Stage[] = [
       {
         id: 'notice',
         text: {
-          ru: 'Получили уведомление о приёме документов и допуске к конкурсу (или мотивированный отказ) в личный кабинет.',
-          kk: 'Құжаттардың қабылданғаны және конкурсқа жіберілгені туралы хабарламаны (не дәлелді бас тартуды) жеке кабинетке алдыңыз.',
-          en: 'You received the notice of acceptance and admission to the competition (or a reasoned refusal) in your account.',
+          ru: 'В личный кабинет пришло уведомление: документы приняли и допустили к конкурсу — либо отказали с объяснением причины.',
+          kk: 'Жеке кабинетке хабарлама келді: құжат қабылданып, конкурсқа жіберілді — не себебі көрсетіліп, бас тартылды.',
+          en: 'A notice arrived in your account: your documents were accepted and admitted — or refused with the reason stated.',
         },
         link: 'cabinet',
       },
       {
         id: 'fix',
         text: {
-          ru: 'Если пакет неполный — устранили замечания и подали повторно в пределах срока приёма.',
-          kk: 'Топтама толық болмаса — ескертулерді жойып, қабылдау мерзімінде қайта тапсырдыңыз.',
-          en: 'If the package was incomplete — you fixed the issues and re-submitted within the intake window.',
+          ru: 'Если чего-то не хватало — исправили и подали заново, пока приём ещё идёт.',
+          kk: 'Бірдеңе жетпесе — түзетіп, қабылдау жүріп жатқанда қайта тапсырдыңыз.',
+          en: 'If something was missing — you fixed it and re-submitted while the intake was still open.',
         },
         required: false,
         link: 'pp573',
@@ -260,26 +260,26 @@ export const APPLY_STAGES: Stage[] = [
     deadlines: [
       {
         text: {
-          ru: 'Сроки приёма документов и проведения конкурсного отбора утверждаются ежегодно и публикуются не позднее чем за 10 календарных дней до начала приёма.',
-          kk: 'Құжат қабылдау және конкурстық іріктеу мерзімдері жыл сайын бекітіліп, қабылдау басталуға 10 күнтізбелік күн қалғанда жарияланады.',
-          en: 'Intake and selection dates are approved annually and published at least 10 calendar days before the intake starts.',
+          ru: 'Сроки приёма документов и самого конкурса утверждают каждый год и публикуют не позднее чем за 10 календарных дней до начала приёма.',
+          kk: 'Құжат қабылдау және конкурс мерзімін жыл сайын бекітіп, қабылдау басталуға 10 күнтізбелік күн қалғанда жариялайды.',
+          en: 'The dates for the intake and the competition are set each year and published at least 10 calendar days before the intake opens.',
         },
         source: 'pp573',
       },
       {
         text: {
-          ru: 'Научная стажировка: срок рассмотрения и приёма документов либо отказа в приёме — 3 рабочих дня.',
-          kk: 'Ғылыми тағылымдама: құжаттарды қарау және қабылдау не қабылдаудан бас тарту мерзімі — 3 жұмыс күні.',
-          en: 'Scientific internship: documents are reviewed and accepted or refused within 3 working days.',
+          ru: 'Научная стажировка: документы рассматривают и принимают — или отказывают — за 3 рабочих дня.',
+          kk: 'Ғылыми тағылымдама: құжатты 3 жұмыс күнінде қарап, қабылдайды не бас тартады.',
+          en: 'Scientific internship: documents are reviewed and either accepted or refused within 3 working days.',
         },
         source: 'pp791',
       },
     ],
     mistakes: [
       {
-        ru: 'Указать при подаче неактуальную почту: на неё приходят логин и пароль для тестирования, а письма отправляются партиями.',
-        kk: 'Тапсыру кезінде өзекті емес поштаны көрсету: тестілеу логині мен құпиясөзі соған келеді.',
-        en: 'Giving an outdated email at submission: the testing login and password go there, and letters are sent in batches.',
+        ru: 'Указать почту, которой вы не пользуетесь. На неё придут логин и пароль для тестирования, а рассылают их партиями — письмо можно и не заметить.',
+        kk: 'Пайдаланбайтын поштаны көрсету. Тестілеу логині мен құпиясөзі соған келеді, әрі оларды топтап жібереді — хатты байқамай қалуыңыз мүмкін.',
+        en: 'Giving an email you do not check. The testing login and password go there, and they are sent out in batches — the letter is easy to miss.',
       },
       {
         ru: 'Подавать недостоверные документы или сведения: претендент исключается из конкурса и не допускается к нему в текущем году.',
