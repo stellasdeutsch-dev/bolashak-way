@@ -7,3 +7,6 @@ dist/
 # The curated answers already live in src/content/faq.generated.ts.
 *.csv
 321/
+
+# TypeScript incremental build cache
+*.tsbuildinfo
