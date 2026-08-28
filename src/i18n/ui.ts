@@ -28,6 +28,7 @@ export const UI = {
     kicker: { ru: 'Если вы здесь впервые', kk: 'Мұнда алғаш келсеңіз', en: 'If this is your first time here' },
     heroLead: { ru: 'Простыми словами', kk: 'Қарапайым тілмен', en: 'In plain words' },
     heroTitle: { ru: 'Что такое Болашак и как подать', kk: 'Болашақ деген не және қалай тапсыру керек', en: 'What Bolashak is and how to apply' },
+    statsTitle: { ru: 'Четыре числа, которые всё определяют', kk: 'Бәрін айқындайтын төрт сан', en: 'The four figures that shape everything' },
     chaptersTitle: { ru: 'Пять глав пути', kk: 'Жолдың бес тарауы', en: 'The five chapters of the path' },
     chaptersBody: {
       ru: 'Роадмап в приложении разбит на пять глав. Внутри каждой — этапы с чеклистами, документами и сроками.',

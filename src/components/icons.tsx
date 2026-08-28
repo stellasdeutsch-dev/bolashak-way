@@ -468,3 +468,12 @@ export const IconPlay = (p: IconProps) => (
     <path d="M9 6.6 17.4 12 9 17.4Z" fill="currentColor" />
   </Svg>
 )
+
+export const IconWallet = (p: IconProps) => (
+  <Svg {...p}>
+    <F d="M3.2 7.6h14.2c1.9 0 3.4 1.5 3.4 3.4v5.4c0 1.9-1.5 3.4-3.4 3.4H6.6a3.4 3.4 0 0 1-3.4-3.4Z" />
+    <path d="M20.8 10.4V9.2c0-1.1-.9-2-2-2H5.6a2.4 2.4 0 0 1 0-4.8h10.2" />
+    <path d="M3.2 7.6v8.8c0 1.9 1.5 3.4 3.4 3.4h10.8c1.9 0 3.4-1.5 3.4-3.4v-5.4c0-1.9-1.5-3.4-3.4-3.4" />
+    <circle cx="16.9" cy="13.7" r="1.15" fill="currentColor" stroke="none" />
+  </Svg>
+)

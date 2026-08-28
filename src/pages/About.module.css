@@ -79,6 +79,139 @@
   background: var(--accent);
 }
 
+/* ── the four defining figures, read before any paragraph ── */
+.statsCard {
+  padding: 22px 26px 20px;
+}
+.statsTitle {
+  display: block;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--text-3);
+  margin-bottom: 16px;
+}
+.stats {
+  display: grid;
+  gap: 18px 22px;
+  grid-template-columns: repeat(auto-fit, minmax(142px, 1fr));
+}
+.stat {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 5px;
+}
+.statValue {
+  font-size: clamp(30px, 6vw, 40px);
+  font-weight: 800;
+  letter-spacing: -0.045em;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.statCaption {
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: var(--text-2);
+}
+
+/* ── ordered procedure: cards read left to right, with a connector between them ── */
+.steps {
+  list-style: none;
+  margin: 18px 0 0;
+  padding: 0;
+  display: grid;
+  gap: 14px;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+}
+.step {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 7px;
+  padding: 17px 18px;
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  background: var(--surface-2);
+}
+.stepIcon {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border-radius: var(--r-md);
+  color: var(--accent-deep);
+  background: var(--accent-tint);
+}
+.stepNum {
+  position: absolute;
+  top: 15px;
+  right: 16px;
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--text-3);
+  opacity: 0.5;
+  font-variant-numeric: tabular-nums;
+}
+.stepTitle {
+  font-size: 15px;
+  font-weight: 650;
+  letter-spacing: -0.01em;
+  color: var(--text);
+}
+.stepText {
+  font-size: 13.5px;
+  line-height: 1.55;
+  color: var(--text-2);
+}
+
+/* ── icon tiles: a list of things, not an argument to read through ── */
+.features {
+  list-style: none;
+  margin: 18px 0 0;
+  padding: 0;
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(auto-fit, minmax(238px, 1fr));
+}
+.feature {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 14px 15px;
+  border-radius: var(--r-md);
+  background: var(--surface-2);
+}
+.featureIcon {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  color: var(--accent-deep);
+  background: var(--accent-tint);
+}
+.featureLabel {
+  display: block;
+  font-size: 14.5px;
+  font-weight: 650;
+  color: var(--text);
+}
+.featureText {
+  display: block;
+  margin-top: 3px;
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: var(--text-2);
+}
+
 .sources {
   display: flex;
   flex-wrap: wrap;
@@ -160,5 +293,12 @@
   }
   .cta {
     padding: 22px 20px;
+  }
+  .statsCard {
+    padding: 20px 18px 18px;
+  }
+  .stats {
+    gap: 16px 18px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }

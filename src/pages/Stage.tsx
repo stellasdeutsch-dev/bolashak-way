@@ -437,19 +437,23 @@ export function StagePage() {
         <Card className={s.shortCard}>
           <div className={s.section}>
             <span className={s.sectionTitle}>{t('stage.inShort')}</span>
+            {/* Three cards rather than three paragraphs: the whole stage in one glance. */}
             <dl className={s.shortList}>
-              <div className={s.shortRow}>
-                <dt className={s.shortLabel}>{t('stage.inShortWhat')}</dt>
-                <dd className={s.shortValue}>{c(stage.inShort.what)}</dd>
-              </div>
-              <div className={s.shortRow}>
-                <dt className={s.shortLabel}>{t('stage.inShortYou')}</dt>
-                <dd className={s.shortValue}>{c(stage.inShort.you)}</dd>
-              </div>
-              <div className={s.shortRow}>
-                <dt className={s.shortLabel}>{t('stage.inShortResult')}</dt>
-                <dd className={s.shortValue}>{c(stage.inShort.result)}</dd>
-              </div>
+              {(
+                [
+                  ['Compass', 'stage.inShortWhat', stage.inShort.what],
+                  ['ListChecks', 'stage.inShortYou', stage.inShort.you],
+                  ['BadgeCheck', 'stage.inShortResult', stage.inShort.result],
+                ] as const
+              ).map(([icon, key, value]) => (
+                <div key={key} className={s.shortRow}>
+                  <span className={s.shortIcon}>
+                    <StageIcon name={icon} size={18} />
+                  </span>
+                  <dt className={s.shortLabel}>{t(key)}</dt>
+                  <dd className={s.shortValue}>{c(value)}</dd>
+                </div>
+              ))}
             </dl>
           </div>
         </Card>

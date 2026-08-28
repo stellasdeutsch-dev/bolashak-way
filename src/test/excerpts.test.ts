@@ -3,6 +3,8 @@ import { EXCERPTS, excerptsForStage } from '@/content/excerpts'
 import { STAGES } from '@/content/stages'
 import { ABOUT_BLOCKS, ABOUT_INTRO } from '@/content/about'
 import { OVERVIEW_VIDEOS, VIDEOS, videosForStage } from '@/content/videos'
+import { ABOUT_STATS } from '@/content/about'
+import { ICON_NAMES } from '@/components/StageIcon'
 import { getSource } from '@/content/sources'
 import { evaluate } from '@/domain/applicability'
 import type { Profile } from '@/content/types'
@@ -116,5 +118,33 @@ describe('official videos', () => {
     const ids = (p: Profile) => videosForStage('apply').filter((v) => evaluate(v.appliesTo, p)).map((v) => v.id)
     expect(ids(medic)).toEqual(['apply_egov', 'apply_walkthrough'])
     expect(ids(scientist)).toEqual(['apply_ns'])
+  })
+})
+
+describe('structured about blocks', () => {
+  it('resolves every icon a stage or an About block asks for', () => {
+    const known = new Set(ICON_NAMES)
+    for (const st of STAGES) expect(known.has(st.icon), `stage ${st.id} → unknown icon ${st.icon}`).toBe(true)
+    for (const b of ABOUT_BLOCKS) {
+      for (const f of b.features ?? []) expect(known.has(f.icon), `${b.num} → unknown icon ${f.icon}`).toBe(true)
+      for (const step of b.steps ?? []) expect(known.has(step.icon), `${b.num} → unknown icon ${step.icon}`).toBe(true)
+    }
+  })
+
+  it('sources every headline figure and keeps all three languages', () => {
+    expect(ABOUT_STATS.length).toBeGreaterThan(0)
+    for (const st of ABOUT_STATS) {
+      expect(getSource(st.source), `${st.value} → unknown source ${st.source}`).toBeDefined()
+      expect(st.value).toMatch(/^[\d\s/]+$/)
+      expect(st.caption.kk, `${st.value} has no Kazakh caption`).toBeTruthy()
+      expect(st.caption.en, `${st.value} has no English caption`).toBeTruthy()
+    }
+  })
+
+  it('keeps a restructured block from repeating its own tiles in the body', () => {
+    for (const b of ABOUT_BLOCKS.filter((x) => x.features || x.steps)) {
+      // The body introduces the block; the tiles carry the detail. A long body means both.
+      expect(b.body.ru.length, `${b.num} body is long enough to duplicate its tiles`).toBeLessThan(180)
+    }
   })
 })

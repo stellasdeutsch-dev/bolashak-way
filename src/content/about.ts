@@ -4,6 +4,21 @@ import type { L, SourceId } from './types'
  * The "how this works" page: the whole programme explained in plain language for
  * someone who has never heard of it. Every figure carries the source it came from.
  */
+/** One covered item, shown as an icon tile rather than another line of prose. */
+export interface AboutFeature {
+  /** Icon name resolved in components/StageIcon.tsx. */
+  icon: string
+  label: L
+  text: L
+}
+
+/** One step of a numbered procedure, shown as a card in a left-to-right row. */
+export interface AboutStep {
+  icon: string
+  title: L
+  text: L
+}
+
 export interface AboutBlock {
   /** Short label above the block, e.g. "01". */
   num: string
@@ -11,8 +26,61 @@ export interface AboutBlock {
   body: L
   /** Optional short list under the body. */
   points?: L[]
+  /** Icon tiles: use when the block enumerates things rather than explaining one. */
+  features?: AboutFeature[]
+  /** Ordered cards: use when the block describes a procedure that runs in order. */
+  steps?: AboutStep[]
   sources?: SourceId[]
 }
+
+/**
+ * The four figures that shape the whole programme, pulled out of the blocks below so
+ * a reader gets them before any paragraph. Every one carries the act it comes from.
+ */
+export interface AboutStat {
+  value: string
+  caption: L
+  source: SourceId
+}
+
+export const ABOUT_STATS: AboutStat[] = [
+  {
+    value: '5',
+    caption: {
+      ru: 'заявок в зарубежные вузы оформляют и подают за счёт стипендии',
+      kk: 'шетелдік ЖОО-ға өтінімді стипендия есебінен рәсімдеп, тапсырады',
+      en: 'applications to foreign universities are prepared and filed at the scholarship\'s expense',
+    },
+    source: 'pp573',
+  },
+  {
+    value: '3',
+    caption: {
+      ru: 'тура конкурса: тестирование, собеседование, комиссия',
+      kk: 'конкурс туры: тестілеу, әңгімелесу, комиссия',
+      en: 'rounds of the competition: testing, interview, commission',
+    },
+    source: 'pp573',
+  },
+  {
+    value: '90',
+    caption: {
+      ru: 'календарных дней на договор после присуждения — 60 у научной стажировки',
+      kk: 'тағайындалғаннан кейін шартқа күнтізбелік күн — ғылыми тағылымдамада 60',
+      en: 'calendar days for the contract after the award — 60 for a scientific internship',
+    },
+    source: 'pp573',
+  },
+  {
+    value: '5 / 3',
+    caption: {
+      ru: 'года отработки: столицы или регионы, если вы учились на степень',
+      kk: 'жыл өтеу: астаналар не өңірлер, дәрежеге оқысаңыз',
+      en: 'years of work-back: the big cities or the regions, if you studied for a degree',
+    },
+    source: 'pp573',
+  },
+]
 
 export const ABOUT_INTRO: L = {
   ru: 'Болашак — государственная стипендия: Казахстан оплачивает вам учёбу или стажировку за границей, а вы после возвращения несколько лет работаете дома по полученной специальности. Ниже — весь путь в одном тексте, без юридических формулировок.',
@@ -25,25 +93,55 @@ export const ABOUT_BLOCKS: AboutBlock[] = [
     num: '01',
     title: { ru: 'Что оплачивает стипендия', kk: 'Стипендия нені төлейді', en: 'What the scholarship pays for' },
     body: {
-      ru: 'Не только само обучение. Государство берёт на себя дорогу, визу, проживание, питание, учебники, медстраховку и обязательное медобследование, а при необходимости — языковые курсы и подачу заявок в вузы.',
-      kk: 'Тек оқудың өзін емес. Мемлекет жол, виза, тұру, тамақ, оқулық, медсақтандыру мен міндетті медтексеруді өзіне алады, қажет болса — тіл курстары мен ЖОО-ға өтінім беруді де.',
-      en: 'Not just tuition. The state covers travel, the visa, accommodation, food, books, medical insurance and the mandatory health check — and, if needed, language courses and university applications.',
+      ru: 'Не только само обучение. Почти всё, что связано с поездкой, государство берёт на себя.',
+      kk: 'Тек оқудың өзін емес. Сапарға қатысты дүниенің барлығын дерлік мемлекет өзіне алады.',
+      en: 'Not just tuition. Almost everything the trip involves is covered by the state.',
     },
-    points: [
+    features: [
       {
-        ru: 'Оформление и подача не более 5 заявок в зарубежные вузы.',
-        kk: 'Шетелдік ЖОО-ға 5-тен аспайтын өтінімді рәсімдеу және беру.',
-        en: 'Preparing and filing up to 5 applications to foreign universities.',
+        icon: 'School',
+        label: { ru: 'До 5 заявок в вузы', kk: 'ЖОО-ға 5 өтінімге дейін', en: 'Up to 5 university applications' },
+        text: {
+          ru: 'Оформление и подачу оплачивают за вас.',
+          kk: 'Рәсімдеу мен тапсыруды сіздің орныңызға төлейді.',
+          en: 'Preparing and filing them is paid for you.',
+        },
       },
       {
-        ru: 'Проезд туда и обратно, а при учёбе дольше года — ещё и к началу каждого учебного года.',
-        kk: 'Барып-қайту жолы, ал оқу бір жылдан ұзақ болса — әр оқу жылының басына да.',
-        en: 'Travel there and back, and for programmes over a year, to the start of each academic year too.',
+        icon: 'PlaneTakeoff',
+        label: { ru: 'Дорога и виза', kk: 'Жол және виза', en: 'Travel and visa' },
+        text: {
+          ru: 'Проезд туда и обратно, а при учёбе дольше года — ещё и к началу каждого учебного года.',
+          kk: 'Барып-қайту жолы, ал оқу бір жылдан ұзақ болса — әр оқу жылының басына да.',
+          en: 'Travel there and back, and for programmes over a year, to the start of each academic year too.',
+        },
       },
       {
-        ru: 'Ежемесячные деньги на проживание, питание и учебную литературу — суммы утверждены отдельно по странам.',
-        kk: 'Тұру, тамақ және оқу әдебиетіне ай сайынғы қаражат — сомалар елдер бойынша бөлек бекітілген.',
-        en: 'A monthly allowance for living, food and study materials — the amounts are set per country.',
+        icon: 'Wallet',
+        label: { ru: 'Ежемесячные деньги', kk: 'Ай сайынғы қаражат', en: 'A monthly allowance' },
+        text: {
+          ru: 'Проживание, питание и учебная литература. Суммы утверждены отдельно по странам.',
+          kk: 'Тұру, тамақ және оқу әдебиеті. Сомалар елдер бойынша бөлек бекітілген.',
+          en: 'Living, food and study materials. The amounts are set per country.',
+        },
+      },
+      {
+        icon: 'ShieldCheck',
+        label: { ru: 'Медстраховка и медосмотр', kk: 'Медсақтандыру мен медтексеру', en: 'Insurance and health check' },
+        text: {
+          ru: 'Обязательное медобследование тоже входит в расходы.',
+          kk: 'Міндетті медтексеру де шығынға кіреді.',
+          en: 'The mandatory health check is covered as well.',
+        },
+      },
+      {
+        icon: 'Languages',
+        label: { ru: 'Языковые курсы', kk: 'Тіл курстары', en: 'Language courses' },
+        text: {
+          ru: 'Если они нужны по вашей категории.',
+          kk: 'Санатыңыз бойынша қажет болса.',
+          en: 'If your category needs them.',
+        },
       },
     ],
     sources: ['pp573', 'finance'],
@@ -123,10 +221,39 @@ export const ABOUT_BLOCKS: AboutBlock[] = [
     num: '05',
     title: { ru: 'Как подавать', kk: 'Қалай тапсыру керек', en: 'How to apply' },
     body: {
-      ru: 'Документы подают через портал электронного правительства egov.kz. Исключение — научные стажировки: там пакет несут лично в Центр международных программ в Астане. Сроки приёма объявляют каждый год и публикуют не позднее чем за 10 календарных дней до начала.',
-      kk: 'Құжаттарды egov.kz электрондық үкімет порталы арқылы тапсырады. Ерекшелік — ғылыми тағылымдама: онда топтаманы Астанадағы Халықаралық бағдарламалар орталығына өзі апарады. Қабылдау мерзімін жыл сайын жариялап, басталуға 10 күнтізбелік күн қалғанда хабарлайды.',
-      en: 'Documents go through the e-government portal egov.kz. The exception is scientific internships: there you bring the package to the Center for International Programs in Astana yourself. Intake dates are announced each year, at least 10 calendar days before they open.',
+      ru: 'Три шага. Никуда ехать и ничего отправлять почтой не нужно — кроме одного случая.',
+      kk: 'Үш қадам. Ешқайда баруға және поштамен жіберуге қажет жоқ — бір жағдайдан басқа.',
+      en: 'Three steps. You do not have to travel anywhere or post anything — with one exception.',
     },
+    steps: [
+      {
+        icon: 'FolderCheck',
+        title: { ru: 'Соберите пакет', kk: 'Топтаманы жинаңыз', en: 'Gather the package' },
+        text: {
+          ru: 'Список документов зависит от категории. В приложении он собран на экране «Документы».',
+          kk: 'Құжаттар тізімі санатқа байланысты. Қолданбада ол «Құжаттар» экранында жиналған.',
+          en: 'The document list depends on your category. The app collects it on the Documents screen.',
+        },
+      },
+      {
+        icon: 'Upload',
+        title: { ru: 'Подайте через egov.kz', kk: 'egov.kz арқылы тапсырыңыз', en: 'File through egov.kz' },
+        text: {
+          ru: 'Исключение — научные стажировки: там пакет несут лично в Центр международных программ в Астане.',
+          kk: 'Ерекшелік — ғылыми тағылымдама: онда топтаманы Астанадағы Халықаралық бағдарламалар орталығына өзі апарады.',
+          en: 'The exception is scientific internships: there you bring the package to the Center for International Programmes in Astana yourself.',
+        },
+      },
+      {
+        icon: 'Clock',
+        title: { ru: 'Успейте в срок приёма', kk: 'Қабылдау мерзіміне үлгеріңіз', en: 'Make the intake window' },
+        text: {
+          ru: 'Даты объявляют каждый год и публикуют не позднее чем за 10 календарных дней до начала.',
+          kk: 'Күндерді жыл сайын жариялап, басталуға 10 күнтізбелік күн қалғанда хабарлайды.',
+          en: 'The dates are announced each year, at least 10 calendar days before the intake opens.',
+        },
+      },
+    ],
     points: [
       {
         ru: 'Неполный пакет можно донести — но только пока приём ещё идёт.',
@@ -145,10 +272,39 @@ export const ABOUT_BLOCKS: AboutBlock[] = [
     num: '06',
     title: { ru: 'Как проходит конкурс', kk: 'Конкурс қалай өтеді', en: 'How the competition runs' },
     body: {
-      ru: 'Три тура. Первый — комплексное тестирование: числовой и вербальный тесты плюс личностный опросник. Не набрали пороговый балл — второго тура не будет, пересдачи не предусмотрены. Второй тур — анонимное собеседование с экспертной комиссией. Третий — заседание Республиканской комиссии, которая и присуждает стипендию.',
-      kk: 'Үш тур. Бірінші — кешенді тестілеу: сандық және вербалды тест, тұлғалық сауалнама. Шекті балды жинамасаңыз — екінші тур болмайды, қайта тапсыру көзделмеген. Екінші тур — сараптама комиссиясымен анонимді әңгімелесу. Үшінші — стипендияны тағайындайтын Республикалық комиссия отырысы.',
-      en: 'Three rounds. First, aptitude testing: numerical and verbal tests plus a personality questionnaire. Miss the cut-off and there is no second round, and no retakes. Second, an anonymous interview with the expert commission. Third, the Republican Commission meeting, which awards the scholarship.',
+      ru: 'Три тура подряд. К следующему допускают только тех, кто прошёл предыдущий.',
+      kk: 'Қатарынан үш тур. Келесіге алдыңғысынан өткендерді ғана жібереді.',
+      en: 'Three rounds in a row. Only those who pass one go through to the next.',
     },
+    steps: [
+      {
+        icon: 'MonitorCheck',
+        title: { ru: 'Тестирование', kk: 'Тестілеу', en: 'Testing' },
+        text: {
+          ru: 'Числовой и вербальный тесты плюс личностный опросник. Не набрали пороговый балл — второго тура не будет, пересдачи не предусмотрены.',
+          kk: 'Сандық және вербалды тест, тұлғалық сауалнама. Шекті балды жинамасаңыз — екінші тур болмайды, қайта тапсыру көзделмеген.',
+          en: 'Numerical and verbal tests plus a personality questionnaire. Miss the cut-off and there is no second round, and no retakes.',
+        },
+      },
+      {
+        icon: 'MessagesSquare',
+        title: { ru: 'Собеседование', kk: 'Әңгімелесу', en: 'Interview' },
+        text: {
+          ru: 'Анонимное, с экспертной комиссией.',
+          kk: 'Сараптама комиссиясымен анонимді түрде.',
+          en: 'Anonymous, with the expert commission.',
+        },
+      },
+      {
+        icon: 'Gavel',
+        title: { ru: 'Республиканская комиссия', kk: 'Республикалық комиссия', en: 'Republican Commission' },
+        text: {
+          ru: 'Заседание, на котором и присуждают стипендию.',
+          kk: 'Стипендияны тағайындайтын отырыс.',
+          en: 'The meeting that actually awards the scholarship.',
+        },
+      },
+    ],
     points: [
       {
         ru: 'О месте и времени первых двух туров сообщают не позднее чем за 10 календарных дней (для научных стажировок — за 5).',

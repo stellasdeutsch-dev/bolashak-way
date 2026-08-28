@@ -1,5 +1,5 @@
 import { Link } from 'react-router'
-import { ABOUT_BLOCKS, ABOUT_INTRO } from '@/content/about'
+import { ABOUT_BLOCKS, ABOUT_INTRO, ABOUT_STATS } from '@/content/about'
 import { CONTENT_META } from '@/content/meta'
 import { CHAPTERS } from '@/content/stages'
 import { OVERVIEW_VIDEOS } from '@/content/videos'
@@ -8,6 +8,7 @@ import { usePageChrome } from '@/i18n/usePageChrome'
 import { useAppStore } from '@/store/useAppStore'
 import { Button, Card, Pill, SourceLink } from '@/components/ui'
 import { IconArrowRight as ArrowRight, IconSparkles as Sparkles } from '@/components/icons'
+import { StageIcon } from '@/components/StageIcon'
 import { VideoList } from '@/components/Videos'
 import s from './About.module.css'
 
@@ -31,6 +32,25 @@ export function About() {
         <p className={s.heroText}>{c(ABOUT_INTRO)}</p>
       </Card>
 
+      {/* The four figures that shape everything, before any paragraph asks to be read. */}
+      <Card className={s.statsCard}>
+        <span className={s.statsTitle}>{t('about.statsTitle')}</span>
+        <div className={s.stats}>
+          {ABOUT_STATS.map((st) => (
+            <div key={st.value} className={s.stat}>
+              <span className={s.statValue}>{st.value}</span>
+              <span className={s.statCaption}>{c(st.caption)}</span>
+            </div>
+          ))}
+        </div>
+        {/* All four come from the same act, so the link belongs once under the row, not four times inside it. */}
+        <div className={s.sources}>
+          {[...new Set(ABOUT_STATS.map((st) => st.source))].map((src) => (
+            <SourceLink key={src} id={src} />
+          ))}
+        </div>
+      </Card>
+
       {ABOUT_BLOCKS.map((b) => (
         <Card key={b.num} className={s.block}>
           <div className={s.blockHead}>
@@ -38,6 +58,37 @@ export function About() {
             <h2 className={s.blockTitle}>{c(b.title)}</h2>
           </div>
           <p className={s.body}>{c(b.body)}</p>
+          {b.steps && (
+            <ol className={s.steps}>
+              {b.steps.map((step, i) => (
+                <li key={i} className={s.step}>
+                  <span className={s.stepIcon}>
+                    <StageIcon name={step.icon} size={19} />
+                  </span>
+                  <span className={s.stepNum}>{i + 1}</span>
+                  <b className={s.stepTitle}>{c(step.title)}</b>
+                  <span className={s.stepText}>{c(step.text)}</span>
+                </li>
+              ))}
+            </ol>
+          )}
+
+          {b.features && (
+            <ul className={s.features}>
+              {b.features.map((f, i) => (
+                <li key={i} className={s.feature}>
+                  <span className={s.featureIcon}>
+                    <StageIcon name={f.icon} size={18} />
+                  </span>
+                  <span>
+                    <b className={s.featureLabel}>{c(f.label)}</b>
+                    <span className={s.featureText}>{c(f.text)}</span>
+                  </span>
+                </li>
+              ))}
+            </ul>
+          )}
+
           {b.points && (
             <ul className={s.points}>
               {b.points.map((p, i) => (
