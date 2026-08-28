@@ -9,11 +9,11 @@
        * never exists on the server; this page turns it back into <app root>/#/stage/testing.
        *
        * BASE_SEGMENTS = how many path segments the app is served under:
-       *   0 — root of a domain (https://example.kz/)            ← default
-       *   1 — GitHub Pages project site (https://user.github.io/repo/)
+       *   0 — root of a domain (https://example.kz/)
+       *   1 — GitHub Pages project site (https://user.github.io/repo/)  ← current deployment
        * Set it to match your deployment; everything else is derived from it.
        */
-      var BASE_SEGMENTS = 0
+      var BASE_SEGMENTS = 1
 
       var l = window.location
       var parts = l.pathname.split('/').filter(Boolean)
