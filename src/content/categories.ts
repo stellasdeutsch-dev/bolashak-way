@@ -6,79 +6,79 @@ import type { Category, CategoryId, L, Track, WorkerGroup } from './types'
  */
 
 const WORKBACK_ACADEMIC: L = {
-  ru: 'Отработка после обучения: не менее 5 лет в Астане, Алматы или Шымкенте либо не менее 3 лет в регионах. Срок сокращается на 1 год, если весь период обучения был бесплатным от вуза и успеваемость по договору соблюдена.',
-  kk: 'Оқудан кейінгі өтеу: Астанада, Алматыда немесе Шымкентте кемінде 5 жыл не өңірлерде кемінде 3 жыл. Оқу тегін болып, шарттағы үлгерім сақталса, мерзім 1 жылға қысқарады.',
-  en: 'Work-back after study: at least 5 years in Astana, Almaty or Shymkent, or at least 3 years in the regions. Reduced by one year if the whole programme was free of charge and the contractual academic performance was met.',
+  ru: 'После учёбы отработать не меньше 5 лет в Астане, Алматы или Шымкенте — либо не меньше 3 лет в регионах. Год снимут, если весь период вас учили бесплатно, а успеваемость по договору вы держали.',
+  kk: 'Оқудан кейін Астанада, Алматыда не Шымкентте кемінде 5 жыл — не өңірлерде кемінде 3 жыл өтеу керек. Бүкіл кезеңде тегін оқысаңыз және шарттағы үлгерімді ұстасаңыз, бір жыл алынады.',
+  en: 'After your studies you owe at least 5 years in Astana, Almaty or Shymkent, or at least 3 years in the regions. One year comes off if your whole programme was free and you kept the grades your contract required.',
 }
 
 const WORKBACK_CIVIL: L = {
-  ru: 'Отработка: не менее 3 лет на государственной службе или в органах дипломатической службы, причём первый год — непосредственно в направившем государственном органе.',
-  kk: 'Өтеу: мемлекеттік қызметте немесе дипломатиялық қызмет органдарында кемінде 3 жыл, оның бірінші жылы — жіберген мемлекеттік органда.',
-  en: 'Work-back: at least 3 years in public service or the diplomatic service, with the first year in the state body that sent you.',
+  ru: 'Отработать не меньше 3 лет на госслужбе или в органах дипломатической службы. Первый год — обязательно в том государственном органе, который вас отправил.',
+  kk: 'Мемлекеттік қызметте не дипломатиялық қызмет органдарында кемінде 3 жыл өтеу керек. Бірінші жыл — міндетті түрде сізді жіберген мемлекеттік органда.',
+  en: 'You owe at least 3 years in public service or the diplomatic service. The first year has to be at the state body that sent you.',
 }
 
 const WORKBACK_EMPLOYER: L = {
-  ru: 'Отработка: не менее 3 лет в организации, по заявке которой вас направили (либо в её филиале, представительстве, а с согласия работодателя — в иной организации в Казахстане).',
-  kk: 'Өтеу: сізді жіберген ұйымда кемінде 3 жыл (не оның филиалында, өкілдігінде, жұмыс беруші келіскенде — Қазақстандағы өзге ұйымда).',
-  en: 'Work-back: at least 3 years at the organisation whose request sent you (or its branch; with the employer\'s consent, another organisation in Kazakhstan).',
+  ru: 'Отработать не меньше 3 лет в организации, которая давала на вас заявку, либо в её филиале или представительстве. С согласия работодателя — в другой организации в Казахстане.',
+  kk: 'Сізге өтінім берген ұйымда не оның филиалында, өкілдігінде кемінде 3 жыл өтеу керек. Жұмыс беруші келіссе — Қазақстандағы басқа ұйымда.',
+  en: 'You owe at least 3 years at the organisation that requested your training, or at its branch. With your employer\'s consent — at another organisation in Kazakhstan.',
 }
 
 const WORKBACK_SCIENCE: L = {
-  ru: 'Отработка: не менее 3 лет непрерывно у работодателя, по заявке которого вы поехали. Смена работодателя — только при его ликвидации или реорганизации.',
-  kk: 'Өтеу: өтінімі бойынша барған жұмыс берушіде үздіксіз кемінде 3 жыл. Жұмыс берушіні ауыстыру — тек таратылған немесе қайта ұйымдастырылған жағдайда.',
-  en: 'Work-back: at least 3 continuous years with the employer that requested your internship. Changing employer is possible only if it is liquidated or reorganised.',
+  ru: 'Отработать не меньше 3 лет подряд у того работодателя, по заявке которого вы поехали. Сменить его можно, только если организацию ликвидировали или реорганизовали.',
+  kk: 'Өтінімі бойынша барған жұмыс берушіде қатарынан кемінде 3 жыл өтеу керек. Оны ауыстыруға тек ұйым таратылса не қайта ұйымдастырылса болады.',
+  en: 'You owe at least 3 continuous years with the employer that sent you. You can change it only if the organisation is liquidated or reorganised.',
 }
 
 const KAZ_B1 = {
   text: {
-    ru: 'Действительный сертификат КАЗТЕСТ или Qazaq Resmi Test по казахскому языку с результатом не ниже уровня B1.',
-    kk: 'Қазақ тілінен B1 деңгейінен төмен емес жарамды ҚАЗТЕСТ немесе Qazaq Resmi Test сертификаты.',
-    en: 'A valid KAZTEST or Qazaq Resmi Test certificate in Kazakh at level B1 or higher.',
+    ru: 'Действующий сертификат КАЗТЕСТ или Qazaq Resmi Test по казахскому языку — не ниже B1.',
+    kk: 'Қазақ тілінен қолданыстағы ҚАЗТЕСТ не Qazaq Resmi Test сертификаты — B1-ден төмен емес.',
+    en: 'A valid KAZTEST or Qazaq Resmi Test certificate in Kazakh, at B1 or above.',
   },
   source: 'pravila',
 } as const
 
 const UNCONDITIONAL = {
   text: {
-    ru: 'Безусловное зачисление (за исключением финансовых условий) в зарубежный вуз из Списка ведущих вузов.',
-    kk: 'Жетекші ЖОО тізіміндегі шетелдік ЖОО-ға сөзсіз қабылдану (қаржылық шарттарды қоспағанда).',
-    en: 'Unconditional admission (financial conditions excepted) to a foreign university from the official list.',
+    ru: 'Безусловное зачисление в зарубежный вуз из официального Списка. Оговорка допускается только про оплату.',
+    kk: 'Ресми Тізімдегі шетелдік ЖОО-ға сөзсіз қабылдану. Ескертпе тек төлем туралы болуы мүмкін.',
+    en: 'Unconditional admission to a foreign university from the official list. The only condition allowed is about payment.',
   },
   source: 'pravila',
 } as const
 
 const GPA = {
   text: {
-    ru: 'Средний балл диплома бакалавра или специалиста — не ниже GPA 3.00 (из 4.00/4.33) либо 4.00 из 5.00.',
-    kk: 'Бакалавр немесе маман дипломының орташа балы — GPA 3.00-ден (4.00/4.33-тен) немесе 5.00-ден 4.00-ден төмен емес.',
-    en: 'Bachelor/specialist diploma GPA of at least 3.00 out of 4.00/4.33, or 4.00 out of 5.00.',
+    ru: 'Средний балл диплома — не ниже GPA 3.00 из 4.00/4.33 или 4.00 из 5.00.',
+    kk: 'Диплом орташа балы — 4.00/4.33-тен GPA 3.00 не 5.00-ден 4.00-ден төмен емес.',
+    en: 'Diploma GPA of at least 3.00 out of 4.00/4.33, or 4.00 out of 5.00.',
   },
   source: 'pravila',
 } as const
 
 const RELATED_SPEC = {
   text: {
-    ru: 'Специальность по диплому должна соответствовать выбранной специальности по перечню родственных специальностей.',
-    kk: 'Диплом бойынша мамандық туыстас мамандықтар тізбесі бойынша таңдалған мамандыққа сәйкес келуі керек.',
-    en: 'Your diploma specialty must match the chosen specialty according to the related-specialties list.',
+    ru: 'Специальность в дипломе подходит к выбранной — по перечню родственных специальностей.',
+    kk: 'Дипломдағы мамандық таңдағаныңызға келеді — туыстас мамандықтар тізбесі бойынша.',
+    en: 'Your diploma specialty fits the one you chose, under the related-specialties list.',
   },
   source: 'related2026',
 } as const
 
 const FOREIGN_LANG = {
   text: {
-    ru: 'Знание иностранного языка на уровне установленных минимальных требований (таблица пороговых уровней приказа № 318).',
-    kk: 'Шет тілін белгіленген ең төменгі талаптар деңгейінде білу (№ 318 бұйрықтың шекті деңгейлер кестесі).',
-    en: 'Foreign-language proficiency meeting the established minimum thresholds (threshold table of Order No. 318).',
+    ru: 'Иностранный язык на уровне не ниже минимального — пороги в таблице приказа № 318.',
+    kk: 'Шет тілі ең төменгі деңгейден кем емес — шектер № 318 бұйрық кестесінде.',
+    en: 'Foreign language at or above the minimum — the thresholds are in the table of Order No. 318.',
   },
   source: 'prikaz318',
 } as const
 
 const EMPLOYER_REQUEST = {
   text: {
-    ru: 'Заявка работодателя на подготовку специалиста с условием сохранения места работы по утверждённой форме.',
-    kk: 'Жұмыс орнын сақтау шартымен маман даярлауға жұмыс берушінің бекітілген нысандағы өтінімі.',
-    en: 'An employer request to train the specialist with the job retained, on the approved form.',
+    ru: 'Заявка от работодателя на вашу учёбу по утверждённой форме, с сохранением места работы.',
+    kk: 'Жұмыс берушінің оқуыңызға бекітілген нысандағы өтінімі, жұмыс орны сақталады.',
+    en: 'Your employer\'s request to train you on the approved form, with your job kept.',
   },
   source: 'employer_form',
 } as const
@@ -103,17 +103,17 @@ export const CATEGORIES: Record<CategoryId, Category> = {
       KAZ_B1,
       {
         text: {
-          ru: 'Диплом первой, второй или третьей степени международной олимпиады по общеобразовательным предметам, международного конкурса научных проектов или конкурса исполнителей, полученный за последние 3 года, при совпадении специальности с предметом олимпиады.',
-          kk: 'Соңғы 3 жылда алынған халықаралық олимпиаданың, ғылыми жобалар не орындаушылар конкурсының бірінші, екінші немесе үшінші дәрежелі дипломы, мамандық олимпиада пәніне сәйкес болса.',
-          en: 'A first, second or third degree diploma from an international subject olympiad, research-project or performers competition obtained in the last 3 years, with the specialty matching the olympiad subject.',
+          ru: 'Диплом I, II или III степени за последние 3 года: международная олимпиада по школьным предметам, конкурс научных проектов или конкурс исполнителей. Специальность должна совпадать с предметом олимпиады.',
+          kk: 'Соңғы 3 жылдағы I, II не III дәрежелі диплом: мектеп пәндері бойынша халықаралық олимпиада, ғылыми жобалар не орындаушылар конкурсы. Мамандық олимпиада пәніне сай болуы керек.',
+          en: 'A 1st, 2nd or 3rd place diploma from the last 3 years: an international school-subject olympiad, a research-project contest or a performers competition. The specialty has to match the olympiad subject.',
         },
         source: 'olympiads',
       },
       {
         text: {
-          ru: 'Для несовершеннолетних — нотариальное согласие законного представителя на обучение за рубежом.',
-          kk: 'Кәмелетке толмағандар үшін — заңды өкілдің шетелде оқуға нотариалды келісімі.',
-          en: 'For applicants under 18 — a notarised consent of the legal representative to study abroad.',
+          ru: 'Если вам ещё нет 18 — нотариальное согласие родителей или опекуна на учёбу за границей.',
+          kk: '18 жасқа толмасаңыз — ата-ананың не қамқоршының шетелде оқуға нотариалды келісімі.',
+          en: 'If you are under 18 — a notarised consent from a parent or guardian for studying abroad.',
         },
         source: 'pravila',
       },
@@ -147,9 +147,9 @@ export const CATEGORIES: Record<CategoryId, Category> = {
     title: { ru: 'Магистратура — из сельского населённого пункта', kk: 'Магистратура — ауылдық елді мекеннен', en: "Master's — rural applicant" },
     short: { ru: 'Из села', kk: 'Ауылдан', en: 'Rural' },
     desc: {
-      ru: 'Регистрация по месту жительства и работа в сельском населённом пункте Казахстана последние 2 года.',
-      kk: 'Соңғы 2 жыл Қазақстанның ауылдық елді мекенінде тұрғылықты тіркеу және жұмыс.',
-      en: 'Registered residence and employment in a rural settlement of Kazakhstan for the last 2 years.',
+      ru: 'Последние 2 года вы прописаны и работаете в сельском населённом пункте Казахстана.',
+      kk: 'Соңғы 2 жыл Қазақстанның ауылдық елді мекенінде тіркелгенсіз және сонда жұмыс істейсіз.',
+      en: 'For the last 2 years you have been registered and working in a rural settlement in Kazakhstan.',
     },
     preferential: true,
     requiresInvitationAtApplication: false,
@@ -158,9 +158,9 @@ export const CATEGORIES: Record<CategoryId, Category> = {
     requirements: [
       {
         text: {
-          ru: 'Регистрация по месту жительства и трудовая деятельность в сельском населённом пункте Республики Казахстан последние 2 года.',
-          kk: 'Соңғы 2 жылда Қазақстан Республикасының ауылдық елді мекенінде тұрғылықты тіркеу және еңбек қызметі.',
-          en: 'Registered residence and employment in a rural settlement of Kazakhstan over the last 2 years.',
+          ru: 'Прописка и работа в сельском населённом пункте Казахстана последние 2 года.',
+          kk: 'Соңғы 2 жылда Қазақстанның ауылдық елді мекенінде тіркеу және жұмыс.',
+          en: 'Registration and work in a rural settlement of Kazakhstan for the last 2 years.',
         },
         source: 'pravila',
       },
@@ -180,9 +180,9 @@ export const CATEGORIES: Record<CategoryId, Category> = {
     title: { ru: 'Магистратура — инженерно-технический работник', kk: 'Магистратура — инженерлік-техникалық қызметкер', en: "Master's — engineering worker" },
     short: { ru: 'Инженерно-технический работник', kk: 'Инженерлік-техникалық қызметкер', en: 'Engineering worker' },
     desc: {
-      ru: 'Организуете и руководите производственным процессом, высшее техническое образование (в том числе ИКТ), стаж в выбранной области от 1 года.',
-      kk: 'Өндірістік процесті ұйымдастырасыз және басқарасыз, жоғары техникалық білім (оның ішінде АКТ), таңдалған салада 1 жылдан астам өтіл.',
-      en: 'You organise and manage a production process, hold higher technical education (including ICT) and have at least 1 year in the chosen field.',
+      ru: 'Вы организуете и ведёте производственный процесс, у вас высшее техническое образование (в том числе в ИКТ) и не меньше года стажа в своей области.',
+      kk: 'Өндірістік процесті ұйымдастырып, жүргізесіз, жоғары техникалық біліміңіз бар (АКТ саласын қоса) және өз саладағы өтіліңіз бір жылдан кем емес.',
+      en: 'You organise and run a production process, hold a technical degree (ICT counts) and have at least a year in your field.',
     },
     preferential: true,
     requiresInvitationAtApplication: false,
@@ -191,9 +191,9 @@ export const CATEGORIES: Record<CategoryId, Category> = {
     requirements: [
       {
         text: {
-          ru: 'Организация и руководство производственным процессом (производство, заготовка, хранение, транспортировка, обработка), высшее техническое образование, в том числе в отрасли ИКТ, и общий стаж в выбранной области специализации не менее 1 года — для технических специальностей.',
-          kk: 'Өндірістік процесті ұйымдастыру және басқару, жоғары техникалық білім (АКТ саласын қоса) және таңдалған мамандану саласында кемінде 1 жыл жалпы өтіл — техникалық мамандықтар үшін.',
-          en: 'Organising and managing a production process, higher technical education (including ICT) and at least 1 year of experience in the chosen field of specialisation — for technical specialties.',
+          ru: 'Вы организуете и ведёте производство: изготовление, заготовку, хранение, перевозку или переработку. У вас высшее техническое образование, в том числе в ИКТ, и не меньше года стажа в своей области. Учиться можно по техническим специальностям.',
+          kk: 'Өндірісті ұйымдастырып, жүргізесіз: дайындау, сақтау, тасымалдау не өңдеу. Жоғары техникалық біліміңіз бар, АКТ-ны қоса, және өз саладағы өтіліңіз бір жылдан кем емес. Техникалық мамандықтар бойынша оқуға болады.',
+          en: 'You organise and run production: making, storing, transporting or processing. You hold a technical degree, ICT included, and at least a year in your field. You can study technical specialties.',
         },
         source: 'pravila',
       },
@@ -224,9 +224,9 @@ export const CATEGORIES: Record<CategoryId, Category> = {
     requirements: [
       {
         text: {
-          ru: 'Трудовая деятельность с оказанием непосредственной медицинской помощи в медицинских организациях, высшее медицинское образование, общий медицинский стаж не менее 1 года. Обучение — по специальностям медицинского направления.',
-          kk: 'Медициналық ұйымдарда тікелей медициналық көмек көрсету, жоғары медициналық білім, жалпы медициналық өтіл кемінде 1 жыл. Оқу — медицина бағытындағы мамандықтар бойынша.',
-          en: 'Employment providing direct medical care in medical organisations, higher medical education and at least 1 year of medical experience. Study is in medical specialties.',
+          ru: 'Вы работаете в медицинской организации и лечите людей, у вас высшее медицинское образование и не меньше года медицинского стажа. Учиться можно по медицинским специальностям.',
+          kk: 'Медициналық ұйымда жұмыс істеп, адамдарды емдейсіз, жоғары медициналық біліміңіз және бір жылдан кем емес медициналық өтіліңіз бар. Медицина мамандықтары бойынша оқуға болады.',
+          en: 'You work in a medical organisation treating patients, hold a medical degree and have at least a year of medical experience. You can study medical specialties.',
         },
         source: 'pravila',
       },
@@ -257,9 +257,9 @@ export const CATEGORIES: Record<CategoryId, Category> = {
     requirements: [
       {
         text: {
-          ru: 'На момент подачи — государственный служащий (за исключением политических государственных служащих) с общим стажем на государственной службе не менее 3 лет, включая последние 12 месяцев в направляющем государственном органе.',
-          kk: 'Құжат тапсыру кезінде — мемлекеттік қызметші (саяси қызметшілерден басқа), мемлекеттік қызметте кемінде 3 жыл өтіл, оның ішінде соңғы 12 ай жіберуші мемлекеттік органда.',
-          en: 'At the time of application — a civil servant (excluding political appointees) with at least 3 years of public service, including the last 12 months in the sending state body.',
+          ru: 'На день подачи вы госслужащий — кроме политических служащих. Стаж на госслужбе не меньше 3 лет, из них последние 12 месяцев в том органе, который вас направляет.',
+          kk: 'Тапсыру күні сіз мемлекеттік қызметшісіз — саяси қызметшілерден басқа. Мемлекеттік қызметтегі өтіл 3 жылдан кем емес, оның соңғы 12 айы сізді жіберетін органда.',
+          en: 'On the day you apply you are a civil servant — political appointees aside. At least 3 years in public service, the last 12 months of them at the body sending you.',
         },
         source: 'pravila',
       },
@@ -280,9 +280,9 @@ export const CATEGORIES: Record<CategoryId, Category> = {
     title: { ru: 'Магистратура — работник атомной отрасли', kk: 'Магистратура — атом саласының қызметкері', en: "Master's — nuclear industry worker" },
     short: { ru: 'Работник атомной отрасли', kk: 'Атом саласының қызметкері', en: 'Nuclear industry' },
     desc: {
-      ru: 'Работа в организациях атомной энергетики, урановой добычи, радиационных технологий: общий стаж от 3 лет, из них последние 6 месяцев в выбранной области.',
-      kk: 'Атом энергетикасы, уран өндіру, радиациялық технологиялар ұйымдарындағы жұмыс: жалпы өтіл 3 жылдан астам, оның соңғы 6 айы таңдалған салада.',
-      en: 'Employment in nuclear energy, uranium mining or radiation technology organisations: 3+ years total, the last 6 months in the chosen field.',
+      ru: 'Вы работаете в атомной энергетике, добыче урана или радиационных технологиях. Общий стаж от 3 лет, из них последние 6 месяцев — в своей области.',
+      kk: 'Атом энергетикасында, уран өндіруде не радиациялық технологияларда жұмыс істейсіз. Жалпы өтіл 3 жылдан, оның соңғы 6 айы — өз саласында.',
+      en: 'You work in nuclear energy, uranium mining or radiation technology. At least 3 years in total, the last 6 months of them in your field.',
     },
     preferential: true,
     requiresInvitationAtApplication: false,
@@ -291,9 +291,9 @@ export const CATEGORIES: Record<CategoryId, Category> = {
     requirements: [
       {
         text: {
-          ru: 'Трудовая деятельность в организациях государственного регулирования атомной энергии, недропользования (разведка и добыча урана), атомной промышленности, инженерных изысканий и научных исследований в атомной энергетике, производства радиофармпрепаратов и радиационных технологий: общий стаж не менее 3 лет и фактическая работа в выбранной области последние 6 месяцев.',
-          kk: 'Атом энергиясын мемлекеттік реттеу, жер қойнауын пайдалану (уран барлау және өндіру), атом өнеркәсібі, инженерлік ізденістер мен ғылыми зерттеулер, радиофармпрепараттар өндірісі ұйымдарындағы жұмыс: жалпы өтіл кемінде 3 жыл және таңдалған салада соңғы 6 ай нақты жұмыс.',
-          en: 'Employment in nuclear energy regulation, subsoil use (uranium exploration and mining), nuclear industry, engineering surveys and research, or radiopharmaceutical and radiation technology organisations: at least 3 years total and 6 months of actual work in the chosen field.',
+          ru: 'Вы работаете в атомной отрасли: госрегулирование атомной энергии, разведка и добыча урана, атомная промышленность, инженерные изыскания и научные исследования, производство радиофармпрепаратов и радиационные технологии. Общий стаж не меньше 3 лет, а последние 6 месяцев вы фактически работаете в своей области.',
+          kk: 'Атом саласында жұмыс істейсіз: атом энергиясын мемлекеттік реттеу, уран барлау мен өндіру, атом өнеркәсібі, инженерлік ізденіс пен ғылыми зерттеу, радиофармпрепараттар өндірісі және радиациялық технологиялар. Жалпы өтіл 3 жылдан кем емес, ал соңғы 6 айда өз саласында нақты жұмыс істейсіз.',
+          en: 'You work in the nuclear sector: state regulation of nuclear energy, uranium exploration and mining, nuclear industry, engineering surveys and research, radiopharmaceuticals and radiation technology. At least 3 years in total, and for the last 6 months you have actually worked in your field.',
         },
         source: 'pravila',
       },
@@ -327,9 +327,9 @@ export const CATEGORIES: Record<CategoryId, Category> = {
       KAZ_B1,
       {
         text: {
-          ru: 'Индивидуальный учебный план, согласованный с зарубежным вузом и не превышающий установленные им сроки, с нотариальным переводом.',
-          kk: 'Шетелдік ЖОО-мен келісілген және оның мерзімінен аспайтын жеке оқу жоспары, нотариалды аудармасымен.',
-          en: 'An individual study plan agreed with the foreign university, not exceeding its stated duration, with a notarised translation.',
+          ru: 'Индивидуальный учебный план, согласованный с вузом и не длиннее сроков, которые он установил. С нотариальным переводом.',
+          kk: 'ЖОО-мен келісілген және ол белгілеген мерзімнен ұзақ емес жеке оқу жоспары. Нотариалды аудармасымен.',
+          en: 'An individual study plan agreed with the university and no longer than the period it sets. With a notarised translation.',
         },
         source: 'pravila',
       },
@@ -357,9 +357,9 @@ export const CATEGORIES: Record<CategoryId, Category> = {
       KAZ_B1,
       {
         text: {
-          ru: 'Общий стаж работы в атомной отрасли не менее 3 лет, в том числе фактическая работа в выбранной области специализации последние 6 месяцев.',
-          kk: 'Атом саласындағы жалпы жұмыс өтілі кемінде 3 жыл, оның ішінде таңдалған салада соңғы 6 ай нақты жұмыс.',
-          en: 'At least 3 years of total experience in the nuclear industry, including 6 months of actual work in the chosen field.',
+          ru: 'Стаж в атомной отрасли не меньше 3 лет, из них последние 6 месяцев вы работаете именно в своей области.',
+          kk: 'Атом саласындағы өтіл 3 жылдан кем емес, оның соңғы 6 айында дәл өз саласында жұмыс істейсіз.',
+          en: 'At least 3 years in the nuclear sector, and for the last 6 months you have worked specifically in your field.',
         },
         source: 'pravila',
       },
