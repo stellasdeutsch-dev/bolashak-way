@@ -14,7 +14,11 @@ export default defineConfig({
       manifest: false,
       workbox: {
         globPatterns: ['**/*.{js,css,html,svg,webmanifest}'],
-        navigateFallback: 'index.html',
+        // No navigateFallback on purpose: the app is hash-routed, so index.html is only
+        // ever requested at the app root (and is precached). With a fallback the worker
+        // answered deep paths like /repo/stage/foo with index.html, and the relative asset
+        // URLs then resolved against /repo/stage/ and 404'd — a blank page. Letting those
+        // paths reach the host means 404.html runs and redirects into the hash route.
       },
     }),
   ],
