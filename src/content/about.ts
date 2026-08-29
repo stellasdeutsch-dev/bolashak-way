@@ -30,6 +30,8 @@ export interface AboutBlock {
   features?: AboutFeature[]
   /** Ordered cards: use when the block describes a procedure that runs in order. */
   steps?: AboutStep[]
+  /** A visual from components/Explain.tsx that carries the block instead of prose. */
+  visual?: 'workback-table' | 'path-lanes' | 'award-timeline'
   sources?: SourceId[]
 }
 
@@ -150,32 +152,11 @@ export const ABOUT_BLOCKS: AboutBlock[] = [
     num: '02',
     title: { ru: 'Что вы обязаны взамен', kk: 'Сіз орнына не міндеттісіз', en: 'What you owe in return' },
     body: {
-      ru: 'Вернуться в Казахстан и отработать. Сколько именно — зависит от вашей категории и от того, где вы будете работать. Пока обязательства не закрыты, залог или гарантия остаются в силе.',
-      kk: 'Қазақстанға оралып, өтеу. Қанша — санатыңызға және қай жерде жұмыс істейтініңізге байланысты. Міндеттеме жабылмайынша кепіл не кепілдік күшінде қалады.',
-      en: 'Come back to Kazakhstan and work it off. How long depends on your category and where you work. Until the obligation is closed, the pledge or guarantee stays in force.',
+      ru: 'Вернуться в Казахстан и отработать. Пока обязательства не закрыты, залог или гарантия остаются в силе.',
+      kk: 'Қазақстанға оралып, өтеу. Міндеттеме жабылмайынша кепіл не кепілдік күшінде қалады.',
+      en: 'Come back to Kazakhstan and work it off. Until the obligation is closed, the pledge or guarantee stays in force.',
     },
-    points: [
-      {
-        ru: '5 лет в Астане, Алматы или Шымкенте — либо 3 года в регионах, если вы учились на степень.',
-        kk: 'Астанада, Алматыда не Шымкентте 5 жыл — не өңірлерде 3 жыл, дәрежеге оқысаңыз.',
-        en: '5 years in Astana, Almaty or Shymkent — or 3 years in the regions, if you studied for a degree.',
-      },
-      {
-        ru: '3 года на госслужбе для госслужащих, причём первый год — в том же органе, который вас направил.',
-        kk: 'Мемлекеттік қызметшілерге мемлекеттік қызметте 3 жыл, оның бірінші жылы — жіберген органда.',
-        en: '3 years in public service for civil servants, the first of them at the body that sent you.',
-      },
-      {
-        ru: '3 года у своего работодателя — для стажировок и научных стажировок.',
-        kk: 'Тағылымдама мен ғылыми тағылымдамаға — өз жұмыс берушіңізде 3 жыл.',
-        en: '3 years with your own employer — for internships and scientific internships.',
-      },
-      {
-        ru: 'Год снимают, если весь период вас учили бесплатно, а успеваемость по договору вы держали.',
-        kk: 'Бүкіл кезеңде тегін оқысаңыз және шарттағы үлгерімді ұстасаңыз, бір жыл алынады.',
-        en: 'One year comes off if your whole programme was free and you kept the grades your contract required.',
-      },
-    ],
+    visual: 'workback-table',
     sources: ['pp573', 'pp791'],
   },
   {
@@ -204,17 +185,11 @@ export const ABOUT_BLOCKS: AboutBlock[] = [
     num: '04',
     title: { ru: 'Как устроен путь', kk: 'Жол қалай құрылған', en: 'How the path is laid out' },
     body: {
-      ru: 'Пять глав. Сначала вы проверяете, подходите ли вообще, и собираете основу: специальность, вуз, языки. Потом собираете документы и подаёте. Дальше три тура конкурса. Если выиграли — договор и подготовка к выезду. И наконец учёба, возвращение и отработка.',
-      kk: 'Бес тарау. Алдымен жарайсыз ба, соны тексеріп, негізді жинайсыз: мамандық, ЖОО, тілдер. Содан кейін құжат жинап, тапсырасыз. Әрі қарай конкурстың үш туры. Жеңсеңіз — шарт және шығуға дайындық. Соңында оқу, оралу және өтеу.',
-      en: 'Five chapters. First you check whether you qualify at all and put the basics in place: specialty, university, languages. Then you gather documents and apply. Next come three rounds of the competition. If you win — the contract and getting ready to leave. Finally, study, return and work-back.',
+      ru: 'Пять глав, одинаковых для всех. Разница одна: в какой момент у вас появляется место в вузе.',
+      kk: 'Бәріне бірдей бес тарау. Айырмашылық біреу: ЖОО-дағы орын қай сәтте пайда болады.',
+      en: 'Five chapters, the same for everyone. One thing differs: when you get your university place.',
     },
-    points: [
-      {
-        ru: 'Порядок не у всех одинаковый. Если вы поступаете сами — приглашение от вуза нужно уже при подаче. Если идёте по льготной категории — сначала конкурс и языковые курсы, а вуз ищете после присуждения.',
-        kk: 'Рет бәрінде бірдей емес. Өз бетінше түссеңіз — шақыру тапсыру кезінде керек. Жеңілдікті санат бойынша барсаңыз — алдымен конкурс пен тіл курстары, ЖОО-ны тағайындалғаннан кейін іздейсіз.',
-        en: 'The order is not the same for everyone. If you get in on your own, you need the offer when you apply. Under a preferential category, the competition and language courses come first, and you look for a university after the award.',
-      },
-    ],
+    visual: 'path-lanes',
     sources: ['pp573'],
   },
   {
@@ -323,10 +298,11 @@ export const ABOUT_BLOCKS: AboutBlock[] = [
     num: '07',
     title: { ru: 'Что будет после победы', kk: 'Жеңгеннен кейін не болады', en: 'What happens after you win' },
     body: {
-      ru: 'Самый жёсткий срок всей процедуры: 90 календарных дней на договор — и на обеспечение обязательств, то есть залог недвижимости или гарантию. Для научной стажировки срок короче: 60 дней. Не успели — рабочий орган начинает процедуру лишения стипендии.',
-      kk: 'Бүкіл рәсімдегі ең қатаң мерзім: шартқа және міндеттемені қамтамасыз етуге, яғни кепілге не кепілдікке — 90 күнтізбелік күн. Ғылыми тағылымдамаға мерзім қысқа: 60 күн. Үлгермесеңіз — жұмыс органы стипендиядан айыру рәсімін бастайды.',
-      en: 'The tightest deadline in the whole process: 90 calendar days for the contract and the security — a property pledge or a guarantee. For a scientific internship it is shorter: 60 days. Miss it and the working body starts withdrawing the scholarship.',
+      ru: 'Самый жёсткий срок всей процедуры. Не успели — рабочий орган начинает процедуру лишения стипендии.',
+      kk: 'Бүкіл рәсімдегі ең қатаң мерзім. Үлгермесеңіз — жұмыс органы стипендиядан айыру рәсімін бастайды.',
+      en: 'The tightest deadline in the whole process. Miss it and the working body starts withdrawing the scholarship.',
     },
+    visual: 'award-timeline',
     points: [
       {
         ru: 'Договор залога подписывают только в Астане, поэтому поездку планируйте заранее.',

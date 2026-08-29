@@ -212,3 +212,16 @@ svg {
     word-break: break-all;
   }
 }
+
+/* Blocks that rise into place the first time they are scrolled to. The reduced-motion
+   block above collapses the transition, and Reveal marks itself seen immediately there,
+   so the content is simply present. */
+.reveal {
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity 520ms var(--ease-out), transform 520ms var(--ease-out);
+}
+.revealIn {
+  opacity: 1;
+  transform: none;
+}

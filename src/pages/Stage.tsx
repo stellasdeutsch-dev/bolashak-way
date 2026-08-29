@@ -22,6 +22,8 @@ import { usePageChrome } from '@/i18n/usePageChrome'
 import { Button, Callout, Card, FallbackBadge, Pill, SourceLink } from '@/components/ui'
 import { StageIcon } from '@/components/StageIcon'
 import { VideoList } from '@/components/Videos'
+import { AwardTimeline, WorkbackTable } from '@/components/Explain'
+import { Reveal } from '@/components/Reveal'
 import s from './Stage.module.css'
 
 function FaqRow({ item }: { item: FaqItem }) {
@@ -490,11 +492,33 @@ export function StagePage() {
         </Callout>
       )}
       {stage.id === 'workback' && (
-        <Callout tone="info" source="pp573">
-          <strong>{t('stage.workBackTitle')}</strong>
-          <br />
-          {c(getCategory(profile.category).workBack)}
-        </Callout>
+        <>
+          <Callout tone="info" source="pp573">
+            <strong>{t('stage.workBackTitle')}</strong>
+            <br />
+            {c(getCategory(profile.category).workBack)}
+          </Callout>
+          <Card>
+            <div className={s.section}>
+              <span className={s.sectionTitle}>{t('stage.workBackTable')}</span>
+              <Reveal>
+                <WorkbackTable />
+              </Reveal>
+            </div>
+          </Card>
+        </>
+      )}
+
+      {stage.id === 'contract' && (
+        <Card>
+          <div className={s.section}>
+            <span className={s.sectionTitle}>{t('stage.awardClock')}</span>
+            <Reveal>
+              {/* Dim the term that is not yours, so nobody counts the wrong deadline. */}
+              <AwardTimeline highlight={profile.track === 'science_internship' ? 'ns' : 'main'} />
+            </Reveal>
+          </div>
+        </Card>
       )}
 
       <Card>

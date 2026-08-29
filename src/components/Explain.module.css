@@ -1,0 +1,296 @@
+.block {
+  margin-top: 18px;
+}
+
+/* ── comparison table ── */
+.tableWrap {
+  overflow-x: auto;
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  background: var(--surface);
+}
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  min-width: 520px;
+}
+.table th,
+.table td {
+  padding: 12px 14px;
+  text-align: left;
+  vertical-align: top;
+  border-bottom: 1px solid var(--line);
+  line-height: 1.45;
+}
+.table tbody tr:last-child td {
+  border-bottom: none;
+}
+.table thead th {
+  position: sticky;
+  top: 0;
+  background: var(--surface-2);
+  font-size: 11.5px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-3);
+  font-weight: 700;
+  white-space: nowrap;
+}
+.table td {
+  color: var(--text-2);
+}
+.table td.tdAccent {
+  font-weight: 700;
+  color: var(--accent-deep);
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+.table th.thAccent {
+  color: var(--accent-deep);
+}
+
+/* ── two-lane path diagram ── */
+.lanesScroll {
+  overflow-x: auto;
+  padding-bottom: 4px;
+}
+.lanes {
+  display: grid;
+  grid-template-columns: 172px repeat(5, minmax(112px, 1fr));
+  gap: 0 8px;
+  min-width: 720px;
+}
+.laneHead {
+  min-height: 1px;
+}
+.chapterHead {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 0 4px 12px;
+}
+.chapterNum {
+  font-size: 11px;
+  font-weight: 800;
+  color: var(--accent);
+  font-variant-numeric: tabular-nums;
+}
+.chapterName {
+  font-size: 12.5px;
+  font-weight: 650;
+  color: var(--text-2);
+  line-height: 1.3;
+}
+.laneRow {
+  display: grid;
+  grid-column: 1 / -1;
+  grid-template-columns: subgrid;
+  align-items: center;
+  padding: 14px 0;
+  border-top: 1px solid var(--line);
+}
+.laneName {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding-right: 12px;
+}
+.laneName b {
+  font-size: 14px;
+  font-weight: 650;
+  color: var(--text);
+}
+.laneName span {
+  font-size: 12.5px;
+  line-height: 1.45;
+  color: var(--text-3);
+}
+
+.cell {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 46px;
+}
+/* The rail is drawn per cell and grows outward, so the whole lane reads as one line. */
+.track {
+  position: absolute;
+  left: -8px;
+  right: -8px;
+  top: 50%;
+  height: 3px;
+  margin-top: -1.5px;
+  border-radius: 2px;
+  background: var(--line-strong);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 420ms var(--ease-out);
+}
+.trackOn {
+  transform: scaleX(1);
+}
+.dot {
+  position: relative;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--steel);
+  opacity: 0;
+  transform: scale(0.4);
+  transition: opacity 300ms var(--ease-out), transform 300ms var(--ease-spring);
+}
+.dotOn {
+  opacity: 1;
+  transform: none;
+}
+.marker {
+  position: relative;
+  max-width: 100%;
+  padding: 7px 11px;
+  border-radius: var(--r-pill);
+  font-size: 12px;
+  font-weight: 650;
+  line-height: 1.25;
+  text-align: center;
+  color: var(--text-on-accent);
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  box-shadow: var(--glow);
+  opacity: 0;
+  transform: scale(0.82);
+  transition: opacity 340ms var(--ease-out), transform 340ms var(--ease-spring);
+}
+.markerOn {
+  opacity: 1;
+  transform: none;
+}
+
+/* ── award timeline ── */
+.timeline {
+  padding: 8px 4px 0;
+}
+.rail {
+  position: relative;
+  height: 6px;
+  margin: 30px 10px 46px;
+  border-radius: 3px;
+  background: var(--surface-3);
+}
+.railFill {
+  position: absolute;
+  inset: 0;
+  border-radius: 3px;
+  background: linear-gradient(90deg, var(--accent), var(--accent-2));
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 900ms var(--ease-out);
+}
+.railFillOn {
+  transform: scaleX(1);
+}
+.tick {
+  position: absolute;
+  top: 50%;
+  width: 15px;
+  height: 15px;
+  margin: -7.5px 0 0 -7.5px;
+  border-radius: 50%;
+  background: var(--surface);
+  border: 3px solid var(--accent);
+  opacity: 0;
+  transform: scale(0.4);
+  transition: opacity 260ms var(--ease-out), transform 260ms var(--ease-spring);
+}
+.tickOn {
+  opacity: 1;
+  transform: none;
+}
+.tick_start {
+  border-color: var(--steel);
+}
+.tick_ns {
+  border-color: var(--accent-2);
+}
+.tickMuted {
+  border-color: var(--line-strong);
+}
+.tickDay {
+  position: absolute;
+  top: -26px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 12.5px;
+  font-weight: 800;
+  color: var(--text-2);
+  font-variant-numeric: tabular-nums;
+}
+
+.legend {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+.legendItem {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 9px;
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: var(--text-2);
+}
+.legendDot {
+  flex: none;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--accent);
+  transform: translateY(-1px);
+}
+.legend_start .legendDot {
+  background: var(--steel);
+}
+.legend_ns .legendDot {
+  background: var(--accent-2);
+}
+.legendMuted {
+  opacity: 0.5;
+}
+.legendMuted .legendDot {
+  background: var(--line-strong);
+}
+
+.note {
+  margin-top: 14px;
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--text-3);
+}
+
+.sources {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 14px;
+}
+
+@media (max-width: 560px) {
+  .rail {
+    margin: 30px 12px 40px;
+  }
+}
+
+@media print {
+  .track,
+  .railFill,
+  .tick,
+  .dot,
+  .marker {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}

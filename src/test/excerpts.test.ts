@@ -4,6 +4,8 @@ import { STAGES } from '@/content/stages'
 import { ABOUT_BLOCKS, ABOUT_INTRO } from '@/content/about'
 import { OVERVIEW_VIDEOS, VIDEOS, videosForStage } from '@/content/videos'
 import { ABOUT_STATS } from '@/content/about'
+import { AWARD_TIMELINE, PATH_LANES, WORKBACK_TABLE } from '@/content/explain'
+import { CHAPTERS } from '@/content/stages'
 import { ICON_NAMES } from '@/components/StageIcon'
 import { getSource } from '@/content/sources'
 import { evaluate } from '@/domain/applicability'
@@ -146,5 +148,42 @@ describe('structured about blocks', () => {
       // The body introduces the block; the tiles carry the detail. A long body means both.
       expect(b.body.ru.length, `${b.num} body is long enough to duplicate its tiles`).toBeLessThan(180)
     }
+  })
+})
+
+describe('explanatory visuals', () => {
+  it('keeps the work-back table rectangular, sourced and translated', () => {
+    for (const src of WORKBACK_TABLE.sources) expect(getSource(src)).toBeDefined()
+    const width = WORKBACK_TABLE.head.length
+    for (const [i, row] of WORKBACK_TABLE.rows.entries()) {
+      expect(row.length, `row ${i} has ${row.length} cells, header has ${width}`).toBe(width)
+    }
+    for (const cell of [...WORKBACK_TABLE.head, ...WORKBACK_TABLE.rows.flat()]) {
+      expect(cell.kk, `"${cell.ru}" has no Kazakh`).toBeTruthy()
+      expect(cell.en, `"${cell.ru}" has no English`).toBeTruthy()
+    }
+  })
+
+  it('puts each path lane in a chapter that exists', () => {
+    const chapters = new Set(CHAPTERS.map((ch) => ch.id))
+    expect(PATH_LANES.length).toBe(2)
+    for (const lane of PATH_LANES) {
+      expect(chapters.has(lane.admissionAt), `${lane.id} → unknown chapter ${lane.admissionAt}`).toBe(true)
+    }
+    // The whole point of the diagram is that the two lanes differ.
+    expect(PATH_LANES[0].admissionAt).not.toBe(PATH_LANES[1].admissionAt)
+  })
+
+  it('keeps the award timeline inside its own scale, in order and sourced', () => {
+    const days = AWARD_TIMELINE.marks.map((m) => m.day)
+    expect(days).toEqual([...days].sort((a, b) => a - b))
+    for (const m of AWARD_TIMELINE.marks) {
+      expect(m.day).toBeGreaterThanOrEqual(0)
+      expect(m.day, `${m.day} sits past the end of the rail`).toBeLessThanOrEqual(AWARD_TIMELINE.total)
+      expect(getSource(m.source), `unknown source ${m.source}`).toBeDefined()
+    }
+    // One mark per tone, so nothing is drawn twice on the same rail.
+    const tones = AWARD_TIMELINE.marks.map((m) => m.tone)
+    expect(new Set(tones).size).toBe(tones.length)
   })
 })

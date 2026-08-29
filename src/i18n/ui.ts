@@ -196,6 +196,8 @@ export const UI = {
     showQuote: { ru: 'Показать цитату', kk: 'Дәйексөзді көрсету', en: 'Show the quote' },
     hideQuote: { ru: 'Свернуть', kk: 'Жию', en: 'Hide' },
     categoryRequirements: { ru: 'Требования вашей категории', kk: 'Сіздің санатыңыздың талаптары', en: 'Requirements for your category' },
+    workBackTable: { ru: 'Сроки отработки рядом', kk: 'Өтеу мерзімдері қатар', en: 'Work-back terms side by side' },
+    awardClock: { ru: 'Отсчёт после присуждения', kk: 'Тағайындалғаннан кейінгі санақ', en: 'The clock after the award' },
     workBackTitle: { ru: 'Ваша отработка', kk: 'Сіздің өтеуіңіз', en: 'Your work-back obligation' },
     languageNotes: { ru: 'Особые случаи и другие языки', kk: 'Ерекше жағдайлар және басқа тілдер', en: 'Special cases and other languages' },
     kazakhTitle: { ru: 'Требование по государственному языку', kk: 'Мемлекеттік тіл бойынша талап', en: 'State language requirement' },

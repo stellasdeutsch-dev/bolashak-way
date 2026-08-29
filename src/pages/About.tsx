@@ -10,12 +10,28 @@ import { Button, Card, Pill, SourceLink } from '@/components/ui'
 import { IconArrowRight as ArrowRight, IconSparkles as Sparkles } from '@/components/icons'
 import { StageIcon } from '@/components/StageIcon'
 import { VideoList } from '@/components/Videos'
+import { AwardTimeline, PathLanes, WorkbackTable } from '@/components/Explain'
+import { Reveal, useCountUp, useInView } from '@/components/Reveal'
 import s from './About.module.css'
+
+/** Counts up when the strip scrolls into view; a value like "5 / 3" is left as text. */
+function StatValue({ value, active }: { value: string; active: boolean }) {
+  const numeric = /^\d+$/.test(value) ? Number(value) : null
+  const shown = useCountUp(numeric ?? 0, active)
+  return <span className={s.statValue}>{numeric === null ? value : shown}</span>
+}
+
+const VISUALS = {
+  'workback-table': WorkbackTable,
+  'path-lanes': PathLanes,
+  'award-timeline': AwardTimeline,
+} as const
 
 /** The whole programme in plain language, for someone who has never heard of it. */
 export function About() {
   const { t, c } = useI18n()
   const hasProfile = useAppStore((st) => st.profile !== null)
+  const [statsRef, statsSeen] = useInView<HTMLDivElement>()
   usePageChrome(t('nav.about'))
 
   return (
@@ -35,10 +51,10 @@ export function About() {
       {/* The four figures that shape everything, before any paragraph asks to be read. */}
       <Card className={s.statsCard}>
         <span className={s.statsTitle}>{t('about.statsTitle')}</span>
-        <div className={s.stats}>
+        <div className={s.stats} ref={statsRef}>
           {ABOUT_STATS.map((st) => (
             <div key={st.value} className={s.stat}>
-              <span className={s.statValue}>{st.value}</span>
+              <StatValue value={st.value} active={statsSeen} />
               <span className={s.statCaption}>{c(st.caption)}</span>
             </div>
           ))}
@@ -51,7 +67,9 @@ export function About() {
         </div>
       </Card>
 
-      {ABOUT_BLOCKS.map((b) => (
+      {ABOUT_BLOCKS.map((b) => {
+        const Visual = b.visual ? VISUALS[b.visual] : null
+        return (
         <Card key={b.num} className={s.block}>
           <div className={s.blockHead}>
             <span className={s.num}>{b.num}</span>
@@ -89,6 +107,12 @@ export function About() {
             </ul>
           )}
 
+          {Visual && (
+            <Reveal>
+              <Visual />
+            </Reveal>
+          )}
+
           {b.points && (
             <ul className={s.points}>
               {b.points.map((p, i) => (
@@ -106,7 +130,8 @@ export function About() {
             </div>
           )}
         </Card>
-      ))}
+        )
+      })}
 
       <Card className={s.block}>
         <div className={s.blockHead}>
