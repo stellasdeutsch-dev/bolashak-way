@@ -22,7 +22,7 @@ import { usePageChrome } from '@/i18n/usePageChrome'
 import { Button, Callout, Card, FallbackBadge, Pill, SourceLink } from '@/components/ui'
 import { StageIcon } from '@/components/StageIcon'
 import { VideoList } from '@/components/Videos'
-import { AwardTimeline, WorkbackTable } from '@/components/Explain'
+import { AwardTimeline, ContestFlow, WorkbackTable } from '@/components/Explain'
 import { Reveal } from '@/components/Reveal'
 import s from './Stage.module.css'
 
@@ -507,6 +507,18 @@ export function StagePage() {
             </div>
           </Card>
         </>
+      )}
+
+      {(stage.id === 'testing' || stage.id === 'interview' || stage.id === 'commission') && (
+        <Card>
+          <div className={s.section}>
+            <span className={s.sectionTitle}>{t('flow.contestTitle')}</span>
+            <Reveal>
+              {/* The three rounds with the exits drawn in, and this stage marked on them. */}
+              <ContestFlow hereStage={stage.id} />
+            </Reveal>
+          </div>
+        </Card>
       )}
 
       {stage.id === 'contract' && (

@@ -10,7 +10,7 @@ import { Button, Card, Pill, SourceLink } from '@/components/ui'
 import { IconArrowRight as ArrowRight, IconSparkles as Sparkles } from '@/components/icons'
 import { StageIcon } from '@/components/StageIcon'
 import { VideoList } from '@/components/Videos'
-import { AwardTimeline, PathLanes, WorkbackTable } from '@/components/Explain'
+import { AwardTimeline, ContestFlow, DepartureChain, PathLanes, WorkbackTable } from '@/components/Explain'
 import { Reveal, useCountUp, useInView } from '@/components/Reveal'
 import s from './About.module.css'
 
@@ -25,6 +25,8 @@ const VISUALS = {
   'workback-table': WorkbackTable,
   'path-lanes': PathLanes,
   'award-timeline': AwardTimeline,
+  'contest-flow': ContestFlow,
+  'departure-chain': DepartureChain,
 } as const
 
 /** The whole programme in plain language, for someone who has never heard of it. */
@@ -68,7 +70,7 @@ export function About() {
       </Card>
 
       {ABOUT_BLOCKS.map((b) => {
-        const Visual = b.visual ? VISUALS[b.visual] : null
+        const visuals = b.visuals ?? []
         return (
         <Card key={b.num} className={s.block}>
           <div className={s.blockHead}>
@@ -107,11 +109,14 @@ export function About() {
             </ul>
           )}
 
-          {Visual && (
-            <Reveal>
-              <Visual />
-            </Reveal>
-          )}
+          {visuals.map((key) => {
+            const Visual = VISUALS[key]
+            return (
+              <Reveal key={key}>
+                <Visual />
+              </Reveal>
+            )
+          })}
 
           {b.points && (
             <ul className={s.points}>

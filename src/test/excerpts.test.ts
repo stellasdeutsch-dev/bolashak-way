@@ -4,7 +4,7 @@ import { STAGES } from '@/content/stages'
 import { ABOUT_BLOCKS, ABOUT_INTRO } from '@/content/about'
 import { OVERVIEW_VIDEOS, VIDEOS, videosForStage } from '@/content/videos'
 import { ABOUT_STATS } from '@/content/about'
-import { AWARD_TIMELINE, PATH_LANES, WORKBACK_TABLE } from '@/content/explain'
+import { AWARD_TIMELINE, CONTEST_FLOW, DEPARTURE_CHAIN, PATH_LANES, WORKBACK_TABLE } from '@/content/explain'
 import { CHAPTERS } from '@/content/stages'
 import { ICON_NAMES } from '@/components/StageIcon'
 import { getSource } from '@/content/sources'
@@ -185,5 +185,71 @@ describe('explanatory visuals', () => {
     // One mark per tone, so nothing is drawn twice on the same rail.
     const tones = AWARD_TIMELINE.marks.map((m) => m.tone)
     expect(new Set(tones).size).toBe(tones.length)
+  })
+})
+
+describe('the competition flowchart', () => {
+  const forTrack = (track: Profile['track']) =>
+    CONTEST_FLOW.filter((step) => evaluate(step.appliesTo, { ...medic, track }))
+
+  it('gives both tracks a complete, ordered chart', () => {
+    for (const track of ['master', 'science_internship'] as const) {
+      const steps = forTrack(track)
+      const kinds = steps.map((st) => st.kind)
+      expect(kinds[0], `${track} chart does not start`).toBe('start')
+      expect(kinds.filter((k) => k === 'round').length, `${track} is not three rounds`).toBe(2)
+      expect(kinds.filter((k) => k === 'decision').length, `${track} has no decision`).toBe(1)
+      expect(kinds.at(-1), `${track} chart does not end`).toBe('end')
+      // One node per id, and no node shown to a track that should not see it.
+      expect(new Set(steps.map((st) => st.id)).size).toBe(steps.length)
+    }
+  })
+
+  it('cites a real source on every node and every exit', () => {
+    for (const step of CONTEST_FLOW) {
+      // The entry node states nothing about the rules, so it is the one without a citation.
+      if (step.kind === 'start') {
+        expect(step.source, 'the entry node should not claim a source').toBeUndefined()
+      } else {
+        expect(getSource(step.source!), `${step.id} → unknown source ${step.source}`).toBeDefined()
+        expect(step.clause, `${step.id} has no clause`).toMatch(/^ПП \d+, пункт \d+$/)
+      }
+      if (step.exit) {
+        expect(getSource(step.exit.source), `${step.id} exit → unknown source`).toBeDefined()
+        expect(step.exit.clause).toMatch(/^ПП \d+, пункт \d+$/)
+      }
+    }
+  })
+
+  it('keeps the threshold exit off the science track, where no such clause exists', () => {
+    const exits = (track: Profile['track']) => forTrack(track).filter((st) => st.exit).map((st) => st.id)
+    expect(exits('master')).toEqual(['round1', 'round3'])
+    expect(exits('science_internship')).toEqual(['round3_ns'])
+  })
+
+  it('marks the stages the reader can be standing on', () => {
+    const stageIds = new Set(STAGES.map((st) => st.id))
+    for (const step of CONTEST_FLOW) {
+      if (step.stage) expect(stageIds.has(step.stage), `${step.id} → unknown stage ${step.stage}`).toBe(true)
+    }
+    for (const here of ['testing', 'interview', 'commission'] as const) {
+      expect(CONTEST_FLOW.some((st) => st.stage === here), `nothing marks ${here}`).toBe(true)
+    }
+  })
+
+  it('never cites the other track\'s act', () => {
+    const acts = (track: Profile['track']) =>
+      new Set(forTrack(track).flatMap((st) => [...(st.source ? [st.source] : []), ...(st.exit ? [st.exit.source] : [])]))
+    expect([...acts('master')]).toEqual(['pp573'])
+    expect([...acts('science_internship')]).toEqual(['pp791'])
+  })
+
+  it('keeps the departure chain translated and sourced', () => {
+    expect(DEPARTURE_CHAIN.steps.length).toBeGreaterThan(2)
+    for (const st of DEPARTURE_CHAIN.steps) {
+      expect(st.kk).toBeTruthy()
+      expect(st.en).toBeTruthy()
+    }
+    for (const src of DEPARTURE_CHAIN.sources) expect(getSource(src)).toBeDefined()
   })
 })

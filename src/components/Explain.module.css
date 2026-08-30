@@ -294,3 +294,261 @@
     transform: none !important;
   }
 }
+
+/* ── the competition as a flowchart ── */
+.switch {
+  display: inline-flex;
+  gap: 4px;
+  padding: 4px;
+  margin-bottom: 18px;
+  border-radius: var(--r-pill);
+  background: var(--surface-3);
+  flex-wrap: wrap;
+}
+.switchBtn {
+  border: none;
+  background: none;
+  cursor: pointer;
+  padding: 7px 14px;
+  border-radius: var(--r-pill);
+  font-size: 13px;
+  font-weight: 650;
+  color: var(--text-3);
+}
+.switchOn {
+  background: var(--surface);
+  color: var(--text);
+  box-shadow: var(--shadow-card);
+}
+
+.flow {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.flowRow {
+  display: grid;
+  grid-template-columns: 26px minmax(0, 1fr);
+  column-gap: 14px;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 420ms var(--ease-out), transform 420ms var(--ease-out);
+}
+.flowRowOn {
+  opacity: 1;
+  transform: none;
+}
+
+/* The spine is drawn per row so the line grows downward as the rows appear. */
+.flowSpine {
+  position: relative;
+  grid-row: 1 / -1;
+  display: flex;
+  justify-content: center;
+}
+.flowLine {
+  position: absolute;
+  top: 10px;
+  bottom: -2px;
+  width: 2px;
+  background: var(--line-strong);
+  transform: scaleY(0);
+  transform-origin: top center;
+  transition: transform 420ms var(--ease-out);
+}
+.flowLineOn {
+  transform: scaleY(1);
+}
+.flow > li:last-child .flowLine {
+  display: none;
+}
+.flowNode {
+  position: relative;
+  z-index: 1;
+  width: 13px;
+  height: 13px;
+  margin-top: 4px;
+  border-radius: 50%;
+  background: var(--surface);
+  border: 3px solid var(--steel);
+}
+.flow_round .flowNode {
+  border-color: var(--accent);
+}
+.flow_decision .flowNode {
+  border-color: var(--accent-2);
+  border-radius: 3px;
+  transform: rotate(45deg);
+}
+.flow_end .flowNode {
+  border-color: var(--success);
+}
+
+.flowBody {
+  padding: 0 0 20px;
+  min-width: 0;
+}
+.flowLabel {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  font-size: 15px;
+  font-weight: 650;
+  line-height: 1.35;
+  color: var(--text);
+}
+.flow_admin .flowLabel {
+  font-weight: 550;
+  font-size: 14px;
+  color: var(--text-2);
+}
+.flowDetail {
+  margin: 5px 0 0;
+  font-size: 13.5px;
+  line-height: 1.55;
+  color: var(--text-2);
+}
+.clause {
+  display: inline-block;
+  margin-top: 7px;
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  color: var(--text-3);
+  padding: 2px 8px;
+  border-radius: var(--r-pill);
+  background: var(--surface-3);
+  white-space: nowrap;
+}
+.hereTag {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 3px 9px;
+  border-radius: var(--r-pill);
+  color: var(--text-on-accent);
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+}
+.flowHere .flowNode {
+  box-shadow: 0 0 0 5px var(--accent-tint);
+}
+
+/* The way out of the competition leaves the spine sideways. */
+.flowExit {
+  grid-column: 2;
+  display: flex;
+  align-items: stretch;
+  gap: 10px;
+  margin: -12px 0 20px;
+  opacity: 0;
+  transform: translateX(-8px);
+  transition: opacity 360ms var(--ease-out), transform 360ms var(--ease-out);
+}
+.flowExitOn {
+  opacity: 1;
+  transform: none;
+}
+.exitArrow {
+  flex: none;
+  width: 18px;
+  border-left: 2px dashed var(--warn);
+  border-bottom: 2px dashed var(--warn);
+  border-bottom-left-radius: 8px;
+  margin: -14px 0 12px 6px;
+}
+.exitCard {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+  padding: 11px 14px;
+  border-radius: var(--r-md);
+  background: var(--warn-tint);
+}
+.exitLabel {
+  font-size: 13.5px;
+  line-height: 1.45;
+  font-weight: 600;
+  color: var(--text);
+}
+
+/* ── the run-up to departure ── */
+.chain {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  gap: 8px;
+}
+.chainItem {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 10px 14px 10px 11px;
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  background: var(--surface-2);
+  opacity: 0;
+  transform: translateY(8px) scale(0.97);
+  transition: opacity 340ms var(--ease-out), transform 340ms var(--ease-spring);
+}
+.chainItemOn {
+  opacity: 1;
+  transform: none;
+}
+.chainItem::after {
+  content: '';
+  position: absolute;
+  right: -8px;
+  top: 50%;
+  width: 8px;
+  height: 2px;
+  background: var(--line-strong);
+}
+.chain > li:last-child::after {
+  display: none;
+}
+.chainNum {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 21px;
+  height: 21px;
+  border-radius: 50%;
+  font-size: 11.5px;
+  font-weight: 800;
+  color: var(--accent-deep);
+  background: var(--accent-tint);
+}
+.chainLabel {
+  font-size: 13.5px;
+  font-weight: 600;
+  line-height: 1.35;
+  color: var(--text);
+}
+
+@media (max-width: 520px) {
+  .flowExit {
+    margin-top: -6px;
+  }
+  .exitArrow {
+    width: 12px;
+  }
+}
+
+@media print {
+  .flowRow,
+  .flowExit,
+  .chainItem {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  .flowLine {
+    transform: none !important;
+  }
+}

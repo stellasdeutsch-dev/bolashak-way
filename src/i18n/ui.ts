@@ -3,6 +3,11 @@ import type { Locale } from '@/content/types'
 /** UI chrome strings. Content (stages, documents, FAQ) is localised separately in src/content. */
 export const UI = {
   app: { name: 'Bolashak Way' },
+  flow: {
+    here: { ru: 'Вы здесь', kk: 'Сіз осындасыз', en: 'You are here' },
+    contestTitle: { ru: 'Как проходит конкурс', kk: 'Конкурс қалай өтеді', en: 'How the competition runs' },
+    departureTitle: { ru: 'Порядок сборов', kk: 'Жинақталу реті', en: 'The order of the run-up' },
+  },
   video: {
     title: { ru: 'Официальные видео', kk: 'Ресми бейнелер', en: 'Official videos' },
     hint: {

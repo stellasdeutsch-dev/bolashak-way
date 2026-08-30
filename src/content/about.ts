@@ -30,8 +30,8 @@ export interface AboutBlock {
   features?: AboutFeature[]
   /** Ordered cards: use when the block describes a procedure that runs in order. */
   steps?: AboutStep[]
-  /** A visual from components/Explain.tsx that carries the block instead of prose. */
-  visual?: 'workback-table' | 'path-lanes' | 'award-timeline'
+  /** Visuals from components/Explain.tsx that carry the block instead of prose. */
+  visuals?: ('workback-table' | 'path-lanes' | 'award-timeline' | 'contest-flow' | 'departure-chain')[]
   sources?: SourceId[]
 }
 
@@ -156,8 +156,7 @@ export const ABOUT_BLOCKS: AboutBlock[] = [
       kk: 'Қазақстанға оралып, өтеу. Міндеттеме жабылмайынша кепіл не кепілдік күшінде қалады.',
       en: 'Come back to Kazakhstan and work it off. Until the obligation is closed, the pledge or guarantee stays in force.',
     },
-    visual: 'workback-table',
-    sources: ['pp573', 'pp791'],
+    visuals: ['workback-table'],
   },
   {
     num: '03',
@@ -189,8 +188,7 @@ export const ABOUT_BLOCKS: AboutBlock[] = [
       kk: 'Бәріне бірдей бес тарау. Айырмашылық біреу: ЖОО-дағы орын қай сәтте пайда болады.',
       en: 'Five chapters, the same for everyone. One thing differs: when you get your university place.',
     },
-    visual: 'path-lanes',
-    sources: ['pp573'],
+    visuals: ['path-lanes'],
   },
   {
     num: '05',
@@ -247,52 +245,12 @@ export const ABOUT_BLOCKS: AboutBlock[] = [
     num: '06',
     title: { ru: 'Как проходит конкурс', kk: 'Конкурс қалай өтеді', en: 'How the competition runs' },
     body: {
-      ru: 'Три тура подряд. К следующему допускают только тех, кто прошёл предыдущий.',
-      kk: 'Қатарынан үш тур. Келесіге алдыңғысынан өткендерді ғана жібереді.',
-      en: 'Three rounds in a row. Only those who pass one go through to the next.',
+      ru: 'Три тура подряд. Где именно можно выбыть — зависит от трека, и на схеме это видно.',
+      kk: 'Қатарынан үш тур. Қай жерде шығып қалуға болатыны трекке байланысты — сызбада көрінеді.',
+      en: 'Three rounds in a row. Where exactly you can drop out depends on the track, and the chart shows it.',
     },
-    steps: [
-      {
-        icon: 'MonitorCheck',
-        title: { ru: 'Тестирование', kk: 'Тестілеу', en: 'Testing' },
-        text: {
-          ru: 'Числовой и вербальный тесты плюс личностный опросник. Не набрали пороговый балл — второго тура не будет, пересдачи не предусмотрены.',
-          kk: 'Сандық және вербалды тест, тұлғалық сауалнама. Шекті балды жинамасаңыз — екінші тур болмайды, қайта тапсыру көзделмеген.',
-          en: 'Numerical and verbal tests plus a personality questionnaire. Miss the cut-off and there is no second round, and no retakes.',
-        },
-      },
-      {
-        icon: 'MessagesSquare',
-        title: { ru: 'Собеседование', kk: 'Әңгімелесу', en: 'Interview' },
-        text: {
-          ru: 'Анонимное, с экспертной комиссией.',
-          kk: 'Сараптама комиссиясымен анонимді түрде.',
-          en: 'Anonymous, with the expert commission.',
-        },
-      },
-      {
-        icon: 'Gavel',
-        title: { ru: 'Республиканская комиссия', kk: 'Республикалық комиссия', en: 'Republican Commission' },
-        text: {
-          ru: 'Заседание, на котором и присуждают стипендию.',
-          kk: 'Стипендияны тағайындайтын отырыс.',
-          en: 'The meeting that actually awards the scholarship.',
-        },
-      },
-    ],
-    points: [
-      {
-        ru: 'О месте и времени первых двух туров сообщают не позднее чем за 10 календарных дней (для научных стажировок — за 5).',
-        kk: 'Алғашқы екі тур орны мен уақытын 10 күнтізбелік күннен кешіктірмей хабарлайды (ғылыми тағылымдамада — 5).',
-        en: 'You are told the time and place of the first two rounds at least 10 calendar days ahead (5 for scientific internships).',
-      },
-      {
-        ru: 'Решение публикуют на официальном сайте в течение 3 рабочих дней. Персонального письма не будет.',
-        kk: 'Шешімді 3 жұмыс күні ішінде ресми сайтта жариялайды. Жеке хат келмейді.',
-        en: 'The decision is published on the official site within 3 working days. There will be no personal letter.',
-      },
-    ],
-    sources: ['pp573', 'pravila'],
+    visuals: ['contest-flow'],
+
   },
   {
     num: '07',
@@ -302,20 +260,15 @@ export const ABOUT_BLOCKS: AboutBlock[] = [
       kk: 'Бүкіл рәсімдегі ең қатаң мерзім. Үлгермесеңіз — жұмыс органы стипендиядан айыру рәсімін бастайды.',
       en: 'The tightest deadline in the whole process. Miss it and the working body starts withdrawing the scholarship.',
     },
-    visual: 'award-timeline',
+    visuals: ['award-timeline', 'departure-chain'],
     points: [
       {
         ru: 'Договор залога подписывают только в Астане, поэтому поездку планируйте заранее.',
         kk: 'Кепіл шартына тек Астанада қол қояды, сондықтан сапарды алдын ала жоспарлаңыз.',
         en: 'The pledge agreement is signed only in Astana, so plan the trip in advance.',
       },
-      {
-        ru: 'Дальше — письмо о финансовой гарантии, визовые документы от вуза, виза, банковская карта и авиабилет. Порядок именно такой.',
-        kk: 'Әрі қарай — қаржылық кепілдік хаты, ЖОО-дан виза құжаттары, виза, банк картасы және авиабилет. Рет дәл осылай.',
-        en: 'Then: the financial guarantee letter, visa papers from the university, the visa, a bank card and the ticket. In that order.',
-      },
     ],
-    sources: ['pp573', 'pp791', 'stipendiat_master'],
+
   },
   {
     num: '08',
