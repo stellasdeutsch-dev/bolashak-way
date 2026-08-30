@@ -23,6 +23,8 @@ import { Button, Callout, Card, FallbackBadge, Pill, SourceLink } from '@/compon
 import { StageIcon } from '@/components/StageIcon'
 import { VideoList } from '@/components/Videos'
 import { AwardTimeline, ContestFlow, WorkbackTable } from '@/components/Explain'
+import { StageForms } from '@/components/Forms'
+import { formsForStage } from '@/content/forms'
 import { Reveal } from '@/components/Reveal'
 import s from './Stage.module.css'
 
@@ -162,6 +164,21 @@ function Excerpts({ stage }: { stage: StageId }) {
             </div>
           )
         })}
+      </div>
+    </Card>
+  )
+}
+
+/** Official blanks and samples for this stage, hidden when the stage has none. */
+function StageFormsCard({ stage }: { stage: StageId }) {
+  const { t } = useI18n()
+  const profile = useAppStore((st) => st.profile)!
+  if (formsForStage(stage).filter((f) => evaluate(f.appliesTo, profile)).length === 0) return null
+  return (
+    <Card>
+      <div className={s.section}>
+        <span className={s.sectionTitle}>{t('forms.title')}</span>
+        <StageForms stage={stage} />
       </div>
     </Card>
   )
@@ -627,6 +644,8 @@ export function StagePage() {
       )}
 
       <Excerpts stage={stage.id} />
+
+      <StageFormsCard stage={stage.id} />
 
       <StageVideos stage={stage.id} />
 

@@ -3,6 +3,32 @@ import type { Locale } from '@/content/types'
 /** UI chrome strings. Content (stages, documents, FAQ) is localised separately in src/content. */
 export const UI = {
   app: { name: 'Bolashak Way' },
+  forms: {
+    title: { ru: 'Бланки и образцы', kk: 'Бланкілер мен үлгілер', en: 'Blanks and samples' },
+    allTitle: { ru: 'Все бланки вашего пути', kk: 'Жолыңыздағы барлық бланкілер', en: 'Every blank on your path' },
+    hint: {
+      ru: 'Файлы лежат на bolashak.gov.kz — здесь они собраны по этапам. PDF открывается прямо тут, Word скачивается: заполнять его всё равно придётся в редакторе.',
+      kk: 'Файлдар bolashak.gov.kz-те — мұнда олар кезеңдер бойынша жиналған. PDF осында ашылады, Word жүктеледі: оны бәрібір редакторда толтырасыз.',
+      en: 'The files live on bolashak.gov.kz; here they are grouped by stage. PDFs open right here, Word blanks download — you will fill those in an editor anyway.',
+    },
+    kindForm: { ru: 'Бланк — заполнить', kk: 'Бланк — толтыру', en: 'Blank — fill it in' },
+    kindSample: { ru: 'Образец — посмотреть', kk: 'Үлгі — қарау', en: 'Sample — take a look' },
+    view: { ru: 'Посмотреть', kk: 'Қарау', en: 'View' },
+    download: { ru: 'Скачать', kk: 'Жүктеу', en: 'Download' },
+    downloadWord: { ru: 'Скачать бланк Word', kk: 'Word бланкісін жүктеу', en: 'Download the Word blank' },
+    openTab: { ru: 'Открыть отдельно', kk: 'Бөлек ашу', en: 'Open separately' },
+    published: { ru: 'опубликован {date}', kk: 'жарияланған {date}', en: 'published {date}' },
+    viewerHint: {
+      ru: 'Если файл не отображается, откройте его отдельно — некоторые браузеры не показывают PDF внутри страницы.',
+      kk: 'Файл көрінбесе, оны бөлек ашыңыз — кейбір браузерлер PDF-ті бет ішінде көрсетпейді.',
+      en: 'If nothing shows up, open the file separately — some browsers will not display a PDF inside a page.',
+    },
+    empty: {
+      ru: 'Для вашей категории готовых бланков на этом пути нет — всё подаётся через egov.kz и личный кабинет.',
+      kk: 'Сіздің санатыңызға бұл жолда дайын бланк жоқ — бәрі egov.kz және жеке кабинет арқылы тапсырылады.',
+      en: 'There are no ready-made blanks for your category on this path — everything goes through egov.kz and your account.',
+    },
+  },
   flow: {
     here: { ru: 'Вы здесь', kk: 'Сіз осындасыз', en: 'You are here' },
     contestTitle: { ru: 'Как проходит конкурс', kk: 'Конкурс қалай өтеді', en: 'How the competition runs' },

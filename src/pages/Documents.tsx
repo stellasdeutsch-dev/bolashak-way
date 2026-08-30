@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
 import { useNavigate } from 'react-router'
-import { IconCheck as Check, IconDownload as Download, IconFileStack as FileStack } from '@/components/icons'
+import { IconCheck as Check, IconDownload as Download, IconFileSignature as FileSignature, IconFileStack as FileStack } from '@/components/icons'
 import { getStage } from '@/content/stages'
 import { getSource } from '@/content/sources'
 import { documentsFor, isDocAuto } from '@/domain/documents'
@@ -8,6 +8,7 @@ import { useAppStore } from '@/store/useAppStore'
 import { useI18n } from '@/i18n'
 import { usePageChrome } from '@/i18n/usePageChrome'
 import { Card, Pill, ProgressRing } from '@/components/ui'
+import { AllForms } from '@/components/Forms'
 import s from './Documents.module.css'
 
 export function Documents() {
@@ -123,6 +124,15 @@ export function Documents() {
           </Card>
         )
       })}
+
+      {/* Every official blank on this profile's path, so nobody has to hunt them stage by stage. */}
+      <Card>
+        <div className={s.formsHead}>
+          <FileSignature size={19} aria-hidden="true" />
+          <h2 className={s.formsTitle}>{t('forms.allTitle')}</h2>
+        </div>
+        <AllForms />
+      </Card>
     </div>
   )
 }

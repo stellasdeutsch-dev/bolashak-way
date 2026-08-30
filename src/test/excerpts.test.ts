@@ -7,6 +7,8 @@ import { ABOUT_STATS } from '@/content/about'
 import { AWARD_TIMELINE, CONTEST_FLOW, DEPARTURE_CHAIN, PATH_LANES, WORKBACK_TABLE } from '@/content/explain'
 import { CHAPTERS } from '@/content/stages'
 import { ICON_NAMES } from '@/components/StageIcon'
+import { FORMS, formsForStage } from '@/content/forms'
+import { DOCUMENTS } from '@/content/documents'
 import { getSource } from '@/content/sources'
 import { evaluate } from '@/domain/applicability'
 import type { Profile } from '@/content/types'
@@ -251,5 +253,49 @@ describe('the competition flowchart', () => {
       expect(st.en).toBeTruthy()
     }
     for (const src of DEPARTURE_CHAIN.sources) expect(getSource(src)).toBeDefined()
+  })
+})
+
+describe('official forms', () => {
+  it('points every file at a real bolashak.gov.kz URL, once', () => {
+    const seen = new Set<string>()
+    const stageIds = new Set(STAGES.map((st) => st.id))
+    const docIds = new Set(DOCUMENTS.map((d) => d.id))
+    for (const f of FORMS) {
+      expect(stageIds.has(f.stage), `${f.id} → unknown stage ${f.stage}`).toBe(true)
+      if (f.doc) expect(docIds.has(f.doc), `${f.id} → unknown document ${f.doc}`).toBe(true)
+      expect(f.url, `${f.id} is not an official URL`).toMatch(/^https:\/\/bolashak\.gov\.kz\//)
+      expect(f.url.endsWith(`.${f.fileType}`), `${f.id} url does not match its declared type`).toBe(true)
+      expect(seen.has(f.url), `${f.url} is listed twice`).toBe(false)
+      seen.add(f.url)
+      expect(getSource(f.source), `${f.id} → unknown source ${f.source}`).toBeDefined()
+      // Size and date come from the server's own response; a zero means nobody checked.
+      expect(f.bytes, `${f.id} has no size`).toBeGreaterThan(0)
+      expect(f.published).toMatch(/^\d{4}-\d{2}-\d{2}$/)
+      expect(f.title.kk, `${f.id} has no Kazakh title`).toBeTruthy()
+      expect(f.title.en, `${f.id} has no English title`).toBeTruthy()
+    }
+  })
+
+  it('gives the pledge paperwork only to tracks that actually pledge', () => {
+    // ПП 791 mentions neither a pledge nor a guarantee, so a scientist must not see those.
+    const pledge = formsForStage('contract')
+    expect(pledge.length).toBeGreaterThan(0)
+    for (const f of pledge) {
+      expect(evaluate(f.appliesTo, medic), `${f.id} hidden from an academic track`).toBe(true)
+      expect(evaluate(f.appliesTo, scientist), `${f.id} offered to a scientist`).toBe(false)
+    }
+  })
+
+  it('gives each track its own application blanks', () => {
+    const ids = (p: Profile) => formsForStage('documents').filter((f) => evaluate(f.appliesTo, p)).map((f) => f.id)
+    expect(ids(medic)).toEqual(['employer_request'])
+    expect(ids(scientist)).toEqual(['ns_anketa_form', 'ns_employer_request', 'ns_program'])
+  })
+
+  it('only claims a form can be viewed in-app when it is a PDF', () => {
+    for (const f of FORMS.filter((x) => x.fileType === 'docx')) {
+      expect(f.url.endsWith('.docx'), `${f.id} is offered as Word but is not one`).toBe(true)
+    }
   })
 })

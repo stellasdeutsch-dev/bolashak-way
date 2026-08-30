@@ -168,3 +168,17 @@
     animation: none;
   }
 }
+
+.formsHead {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 2px;
+  color: var(--accent-deep);
+}
+.formsTitle {
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--text);
+}

@@ -10,7 +10,8 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "import:faq": "node scripts/import-faq.mjs",
-    "i18n:coverage": "tsx scripts/i18n-coverage.mjs"
+    "i18n:coverage": "tsx scripts/i18n-coverage.mjs",
+    "check:forms": "node scripts/check-forms.mjs"
   },
   "dependencies": {
     "react": "^19.1.0",
