@@ -7,6 +7,7 @@ import { StagePage } from '@/pages/Stage'
 import { Documents } from '@/pages/Documents'
 import { Settings } from '@/pages/Settings'
 import { About } from '@/pages/About'
+import { Calendar } from '@/pages/Calendar'
 import { NotFound } from '@/pages/NotFound'
 import { useAppStore } from '@/store/useAppStore'
 
@@ -77,6 +78,7 @@ export default function App() {
             }
           />
           <Route path="/about" element={<About />} />
+        <Route path="/calendar" element={<Calendar />} />
           <Route path="/settings" element={<Settings />} />
           <Route path="*" element={<NotFound />} />
         </Routes>

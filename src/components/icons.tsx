@@ -477,3 +477,15 @@ export const IconWallet = (p: IconProps) => (
     <circle cx="16.9" cy="13.7" r="1.15" fill="currentColor" stroke="none" />
   </Svg>
 )
+
+export const IconCalendar = (p: IconProps) => (
+  <Svg {...p}>
+    <F d="M3.4 8.4h17.2v10.2a2.4 2.4 0 0 1-2.4 2.4H5.8a2.4 2.4 0 0 1-2.4-2.4Z" />
+    <rect x="3.4" y="5" width="17.2" height="16" rx="2.6" />
+    <path d="M3.4 9.6h17.2" />
+    <path d="M8.2 3.2v3.4M15.8 3.2v3.4" />
+    <circle cx="8.4" cy="13.6" r="1.05" fill="currentColor" stroke="none" />
+    <circle cx="12" cy="13.6" r="1.05" fill="currentColor" stroke="none" />
+    <circle cx="15.6" cy="13.6" r="1.05" fill="currentColor" stroke="none" />
+  </Svg>
+)

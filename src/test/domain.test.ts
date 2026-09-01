@@ -1,4 +1,6 @@
 import { describe, expect, it } from 'vitest'
+import { monthMatrix } from '@/domain/calendar'
+import { buildIcs, shiftIso } from '@/domain/ics'
 import type { CategoryId, L, Profile } from '@/content/types'
 import { CATEGORIES, CATEGORIES_BY_TRACK } from '@/content/categories'
 import { STAGES } from '@/content/stages'
@@ -502,5 +504,80 @@ describe('translations', () => {
     // Proper nouns and codes legitimately repeat; anything longer is a copy-paste slip.
     const suspicious = allStrings().filter((s) => s.value.ru.length > 40 && (s.value.kk === s.value.ru || s.value.en === s.value.ru))
     expect(suspicious.map((s) => s.label)).toEqual([])
+  })
+})
+
+describe('month grid', () => {
+  it('always draws six weeks that start on a Monday', () => {
+    for (const [y, m] of [[2026, 0], [2026, 1], [2027, 6], [2024, 1]] as const) {
+      const cells = monthMatrix(y, m)
+      expect(cells.length, `${y}-${m + 1} is not 42 cells`).toBe(42)
+      expect(new Date(`${cells[0].iso}T12:00:00Z`).getUTCDay(), 'grid does not start on Monday').toBe(1)
+      // Every day of the month has to be somewhere in the grid.
+      const inMonth = cells.filter((c) => c.inMonth).map((c) => c.day)
+      expect(inMonth[0]).toBe(1)
+      expect(inMonth).toEqual([...inMonth].sort((a, b) => a - b))
+    }
+  })
+
+  it('marks the borrowed days at both ends as outside the month', () => {
+    // 1 March 2026 is a Sunday, so the grid opens on 23 February.
+    const cells = monthMatrix(2026, 2)
+    expect(cells[0].iso).toBe('2026-02-23')
+    expect(cells[0].inMonth).toBe(false)
+    expect(cells.find((c) => c.iso === '2026-03-01')?.inMonth).toBe(true)
+    expect(cells.at(-1)?.inMonth).toBe(false)
+  })
+
+  it('keeps a February day out of a leap-year trap', () => {
+    const cells = monthMatrix(2028, 1)
+    expect(cells.some((c) => c.iso === '2028-02-29' && c.inMonth)).toBe(true)
+  })
+})
+
+describe('calendar export', () => {
+  const now = new Date('2026-09-01T10:00:00Z')
+
+  it('writes an all-day event that lasts exactly one day', () => {
+    const ics = buildIcs([{ id: 'contract', date: '2026-11-18', summary: 'Договор' }], 'Сроки', now)
+    expect(ics).toContain('DTSTART;VALUE=DATE:20261118')
+    // DTEND is exclusive: without the +1 day both Google and Apple draw two days.
+    expect(ics).toContain('DTEND;VALUE=DATE:20261119')
+    expect(ics.endsWith('END:VCALENDAR\r\n')).toBe(true)
+  })
+
+  it('escapes the characters that separate fields in the format', () => {
+    const ics = buildIcs(
+      [{ id: 'x', date: '2026-01-01', summary: 'a;b,c\\d', description: 'line1\nline2' }],
+      'Cal',
+      now,
+    )
+    expect(ics).toContain('SUMMARY:a\\;b\\,c\\\\d')
+    expect(ics).toContain('DESCRIPTION:line1\\nline2')
+  })
+
+  it('never breaks a Cyrillic letter in half when folding long lines', () => {
+    const long = 'Заключить договор на обучение и договор залога или гарантии в срок'
+    const ics = buildIcs([{ id: 'x', date: '2026-01-01', summary: long }], 'Cal', now)
+    const enc = new TextEncoder()
+    for (const line of ics.split('\r\n')) {
+      expect(enc.encode(line).length, `line over 75 octets: ${line}`).toBeLessThanOrEqual(75)
+    }
+    // Unfolding must give the text back exactly.
+    const unfolded = ics.replace(/\r\n /g, '')
+    expect(unfolded).toContain(`SUMMARY:${long}`)
+  })
+
+  it('sets a reminder only when one was asked for', () => {
+    const withAlarm = buildIcs([{ id: 'a', date: '2026-05-05', summary: 'S', reminderDays: 7 }], 'Cal', now)
+    const without = buildIcs([{ id: 'a', date: '2026-05-05', summary: 'S', reminderDays: 0 }], 'Cal', now)
+    expect(withAlarm).toContain('TRIGGER:-P7D')
+    expect(without).not.toContain('BEGIN:VALARM')
+  })
+
+  it('shifts an ISO date without letting a time zone move the day', () => {
+    expect(shiftIso('2026-12-31', 1)).toBe('2027-01-01')
+    expect(shiftIso('2028-02-28', 1)).toBe('2028-02-29')
+    expect(shiftIso('2026-03-01', -1)).toBe('2026-02-28')
   })
 })
