@@ -558,3 +558,16 @@
     padding: 14px 15px;
   }
 }
+
+.gaugeWrap {
+  margin-bottom: 14px;
+}
+.meters {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin: 4px 0 16px;
+  padding: 14px 16px;
+  border-radius: var(--r-md);
+  background: var(--surface-2);
+}

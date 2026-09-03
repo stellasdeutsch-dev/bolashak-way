@@ -1,0 +1,203 @@
+/* ── score on the exam's own scale ── */
+.gauge {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 16px 18px 12px;
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  background: var(--surface-2);
+}
+.gaugeHead {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.gaugeLabel {
+  font-size: 14.5px;
+  font-weight: 650;
+  color: var(--text);
+}
+.verdict {
+  font-size: 12.5px;
+  font-weight: 650;
+  padding: 4px 10px;
+  border-radius: var(--r-pill);
+}
+.verdict_pass {
+  color: #1c6b45;
+  background: var(--success-tint);
+}
+.verdict_partial {
+  color: #8a5a12;
+  background: var(--warn-tint);
+}
+.verdict_below {
+  color: #9b2c2c;
+  background: var(--danger-tint);
+}
+.verdict_unknown {
+  color: var(--text-2);
+  background: var(--steel-tint);
+}
+
+.track {
+  position: relative;
+  height: 10px;
+  margin: 26px 0 22px;
+  border-radius: 5px;
+  background: var(--surface-3);
+}
+.pass {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  border-radius: 5px;
+  background: linear-gradient(90deg, color-mix(in srgb, var(--success) 45%, transparent), var(--success));
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 700ms var(--ease-out);
+}
+.passOn {
+  transform: scaleX(1);
+}
+.mark {
+  position: absolute;
+  top: -5px;
+  bottom: -5px;
+  width: 2px;
+  margin-left: -1px;
+  border-radius: 1px;
+  background: var(--line-strong);
+}
+.markLabel {
+  position: absolute;
+  bottom: -19px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 11px;
+  font-weight: 650;
+  color: var(--text-3);
+  font-variant-numeric: tabular-nums;
+}
+.you {
+  position: absolute;
+  top: 50%;
+  width: 18px;
+  height: 18px;
+  margin: -9px 0 0 -9px;
+  border-radius: 50%;
+  background: var(--surface);
+  border: 3px solid var(--accent);
+  opacity: 0;
+  transform: scale(0.4);
+  transition: opacity 300ms var(--ease-out), transform 320ms var(--ease-spring);
+  transition-delay: 420ms;
+}
+.youOn {
+  opacity: 1;
+  transform: none;
+}
+.you_pass {
+  border-color: var(--success);
+}
+.you_below {
+  border-color: var(--danger);
+}
+.you_partial {
+  border-color: var(--warn);
+}
+.youValue {
+  position: absolute;
+  top: -25px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 12.5px;
+  font-weight: 800;
+  color: var(--text);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.axis {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+  color: var(--text-3);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ── have / need bar ── */
+.meter {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+.meterHead {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
+.meterLabel {
+  font-size: 13.5px;
+  color: var(--text-2);
+}
+.meterValue {
+  font-size: 13px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+.meterOk {
+  color: #1c6b45;
+}
+.meterShort {
+  color: #8a5a12;
+}
+.meterTrack {
+  height: 8px;
+  border-radius: 4px;
+  background: var(--surface-3);
+  overflow: hidden;
+}
+.meterFill {
+  display: block;
+  height: 100%;
+  border-radius: 4px;
+  background: linear-gradient(90deg, var(--warn), color-mix(in srgb, var(--warn) 70%, var(--accent)));
+  width: 0;
+  transition: width 700ms var(--ease-out);
+}
+.meterFillOk {
+  background: linear-gradient(90deg, color-mix(in srgb, var(--success) 60%, transparent), var(--success));
+}
+
+/* ── segmented step bar ── */
+.steps {
+  display: flex;
+  gap: 3px;
+  align-items: center;
+}
+.step {
+  width: 12px;
+  height: 4px;
+  border-radius: 2px;
+  background: var(--line-strong);
+  transition: background 200ms var(--ease-out);
+}
+.stepDone {
+  background: var(--accent);
+}
+.stepsDark .step {
+  background: rgba(255, 255, 255, 0.22);
+}
+.stepsDark .stepDone {
+  background: #fff;
+}
+
+@media (max-width: 520px) {
+  .step {
+    width: 9px;
+  }
+}

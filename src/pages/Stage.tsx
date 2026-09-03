@@ -26,6 +26,7 @@ import { AwardTimeline, ContestFlow, WorkbackTable } from '@/components/Explain'
 import { StageForms } from '@/components/Forms'
 import { formsForStage } from '@/content/forms'
 import { Reveal } from '@/components/Reveal'
+import { Meter, ScoreGauge } from '@/components/Meter'
 import s from './Stage.module.css'
 
 function FaqRow({ item }: { item: FaqItem }) {
@@ -72,6 +73,17 @@ function LanguageTable() {
   const rows = ENGLISH_THRESHOLDS[group]
   const th = foreignThreshold(profile)
   const meets = foreignCertMeets(profile)
+  // The reader's own exam, so the gauge is drawn on the scale they actually sat.
+  const row = rows.find((r) => r.exam === profile.foreignCert?.exam)
+  const score = profile.foreignCert?.score ?? null
+  const gaugeStatus: 'pass' | 'partial' | 'below' | 'unknown' =
+    score === null || !row
+      ? 'unknown'
+      : row.third !== null && score >= row.third
+        ? 'pass'
+        : row.first !== null && score >= row.first
+          ? 'partial'
+          : 'below'
 
   return (
     <Card>
@@ -90,6 +102,29 @@ function LanguageTable() {
           )}
         </div>
       )}
+      {row && (
+        <div className={s.gaugeWrap}>
+          <ScoreGauge
+            label={row.label}
+            max={row.max}
+            score={profile.foreignCert?.score ?? null}
+            marks={([row.first, row.second, row.third] as (number | null)[])
+              .map((at, i) => (at === null ? null : { at, title: t(`stage.level${i + 1}`) }))
+              .filter((m): m is { at: number; title: string } => m !== null)}
+            status={gaugeStatus}
+            passLabel={
+              gaugeStatus === 'unknown'
+                ? t('stage.gaugeNoCert')
+                : gaugeStatus === 'pass'
+                  ? t('stage.gaugeStraight')
+                  : gaugeStatus === 'partial'
+                    ? t('stage.gaugeToCourses')
+                    : t('stage.below')
+            }
+          />
+        </div>
+      )}
+
       <div className={s.tableWrap}>
         <table className={s.table}>
           <thead>
@@ -313,6 +348,29 @@ function CategoryRequirements() {
             </Pill>
           </div>
         )}
+        {req && profile.experience && (
+          <div className={s.meters}>
+            {req.years != null && (
+              <Meter
+                label={t('stage.expYearsMeter')}
+                have={profile.experience.years}
+                need={req.years}
+                haveLabel={formatYears(profile.experience.years, locale)}
+                needLabel={formatYears(req.years, locale)}
+              />
+            )}
+            {req.continuousMonths != null && (
+              <Meter
+                label={t('stage.expMonthsMeter')}
+                have={profile.experience.continuousMonths}
+                need={req.continuousMonths}
+                haveLabel={formatMonths(profile.experience.continuousMonths, locale)}
+                needLabel={formatMonths(req.continuousMonths, locale)}
+              />
+            )}
+          </div>
+        )}
+
         {category.requirements.map((r, i) => {
           const text = cf(r.text)
           return (

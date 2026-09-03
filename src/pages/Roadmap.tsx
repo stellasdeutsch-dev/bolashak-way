@@ -1,5 +1,6 @@
 import { useEffect, useMemo, type CSSProperties } from 'react'
 import { useHideOnScroll } from '@/components/useHideOnScroll'
+import { StepBar } from '@/components/Meter'
 import { Link, useNavigate } from 'react-router'
 import { IconArrowDown as ArrowDown, IconCheck as Check, IconChevronRight as ChevronRight, IconLock as Lock, IconSparkles as Sparkles } from '@/components/icons'
 import { CHAPTERS } from '@/content/stages'
@@ -45,9 +46,12 @@ function RoadmapTrack({ rows, currentId, continueLabel }: { rows: Row[]; current
                 <h2 className={s.chapterTitle}>{c(row.chapter.title)}</h2>
                 <p className={s.chapterSub}>{c(row.chapter.subtitle)}</p>
               </div>
-              <span className={[s.chapterCount, row.done === row.total ? s.chapterCountDone : ''].join(' ')}>
-                {row.done === row.total && <Check size={13} strokeWidth={3} aria-hidden="true" />}
-                {t('roadmap.chapterProgress', { done: row.done, total: row.total })}
+              <span className={s.chapterProgress}>
+                <span className={[s.chapterCount, row.done === row.total ? s.chapterCountDone : ''].join(' ')}>
+                  {row.done === row.total && <Check size={13} strokeWidth={3} aria-hidden="true" />}
+                  {t('roadmap.chapterProgress', { done: row.done, total: row.total })}
+                </span>
+                <StepBar done={row.done} total={row.total} dark />
               </span>
             </div>
           )

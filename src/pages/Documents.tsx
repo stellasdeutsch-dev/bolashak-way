@@ -9,6 +9,7 @@ import { useI18n } from '@/i18n'
 import { usePageChrome } from '@/i18n/usePageChrome'
 import { Card, Pill, ProgressRing } from '@/components/ui'
 import { AllForms } from '@/components/Forms'
+import { StepBar } from '@/components/Meter'
 import s from './Documents.module.css'
 
 export function Documents() {
@@ -75,8 +76,11 @@ export function Documents() {
                 <span className={s.groupNum}>{String(idx + 1).padStart(2, '0')}</span>
                 <h2 className={s.groupTitle}>{stage ? c(stage.title) : group.stage}</h2>
                 <span className={s.groupSpacer} />
-                <span className={[s.groupCount, groupDone === group.items.length ? s.groupCountDone : ''].join(' ')}>
-                  {t('roadmap.chapterProgress', { done: groupDone, total: group.items.length })}
+                <span className={s.groupProgress}>
+                  <span className={[s.groupCount, groupDone === group.items.length ? s.groupCountDone : ''].join(' ')}>
+                    {t('roadmap.chapterProgress', { done: groupDone, total: group.items.length })}
+                  </span>
+                  <StepBar done={groupDone} total={group.items.length} />
                 </span>
               </div>
               {group.items.map((d) => {

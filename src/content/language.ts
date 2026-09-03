@@ -13,22 +13,22 @@ export type LanguageGroup = 'preferential' | 'self' | 'internship' | 'science' |
 
 export const ENGLISH_THRESHOLDS: Record<Exclude<LanguageGroup, 'none' | 'science'>, LanguageThreshold[]> = {
   preferential: [
-    { exam: 'ielts', label: 'IELTS', first: 5.0, second: 6.0, third: 6.5, scale: 'из 9.0' },
-    { exam: 'toefl_ibt', label: 'TOEFL iBT', first: 35, second: 60, third: 79, scale: 'из 120' },
-    { exam: 'toefl_pbt', label: 'TOEFL PBT / ITP', first: 417, second: 498, third: 548, scale: 'из 677' },
-    { exam: 'det', label: 'Duolingo English Test', first: 80, second: null, third: null, scale: 'из 160' },
+    { exam: 'ielts', label: 'IELTS', first: 5.0, second: 6.0, third: 6.5, scale: 'из 9.0', max: 9 },
+    { exam: 'toefl_ibt', label: 'TOEFL iBT', first: 35, second: 60, third: 79, scale: 'из 120', max: 120 },
+    { exam: 'toefl_pbt', label: 'TOEFL PBT / ITP', first: 417, second: 498, third: 548, scale: 'из 677', max: 677 },
+    { exam: 'det', label: 'Duolingo English Test', first: 80, second: null, third: null, scale: 'из 160', max: 160 },
   ],
   self: [
-    { exam: 'ielts', label: 'IELTS', first: null, second: null, third: 6.0, scale: 'из 9.0' },
-    { exam: 'toefl_ibt', label: 'TOEFL iBT', first: null, second: null, third: 60, scale: 'из 120' },
-    { exam: 'toefl_pbt', label: 'TOEFL PBT / ITP', first: null, second: null, third: 498, scale: 'из 677' },
-    { exam: 'det', label: 'Duolingo English Test', first: null, second: null, third: null, scale: 'из 160' },
+    { exam: 'ielts', label: 'IELTS', first: null, second: null, third: 6.0, scale: 'из 9.0', max: 9 },
+    { exam: 'toefl_ibt', label: 'TOEFL iBT', first: null, second: null, third: 60, scale: 'из 120', max: 120 },
+    { exam: 'toefl_pbt', label: 'TOEFL PBT / ITP', first: null, second: null, third: 498, scale: 'из 677', max: 677 },
+    { exam: 'det', label: 'Duolingo English Test', first: null, second: null, third: null, scale: 'из 160', max: 160 },
   ],
   internship: [
-    { exam: 'ielts', label: 'IELTS', first: null, second: null, third: 5.0, scale: 'из 9.0' },
-    { exam: 'toefl_ibt', label: 'TOEFL iBT', first: null, second: null, third: 35, scale: 'из 120' },
-    { exam: 'toefl_pbt', label: 'TOEFL PBT / ITP', first: null, second: null, third: 417, scale: 'из 677' },
-    { exam: 'det', label: 'Duolingo English Test', first: null, second: null, third: 80, scale: 'из 160' },
+    { exam: 'ielts', label: 'IELTS', first: null, second: null, third: 5.0, scale: 'из 9.0', max: 9 },
+    { exam: 'toefl_ibt', label: 'TOEFL iBT', first: null, second: null, third: 35, scale: 'из 120', max: 120 },
+    { exam: 'toefl_pbt', label: 'TOEFL PBT / ITP', first: null, second: null, third: 417, scale: 'из 677', max: 677 },
+    { exam: 'det', label: 'Duolingo English Test', first: null, second: null, third: 80, scale: 'из 160', max: 160 },
   ],
 }
 

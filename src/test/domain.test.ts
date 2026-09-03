@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest'
+import { ENGLISH_THRESHOLDS } from '@/content/language'
 import { monthMatrix } from '@/domain/calendar'
 import { buildIcs, shiftIso } from '@/domain/ics'
 import type { CategoryId, L, Profile } from '@/content/types'
@@ -579,5 +580,23 @@ describe('calendar export', () => {
     expect(shiftIso('2026-12-31', 1)).toBe('2027-01-01')
     expect(shiftIso('2028-02-28', 1)).toBe('2028-02-29')
     expect(shiftIso('2026-03-01', -1)).toBe('2026-02-28')
+  })
+})
+
+describe('exam scales', () => {
+  it('gives every exam a ceiling its own thresholds fit under', () => {
+    for (const [group, rows] of Object.entries(ENGLISH_THRESHOLDS)) {
+      for (const r of rows) {
+        expect(r.max, `${group}/${r.exam} has no ceiling`).toBeGreaterThan(0)
+        for (const level of [r.first, r.second, r.third]) {
+          if (level === null) continue
+          // A threshold above the top of the scale would put the marker off the gauge.
+          expect(level, `${group}/${r.exam}: ${level} is past the ${r.max} ceiling`).toBeLessThanOrEqual(r.max)
+        }
+        // The levels are cut-offs in ascending order wherever they exist.
+        const present = [r.first, r.second, r.third].filter((v): v is number => v !== null)
+        expect(present, `${group}/${r.exam} levels are out of order`).toEqual([...present].sort((a, b) => a - b))
+      }
+    }
   })
 })

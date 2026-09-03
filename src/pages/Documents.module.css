@@ -182,3 +182,11 @@
   letter-spacing: -0.02em;
   color: var(--text);
 }
+
+.groupProgress {
+  flex: none;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 6px;
+}

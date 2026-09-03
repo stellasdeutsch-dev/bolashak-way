@@ -245,5 +245,8 @@ export interface LanguageThreshold {
   first: number | null
   second: number | null
   third: number | null
+  /** Human-readable scale, e.g. "из 9.0". */
   scale: string
+  /** The same ceiling as a number, so a score can be drawn on the scale. */
+  max: number
 }

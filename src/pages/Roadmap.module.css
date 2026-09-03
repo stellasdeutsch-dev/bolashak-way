@@ -715,3 +715,17 @@
     animation: none;
   }
 }
+
+/* Count and a notch per stage, so "4 из 7" is also a shape. */
+.chapterProgress {
+  flex: none;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 7px;
+}
+@media (max-width: 520px) {
+  .chapterProgress {
+    gap: 6px;
+  }
+}
