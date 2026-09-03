@@ -1,4 +1,5 @@
 import { useEffect, useMemo, type CSSProperties } from 'react'
+import { useHideOnScroll } from '@/components/useHideOnScroll'
 import { Link, useNavigate } from 'react-router'
 import { IconArrowDown as ArrowDown, IconCheck as Check, IconChevronRight as ChevronRight, IconLock as Lock, IconSparkles as Sparkles } from '@/components/icons'
 import { CHAPTERS } from '@/content/stages'
@@ -130,6 +131,7 @@ export function Roadmap() {
   const profile = useAppStore((st) => st.profile)
   const checked = useAppStore((st) => st.checked)
   const stagesDone = useAppStore((st) => st.stagesDone)
+  const hudHidden = useHideOnScroll()
 
   useEffect(() => {
     if (!profile) navigate('/onboarding', { replace: true })
@@ -222,7 +224,7 @@ export function Roadmap() {
         </div>
       </Card>
 
-      <div className={s.sticky}>
+      <div className={[s.sticky, hudHidden ? s.stickyHidden : ''].join(' ')} aria-hidden={hudHidden}>
         <div className={s.hud}>
           <ProgressRing value={progress.ratio} size={54} stroke={6} dark />
           <div className={s.hudText}>

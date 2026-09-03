@@ -259,6 +259,9 @@ export function Calendar() {
                               e.kind === 'anchor' ? s.chipAnchor : s[`chip_${e.d.status}`],
                             ].join(' ')}
                             title={e.title}
+                            // The label is the only accessible name once the chip
+                            // collapses to a dot on a narrow screen.
+                            aria-label={e.title}
                             draggable={e.kind === 'anchor'}
                             onDragStart={(ev) => {
                               if (e.kind !== 'anchor') return

@@ -10,6 +10,14 @@
   top: calc(var(--header-h) - 8px);
   z-index: 30;
   margin: 0 -4px;
+  transition: transform 260ms var(--ease-out), opacity 200ms var(--ease-out);
+}
+/* Out of the way while reading down the path, back on the first upward flick —
+   on a phone the bar is four rows tall and otherwise covers the roadmap itself. */
+.stickyHidden {
+  transform: translateY(calc(-100% - var(--header-h)));
+  opacity: 0;
+  pointer-events: none;
 }
 .hud {
   display: flex;

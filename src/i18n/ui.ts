@@ -355,7 +355,7 @@ export const UI = {
     title: { ru: 'Настройки', kk: 'Баптаулар', en: 'Settings' },
     language: { ru: 'Язык интерфейса', kk: 'Интерфейс тілі', en: 'Interface language' },
     theme: { ru: 'Тема', kk: 'Тақырып', en: 'Theme' },
-    themeSystem: { ru: 'Системная', kk: 'Жүйелік', en: 'System' },
+    themeSystem: { ru: 'Система', kk: 'Жүйелік', en: 'System' },
     themeLight: { ru: 'Светлая', kk: 'Ашық', en: 'Light' },
     themeDark: { ru: 'Тёмная', kk: 'Қараңғы', en: 'Dark' },
     profile: { ru: 'Ваши ответы', kk: 'Сіздің жауаптарыңыз', en: 'Your answers' },
