@@ -117,16 +117,26 @@
 }
 .tab {
   flex: 1;
+  min-width: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 3px;
-  padding: 7px 4px;
+  padding: 7px 2px;
   border-radius: var(--r-md);
   color: var(--text-3);
   font-size: 11px;
   font-weight: 500;
+  letter-spacing: -0.01em;
   text-decoration: none;
+}
+/* Five tabs leave ~68px each on a 375px phone. The tab bar uses its own short labels
+   (see navShort), and this keeps a long translation from wrapping and breaking the row. */
+.tabLabel {
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 .tab:hover {
   text-decoration: none;

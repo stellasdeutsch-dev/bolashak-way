@@ -138,7 +138,9 @@
 }
 .stat {
   display: inline-flex;
-  align-items: baseline;
+  /* Centred, not baseline: once the label wraps to two lines a baseline pins the
+     number to the first of them and it rides at the top of the pill. */
+  align-items: center;
   gap: 8px;
   padding: 10px 16px;
   border-radius: var(--r-pill);

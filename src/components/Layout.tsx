@@ -98,7 +98,7 @@ export function Layout({ children }: { children: ReactNode }) {
         {NAV.map(({ to, key, Icon }) => (
           <NavLink key={to} to={to} end={to === '/'} className={({ isActive }) => [s.tab, isActive ? s.tabActive : ''].join(' ')}>
             <Icon size={20} aria-hidden="true" />
-            {t(key)}
+            <span className={s.tabLabel}>{t(key.replace('nav.', 'navShort.'))}</span>
           </NavLink>
         ))}
       </nav>

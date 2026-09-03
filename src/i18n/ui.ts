@@ -88,6 +88,18 @@ export const UI = {
     documents: { ru: 'Документы', kk: 'Құжаттар', en: 'Documents' },
     settings: { ru: 'Настройки', kk: 'Баптаулар', en: 'Settings' },
   },
+  /**
+   * Labels for the bottom tab bar. Five tabs leave about 68px each on a 375px phone,
+   * and the full nav labels do not fit — «Бағдарлама туралы» needs 99px even at 10px.
+   * Shrinking the type cannot fix that, so the tab bar gets its own shorter wording.
+   */
+  navShort: {
+    roadmap: { ru: 'Роадмап', kk: 'Жол', en: 'Roadmap' },
+    calendar: { ru: 'Календарь', kk: 'Күнтізбе', en: 'Calendar' },
+    documents: { ru: 'Документы', kk: 'Құжаттар', en: 'Documents' },
+    about: { ru: 'Программа', kk: 'Бағдарлама', en: 'About' },
+    settings: { ru: 'Настройки', kk: 'Баптаулар', en: 'Settings' },
+  },
   common: {
     back: { ru: 'Назад', kk: 'Артқа', en: 'Back' },
     next: { ru: 'Далее', kk: 'Келесі', en: 'Next' },
