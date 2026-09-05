@@ -12,11 +12,17 @@
        *   0 — root of a domain (https://example.kz/)
        *   1 — GitHub Pages project site (https://user.github.io/repo/)  ← current deployment
        * Set it to match your deployment; everything else is derived from it.
+       *
+       * GitHub Pages serves this one file for every missing path on the site, including
+       * the sub-apps published in their own folders, so those are recognised here and get
+       * one more segment: /repo/cloud/stage/x → /repo/cloud/#/stage/x.
        */
-      var BASE_SEGMENTS = 2 // cloud build lives at /bolashak-way/cloud/
+      var BASE_SEGMENTS = 1
+      var SUB_APPS = ['cloud']
 
       var l = window.location
       var parts = l.pathname.split('/').filter(Boolean)
+      if (SUB_APPS.indexOf(parts[BASE_SEGMENTS]) !== -1) BASE_SEGMENTS += 1
       var base = '/' + parts.slice(0, BASE_SEGMENTS).join('/') + (BASE_SEGMENTS ? '/' : '')
       var rest = parts.slice(BASE_SEGMENTS).join('/')
       l.replace(l.origin + base + '#/' + rest + l.search)
