@@ -1,0 +1,10 @@
+{
+  "name": "Bolashak Way",
+  "short_name": "Bolashak Way",
+  "description": "Пошаговый роадмап подачи на стипендию «Болашак»",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#f2f4f8",
+  "theme_color": "#0b1220",
+  "icons": [{ "src": "./favicon.svg", "sizes": "any", "type": "image/svg+xml" }]
+}
