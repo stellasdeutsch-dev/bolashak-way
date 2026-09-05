@@ -14,11 +14,14 @@ export default defineConfig({
       manifest: false,
       workbox: {
         globPatterns: ['**/*.{js,css,html,svg,webmanifest}'],
-        // No navigateFallback on purpose: the app is hash-routed, so index.html is only
-        // ever requested at the app root (and is precached). With a fallback the worker
-        // answered deep paths like /repo/stage/foo with index.html, and the relative asset
-        // URLs then resolved against /repo/stage/ and 404'd — a blank page. Letting those
-        // paths reach the host means 404.html runs and redirects into the hash route.
+        // Explicitly null — leaving the key out does NOT disable it, the plugin defaults it
+        // to 'index.html'. The app is hash-routed, so index.html is only ever requested at
+        // the app root (and is precached). With the fallback the worker answered deep paths
+        // like /repo/stage/foo with index.html, the relative asset URLs then resolved
+        // against /repo/stage/ and 404'd — a blank page — and it also captured the /cloud/
+        // sub-app, whose own files sit under a longer path. Letting those paths reach the
+        // host means 404.html runs and redirects into the right hash route.
+        navigateFallback: null,
       },
     }),
   ],
