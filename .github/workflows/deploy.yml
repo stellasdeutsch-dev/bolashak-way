@@ -1,4 +1,10 @@
-# Builds the app and publishes dist/ to GitHub Pages on every push to main.
+# Builds the app and publishes dist/ to the gh-pages branch on every push to main.
+#
+# Why a branch and not the Pages artifact flow: an artifact deployment replaces the
+# whole site, so a second build (the `cloud` branch, published under /cloud/) could
+# never coexist with it. Publishing into gh-pages with keep_files lets each branch own
+# its own folder: main writes the root and leaves /cloud alone; cloud writes /cloud
+# and leaves the root alone.
 name: Deploy to GitHub Pages
 
 on:
@@ -7,17 +13,15 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
-  pages: write
-  id-token: write
+  contents: write
 
-# Let a running deploy finish; queue at most one more.
+# Both branches push to the same gh-pages branch; serialise them.
 concurrency:
-  group: pages
+  group: gh-pages-publish
   cancel-in-progress: false
 
 jobs:
-  build:
+  publish:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -28,17 +32,11 @@ jobs:
       - run: npm ci
       - run: npm test -- --run
       - run: npm run build
-      - uses: actions/configure-pages@v5
-      - uses: actions/upload-pages-artifact@v3
+      - uses: peaceiris/actions-gh-pages@v4
         with:
-          path: dist
-
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    steps:
-      - id: deployment
-        uses: actions/deploy-pages@v4
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dist
+          publish_branch: gh-pages
+          # Never wipe /cloud when the root is republished.
+          keep_files: true
+          commit_message: 'main → / (${{ github.sha }})'
