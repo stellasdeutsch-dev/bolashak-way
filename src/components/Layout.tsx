@@ -5,6 +5,8 @@ import {
   IconSearch as Search, IconBookOpen as BookOpen, IconCalendar as CalendarIcon,
 } from '@/components/icons'
 import { SearchOverlay } from './SearchOverlay'
+import { AccountButton } from '@/cloud/AccountButton'
+import { LegacyImport } from '@/cloud/LegacyImport'
 import { LOCALES, useI18n } from '@/i18n'
 import { useAppStore } from '@/store/useAppStore'
 import s from './Layout.module.css'
@@ -85,12 +87,14 @@ export function Layout({ children }: { children: ReactNode }) {
               <Search size={17} aria-hidden="true" />
             </button>
           )}
+          <AccountButton />
           <LangSwitch />
         </div>
       </header>
 
       {/* Keyed by route so the content fades in on every navigation. */}
       <main className={s.main} key={pathname}>
+        <LegacyImport />
         {children}
       </main>
 

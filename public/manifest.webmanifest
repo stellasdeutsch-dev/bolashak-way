@@ -1,7 +1,9 @@
 {
-  "name": "Bolashak Way",
-  "short_name": "Bolashak Way",
-  "description": "Пошаговый роадмап подачи на стипендию «Болашак»",
+  "name": "Bolashak Way Cloud",
+  "short_name": "Bolashak Cloud",
+  "description": "Пошаговый роадмап подачи на стипендию «Болашак» — версия с аккаунтом и облачным прогрессом",
+  "id": "./",
+  "scope": "./",
   "start_url": "./",
   "display": "standalone",
   "background_color": "#f2f4f8",

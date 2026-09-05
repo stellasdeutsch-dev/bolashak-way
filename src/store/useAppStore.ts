@@ -2,6 +2,7 @@ import { create } from 'zustand'
 import { persist, createJSONStorage } from 'zustand/middleware'
 import type { DateKey, Locale, Profile, StageId } from '@/content/types'
 import { CONTENT_META } from '@/content/meta'
+import { STORE_KEY } from '@/cloud/config'
 
 export type ThemePref = 'system' | 'light' | 'dark'
 
@@ -105,7 +106,8 @@ export const useAppStore = create<AppState>()(
         }),
     }),
     {
-      name: 'bolashak-way',
+      // The cloud build shares github.io's origin with the classic build; distinct keys keep them apart.
+      name: STORE_KEY,
       version: CONTENT_META.schemaVersion,
       storage: createJSONStorage(() => localStorage),
       partialize: (s) => ({

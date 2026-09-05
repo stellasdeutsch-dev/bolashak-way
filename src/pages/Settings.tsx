@@ -9,6 +9,7 @@ import { useAppStore, type ThemePref } from '@/store/useAppStore'
 import { LOCALES, useI18n } from '@/i18n'
 import { usePageChrome } from '@/i18n/usePageChrome'
 import { Button, Card, ConfirmDialog, Pill, SourceLink } from '@/components/ui'
+import { CloudCard } from '@/cloud/CloudCard'
 import s from './Settings.module.css'
 
 export function Settings() {
@@ -189,6 +190,8 @@ export function Settings() {
           </div>
         </div>
       </Card>
+
+      <CloudCard />
 
       <Card>
         <div className={s.section}>

@@ -10,6 +10,14 @@ import { About } from '@/pages/About'
 import { Calendar } from '@/pages/Calendar'
 import { NotFound } from '@/pages/NotFound'
 import { useAppStore } from '@/store/useAppStore'
+import { CloudBoot } from '@/cloud/CloudBoot'
+import { AdminGuard } from '@/cloud/AdminGuard'
+import { Account } from '@/pages/cloud/Account'
+import { AdminLayout } from '@/pages/cloud/admin/AdminLayout'
+import { AdminOverview } from '@/pages/cloud/admin/AdminOverview'
+import { AdminUsers } from '@/pages/cloud/admin/AdminUsers'
+import { AdminUser } from '@/pages/cloud/admin/AdminUser'
+import { AdminRoles } from '@/pages/cloud/admin/AdminRoles'
 
 /** Applies the stored theme preference to the document element. */
 function useTheme() {
@@ -49,6 +57,7 @@ export default function App() {
   useTheme()
   return (
     <HashRouter>
+      <CloudBoot>
       <ScrollToTop />
       <Layout>
         <Routes>
@@ -78,11 +87,26 @@ export default function App() {
             }
           />
           <Route path="/about" element={<About />} />
-        <Route path="/calendar" element={<Calendar />} />
+          <Route path="/calendar" element={<Calendar />} />
           <Route path="/settings" element={<Settings />} />
+          <Route path="/account" element={<Account />} />
+          <Route
+            path="/admin"
+            element={
+              <AdminGuard>
+                <AdminLayout />
+              </AdminGuard>
+            }
+          >
+            <Route index element={<AdminOverview />} />
+            <Route path="users" element={<AdminUsers />} />
+            <Route path="users/:id" element={<AdminUser />} />
+            <Route path="roles" element={<AdminRoles />} />
+          </Route>
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Layout>
+      </CloudBoot>
     </HashRouter>
   )
 }

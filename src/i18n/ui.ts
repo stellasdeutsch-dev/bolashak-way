@@ -1,7 +1,9 @@
 import type { Locale } from '@/content/types'
+import { CLOUD_UI } from '@/cloud/strings'
 
 /** UI chrome strings. Content (stages, documents, FAQ) is localised separately in src/content. */
 export const UI = {
+  ...CLOUD_UI,
   app: { name: 'Bolashak Way' },
   forms: {
     title: { ru: 'Бланки и образцы', kk: 'Бланкілер мен үлгілер', en: 'Blanks and samples' },
@@ -129,9 +131,9 @@ export const UI = {
     welcomeKicker: { ru: 'Ваш путь к стипендии', kk: 'Стипендияға жолыңыз', en: 'Your path to the scholarship' },
     welcomeTitle: { ru: 'Болашак по шагам', kk: 'Болашақ қадам-қадаммен', en: 'Bolashak step by step' },
     welcomeText: {
-      ru: 'Четыре вопроса — и мы соберём роадмап именно под вашу категорию: что уже закрыто, что скрыть и что делать следующим шагом. Без регистрации, всё хранится на вашем устройстве.',
-      kk: 'Төрт сұрақ — және біз дәл сіздің санатыңызға арналған жол картасын құрастырамыз: не жабылды, не жасырылады және келесі қадам не. Тіркелусіз, бәрі құрылғыңызда сақталады.',
-      en: 'Four questions and we build a roadmap for your exact category: what is already done, what to hide and what to do next. No sign-up, everything stays on your device.',
+      ru: 'Четыре вопроса — и мы соберём роадмап именно под вашу категорию: что уже закрыто, что скрыть и что делать следующим шагом. Аккаунт не обязателен: всё хранится на вашем устройстве, а после входа — ещё и в облаке.',
+      kk: 'Төрт сұрақ — және біз дәл сіздің санатыңызға арналған жол картасын құрастырамыз: не жабылды, не жасырылады және келесі қадам не. Аккаунт міндетті емес: бәрі құрылғыңызда сақталады, кіргеннен кейін — бұлтта да.',
+      en: 'Four questions and we build a roadmap for your exact category: what is already done, what to hide and what to do next. An account is optional: everything stays on your device, and once you sign in, in the cloud too.',
     },
     start: { ru: 'Начать', kk: 'Бастау', en: 'Start' },
     stepOf: { ru: 'Вопрос {n} из {total}', kk: '{total} сұрақтың {n}-сі', en: 'Question {n} of {total}' },

@@ -1,0 +1,47 @@
+# Builds the cloud branch and publishes it under /cloud/ of the same Pages site.
+# The root site is owned by main's deploy.yml; destination_dir keeps this job
+# inside gh-pages:/cloud so the two never overwrite each other.
+name: Deploy cloud build to GitHub Pages
+
+on:
+  push:
+    branches: [cloud]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: gh-pages-publish
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    env:
+      VITE_SUPABASE_URL: ${{ vars.VITE_SUPABASE_URL }}
+      VITE_SUPABASE_ANON_KEY: ${{ vars.VITE_SUPABASE_ANON_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm test -- --run
+      # Without the repository variables the build still ships, but as a local-only app:
+      # the account screen says the cloud is not configured. Set the variables with
+      #   gh variable set VITE_SUPABASE_URL --body '…' && gh variable set VITE_SUPABASE_ANON_KEY --body '…'
+      # and re-run this workflow to enable accounts.
+      - run: |
+          if [ -z "$VITE_SUPABASE_URL" ] || [ -z "$VITE_SUPABASE_ANON_KEY" ]; then
+            echo "::warning::VITE_SUPABASE_URL / VITE_SUPABASE_ANON_KEY are not set — publishing a local-only build."
+          fi
+      - run: npm run build
+      - uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dist
+          publish_branch: gh-pages
+          destination_dir: cloud
+          commit_message: 'cloud → /cloud (${{ github.sha }})'
