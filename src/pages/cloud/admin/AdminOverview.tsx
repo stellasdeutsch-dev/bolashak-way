@@ -1,5 +1,5 @@
 import { Button, Card } from '@/components/ui'
-import { CHAPTERS, STAGES } from '@/content/stages'
+import { CHAPTERS } from '@/content/stages'
 import { useI18n } from '@/i18n'
 import { fetchStats } from '@/cloud/queries'
 import { useAdminData } from './useAdminData'
@@ -18,7 +18,7 @@ export function AdminOverview() {
     const value = Object.entries(data.by_current_stage)
       .filter(([stage]) => chapterOf(stage) === ch.id)
       .reduce((n, [, v]) => n + v, 0)
-    return { label: chapterLabel(ch.id, locale), value, total: STAGES.filter((st) => st.chapter === ch.id).length }
+    return { label: chapterLabel(ch.id, locale), value }
   })
   const completed = data.by_current_stage['__complete'] ?? 0
   const trackItems = Object.entries(data.by_track).map(([k, v]) => ({ label: t(`category.track_${k}`), value: v }))

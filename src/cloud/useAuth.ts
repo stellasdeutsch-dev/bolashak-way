@@ -164,7 +164,11 @@ export function createAuthStore(client: AuthClient): UseBoundStore<StoreApi<Auth
 let live: UseBoundStore<StoreApi<AuthState>> | null = null
 
 export function initAuth(client: AuthClient): UseBoundStore<StoreApi<AuthState>> {
-  if (!live) live = createAuthStore(client)
+  if (!live) {
+    live = createAuthStore(client)
+    // Alongside `__sb`: lets a developer drive the store from the console while checking screens.
+    if (import.meta.env.DEV) (window as unknown as { __auth: typeof live }).__auth = live
+  }
   return live
 }
 

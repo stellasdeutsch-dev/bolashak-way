@@ -1,5 +1,4 @@
 import { useInView } from '@/components/Reveal'
-import { StepBar } from '@/components/Meter'
 import s from './admin.module.css'
 
 export function StatTile({ value, label }: { value: number | string; label: string }) {
@@ -33,16 +32,19 @@ export function BarList({ items, empty }: { items: { label: string; value: numbe
   )
 }
 
-/** One row per chapter with a notch per stage-bucket and the count of people there. */
-export function Funnel({ rows, empty }: { rows: { label: string; value: number; total: number }[]; empty: string }) {
-  const sum = rows.reduce((n, r) => n + r.value, 0)
-  if (sum === 0) return <p className={s.empty}>{empty}</p>
+/** One row per chapter, bar length proportional to the busiest chapter. */
+export function Funnel({ rows, empty }: { rows: { label: string; value: number }[]; empty: string }) {
+  const [ref, seen] = useInView<HTMLDivElement>()
+  const max = Math.max(0, ...rows.map((r) => r.value))
+  if (max === 0) return <p className={s.empty}>{empty}</p>
   return (
-    <div className={s.funnel}>
+    <div className={s.funnel} ref={ref}>
       {rows.map((r) => (
         <div key={r.label} className={s.funnelRow}>
           <span className={s.funnelLabel}>{r.label}</span>
-          <StepBar done={r.value} total={Math.max(r.total, r.value, 1)} />
+          <span className={s.barTrack}>
+            <span className={s.barFill} style={{ width: seen ? `${(r.value / max) * 100}%` : '0%' }} />
+          </span>
           <span className={s.funnelValue}>{r.value}</span>
         </div>
       ))}

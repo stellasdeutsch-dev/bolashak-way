@@ -167,7 +167,7 @@
 }
 .funnelRow {
   display: grid;
-  grid-template-columns: minmax(120px, 1fr) auto auto;
+  grid-template-columns: minmax(110px, 1.2fr) 2fr auto;
   align-items: center;
   gap: 12px;
   font-size: 13.5px;
