@@ -62,7 +62,10 @@ export function createAuthStore(client: AuthClient): UseBoundStore<StoreApi<Auth
     // Initial session, then every change. Supabase fires INITIAL_SESSION first, which
     // makes the explicit getSession() below redundant on new SDK versions — kept because
     // it resolves faster than the event on a cold start.
-    void client.auth.getSession().then(({ data }) => applySession(data.session))
+    // The initial read must never downgrade a sign-in that happened while it was in flight.
+    void client.auth.getSession().then(({ data }) => {
+      if (data.session || get().status === 'loading') return applySession(data.session)
+    })
     client.auth.onAuthStateChange((event, session) => {
       if (event === 'SIGNED_OUT') set({ status: 'anon', user: null, role: null })
       else if (event === 'SIGNED_IN' || event === 'INITIAL_SESSION' || event === 'TOKEN_REFRESHED' || event === 'USER_UPDATED') {
