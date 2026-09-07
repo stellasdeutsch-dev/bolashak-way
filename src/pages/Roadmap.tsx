@@ -1,12 +1,16 @@
-import { useEffect, useMemo, type CSSProperties } from 'react'
+import { useEffect, useMemo, useState, type CSSProperties } from 'react'
 import { useHideOnScroll } from '@/components/useHideOnScroll'
 import { StepBar } from '@/components/Meter'
+import { FormsInline, useStageForms } from '@/components/Forms'
 import { Link, useNavigate } from 'react-router'
-import { IconArrowDown as ArrowDown, IconCheck as Check, IconChevronRight as ChevronRight, IconLock as Lock, IconSparkles as Sparkles } from '@/components/icons'
+import {
+  IconArrowDown as ArrowDown, IconCheck as Check, IconChevronDown as ChevronDown, IconChevronRight as ChevronRight,
+  IconFileSignature as FileSignature, IconLock as Lock, IconSparkles as Sparkles,
+} from '@/components/icons'
 import { CHAPTERS } from '@/content/stages'
 import { CATEGORIES } from '@/content/categories'
 import { CONTENT_META } from '@/content/meta'
-import type { ChapterId } from '@/content/types'
+import type { ChapterId, StageId } from '@/content/types'
 import { computeProgress, type StageProgress } from '@/domain/progress'
 import { computeDeadlines, nearestDeadline } from '@/domain/deadlines'
 import { documentsFor } from '@/domain/documents'
@@ -27,6 +31,35 @@ type Row =
  * content read left-to-right. Chosen over a winding trail because 17–19 stages
  * have to be scannable — the same shape Coursera and Khan Academy use for a syllabus.
  */
+/**
+ * Official blanks for a stage, right under its node. The roadmap is where people are
+ * already looking, so the files should be one tap away rather than one screen away;
+ * collapsed by default because 19 stages of open cards would bury the path itself.
+ *
+ * It carries its own rail segment: the spine is drawn per row, and a gap without one
+ * would cut the line between this node and the next.
+ */
+function RowForms({ stage, done, showRail }: { stage: StageId; done: boolean; showRail: boolean }) {
+  const { t } = useI18n()
+  const items = useStageForms(stage)
+  const [open, setOpen] = useState(false)
+  if (items.length === 0) return null
+
+  return (
+    <div className={s.formsRow}>
+      <span className={[s.rail, done ? s.railDone : '', showRail ? '' : s.railHidden].join(' ')} aria-hidden="true" />
+      <div className={s.formsBody}>
+        <button type="button" className={s.formsToggle} onClick={() => setOpen((v) => !v)} aria-expanded={open}>
+          <FileSignature size={15} aria-hidden="true" />
+          {t('forms.inlineToggle', { n: items.length })}
+          <ChevronDown size={15} className={[s.formsChevron, open ? s.formsChevronOpen : ''].join(' ')} aria-hidden="true" />
+        </button>
+        {open && <FormsInline items={items} />}
+      </div>
+    </div>
+  )
+}
+
 function RoadmapTrack({ rows, currentId, continueLabel }: { rows: Row[]; currentId?: string; continueLabel: string }) {
   const { t, c } = useI18n()
   const stageIds = rows.filter((r) => r.kind === 'stage').map((r) => r.id)
@@ -69,8 +102,8 @@ function RoadmapTrack({ rows, currentId, continueLabel }: { rows: Row[]; current
                 : t('roadmap.available')
 
         return (
+          <div key={item.stage.id} className={s.rowWrap}>
           <Link
-            key={item.stage.id}
             id={`node-${item.stage.id}`}
             to={`/stage/${item.stage.id}`}
             className={[s.row, item.status === 'locked' ? s.rowLocked : '', isCurrent ? s.rowCurrent : ''].join(' ')}
@@ -123,6 +156,8 @@ function RoadmapTrack({ rows, currentId, continueLabel }: { rows: Row[]; current
 
             <ChevronRight className={s.rowChevron} size={18} aria-hidden="true" />
           </Link>
+          <RowForms stage={item.stage.id} done={item.status === 'done'} showRail={item.stage.id !== lastStageId} />
+          </div>
         )
       })}
     </div>

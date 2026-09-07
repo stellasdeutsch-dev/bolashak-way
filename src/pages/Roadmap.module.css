@@ -729,3 +729,60 @@
     gap: 6px;
   }
 }
+
+/* ── official blanks under a node ── */
+/* The row and its blanks form one unit so the spine keeps running between nodes. */
+.rowWrap {
+  display: flex;
+  flex-direction: column;
+}
+.formsRow {
+  display: flex;
+  align-items: stretch;
+  /* Matches .row's left padding so this rail segment sits under the bubble, not beside it. */
+  padding-left: 10px;
+}
+/* An empty rail after the last node would draw the path past its end. */
+.railHidden::before {
+  display: none;
+}
+.formsBody {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 0 20px 12px 0;
+}
+.formsToggle {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 6px 12px;
+  border: 1px solid var(--line);
+  border-radius: var(--r-pill);
+  background: var(--surface);
+  cursor: pointer;
+  font: inherit;
+  font-size: 12.5px;
+  font-weight: 650;
+  color: var(--text-2);
+}
+.formsToggle:hover {
+  background: var(--surface-2);
+  color: var(--text);
+  border-color: var(--line-strong);
+}
+.formsChevron {
+  transition: transform 0.18s var(--ease-out);
+}
+.formsChevronOpen {
+  transform: rotate(180deg);
+}
+
+@media (max-width: 520px) {
+  .formsBody {
+    padding: 0 12px 10px 0;
+  }
+}

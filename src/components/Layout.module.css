@@ -145,7 +145,10 @@
   color: var(--accent);
 }
 
-@media (min-width: 860px) {
+/* The five nav labels plus the brand, search and language chips need about 1020px.
+   Below that the row overflowed and the whole page scrolled sideways, so the tab bar —
+   which is designed for exactly this — stays until there is genuinely room. */
+@media (min-width: 1040px) {
   .deskNav {
     display: flex;
   }
