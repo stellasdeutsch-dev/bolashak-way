@@ -145,10 +145,11 @@
   color: var(--accent);
 }
 
-/* The five nav labels plus the brand, search and language chips need about 1020px.
-   Below that the row overflowed and the whole page scrolled sideways, so the tab bar —
-   which is designed for exactly this — stays until there is genuinely room. */
-@media (min-width: 1040px) {
+/* The five nav labels plus the brand, search and language chips need about 1020px, and
+   the cloud build adds an account control on top of that. Below this width the row
+   overflowed and the whole page scrolled sideways, so the tab bar — which is designed
+   for exactly this — stays until there is genuinely room for the nav. */
+@media (min-width: 1080px) {
   .deskNav {
     display: flex;
   }
