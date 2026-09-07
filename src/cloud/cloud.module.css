@@ -44,7 +44,9 @@
   border-radius: 50%;
   background: var(--bg);
 }
-@media (max-width: 400px) {
+/* Icon only where the row is tightest: under 400px, and again once the desktop nav
+   takes its 600px — the label is what pushed the header past the viewport there. */
+@media (max-width: 400px), (min-width: 1080px) {
   .signInText {
     display: none;
   }
