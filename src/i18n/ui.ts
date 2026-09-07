@@ -15,7 +15,6 @@ export const UI = {
     },
     kindForm: { ru: 'Бланк — заполнить', kk: 'Бланк — толтыру', en: 'Blank — fill it in' },
     kindSample: { ru: 'Образец — посмотреть', kk: 'Үлгі — қарау', en: 'Sample — take a look' },
-    inlineToggle: { ru: 'Бланки и образцы · {n}', kk: 'Бланкілер мен үлгілер · {n}', en: 'Blanks and samples · {n}' },
     view: { ru: 'Посмотреть', kk: 'Қарау', en: 'View' },
     download: { ru: 'Скачать', kk: 'Жүктеу', en: 'Download' },
     downloadWord: { ru: 'Скачать бланк Word', kk: 'Word бланкісін жүктеу', en: 'Download the Word blank' },
