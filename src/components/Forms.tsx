@@ -140,10 +140,56 @@ function FormsBlock({ items }: { items: OfficialForm[] }) {
   )
 }
 
+/** The stage's forms narrowed to the reader's own track. */
+export function useStageForms(stage: StageId): OfficialForm[] {
+  const profile = useAppStore((st) => st.profile)
+  if (!profile) return []
+  return formsForStage(stage).filter((f) => evaluate(f.appliesTo, profile))
+}
+
 /** Forms attached to one stage, filtered to the reader's own track. */
 export function StageForms({ stage }: { stage: StageId }) {
-  const profile = useAppStore((st) => st.profile)!
-  return <FormsBlock items={formsForStage(stage).filter((f) => evaluate(f.appliesTo, profile))} />
+  const items = useStageForms(stage)
+  return <FormsBlock items={items} />
+}
+
+/**
+ * The same files as a dense list, for places where a full card grid would bury the page
+ * it sits on — the roadmap in particular. Same viewer, same download links.
+ */
+export function FormsInline({ items }: { items: OfficialForm[] }) {
+  const { t, c } = useI18n()
+  const [open, setOpen] = useState<OfficialForm | null>(null)
+  if (items.length === 0) return null
+  return (
+    <div className={s.inline}>
+      {items.map((f) => (
+        <div key={f.id} className={s.inlineRow}>
+          <span className={[s.inlineIcon, f.kind === 'form' ? s.iconForm : s.iconSample].join(' ')}>
+            {f.kind === 'form' ? <FileSignature size={15} /> : <FileStack size={15} />}
+          </span>
+          <span className={s.inlineText}>
+            <span className={s.inlineTitle}>{c(f.title)}</span>
+            <span className={s.inlineMeta}>
+              {t(f.kind === 'form' ? 'forms.kindForm' : 'forms.kindSample')} · {f.fileType.toUpperCase()} · {sizeLabel(f.bytes)}
+            </span>
+          </span>
+          <span className={s.inlineActions}>
+            {f.fileType === 'pdf' && (
+              <button type="button" className={s.inlineBtn} onClick={() => setOpen(f)}>
+                {t('forms.view')}
+              </button>
+            )}
+            <a className={s.inlineLink} href={f.url} target="_blank" rel="noreferrer noopener">
+              <Download size={14} aria-hidden="true" />
+              {t('forms.download')}
+            </a>
+          </span>
+        </div>
+      ))}
+      {open && <PdfViewer form={open} onClose={() => setOpen(null)} />}
+    </div>
+  )
 }
 
 /** Every applicable form in one place, for the documents screen. */
