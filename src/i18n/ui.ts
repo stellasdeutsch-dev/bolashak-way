@@ -373,6 +373,11 @@ export const UI = {
     importOk: { ru: 'Прогресс восстановлен', kk: 'Прогресс қалпына келтірілді', en: 'Progress restored' },
     importFail: { ru: 'Файл не распознан', kk: 'Файл танылмады', en: 'File not recognised' },
     reset: { ru: 'Сбросить прогресс', kk: 'Прогресті тазалау', en: 'Reset progress' },
+    resetHint: {
+      ru: 'Ответы онбординга, отметки, документы и заметки будут удалены, и приложение начнёт путь заново. Перед сбросом можно скачать копию выше.',
+      kk: 'Онбординг жауаптары, белгілер, құжаттар мен жазбалар өшіріледі, қолданба жолды қайтадан бастайды. Тазалау алдында жоғарыдан көшірме жүктеп алуға болады.',
+      en: 'Your onboarding answers, ticks, documents and notes are deleted and the app starts the path over. You can download a copy above first.',
+    },
     resetTitle: { ru: 'Сбросить весь прогресс?', kk: 'Барлық прогресті тазалау керек пе?', en: 'Reset all progress?' },
     resetText: { ru: 'Удалятся ответы, отметки, документы и заметки. Вернуть их будет нельзя.', kk: 'Жауаптар, белгілер, құжаттар мен жазбалар жойылады. Оларды қайтару мүмкін болмайды.', en: 'Your answers, ticks, documents and notes will be deleted. You will not get them back.' },
     resetConfirm: { ru: 'Да, сбросить', kk: 'Иә, тазалау', en: 'Yes, reset' },

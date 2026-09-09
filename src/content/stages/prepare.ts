@@ -226,7 +226,7 @@ export const PREPARE_STAGES: Stage[] = [
     },
     inShort: {
       what: { ru: 'Проверка, финансируют ли вообще ваше направление. Каждый год утверждают перечень приоритетных специальностей — только по ним и дают стипендию.', kk: 'Бағытыңыз қаржыландырыла ма, соны тексеру. Жыл сайын басым мамандықтар тізбесі бекітіледі — стипендия тек солар бойынша беріледі.', en: 'A check of whether your field is funded at all. A priority-specialty list is approved each year, and only those get the scholarship.' },
-      you: { ru: 'Открыть перечень на текущий год и найти в нём своё направление. Заодно сверить специальность диплома с перечнем родственных.', kk: 'Ағымдағы жылғы тізбені ашып, бағытыңызды табу. Қоса дипломдағы мамандықты туыстас мамандықтар тізбесімен салыстыру.', en: 'Open this year\'s list and find your field in it. While you are there, check your diploma specialty against the related-specialties list.' },
+      you: { ru: 'Открыть перечень на текущий год и найти в нём своё направление. Тем, кто идёт по льготной категории, — ещё и сверить специальность диплома с перечнем родственных.', kk: 'Ағымдағы жылғы тізбені ашып, бағытыңызды табу. Жеңілдікті санат бойынша баратындарға — дипломдағы мамандықты туыстас мамандықтар тізбесімен де салыстыру.', en: 'Open this year\'s list and find your field in it. If you are applying under a preferential category, also check your diploma specialty against the related-specialties list.' },
       result: { ru: 'Уверенность, что выбранная программа попадает в финансирование — и понимание, сколько мест выделено на ваше направление.', kk: 'Таңдаған бағдарлама қаржыландыруға кіретініне сенім — және бағытыңызға қанша орын бөлінгенін білу.', en: 'Confidence that your programme is funded — and a sense of how many places your field gets.' },
     },
     checklist: [
@@ -288,12 +288,36 @@ export const PREPARE_STAGES: Stage[] = [
         en: 'Looking at last year\'s list. Specialties and the number of places change every year.',
       },
       {
-        ru: 'Смотреть только на название программы в вузе. Важно, попадает ли она в специальность из перечня и подходит ли к вашему диплому.',
-        kk: 'Тек ЖОО бағдарламасының атауына қарау. Маңыздысы — ол тізбедегі мамандыққа кіре ме және дипломыңызға келе ме.',
-        en: 'Going by the programme\'s name alone. What matters is whether it falls under a listed specialty and fits your diploma.',
+        ru: 'Смотреть только на название программы в вузе. Важно, попадает ли она в специальность из перечня.',
+        kk: 'Тек ЖОО бағдарламасының атауына қарау. Маңыздысы — ол тізбедегі мамандыққа кіре ме.',
+        en: 'Going by the programme\'s name alone. What matters is whether it falls under a listed specialty.',
       },
     ],
-    sources: ['pps2026', 'pps_internship2026', 'related2026', 'ns_priorities', 'distribution2026'],
+    notes: [
+      {
+        // ПП 573 п. 9 пп. 5) ties the related-specialties rule to the categories listed in
+        // п. 4 пп. 2)–5), 7) — the preferential ones. A self-admitted candidate is not among them.
+        appliesTo: { category: ['master_self', 'phd_self', 'residency'] },
+        tone: 'info',
+        text: {
+          ru: 'Вам соответствие диплома выбранной программе не требуется: правило о родственных специальностях действует только для льготных категорий — из села, ИТР, медиков, госслужащих и работников атомной отрасли. От вас нужно безусловное приглашение из вуза Списка и казахский на B1.',
+          kk: 'Сізге дипломның таңдаған бағдарламаға сәйкестігі талап етілмейді: туыстас мамандықтар қағидасы тек жеңілдікті санаттарға — ауылдан, ИТҚ, медиктер, мемқызметшілер және атом саласы қызметкерлеріне қолданылады. Сізден Тізімдегі ЖОО-дан сөзсіз шақыру және қазақ тілінен B1 керек.',
+          en: 'Your diploma does not have to match the programme you chose: the related-specialties rule applies only to the preferential categories — rural, engineering, medical, civil-service and nuclear-industry applicants. What you need is an unconditional offer from a listed university and Kazakh at B1.',
+        },
+        source: 'pp573',
+      },
+      {
+        appliesTo: { category: [...PREFERENTIAL] },
+        tone: 'warn',
+        text: {
+          ru: 'Ваша категория льготная, поэтому специальность диплома должна соответствовать выбранной по перечню родственных специальностей — вместе с GPA и порогом по иностранному языку.',
+          kk: 'Сіздің санатыңыз жеңілдікті, сондықтан диплом мамандығы туыстас мамандықтар тізбесі бойынша таңдағаныңызға сәйкес келуі керек — GPA және шет тілі шегімен бірге.',
+          en: 'Yours is a preferential category, so your diploma specialty has to match the one you picked under the related-specialties list — along with the GPA and the foreign-language threshold.',
+        },
+        source: 'pp573',
+      },
+    ],
+    sources: ['pps2026', 'pps_internship2026', 'related2026', 'ns_priorities', 'distribution2026', 'pp573'],
     estimateWeeks: [1, 2],
   },
 
@@ -304,18 +328,18 @@ export const PREPARE_STAGES: Stage[] = [
     kicker: { ru: 'Куда поедете', kk: 'Қайда барасыз', en: 'Where you will go' },
     title: { ru: 'Вуз или организация из Списка', kk: 'Тізімдегі ЖОО немесе ұйым', en: 'A university or organisation from the list' },
     summary: {
-      ru: 'Подойдут только вузы и организации из официального списка на этот год.',
-      kk: 'Тек осы жылғы ресми тізімдегі ЖОО мен ұйымдар жарайды.',
-      en: 'Only universities and organisations from this year\'s official list will do.',
+      ru: 'Для учёбы подойдут только вузы из официального списка на этот год. У стажировки списка нет.',
+      kk: 'Оқуға тек осы жылғы ресми тізімдегі ЖОО жарайды. Тағылымдамада тізім жоқ.',
+      en: 'For study, only universities on this year\'s official list will do. An internship has no list.',
     },
     why: {
-      ru: 'Список ведущих зарубежных вузов утверждают заново каждый год. Приглашение из вуза вне списка права на стипендию не даёт. Для стажировок организация тоже должна быть в своём списке — исключение только у научных стажировок, там рабочий орган может рассмотреть организацию отдельно.',
-      kk: 'Жетекші шетелдік ЖОО тізімі жыл сайын қайта бекітіледі. Тізімнен тыс ЖОО шақыруы стипендияға құқық бермейді. Тағылымдамаға да ұйым өз тізімінде болуы керек — тек ғылыми тағылымдамада жұмыс органы ұйымды жеке қарай алады.',
-      en: 'The list of leading foreign universities is re-approved every year. An offer from a university outside it gives no right to the scholarship. For internships the organisation must also be listed — the only exception is scientific internships, where the working body can review an organisation separately.',
+      ru: 'Для академического обучения список ведущих зарубежных вузов утверждают заново каждый год, и приглашение из вуза вне списка права на стипендию не даёт. У обычной стажировки списка нет вовсе: нужно безусловное приглашение принимающей организации. У научной стажировки список свой.',
+      kk: 'Академиялық оқуға жетекші шетелдік ЖОО тізімі жыл сайын қайта бекітіледі, тізімнен тыс ЖОО шақыруы стипендияға құқық бермейді. Кәдімгі тағылымдамада тізім мүлде жоқ: қабылдаушы ұйымның сөзсіз шақыруы керек. Ғылыми тағылымдаманың өз тізімі бар.',
+      en: 'For academic study the list of leading foreign universities is re-approved every year, and an offer from outside it gives no right to the scholarship. An ordinary internship has no list at all: what counts is an unconditional invitation from the host. A scientific internship has a list of its own.',
     },
     inShort: {
-      what: { ru: 'Выбор места учёбы, но не свободный: подходят только вузы и организации из официального списка на текущий год.', kk: 'Оқу орнын таңдау, бірақ еркін емес: тек ағымдағы жылғы ресми тізімдегі ЖОО мен ұйымдар жарайды.', en: 'Choosing where to study — but not freely: only universities and organisations on this year\'s official list qualify.' },
-      you: { ru: 'Найти вуз в списке, изучить саму программу и её дедлайны, посмотреть предметные рейтинги.', kk: 'ЖОО-ны тізімнен тауып, бағдарламаның өзін және мерзімдерін зерттеп, пәндік рейтингтерді қарау.', en: 'Find the university on the list, study the programme and its deadlines, look at the subject rankings.' },
+      what: { ru: 'Выбор места учёбы. Для академического обучения выбор не свободный: подходят только вузы из официального списка на текущий год.', kk: 'Оқу орнын таңдау. Академиялық оқуға таңдау еркін емес: тек ағымдағы жылғы ресми тізімдегі ЖОО жарайды.', en: 'Choosing where to go. For academic study the choice is not free: only universities on this year\'s official list qualify.' },
+      you: { ru: 'Найти вуз в списке — или, если едете на стажировку, договориться с принимающей организацией. Затем изучить программу, её дедлайны и предметные рейтинги.', kk: 'ЖОО-ны тізімнен табу — не тағылымдамаға барсаңыз, қабылдаушы ұйыммен келісу. Содан кейін бағдарламаны, мерзімдерін және пәндік рейтингтерді зерттеу.', en: 'Find the university on the list — or, if you are going on an internship, agree it with the host. Then study the programme, its deadlines and the subject rankings.' },
       result: { ru: 'Короткий список вузов, куда есть смысл подавать, и понимание их сроков подачи.', kk: 'Тапсыруға мағынасы бар ЖОО-лардың қысқа тізімі және олардың тапсыру мерзімдері.', en: 'A shortlist of universities worth applying to, and their application deadlines.' },
     },
     checklist: [
@@ -327,7 +351,19 @@ export const PREPARE_STAGES: Stage[] = [
           en: 'You found your university in this year\'s list of leading foreign universities.',
         },
         link: 'vuzy2026',
-        appliesTo: { not: { track: ['science_internship'] } },
+        // ПП 573 п. 13 asks an internship candidate only for an unconditional invitation
+        // from the host organisation — no list is involved on that track.
+        appliesTo: { not: { track: ['internship', 'science_internship'] } },
+      },
+      {
+        id: 'invite_internship',
+        text: {
+          ru: 'Договорились с зарубежной организацией о стажировке — списка организаций для обычной стажировки нет, подойдёт любая, готовая вас принять.',
+          kk: 'Шетелдік ұйыммен тағылымдама туралы келістіңіз — кәдімгі тағылымдамаға ұйымдар тізімі жоқ, сізді қабылдауға дайын кез келгені жарайды.',
+          en: 'You agreed the internship with a foreign organisation — an ordinary internship has no list of organisations, any host that will take you qualifies.',
+        },
+        link: 'pp573',
+        appliesTo: { track: ['internship'] },
       },
       {
         id: 'in_list_ns',
@@ -371,9 +407,9 @@ export const PREPARE_STAGES: Stage[] = [
     ],
     mistakes: [
       {
-        ru: 'Смотреть на общий рейтинг вуза вместо того, чтобы проверить его в списке на этот год.',
-        kk: 'Осы жылғы тізімнен тексерудің орнына ЖОО жалпы рейтингіне қарау.',
-        en: 'Going by overall ranking instead of checking the university against this year\'s list.',
+        ru: 'Смотреть на общий рейтинг вуза вместо того, чтобы проверить его в списке на этот год. Для академического обучения решает список, а не рейтинг.',
+        kk: 'Осы жылғы тізімнен тексерудің орнына ЖОО жалпы рейтингіне қарау. Академиялық оқуда рейтинг емес, тізім шешеді.',
+        en: 'Going by overall ranking instead of checking the university against this year\'s list. For academic study the list decides, not the ranking.',
       },
       {
         ru: 'Не посмотреть дедлайны вуза. В сильные программы заявки открываются почти за год до начала учёбы.',
@@ -669,6 +705,17 @@ export const PREPARE_STAGES: Stage[] = [
       },
     ],
     notes: [
+      {
+        // Not in ПП 573 and not on the requirements page, which lists only the applicant's
+        // details, specialty, dates and cost. Recorded as practice, marked as such.
+        appliesTo: { not: { category: [...PREFERENTIAL] } },
+        tone: 'info',
+        text: {
+          ru: 'Из практики, не из правил: приглашение просят с подписью — в правилах перечислены только данные претендента, специальность, сроки и стоимость. Требование не подтверждено официальным источником, но письмо с подписью и реквизитами вуза лишним не будет. Дата и подпись обязательны в другом документе — в мотивационном письме.',
+          kk: 'Қағидадан емес, тәжірибеден: шақыруды қолы қойылған күйде сұрайды — қағидаларда тек үміткер деректері, мамандық, мерзім және құн көрсетілген. Талап ресми дереккөзбен расталмаған, бірақ қолы мен ЖОО деректемелері бар хат артық болмайды. Күн мен қол басқа құжатта — мотивациялық хатта міндетті.',
+          en: 'Practice, not the rules: the offer is often expected to carry a signature — the rules list only the applicant\'s details, specialty, dates and cost. This is not confirmed by an official source, but a letter with a signature and the university\'s details will not hurt. A date and signature are required on a different document: the motivation letter.',
+        },
+      },
       {
         appliesTo: { category: [...PREFERENTIAL] },
         tone: 'warn',
