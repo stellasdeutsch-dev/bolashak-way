@@ -84,6 +84,10 @@ let stop: (() => void) | null = null
 
 beforeEach(() => {
   vi.useFakeTimers()
+  // The engine stamps changes with the real clock, so the fixtures below only mean what
+  // they say against a frozen one — a hard-coded "newer" remote date stops being newer
+  // the day the calendar reaches it.
+  vi.setSystemTime(new Date('2026-09-04T12:00:00.000Z'))
   useAppStore.getState().reset()
   useSyncStore.setState({ status: 'idle', dirty: false, lastLocalChangeAt: null, lastSeenServerAt: null, linkedUserId: null, backup: null, backupAt: null, lastSavedAt: null, lastError: null, pendingChoice: null })
 })
