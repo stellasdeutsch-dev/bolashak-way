@@ -23,6 +23,7 @@ import { Button, Callout, Card, FallbackBadge, Pill, SourceLink } from '@/compon
 import { StageIcon } from '@/components/StageIcon'
 import { VideoList } from '@/components/Videos'
 import { AwardTimeline, ContestFlow, WorkbackTable } from '@/components/Explain'
+import { SpecialtySearch, UniversitySearch } from '@/components/ListSearch'
 import { StageForms } from '@/components/Forms'
 import { formsForStage } from '@/content/forms'
 import { Reveal } from '@/components/Reveal'
@@ -604,6 +605,26 @@ export function StagePage() {
               {/* Dim the term that is not yours, so nobody counts the wrong deadline. */}
               <AwardTimeline highlight={profile.track === 'science_internship' ? 'ns' : 'main'} />
             </Reveal>
+          </div>
+        </Card>
+      )}
+
+      {stage.id === 'specialty' && (
+        <Card>
+          <div className={s.section}>
+            <span className={s.sectionTitle}>{t('lists.specialtyTitle')}</span>
+            <SpecialtySearch />
+          </div>
+        </Card>
+      )}
+
+      {/* The list of recommended universities is not used for the internship tracks, so the
+          search would only mislead the people it does not apply to. */}
+      {stage.id === 'university' && profile.track !== 'internship' && profile.track !== 'science_internship' && (
+        <Card>
+          <div className={s.section}>
+            <span className={s.sectionTitle}>{t('lists.universityTitle')}</span>
+            <UniversitySearch />
           </div>
         </Card>
       )}

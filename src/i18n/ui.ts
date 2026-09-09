@@ -348,6 +348,37 @@ export const UI = {
     sat: { ru: 'Сб', kk: 'Сн', en: 'Sat' },
     sun: { ru: 'Вс', kk: 'Жс', en: 'Sun' },
   },
+  lists: {
+    specialtyTitle: { ru: 'Проверьте свою специальность', kk: 'Мамандығыңызды тексеріңіз', en: 'Check your field of study' },
+    specialtyPlaceholder: { ru: 'Например: искусственный интеллект', kk: 'Мысалы: жасанды интеллект', en: 'For example: artificial intelligence' },
+    specialtyHint: {
+      ru: 'Ищите по русскому или английскому названию — в приоритетном перечне у каждой специальности есть английские эквиваленты. Рядом показаны уровень обучения и код.',
+      kk: 'Орысша немесе ағылшынша атауы бойынша іздеңіз — басым тізімде әр мамандықтың ағылшынша баламалары бар. Қасында оқу деңгейі мен коды көрсетілген.',
+      en: 'Search by the Russian or the English name — every field on the priority list carries its English equivalents. The degree level and the code are shown next to it.',
+    },
+    universityTitle: { ru: 'Проверьте свой вуз', kk: 'Жоғары оқу орныңызды тексеріңіз', en: 'Check your university' },
+    universityPlaceholder: { ru: 'Например: Manchester', kk: 'Мысалы: Manchester', en: 'For example: Manchester' },
+    universityHint: {
+      ru: 'Ищите по названию вуза или по стране. Список рекомендованных вузов — тот же, что публикует Центр международных программ.',
+      kk: 'Жоғары оқу орнының атауы немесе ел бойынша іздеңіз. Ұсынылған жоғары оқу орындарының тізімі — Халықаралық бағдарламалар орталығы жариялайтын тізім.',
+      en: 'Search by the name of the university or by country. The list of recommended universities is the one the Center for International Programmes publishes.',
+    },
+    loading: { ru: 'Загружаем список…', kk: 'Тізім жүктелуде…', en: 'Loading the list…' },
+    found: { ru: 'Найдено: {n}', kk: 'Табылды: {n}', en: 'Found: {n}' },
+    more: { ru: 'И ещё {n} — уточните запрос.', kk: 'Тағы {n} — сұранысты нақтылаңыз.', en: 'And {n} more — narrow the search.' },
+    nothing: {
+      ru: 'В перечне ничего не нашлось. Попробуйте другое слово или английский вариант названия — перечень приоритетных специальностей обновляется, сверьтесь с оригиналом по ссылке ниже.',
+      kk: 'Тізімнен ештеңе табылмады. Басқа сөзді немесе атаудың ағылшынша нұсқасын қолданып көріңіз — басым мамандықтар тізімі жаңарып отырады, төмендегі сілтеме бойынша түпнұсқамен салыстырыңыз.',
+      en: 'Nothing in the list matched. Try another word or the English form of the name — the priority list is updated, so check it against the original linked below.',
+    },
+    nothingUni: {
+      ru: 'В списке рекомендованных вузов ничего не нашлось. Попробуйте часть названия на английском или название города. Список обновляется — сверьтесь с оригиналом по ссылке ниже.',
+      kk: 'Ұсынылған жоғары оқу орындарының тізімінен ештеңе табылмады. Атаудың ағылшынша бөлігін немесе қала атауын қолданып көріңіз. Тізім жаңарып отырады — төмендегі сілтеме бойынша түпнұсқамен салыстырыңыз.',
+      en: 'Nothing in the list of recommended universities matched. Try part of the name in English, or the name of the city. The list is updated — check it against the original linked below.',
+    },
+    site: { ru: 'Сайт', kk: 'Сайт', en: 'Website' },
+    takenOn: { ru: 'Список загружен', kk: 'Тізім жүктелген күні', en: 'List taken on' },
+  },
   documents: {
     title: { ru: 'Мои документы', kk: 'Менің құжаттарым', en: 'My documents' },
     kicker: { ru: 'Сводный чеклист', kk: 'Жиынтық тізім', en: 'Combined checklist' },
