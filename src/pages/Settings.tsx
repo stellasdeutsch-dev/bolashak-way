@@ -182,6 +182,14 @@ export function Settings() {
             )}
           </div>
           <p className={s.hint}>{t('settings.exportHint')}</p>
+        </div>
+      </Card>
+
+      {/* Its own card: at the bottom of the data block people were not finding it. */}
+      <Card>
+        <div className={s.section}>
+          <span className={s.sectionTitle}>{t('settings.reset')}</span>
+          <p className={s.hint}>{t('settings.resetHint')}</p>
           <div className={s.row}>
             <Button variant="danger" onClick={() => setConfirmReset(true)}>
               <Trash2 size={16} aria-hidden="true" />

@@ -14,6 +14,22 @@ export default defineConfig({
       manifest: false,
       workbox: {
         globPatterns: ['**/*.{js,css,html,svg,webmanifest}'],
+        // The two official lists are only fetched when somebody searches, so precaching them
+        // would put 350 KB on every install for a screen most people open once. Cache the
+        // chunk the first time it is actually asked for instead — after that it is offline too.
+        globIgnores: ['**/lists.generated-*.js'],
+        runtimeCaching: [
+          {
+            urlPattern: /\/assets\/lists\.generated-[\w-]+\.js$/,
+            handler: 'CacheFirst',
+            options: {
+              cacheName: 'bolashak-lists',
+              // Hashed filename: a new build produces a new URL, so one entry is enough.
+              expiration: { maxEntries: 2 },
+              cacheableResponse: { statuses: [0, 200] },
+            },
+          },
+        ],
         // Explicitly null — leaving the key out does NOT disable it, the plugin defaults it
         // to 'index.html'. The app is hash-routed, so index.html is only ever requested at
         // the app root (and is precached). With the fallback the worker answered deep paths
@@ -37,6 +53,9 @@ export default defineConfig({
         // Content changes far more often than the framework; keep them in separate chunks.
         manualChunks(id) {
           if (id.includes('node_modules')) return 'vendor'
+          // The two official lists are 300 KB of names nobody needs until they search,
+          // so let the dynamic import in ListSearch give them their own chunk.
+          if (id.includes('/src/content/lists.generated')) return undefined
           if (id.includes('/src/content/')) return 'content'
           return undefined
         },
