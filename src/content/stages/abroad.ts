@@ -217,6 +217,7 @@ export const ABROAD_STAGES: Stage[] = [
         },
         required: false,
         link: 'otrabotka',
+        appliesTo: { track: ['bachelor', 'master', 'phd_residency'] },
       },
     ],
     deadlines: [
@@ -324,11 +325,21 @@ export const ABROAD_STAGES: Stage[] = [
     deadlines: [
       {
         text: {
-          ru: 'Срок рассмотрения заявления на исполнение договорных обязательств — 15 рабочих дней. Столько же занимает рассмотрение заявления на замену предмета залога.',
-          kk: 'Шарттық міндеттемелерді орындау туралы өтінішті қарау мерзімі — 15 жұмыс күні.',
-          en: 'The application confirming fulfilment is reviewed within 15 working days, as is a request to replace the collateral.',
+          ru: 'Заявление на замену предмета залога рассматривают 15 рабочих дней.',
+          kk: 'Кепіл затын ауыстыру туралы өтініш 15 жұмыс күнінде қаралады.',
+          en: 'A request to replace the collateral is reviewed within 15 working days.',
+        },
+        source: 'zamena_zaloga',
+        appliesTo: { not: { track: ['science_internship'] } },
+      },
+      {
+        text: {
+          ru: 'Заявление на исполнение договорных обязательств рассматривают 15 рабочих дней.',
+          kk: 'Шарттық міндеттемелерді орындау туралы өтініш 15 жұмыс күнінде қаралады.',
+          en: 'The application confirming fulfilment of your obligations is reviewed within 15 working days.',
         },
         source: 'ns_alumni',
+        appliesTo: { track: ['science_internship'] },
       },
       {
         text: {

@@ -1,4 +1,4 @@
-import type { CategoryId, ExamId, LanguageThreshold, L, SourceId } from './types'
+import type { CategoryId, ExamId, LanguageThreshold, L, SourceId, Track } from './types'
 
 /**
  * English-language thresholds, Appendix 1 of Order No. 318 (as amended by the order of the
@@ -90,7 +90,8 @@ export const KAZAKH_REQUIREMENT: { text: L; source: SourceId } = {
   source: 'prikaz318',
 }
 
-export const LANGUAGE_NOTES: { text: L; source: SourceId }[] = [
+/** Notes under the Order 318 table; `tracks` keeps the preferential-category ones on the master's platform. */
+export const LANGUAGE_NOTES: { text: L; source: SourceId; tracks: Track[] }[] = [
   {
     text: {
       ru: 'Инженерно-технические и медицинские работники, претенденты из сёл и госслужащие с IELTS 5.5, TOEFL iBT 46–59, PBT/ITP 417–497 или DET 95–104 плюс письмо о безусловном приглашении на обучение, при котором организуются языковые курсы, приравниваются ко второму пороговому уровню.',
@@ -98,6 +99,7 @@ export const LANGUAGE_NOTES: { text: L; source: SourceId }[] = [
       en: 'Engineering, medical, rural and civil-service applicants holding IELTS 5.5, TOEFL iBT 46–59, PBT/ITP 417–497 or DET 95–104 plus an unconditional offer with language courses attached are treated as meeting the second threshold.',
     },
     source: 'prikaz318',
+    tracks: ['master'],
   },
   {
     text: {
@@ -106,6 +108,7 @@ export const LANGUAGE_NOTES: { text: L; source: SourceId }[] = [
       en: 'The same categories that submit an unconditional admission letter at the placement stage are exempt from the third-threshold certificate requirement.',
     },
     source: 'prikaz318',
+    tracks: ['master'],
   },
   {
     text: {
@@ -114,6 +117,7 @@ export const LANGUAGE_NOTES: { text: L; source: SourceId }[] = [
       en: 'If the language of instruction is not in the table, the level is confirmed by a valid international certificate of at least CEFR B1.',
     },
     source: 'prikaz318',
+    tracks: ['master', 'phd_residency', 'internship'],
   },
   {
     text: {
@@ -122,6 +126,7 @@ export const LANGUAGE_NOTES: { text: L; source: SourceId }[] = [
       en: 'German: Goethe-Zertifikat B1-B2, TestDaF TDN 3, DSH-1 for level I; Goethe C1, TestDaF TDN 4, DSH-2 (DSH-3 for medical fields) for level III. Applicants to German universities attend a DAAD interview at their own expense.',
     },
     source: 'prikaz318',
+    tracks: ['master', 'phd_residency', 'internship'],
   },
   {
     text: {
@@ -130,5 +135,6 @@ export const LANGUAGE_NOTES: { text: L; source: SourceId }[] = [
       en: 'Other languages (level III): French — TCF 500 / DALF C1; Spanish — DELE C1; Italian — CILS C1 / CELI 4; Czech — CCE C1; Korean — TOPIK 5; Chinese — HSK 5; Japanese — JLPT N2; Finnish — YKI 5; Norwegian — Bergentest C1; Swedish — TISUS; Danish — Studieprøven; Dutch — CNaVT PTHO (B2).',
     },
     source: 'prikaz318',
+    tracks: ['master', 'phd_residency', 'internship'],
   },
 ]

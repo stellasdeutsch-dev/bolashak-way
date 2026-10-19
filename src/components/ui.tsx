@@ -1,4 +1,5 @@
 import { useEffect, useState, type ReactNode, useRef } from 'react'
+import { Link } from 'react-router'
 import { IconInfo as Info, IconAlertTriangle as TriangleAlert, IconExternal as ExternalLink } from '@/components/icons'
 import { getSource } from '@/content/sources'
 import type { SourceId } from '@/content/types'
@@ -27,6 +28,18 @@ export function Button({ children, onClick, variant = 'primary', size = 'md', fu
     >
       {children}
     </button>
+  )
+}
+
+/**
+ * A link that looks like a button. A <button> inside an <a> is invalid HTML and breaks
+ * keyboard focus in Safari and Firefox, so navigation gets its own element.
+ */
+export function ButtonLink({ to, children, variant = 'primary', size = 'md', full }: Omit<ButtonProps, 'onClick' | 'type' | 'disabled' | 'ariaLabel'> & { to: string }) {
+  return (
+    <Link to={to} className={[s.btn, s[variant], s[size], full ? s.full : '', s.btnLink].join(' ')}>
+      {children}
+    </Link>
   )
 }
 

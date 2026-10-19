@@ -92,6 +92,7 @@ export const INTERNSHIP_STAGES: StagePatches = {
 
   university: {
     icon: 'Briefcase',
+    links: { programme: 'pp573' },
     title: { ru: 'Принимающая организация', kk: 'Қабылдаушы ұйым', en: 'The host organisation' },
     summary: {
       ru: 'Отдельного списка нет, но место стажировки правила ограничивают. Срок — до 12 месяцев.',
@@ -141,6 +142,7 @@ export const INTERNSHIP_STAGES: StagePatches = {
   },
 
   foreign: {
+    links: { validity: null },
     summary: {
       ru: 'Один порог, без курсов: IELTS 5.0 или эквивалент — сразу, при подаче.',
       kk: 'Бір шек, курссыз: IELTS 5.0 не баламасы — бірден, тапсыру кезінде.',
@@ -305,6 +307,7 @@ export const INTERNSHIP_STAGES: StagePatches = {
   },
 
   departure: {
+    links: { curator: 'stipendiat_internship', visa_copy: 'stipendiat_internship' },
     summary: {
       ru: 'Финансовая гарантия, банковская карта, консульский сбор, виза, авиабилет.',
       kk: 'Қаржылық кепілдік, банк картасы, консулдық алым, виза, авиабилет.',
@@ -330,6 +333,7 @@ export const INTERNSHIP_STAGES: StagePatches = {
   },
 
   studying: {
+    links: { police: 'stipendiat_internship', insurance: 'stipendiat_internship', contact: 'stipendiat_internship' },
     title: { ru: 'Стажировка и отчётность', kk: 'Тағылымдама және есептілік', en: 'The internship and reporting' },
     summary: {
       ru: 'Учёт и страховка, программа без изменений, промежуточный отчёт — если стажировка длиннее 6 месяцев.',

@@ -10,6 +10,32 @@ import { FAQ_TRANSLATIONS } from './faq.i18n'
  */
 export const OFFICIAL_FAQ: FaqItem[] = [
   {
+    id: 'off-02s',
+    tracks: ['science_internship'],
+    stage: 'eligibility',
+    status: 'official',
+    q: { ru: 'Есть ли ограничение по возрасту?', kk: 'Жас шектеуі бар ма?', en: 'Is there an age limit?' },
+    a: {
+      ru: 'Прямого предельного возраста нет. Требование другое: научная стажировка вместе с последующей отработкой должна укладываться в сроки с учётом статьи 207 Социального кодекса — то есть до пенсионного возраста.',
+      kk: 'Тікелей жас шегі жоқ. Талап басқа: ғылыми тағылымдама кейінгі өтеумен бірге Әлеуметтік кодекстің 207-бабын ескере отырып — яғни зейнеткерлік жасқа дейін сыюы керек.',
+      en: 'There is no age limit as such. The requirement is different: the internship plus the work-back after it must fit the terms set by article 207 of the Social Code — that is, before retirement age.',
+    },
+    source: 'ns_requirements',
+  },
+  {
+    id: 'off-15s',
+    tracks: ['science_internship'],
+    stage: 'kazakh',
+    status: 'official',
+    q: { ru: 'Нужен ли сертификат по казахскому языку?', kk: 'Қазақ тілі сертификаты керек пе?', en: 'Do I need a Kazakh certificate?' },
+    a: {
+      ru: 'Да. Минимальный уровень государственного языка для научной стажировки — B1: сертификат КАЗТЕСТ или Qazaq Resmi Test с ID-номером и QR-кодом. В пакет идут оригинал и копия.',
+      kk: 'Иә. Ғылыми тағылымдамаға мемлекеттік тілдің ең төменгі деңгейі — B1: ID нөмірі мен QR-коды бар ҚАЗТЕСТ не Qazaq Resmi Test сертификаты. Топтамаға түпнұсқа мен көшірме беріледі.',
+      en: 'Yes. The minimum state-language level for a scientific internship is B1: a KAZTEST or Qazaq Resmi Test certificate with an ID number and QR code. The original and a copy go in the package.',
+    },
+    source: 'ns_minscore',
+  },
+  {
     id: 'off-05a',
     tracks: ['internship'],
     stage: 'workback',
@@ -128,6 +154,7 @@ export const OFFICIAL_FAQ: FaqItem[] = [
   },
   {
     id: 'off-02',
+    tracks: ['bachelor', 'master', 'phd_residency', 'internship'],
     stage: 'eligibility',
     status: 'official',
     q: { ru: 'Есть ли ограничение по возрасту?', kk: 'Жас шектеуі бар ма?', en: 'Is there an age limit?' },
@@ -188,7 +215,7 @@ export const OFFICIAL_FAQ: FaqItem[] = [
       kk: 'Комиссия шешімімен бас тартылған үміткерлер ағымдағы жылы қайта қатыса алмайды. Келесі конкурс жылында қатысуға болады.',
       en: 'Applicants refused by the Republican Commission cannot re-enter the same year\'s competition; they may apply in the next competition year. Submitting false documents also excludes an applicant for the current year.',
     },
-    source: 'pp791',
+    source: 'pp573',
   },
   {
     id: 'off-07',
@@ -255,7 +282,7 @@ export const OFFICIAL_FAQ: FaqItem[] = [
       kk: 'Шақыру ағымдағы жылғы Тізімге кіретін ЖОО-дан болуы керек. Тізімнен тыс ЖОО шақыруы стипендияға құқық бермейді, ал Тізімнің өзі жыл сайын қайта бекітіледі.',
       en: 'The offer has to come from a university on this year\'s list. An offer from outside it gives no right to the scholarship, and the list itself is re-approved every year.',
     },
-    source: 'pp791',
+    source: 'vuzy_page',
   },
   {
     id: 'off-12',
@@ -298,6 +325,7 @@ export const OFFICIAL_FAQ: FaqItem[] = [
   },
   {
     id: 'off-15',
+    tracks: ['bachelor', 'master', 'phd_residency', 'internship'],
     stage: 'kazakh',
     status: 'official',
     q: { ru: 'Нужен ли сертификат по казахскому языку, если я подаю на англоязычную программу?', kk: 'Ағылшын тілді бағдарламаға тапсырсам, қазақ тілі сертификаты керек пе?', en: 'Do I need a Kazakh certificate for an English-taught programme?' },

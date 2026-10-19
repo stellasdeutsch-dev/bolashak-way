@@ -17,15 +17,15 @@ export default defineConfig({
         // The two official lists are only fetched when somebody searches, so precaching them
         // would put 350 KB on every install for a screen most people open once. Cache the
         // chunk the first time it is actually asked for instead — after that it is offline too.
-        globIgnores: ['**/lists.generated-*.js'],
+        globIgnores: ['**/lists*.generated-*.js'],
         runtimeCaching: [
           {
-            urlPattern: /\/assets\/lists\.generated-[\w-]+\.js$/,
+            urlPattern: /\/assets\/lists[\w.]*\.generated-[\w-]+\.js$/,
             handler: 'CacheFirst',
             options: {
               cacheName: 'bolashak-lists',
               // Hashed filename: a new build produces a new URL, so one entry is enough.
-              expiration: { maxEntries: 2 },
+              expiration: { maxEntries: 6 },
               cacheableResponse: { statuses: [0, 200] },
             },
           },
@@ -55,7 +55,7 @@ export default defineConfig({
           if (id.includes('node_modules')) return 'vendor'
           // The two official lists are 300 KB of names nobody needs until they search,
           // so let the dynamic import in ListSearch give them their own chunk.
-          if (id.includes('/src/content/lists.generated')) return undefined
+          if (/\/src\/content\/lists[\w.]*\.generated/.test(id)) return undefined
           if (id.includes('/src/content/')) return 'content'
           return undefined
         },

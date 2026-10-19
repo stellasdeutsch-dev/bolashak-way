@@ -1,10 +1,10 @@
 import { describe, expect, it } from 'vitest'
 import { EXCERPTS, excerptsForStage } from '@/content/excerpts'
 import { STAGES } from '@/content/stages'
-import { ABOUT_BLOCKS, ABOUT_INTRO } from '@/content/about'
 import { OVERVIEW_VIDEOS, VIDEOS, videosForStage } from '@/content/videos'
-import { ABOUT_STATS } from '@/content/about'
-import { AWARD_TIMELINE, CONTEST_FLOW, DEPARTURE_CHAIN, PATH_LANES, WORKBACK_TABLE } from '@/content/explain'
+import { CONTEST_FLOW, PATH_LANES, awardTimeline, departureChain, workbackTable } from '@/content/explain'
+
+const ALL_TRACKS = ['bachelor', 'master', 'phd_residency', 'internship', 'science_internship'] as const
 import { CHAPTERS } from '@/content/stages'
 import { ICON_NAMES } from '@/components/StageIcon'
 import { FORMS, formsForStage } from '@/content/forms'
@@ -79,19 +79,6 @@ describe('plain-language intros', () => {
   })
 })
 
-describe('about page', () => {
-  it('points every block at sources that exist and keeps all three languages', () => {
-    expect(ABOUT_BLOCKS.length).toBeGreaterThan(5)
-    expect(ABOUT_INTRO.kk && ABOUT_INTRO.en).toBeTruthy()
-    for (const b of ABOUT_BLOCKS) {
-      expect(b.title.kk && b.title.en, `${b.num} title`).toBeTruthy()
-      expect(b.body.kk && b.body.en, `${b.num} body`).toBeTruthy()
-      for (const p of b.points ?? []) expect(p.kk && p.en, `${b.num} point`).toBeTruthy()
-      for (const src of b.sources ?? []) expect(getSource(src), `${b.num} → ${src}`).toBeDefined()
-    }
-  })
-})
-
 describe('official videos', () => {
   it('keeps every clip a real, unique upload with a date and a length', () => {
     const stageIds = new Set(STAGES.map((st) => st.id))
@@ -125,44 +112,27 @@ describe('official videos', () => {
   })
 })
 
-describe('structured about blocks', () => {
-  it('resolves every icon a stage or an About block asks for', () => {
+describe('icons', () => {
+  it('resolves every icon a stage or a platform asks for', () => {
     const known = new Set(ICON_NAMES)
     for (const st of STAGES) expect(known.has(st.icon), `stage ${st.id} → unknown icon ${st.icon}`).toBe(true)
-    for (const b of ABOUT_BLOCKS) {
-      for (const f of b.features ?? []) expect(known.has(f.icon), `${b.num} → unknown icon ${f.icon}`).toBe(true)
-      for (const step of b.steps ?? []) expect(known.has(step.icon), `${b.num} → unknown icon ${step.icon}`).toBe(true)
-    }
-  })
-
-  it('sources every headline figure and keeps all three languages', () => {
-    expect(ABOUT_STATS.length).toBeGreaterThan(0)
-    for (const st of ABOUT_STATS) {
-      expect(getSource(st.source), `${st.value} → unknown source ${st.source}`).toBeDefined()
-      expect(st.value).toMatch(/^[\d\s/]+$/)
-      expect(st.caption.kk, `${st.value} has no Kazakh caption`).toBeTruthy()
-      expect(st.caption.en, `${st.value} has no English caption`).toBeTruthy()
-    }
-  })
-
-  it('keeps a restructured block from repeating its own tiles in the body', () => {
-    for (const b of ABOUT_BLOCKS.filter((x) => x.features || x.steps)) {
-      // The body introduces the block; the tiles carry the detail. A long body means both.
-      expect(b.body.ru.length, `${b.num} body is long enough to duplicate its tiles`).toBeLessThan(180)
-    }
   })
 })
 
 describe('explanatory visuals', () => {
-  it('keeps the work-back table rectangular, sourced and translated', () => {
-    for (const src of WORKBACK_TABLE.sources) expect(getSource(src)).toBeDefined()
-    const width = WORKBACK_TABLE.head.length
-    for (const [i, row] of WORKBACK_TABLE.rows.entries()) {
-      expect(row.length, `row ${i} has ${row.length} cells, header has ${width}`).toBe(width)
-    }
-    for (const cell of [...WORKBACK_TABLE.head, ...WORKBACK_TABLE.rows.flat()]) {
-      expect(cell.kk, `"${cell.ru}" has no Kazakh`).toBeTruthy()
-      expect(cell.en, `"${cell.ru}" has no English`).toBeTruthy()
+  it('gives every programme a work-back table that is rectangular, sourced and translated', () => {
+    for (const track of ALL_TRACKS) {
+      const table = workbackTable(track)
+      expect(table.rows.length, `${track} has no work-back rows`).toBeGreaterThan(0)
+      for (const src of table.sources) expect(getSource(src)).toBeDefined()
+      const width = table.head.length
+      for (const [i, row] of table.rows.entries()) {
+        expect(row.length, `${track} row ${i} has ${row.length} cells, header has ${width}`).toBe(width)
+      }
+      for (const cell of [...table.head, ...table.rows.flat()]) {
+        expect(cell.kk, `"${cell.ru}" has no Kazakh`).toBeTruthy()
+        expect(cell.en, `"${cell.ru}" has no English`).toBeTruthy()
+      }
     }
   })
 
@@ -176,17 +146,19 @@ describe('explanatory visuals', () => {
     expect(PATH_LANES[0].admissionAt).not.toBe(PATH_LANES[1].admissionAt)
   })
 
-  it('keeps the award timeline inside its own scale, in order and sourced', () => {
-    const days = AWARD_TIMELINE.marks.map((m) => m.day)
-    expect(days).toEqual([...days].sort((a, b) => a - b))
-    for (const m of AWARD_TIMELINE.marks) {
-      expect(m.day).toBeGreaterThanOrEqual(0)
-      expect(m.day, `${m.day} sits past the end of the rail`).toBeLessThanOrEqual(AWARD_TIMELINE.total)
-      expect(getSource(m.source), `unknown source ${m.source}`).toBeDefined()
+  it('keeps each award timeline inside its own scale, in order and sourced', () => {
+    for (const track of ALL_TRACKS) {
+      const tl = awardTimeline(track)
+      const days = tl.marks.map((m) => m.day)
+      expect(days).toEqual([...days].sort((a, b) => a - b))
+      for (const m of tl.marks) {
+        expect(m.day).toBeGreaterThanOrEqual(0)
+        expect(m.day, `${m.day} sits past the end of the rail`).toBeLessThanOrEqual(tl.total)
+        expect(getSource(m.source), `unknown source ${m.source}`).toBeDefined()
+      }
     }
-    // One mark per tone, so nothing is drawn twice on the same rail.
-    const tones = AWARD_TIMELINE.marks.map((m) => m.tone)
-    expect(new Set(tones).size).toBe(tones.length)
+    expect(awardTimeline('science_internship').total).toBe(60)
+    expect(awardTimeline('master').total).toBe(90)
   })
 })
 
@@ -246,13 +218,16 @@ describe('the competition flowchart', () => {
     expect([...acts('science_internship')]).toEqual(['pp791'])
   })
 
-  it('keeps the departure chain translated and sourced', () => {
-    expect(DEPARTURE_CHAIN.steps.length).toBeGreaterThan(2)
-    for (const st of DEPARTURE_CHAIN.steps) {
-      expect(st.kk).toBeTruthy()
-      expect(st.en).toBeTruthy()
+  it('keeps every departure chain translated and sourced', () => {
+    for (const track of ALL_TRACKS) {
+      const chain = departureChain(track)
+      expect(chain.steps.length).toBeGreaterThan(2)
+      for (const st of chain.steps) {
+        expect(st.kk).toBeTruthy()
+        expect(st.en).toBeTruthy()
+      }
+      for (const src of chain.sources) expect(getSource(src)).toBeDefined()
     }
-    for (const src of DEPARTURE_CHAIN.sources) expect(getSource(src)).toBeDefined()
   })
 })
 

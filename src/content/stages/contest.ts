@@ -48,7 +48,7 @@ export const CONTEST_STAGES: Stage[] = [
           kk: 'Техниканы дайындадыңыз: тек компьютер, жаңа Chrome, жұмыс істейтін камера мен микрофон, VPN-сіз тұрақты интернет, бір монитор, экран жазатын бағдарламалар жабық.',
           en: 'Your setup is ready: a computer only, a fresh Chrome, a working camera and microphone, a stable connection without VPN, one monitor, screen recorders closed.',
         },
-        link: 'ns_contest',
+        link: 'chat-faq',
       },
       {
         id: 'rules',

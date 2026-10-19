@@ -8,6 +8,7 @@ import type { PlatformHome, StagePatches } from '../types'
 
 export const SCIENCE_STAGES: StagePatches = {
   eligibility: {
+    links: { citizen: 'pp791', education: 'pp791', no_debt: 'pp791', pension_age: 'ns_requirements' },
     summary: {
       ru: 'Гражданство, учёная степень, незакрытая отработка и запас времени до пенсии.',
       kk: 'Азаматтық, ғылыми дәреже, жабылмаған өтеу және зейнетке дейінгі уақыт.',
@@ -46,6 +47,7 @@ export const SCIENCE_STAGES: StagePatches = {
   },
 
   category: {
+    links: { experience: 'ns_requirements', employer: 'ns_employer_form' },
     kicker: { ru: 'Кто может подать', kk: 'Кім тапсыра алады', en: 'Who can apply' },
     title: { ru: 'Требования к учёному', kk: 'Ғалымға қойылатын талаптар', en: 'What a researcher needs' },
     summary: {
@@ -117,6 +119,7 @@ export const SCIENCE_STAGES: StagePatches = {
   },
 
   university: {
+    links: { programme: 'pp791', duration_internship: 'pp791' },
     icon: 'FlaskConical',
     title: { ru: 'Организация из списка научных стажировок', kk: 'Ғылыми тағылымдама тізіміндегі ұйым', en: 'A host from the scientific-internship list' },
     summary: {
@@ -162,10 +165,12 @@ export const SCIENCE_STAGES: StagePatches = {
   },
 
   kazakh: {
+    links: { passed: 'ns_minscore' },
     sources: ['ns_minscore', 'pp791', 'qrt', 'kaztest'],
   },
 
   foreign: {
+    links: { know_threshold: 'ns_minscore', meets: 'ns_minscore', validity: null },
     summary: {
       ru: 'Своя таблица минимальных баллов: английский — IELTS 5.0, для русского языка порога нет.',
       kk: 'Ең төменгі балдардың өз кестесі: ағылшын — IELTS 5.0, орыс тіліне шек жоқ.',
@@ -209,6 +214,7 @@ export const SCIENCE_STAGES: StagePatches = {
   },
 
   admission: {
+    links: { offer: 'pp791', offer_content: 'pp791', translation: 'pp791' },
     kicker: { ru: 'Приглашение', kk: 'Шақыру', en: 'The invitation' },
     title: { ru: 'Приглашение и программа научной стажировки', kk: 'Шақыру және ғылыми тағылымдама бағдарламасы', en: 'The invitation and the research programme' },
     summary: {
@@ -264,6 +270,7 @@ export const SCIENCE_STAGES: StagePatches = {
   },
 
   documents: {
+    links: { anketa: 'ns_anketa', employer_request: 'ns_employer_form', lang_certs: 'ns_minscore', medical: 'pp791' },
     title: { ru: 'Пакет на научную стажировку', kk: 'Ғылыми тағылымдамаға топтама', en: 'The scientific-internship package' },
     summary: {
       ru: 'Оригиналы и копии, анкета, заявка работодателя, программа, список научных результатов, аккредитация.',
@@ -329,15 +336,16 @@ export const SCIENCE_STAGES: StagePatches = {
         en: "Forgetting the copy of your organisation's accreditation certificate.",
       },
     ],
-    sources: ['ns_documents', 'pp791', 'ns_anketa', 'employer_form', 'ns_program'],
+    sources: ['ns_documents', 'pp791', 'ns_anketa', 'ns_employer_form', 'ns_program'],
   },
 
   apply: {
+    links: { dates: 'pp791', fix: 'pp791' },
     title: { ru: 'Сдайте документы в Центр', kk: 'Құжатты Орталыққа тапсырыңыз', en: 'Hand your documents to the Center' },
     summary: {
-      ru: 'Лично в Центр международных программ в Астане: бумажный пакет и сканы. Ответ — за 3 рабочих дня.',
-      kk: 'Астанадағы Халықаралық бағдарламалар орталығына өзіңіз: қағаз топтама және сканерлер. Жауап — 3 жұмыс күнінде.',
-      en: 'In person at the Center for International Programs in Astana: the paper package and scans. An answer within 3 working days.',
+      ru: 'Документы принимает Центр в Астане: на сайте описан приём нарочно, правила допускают и egov.kz. Ответ — за 3 рабочих дня.',
+      kk: 'Құжатты Астанадағы Орталық қабылдайды: сайтта қолма-қол қабылдау сипатталған, қағида egov.kz-ті де рұқсат етеді. Жауап — 3 жұмыс күнінде.',
+      en: 'The Center in Astana takes the documents: its site describes in-person delivery, and the rules also allow egov.kz. An answer within 3 working days.',
     },
     why: {
       ru: 'Сроки приёма объявляют на официальном сайте не позднее чем за 10 календарных дней. Центр описывает приём нарочно — бумажный пакет и сканы на флешке или диске; правила допускают и egov.kz. Неполный пакет — основание для отказа, но пока приём идёт, документы можно подать снова.',
@@ -377,6 +385,7 @@ export const SCIENCE_STAGES: StagePatches = {
   },
 
   testing: {
+    links: { credentials: null, rules: 'ns_contest', tech: 'ns_contest' },
     summary: {
       ru: 'Тесты на анализ вербальной и числовой информации и личностный опросник — онлайн.',
       kk: 'Вербалды және сандық ақпаратты талдау тесттері және тұлғалық сауалнама — онлайн.',
@@ -390,6 +399,7 @@ export const SCIENCE_STAGES: StagePatches = {
   },
 
   interview: {
+    links: { prepare_uni: 'ns_contest' },
     summary: {
       ru: 'Анонимное собеседование с экспертной комиссией о вашем исследовании.',
       kk: 'Сараптама комиссиясымен зерттеуіңіз туралы анонимді әңгімелесу.',
@@ -433,6 +443,7 @@ export const SCIENCE_STAGES: StagePatches = {
   },
 
   commission: {
+    links: { wait: 'pp791' },
     summary: {
       ru: 'Республиканская комиссия решает, присудить ли научную стажировку.',
       kk: 'Республикалық комиссия ғылыми тағылымдаманы тағайындау-тағайындамауды шешеді.',
@@ -459,6 +470,7 @@ export const SCIENCE_STAGES: StagePatches = {
   },
 
   contract: {
+    links: { legal_dept: 'ns_winner', main_contract: 'ns_winner', security: 'ns_about' },
     summary: {
       ru: '60 календарных дней на договор, обеспечение — гарантия двух гарантов.',
       kk: 'Шартқа 60 күнтізбелік күн, қамтамасыз ету — екі кепілгердің кепілдігі.',
@@ -507,6 +519,7 @@ export const SCIENCE_STAGES: StagePatches = {
   },
 
   departure: {
+    links: { card: 'ns_finance' },
     title: { ru: 'Подготовка к выезду', kk: 'Шығуға дайындық', en: 'Getting ready to leave' },
     summary: {
       ru: 'Банковская карта, аванс и виза. Визу и проезд оплачивает программа.',
@@ -546,6 +559,7 @@ export const SCIENCE_STAGES: StagePatches = {
   },
 
   studying: {
+    links: { police: 'ns_finance', insurance: 'pp791', contact: null, interim_report: 'pp791', no_changes: 'pp791' },
     title: { ru: 'Научная стажировка и отчёты', kk: 'Ғылыми тағылымдама және есептер', en: 'The internship and reports' },
     summary: {
       ru: 'Работа строго по программе; промежуточный отчёт через 6 месяцев, если стажировка длиннее.',
@@ -605,6 +619,7 @@ export const SCIENCE_STAGES: StagePatches = {
   },
 
   return: {
+    links: { application: 'ns_alumni', stamp: 'ns_alumni' },
     summary: {
       ru: 'Итоговый отчёт — в течение месяца после возвращения; его утверждает работодатель и публикуют.',
       kk: 'Қорытынды есеп — оралған соң бір ай ішінде; оны жұмыс беруші бекітеді және жарияланады.',
@@ -643,6 +658,7 @@ export const SCIENCE_STAGES: StagePatches = {
   },
 
   workback: {
+    links: { employment: 'ns_alumni', reports: 'ns_alumni', attributes: 'ns_alumni', closing: 'ns_alumni', employer_workback: 'pp791' },
     title: { ru: 'Трудовая отработка', kk: 'Еңбек өтеу', en: 'The work-back' },
     summary: {
       ru: 'Не меньше 3 лет подряд у работодателя, который вас направил. Справки каждые 6 месяцев.',
@@ -683,7 +699,7 @@ export const SCIENCE_STAGES: StagePatches = {
         en: 'Breaking off work: the work-back has to be continuous.',
       },
     ],
-    sources: ['pp791', 'ns_alumni', 'formy_vypusknika'],
+    sources: ['pp791', 'ns_alumni'],
   },
 }
 

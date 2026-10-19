@@ -16,6 +16,7 @@ export const ACADEMIC_STAGES: StagePatches = {
     },
   },
   departure: {
+    links: { guarantee_letter: 'stipendiat_master' },
     checklist: {
       guarantee_letter: {
         ru: 'Написали заявление, получили письмо о финансовой гарантии и отправили скан в вуз.',
@@ -23,6 +24,9 @@ export const ACADEMIC_STAGES: StagePatches = {
         en: 'You filed the request, got the financial guarantee letter and sent a scan to the university.',
       },
     },
+  },
+  studying: {
+    links: { consular: 'stipendiat_master' },
   },
   return: {
     checklist: {

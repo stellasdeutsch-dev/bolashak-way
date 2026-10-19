@@ -5,17 +5,28 @@ import {
   IconSearch as Search, IconBookOpen as BookOpen, IconCalendar as CalendarIcon,
 } from '@/components/icons'
 import { SearchOverlay } from './SearchOverlay'
+import { PlatformSwitcher } from './platform/PlatformSwitcher'
+import { useActivePlatform, usePlatformColour } from './platform/usePlatform'
+import { platformPaths } from '@/domain/paths'
 import { LOCALES, useI18n } from '@/i18n'
 import { useAppStore } from '@/store/useAppStore'
 import s from './Layout.module.css'
 
-const NAV = [
-  { to: '/', key: 'nav.roadmap', Icon: MapIcon },
-  { to: '/calendar', key: 'nav.calendar', Icon: CalendarIcon },
-  { to: '/documents', key: 'nav.documents', Icon: FolderCheck },
-  { to: '/about', key: 'nav.about', Icon: BookOpen },
-  { to: '/settings', key: 'nav.settings', Icon: SettingsIcon },
-]
+type NavItem = { to: string; key: string; Icon: typeof MapIcon; end?: boolean }
+
+/** Inside a platform the nav is that platform's; on the chooser it is just the way in. */
+function useNav(): NavItem[] {
+  const platform = useActivePlatform()
+  if (!platform) return []
+  const p = platformPaths(platform.slug)
+  return [
+    { to: p.home, key: 'nav.overview', Icon: BookOpen, end: true },
+    { to: p.roadmap, key: 'nav.roadmap', Icon: MapIcon },
+    { to: p.calendar, key: 'nav.calendar', Icon: CalendarIcon },
+    { to: p.documents, key: 'nav.documents', Icon: FolderCheck },
+    { to: '/settings', key: 'nav.settings', Icon: SettingsIcon },
+  ]
+}
 
 export function LangSwitch() {
   const locale = useAppStore((st) => st.locale)
@@ -42,6 +53,9 @@ export function Layout({ children }: { children: ReactNode }) {
   const hasProfile = useAppStore((st) => st.profile !== null)
   const [searchOpen, setSearchOpen] = useState(false)
   const { pathname } = useLocation()
+  const nav = useNav()
+  const platform = useActivePlatform()
+  usePlatformColour(platform?.slug ?? null)
 
   // "/" is the conventional shortcut for search; ignore it while typing in a field.
   useEffect(() => {
@@ -69,11 +83,12 @@ export function Layout({ children }: { children: ReactNode }) {
                 <circle cx="46" cy="34" r="5" fill="currentColor" />
               </svg>
             </span>
-            <span className={s.brandText}>Bolashak&nbsp;Way</span>
+            <span className={[s.brandText, platform ? s.brandTextCollapsible : ''].join(' ')}>Bolashak&nbsp;Way</span>
           </Link>
+          <PlatformSwitcher />
           <nav className={s.deskNav}>
-            {NAV.map(({ to, key, Icon }) => (
-              <NavLink key={to} to={to} end={to === '/'} className={({ isActive }) => [s.deskLink, isActive ? s.deskLinkActive : ''].join(' ')}>
+            {nav.map(({ to, key, Icon, end }) => (
+              <NavLink key={to} to={to} end={end} className={({ isActive }) => [s.deskLink, isActive ? s.deskLinkActive : ''].join(' ')}>
                 <Icon size={16} aria-hidden="true" />
                 {t(key)}
               </NavLink>
@@ -85,23 +100,30 @@ export function Layout({ children }: { children: ReactNode }) {
               <Search size={17} aria-hidden="true" />
             </button>
           )}
+          {!platform && (
+            <Link to="/settings" className={s.iconBtn} aria-label={t('nav.settings')} title={t('nav.settings')}>
+              <SettingsIcon size={17} aria-hidden="true" />
+            </Link>
+          )}
           <LangSwitch />
         </div>
       </header>
 
       {/* Keyed by route so the content fades in on every navigation. */}
-      <main className={s.main} key={pathname}>
+      <main className={[s.main, nav.length ? '' : s.mainNoTabs].join(' ')} key={pathname}>
         {children}
       </main>
 
-      <nav className={s.tabbar} aria-label={t('nav.roadmap')}>
-        {NAV.map(({ to, key, Icon }) => (
-          <NavLink key={to} to={to} end={to === '/'} className={({ isActive }) => [s.tab, isActive ? s.tabActive : ''].join(' ')}>
-            <Icon size={20} aria-hidden="true" />
-            <span className={s.tabLabel}>{t(key.replace('nav.', 'navShort.'))}</span>
-          </NavLink>
-        ))}
-      </nav>
+      {nav.length > 0 && (
+        <nav className={s.tabbar} aria-label={t('nav.roadmap')}>
+          {nav.map(({ to, key, Icon, end }) => (
+            <NavLink key={to} to={to} end={end} className={({ isActive }) => [s.tab, isActive ? s.tabActive : ''].join(' ')}>
+              <Icon size={20} aria-hidden="true" />
+              <span className={s.tabLabel}>{t(key.replace('nav.', 'navShort.'))}</span>
+            </NavLink>
+          ))}
+        </nav>
+      )}
       <SearchOverlay open={searchOpen} onClose={() => setSearchOpen(false)} />
     </div>
   )

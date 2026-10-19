@@ -1,28 +1,34 @@
 import { useMemo, useState, type ReactNode } from 'react'
-import { useNavigate, useSearchParams } from 'react-router'
+import { useNavigate, useParams, useSearchParams } from 'react-router'
 import {
-  IconArrowLeft as ArrowLeft, IconArrowRight as ArrowRight, IconGraduationCap as GraduationCap,
-  IconLandmark as Landmark, IconBriefcase as Briefcase, IconFlask as FlaskConical, IconSchool as School,
+  IconArrowLeft as ArrowLeft, IconArrowRight as ArrowRight,
   IconMailCheck as MailCheck, IconMailQuestion as MailQuestion, IconMailX as MailX, IconLanguages as Languages,
   IconBadgeCheck as BadgeCheck, IconBan as Ban, IconClock as Clock, IconSparkles as Sparkles,
   IconFingerprint as Fingerprint,
 } from '@/components/icons'
 import { CATEGORIES, CATEGORIES_BY_TRACK, WORKER_GROUPS } from '@/content/categories'
+import { getPlatform, platformForTrack } from '@/content/platforms'
+import type { PlatformSlug } from '@/content/types'
+import { platformPaths } from '@/domain/paths'
+import { StageIcon } from '@/components/StageIcon'
 import { CONTENT_META } from '@/content/meta'
 import type { ExamId, Invitation, Track } from '@/content/types'
 import { defaultCategoryFor, draftFromProfile, emptyDraft, isStepComplete, toProfile, type OnboardingDraft } from '@/domain/profile'
 import { useAppStore } from '@/store/useAppStore'
 import { useI18n } from '@/i18n'
+import { usePageChrome } from '@/i18n/usePageChrome'
 import { Button, Card, Pill } from '@/components/ui'
 import s from './Onboarding.module.css'
 
-const TRACKS: { id: Track; Icon: typeof GraduationCap }[] = [
-  { id: 'bachelor', Icon: School },
-  { id: 'master', Icon: GraduationCap },
-  { id: 'phd_residency', Icon: Landmark },
-  { id: 'internship', Icon: Briefcase },
-  { id: 'science_internship', Icon: FlaskConical },
-]
+
+/** The first question in each platform's own terms. */
+const Q1: Record<Track, string> = {
+  bachelor: 'onboarding.q1single',
+  master: 'onboarding.q1_master',
+  phd_residency: 'onboarding.q1_doctorate',
+  internship: 'onboarding.q1_internship',
+  science_internship: 'onboarding.q1single',
+}
 
 const INVITATIONS: { id: Invitation; Icon: typeof MailCheck; title: string; desc: string }[] = [
   { id: 'none', Icon: MailX, title: 'onboarding.inv_none', desc: 'onboarding.inv_none_d' },
@@ -32,8 +38,6 @@ const INVITATIONS: { id: Invitation; Icon: typeof MailCheck; title: string; desc
 
 const EXAMS: ExamId[] = ['ielts', 'toefl_ibt', 'toefl_pbt', 'det', 'other']
 
-const STEPS = 4
-const LAST_STEP = STEPS - 1
 
 function Option({
   active,
@@ -68,12 +72,26 @@ export function Onboarding() {
   const { t, c } = useI18n()
   const navigate = useNavigate()
   const [params] = useSearchParams()
-  const editing = params.get('edit') === '1'
+  const { platform: slug } = useParams() as { platform: PlatformSlug }
+  const platform = getPlatform(slug)
+  const track: Track = platform.track
+  const paths = platformPaths(slug)
+  usePageChrome(`${c(platform.name)} · ${t('onboarding.welcomeKicker')}`)
   const profile = useAppStore((st) => st.profile)
   const setProfile = useAppStore((st) => st.setProfile)
+  // Editing answers only makes sense for the roadmap you already have on this platform.
+  const sameTrack = profile?.track === track
+  const editing = params.get('edit') === '1' && sameTrack
+  const replacing = profile !== null && !sameTrack
 
-  const [draft, setDraft] = useState<OnboardingDraft>(() => (profile ? draftFromProfile(profile) : emptyDraft()))
-  const [step, setStep] = useState(editing || profile ? 0 : -1)
+  const [draft, setDraft] = useState<OnboardingDraft>(() =>
+    profile && sameTrack ? draftFromProfile(profile) : { ...emptyDraft(), track, category: defaultCategoryFor(track) },
+  )
+  const [step, setStep] = useState(editing ? 0 : -1)
+
+  // The bachelor's track has no experience requirement, so its fourth question would be noise.
+  const STEPS = track === 'bachelor' ? 3 : 4
+  const LAST_STEP = STEPS - 1
 
   const update = (patch: Partial<OnboardingDraft>) => setDraft((d) => ({ ...d, ...patch }))
 
@@ -81,8 +99,9 @@ export function Onboarding() {
   const canNext = step >= 0 && isStepComplete(draft, step)
 
   const finish = () => {
-    setProfile(toProfile(draft))
-    navigate('/', { replace: true })
+    const done = track === 'bachelor' ? { ...draft, hasExperience: false } : draft
+    setProfile(toProfile(done))
+    navigate(paths.roadmap, { replace: true })
   }
 
   // Guard the bounds: a double-click must not push the wizard past the last question.
@@ -91,23 +110,33 @@ export function Onboarding() {
     setStep((v) => Math.min(LAST_STEP, v + 1))
   }
   const back = () => {
-    if (step === 0 && (editing || profile)) navigate(-1)
+    if (step === 0) navigate(editing ? paths.roadmap : paths.home)
     else setStep((v) => Math.max(0, v - 1))
   }
+  const host = track === 'internship' || track === 'science_internship'
+  const mine = profile ? platformForTrack(profile.track) : null
 
   if (step === -1) {
     return (
       <div className={s.wrap}>
         <Card dark className={s.welcome}>
-          <Pill tone="dark">
-            <Sparkles size={13} aria-hidden="true" />
-            {t('onboarding.welcomeKicker')}
-          </Pill>
+          <div className={s.welcomeTop}>
+            <span className={s.welcomeIcon}>
+              <StageIcon name={platform.icon} size={22} />
+            </span>
+            <Pill tone="dark">
+              <Sparkles size={13} aria-hidden="true" />
+              {t('onboarding.welcomeKicker')}
+            </Pill>
+          </div>
           <h1 className={`display ${s.welcomeTitle}`}>
-            {CONTENT_META.competitionYear}
+            {c(platform.name)}
             <b>{t('onboarding.welcomeTitle')}</b>
           </h1>
-          <p className={s.welcomeText}>{t('onboarding.welcomeText')}</p>
+          <p className={s.welcomeText}>{t('onboarding.welcomeText', { n: STEPS })}</p>
+          {replacing && mine && (
+            <p className={s.replaceNote}>{t('onboarding.replaceNote', { mine: c(mine.name), name: c(platform.name) })}</p>
+          )}
           <div className={s.welcomeStats}>
             <Pill tone="dark">
               {t('common.year')}: {CONTENT_META.competitionYear}
@@ -140,14 +169,14 @@ export function Onboarding() {
       <div className={s.head}>
         <span className={s.step}>{t('onboarding.stepOf', { n: step + 1, total: STEPS })}</span>
         <h1 className={s.question}>
-          {step === 0 && t('onboarding.q1')}
-          {step === 1 && t('onboarding.q2')}
+          {step === 0 && t(Q1[track])}
+          {step === 1 && t(host ? 'onboarding.q2_host' : 'onboarding.q2')}
           {step === 2 && t('onboarding.q3')}
           {step === 3 && t('onboarding.q4')}
         </h1>
         <p className={s.hint}>
           {step === 0 && t('onboarding.q1hint')}
-          {step === 1 && t('onboarding.q2hint')}
+          {step === 1 && t(host ? 'onboarding.q2hint_host' : 'onboarding.q2hint')}
           {step === 2 && t('onboarding.otherExamHint')}
           {step === 3 && t('onboarding.q4hint')}
         </p>
@@ -156,22 +185,19 @@ export function Onboarding() {
 
       {step === 0 && (
         <div>
-          <div className={`${s.options} ${s.options2}`}>
-            {TRACKS.map(({ id, Icon }) => (
-              <Option
-                key={id}
-                active={draft.track === id}
-                icon={<Icon size={20} />}
-                title={t(`category.track_${id}`)}
-                desc={t(`category.track_${id}_d`)}
-                onClick={() => update({ track: id, category: defaultCategoryFor(id), workerGroup: id === 'internship' ? draft.workerGroup : null })}
-              />
-            ))}
-          </div>
-
-          {draft.track && categoryOptions.length > 1 && (
+          {categoryOptions.length === 1 && (
+            <div className={s.single}>
+              <span className={s.singleIcon}>
+                <StageIcon name={platform.icon} size={20} />
+              </span>
+              <span>
+                <b>{c(CATEGORIES[categoryOptions[0]].title)}</b>
+                <span>{c(CATEGORIES[categoryOptions[0]].desc)}</span>
+              </span>
+            </div>
+          )}
+          {categoryOptions.length > 1 && (
             <>
-              <div className={s.subhead}>{t('onboarding.q1sub')}</div>
               <div className={s.chips}>
                 {categoryOptions.map((id) => (
                   <button
@@ -218,7 +244,7 @@ export function Onboarding() {
               active={draft.invitation === id}
               icon={<Icon size={20} />}
               title={t(title)}
-              desc={t(desc)}
+              desc={t(host && id === 'none' ? 'onboarding.inv_none_d_host' : host && id === 'applied' ? 'onboarding.inv_applied_d_host' : desc)}
               onClick={() => update({ invitation: id })}
             />
           ))}

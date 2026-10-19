@@ -1,12 +1,16 @@
 import { useEffect } from 'react'
-import { HashRouter, Navigate, Route, Routes, useLocation } from 'react-router'
+import { HashRouter, Navigate, Route, Routes, useLocation, useParams } from 'react-router'
 import { Layout } from '@/components/Layout'
 import { Onboarding } from '@/pages/Onboarding/Onboarding'
 import { Roadmap } from '@/pages/Roadmap'
 import { StagePage } from '@/pages/Stage'
 import { Documents } from '@/pages/Documents'
 import { Settings } from '@/pages/Settings'
-import { About } from '@/pages/About'
+import { Landing } from '@/pages/Landing'
+import { PlatformHome } from '@/pages/PlatformHome'
+import { PlatformRoute } from '@/components/platform/PlatformRoute'
+import { pathsForTrack, type PlatformPaths } from '@/domain/paths'
+import type { StageId } from '@/content/types'
 import { Calendar } from '@/pages/Calendar'
 import { NotFound } from '@/pages/NotFound'
 import { useAppStore } from '@/store/useAppStore'
@@ -39,10 +43,17 @@ function ScrollToTop() {
   return null
 }
 
-function Guarded({ children }: { children: React.ReactNode }) {
-  const profile = useAppStore((s) => s.profile)
-  if (!profile) return <Navigate to="/onboarding" replace />
-  return <>{children}</>
+/**
+ * Addresses from before the five platforms (/, /stage/x, /documents, /calendar,
+ * /onboarding, /about) still work: they lead into the reader's own platform, or to the
+ * programme chooser when there is no roadmap yet.
+ */
+function Legacy({ to }: { to: (p: PlatformPaths) => string }) {
+  const profile = useAppStore((st) => st.profile)
+  const { id } = useParams()
+  if (!profile) return <Navigate to="/" replace />
+  const paths = pathsForTrack(profile.track)
+  return <Navigate to={id ? paths.stage(id as StageId) : to(paths)} replace />
 }
 
 export default function App() {
@@ -52,34 +63,23 @@ export default function App() {
       <ScrollToTop />
       <Layout>
         <Routes>
-          <Route path="/onboarding" element={<Onboarding />} />
-          <Route
-            path="/"
-            element={
-              <Guarded>
-                <Roadmap />
-              </Guarded>
-            }
-          />
-          <Route
-            path="/stage/:id"
-            element={
-              <Guarded>
-                <StagePage />
-              </Guarded>
-            }
-          />
-          <Route
-            path="/documents"
-            element={
-              <Guarded>
-                <Documents />
-              </Guarded>
-            }
-          />
-          <Route path="/about" element={<About />} />
-        <Route path="/calendar" element={<Calendar />} />
+          <Route path="/" element={<Landing />} />
           <Route path="/settings" element={<Settings />} />
+
+          <Route path="/about" element={<Navigate to="/" replace />} />
+          <Route path="/onboarding" element={<Legacy to={(p) => p.start} />} />
+          <Route path="/documents" element={<Legacy to={(p) => p.documents} />} />
+          <Route path="/calendar" element={<Legacy to={(p) => p.calendar} />} />
+          <Route path="/roadmap" element={<Legacy to={(p) => p.roadmap} />} />
+          <Route path="/stage/:id" element={<Legacy to={(p) => p.roadmap} />} />
+
+          <Route path="/:platform" element={<PlatformRoute><PlatformHome /></PlatformRoute>} />
+          <Route path="/:platform/start" element={<PlatformRoute><Onboarding /></PlatformRoute>} />
+          <Route path="/:platform/roadmap" element={<PlatformRoute gate><Roadmap /></PlatformRoute>} />
+          <Route path="/:platform/stage/:id" element={<PlatformRoute gate><StagePage /></PlatformRoute>} />
+          <Route path="/:platform/documents" element={<PlatformRoute gate><Documents /></PlatformRoute>} />
+          <Route path="/:platform/calendar" element={<PlatformRoute gate><Calendar /></PlatformRoute>} />
+
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Layout>

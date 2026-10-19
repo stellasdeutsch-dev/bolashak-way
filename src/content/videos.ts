@@ -10,6 +10,7 @@ import type { StageId, VideoItem } from './types'
 export const VIDEOS: VideoItem[] = [
   {
     id: 'rules_overview',
+    appliesTo: { not: { track: ['science_internship'] } },
     clips: [
       { lang: 'ru', youtubeId: 'eO7T9k92kto', title: '«Болашақ 2025: новые правила, новые возможности»', published: '2025-04-17', durationSec: 190 },
       { lang: 'kk', youtubeId: 'OIw9Tb7MKec', title: '«Болашақ 2025: жаңа ережелер мен мүмкіндіктер»', published: '2025-04-17', durationSec: 188 },
@@ -17,6 +18,7 @@ export const VIDEOS: VideoItem[] = [
   },
   {
     id: 'changes_talk',
+    appliesTo: { not: { track: ['science_internship'] } },
     clips: [
       { lang: 'ru', youtubeId: 'qWluTGtQDJQ', title: '"Важная тема LIVE": Главные изменения в программе "Болашак"', published: '2024-04-29', durationSec: 1552 },
     ],
@@ -33,6 +35,7 @@ export const VIDEOS: VideoItem[] = [
   {
     id: 'university_admission',
     stage: 'university',
+    appliesTo: { track: ['bachelor', 'master', 'phd_residency'] },
     clips: [
       { lang: 'kk', youtubeId: 'Xa6NBH9IzUE', title: 'Шетелдік ЖОО-ларға түсу', published: '2022-12-02', durationSec: 857 },
     ],
@@ -40,6 +43,7 @@ export const VIDEOS: VideoItem[] = [
   {
     id: 'foreign_exam',
     stage: 'foreign',
+    appliesTo: { not: { track: ['science_internship'] } },
     clips: [
       { lang: 'ru', youtubeId: 'CYkJ6sc8MZQ', title: 'Как сдать экзамен по иностранному языку?', published: '2023-04-18', durationSec: 3200 },
     ],
@@ -47,6 +51,7 @@ export const VIDEOS: VideoItem[] = [
   {
     id: 'documents_howto',
     stage: 'documents',
+    appliesTo: { not: { track: ['science_internship'] } },
     clips: [
       { lang: 'ru', youtubeId: '63vBxsMIkYs', title: 'Видеоинструкция по подаче документов', published: '2023-08-10', durationSec: 238 },
       { lang: 'kk', youtubeId: 'JJcP7CAfwv4', title: 'Құжаттарды тапсыру бойынша бейне нұсқаулық', published: '2023-08-10', durationSec: 127 },
@@ -81,6 +86,7 @@ export const VIDEOS: VideoItem[] = [
   {
     id: 'contest_prep',
     stage: 'testing',
+    appliesTo: { not: { track: ['science_internship'] } },
     clips: [
       { lang: 'ru', youtubeId: 'YQefL3Zvv9M', title: 'Как подготовиться к конкурсному отбору по программе "Болашак"?', published: '2022-06-13', durationSec: 103 },
     ],
@@ -88,6 +94,7 @@ export const VIDEOS: VideoItem[] = [
   {
     id: 'curator',
     stage: 'studying',
+    appliesTo: { not: { track: ['science_internship'] } },
     clips: [
       { lang: 'ru', youtubeId: '_mTVADIgc0o', title: '5 вопросов куратору', published: '2024-07-31', durationSec: 102 },
       { lang: 'kk', youtubeId: '56kWT5pbGq8', title: 'Кураторға 5 сұрақ', published: '2024-07-31', durationSec: 91 },
@@ -101,3 +108,9 @@ export function videosForStage(stage: StageId): VideoItem[] {
 
 /** Videos that explain the programme as a whole rather than one stage. */
 export const OVERVIEW_VIDEOS: VideoItem[] = VIDEOS.filter((v) => !v.stage)
+
+/**
+ * What a platform's front page shows: the overview videos for its programme, plus the
+ * one video that introduces the scientific-internship rules, which lives on a stage.
+ */
+export const PLATFORM_VIDEO_IDS = ['rules_overview', 'changes_talk', 'ns_rules']

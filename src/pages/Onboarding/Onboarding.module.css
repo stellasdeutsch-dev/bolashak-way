@@ -1,4 +1,5 @@
 .wrap {
+  min-height: min(calc(100vh - var(--header-h)), 720px);
   min-height: min(calc(100dvh - var(--header-h)), 720px);
   display: flex;
   flex-direction: column;
@@ -89,8 +90,9 @@
 .optionActive,
 .optionActive:hover {
   border-color: var(--accent);
+  background: var(--accent-tint);
   background: color-mix(in srgb, var(--accent-tint) 55%, var(--surface));
-  box-shadow: 0 10px 30px rgba(47, 123, 255, 0.18);
+  box-shadow: 0 10px 30px rgba(var(--accent-rgb), 0.18);
   transform: none;
 }
 .optionIcon {
@@ -106,7 +108,7 @@
 .optionActive .optionIcon {
   background: linear-gradient(135deg, var(--accent), var(--accent-2));
   color: #fff;
-  box-shadow: 0 6px 16px rgba(47, 123, 255, 0.4), var(--gloss);
+  box-shadow: 0 6px 16px rgba(var(--accent-rgb), 0.4), var(--gloss);
 }
 .optionBody {
   min-width: 0;
@@ -235,4 +237,62 @@
   color: var(--accent-deep);
   font-size: 11px;
   font-weight: 600;
+}
+
+/* ── platform-bound welcome ── */
+.welcomeTop {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.welcomeIcon {
+  width: 46px;
+  height: 46px;
+  border-radius: 14px;
+  display: grid;
+  place-items: center;
+  color: #fff;
+  background: var(--accent);
+  box-shadow: 0 10px 24px rgba(var(--accent-rgb), 0.45);
+}
+.replaceNote {
+  margin-top: 4px;
+  padding: 12px 14px;
+  border-radius: var(--r-md);
+  background: rgba(245, 158, 11, 0.16);
+  color: #fff;
+  font-size: 14px;
+  line-height: 1.55;
+}
+.single {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 16px;
+  border-radius: var(--r-lg);
+  background: var(--accent-tint);
+  border: 1.5px solid rgba(var(--accent-rgb), 0.35);
+}
+.single > span:last-child {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--text-2);
+}
+.single b {
+  font-size: 16px;
+  color: var(--text);
+}
+.singleIcon {
+  flex: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  display: grid;
+  place-items: center;
+  color: #fff;
+  background: var(--accent);
 }

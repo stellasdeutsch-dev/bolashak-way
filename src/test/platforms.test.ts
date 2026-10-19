@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { STAGES } from '@/content/stages'
-import { DOCUMENTS } from '@/content/documents'
+import { DOCUMENTS, docForTrack } from '@/content/documents'
 import { FAQ } from '@/content/faq'
 import { FORMS } from '@/content/forms'
 import { DEADLINE_RULES } from '@/content/deadlines'
@@ -9,6 +9,9 @@ import { PLATFORMS, PLATFORM_HOMES, STAGE_PATCHES } from '@/content/platforms'
 import { evaluate } from '@/domain/applicability'
 import { resolveStage } from '@/domain/resolve'
 import { ICON_NAMES } from '@/components/StageIcon'
+import { EXCERPTS } from '@/content/excerpts'
+import { SOURCE_TRACKS, sourceFits } from '@/content/sources'
+import { CONTEST_FLOW } from '@/content/explain'
 import type { CategoryId, L, PlatformSlug, Profile, Track } from '@/content/types'
 
 /**
@@ -115,6 +118,46 @@ describe('five platforms, five stories', () => {
         expect([...new Set(leaks)]).toEqual([])
       })
     }
+  }
+
+  for (const platform of PLATFORMS) {
+    it(`${platform.slug} cites only its own programme's sources`, () => {
+      const track = platform.track
+      const wrong: string[] = []
+      const check = (where: string, id?: string) => {
+        if (id && !sourceFits(id, track)) wrong.push(`${where} → ${id}`)
+      }
+      for (const category of CATEGORIES_BY_TRACK[track]) {
+        const p = profileFor(track, category)
+        for (const raw of STAGES.filter((st) => evaluate(st.appliesTo, p))) {
+          // Raw data first: a mismatch is a content bug even if the resolver hides it.
+          const patch = STAGE_PATCHES[track][raw.id]
+          ;(patch?.sources ?? raw.sources).forEach((src) => {
+            if (!sourceFits(src, track) && !SOURCE_TRACKS[src]?.length) return
+          })
+          raw.checklist
+            .filter((c) => evaluate(c.appliesTo, p))
+            .forEach((c) => check(`${raw.id}.check.${c.id}.link`, patch?.links && c.id in patch.links ? (patch.links[c.id] ?? undefined) : c.link))
+          ;(raw.notes ?? []).filter((n) => evaluate(n.appliesTo, p)).forEach((n, i) => check(`${raw.id}.note${i}`, n.source))
+          ;(raw.deadlines ?? []).filter((d) => evaluate(d.appliesTo, p)).forEach((d, i) => check(`${raw.id}.deadline${i}`, d.source))
+        }
+        DOCUMENTS.filter((d) => evaluate(d.appliesTo, p))
+          .map((d) => docForTrack(d, track))
+          .forEach((d) => {
+            check(`doc.${d.id}.source`, d.source)
+            check(`doc.${d.id}.form`, d.form)
+          })
+        DEADLINE_RULES.filter((d) => evaluate(d.appliesTo, p)).forEach((d) => check(`deadline.${d.id}`, d.source))
+        const stageIds = new Set(STAGES.filter((st) => evaluate(st.appliesTo, p)).map((st) => st.id))
+        EXCERPTS.filter((e) => stageIds.has(e.stage) && evaluate(e.appliesTo, p)).forEach((e) => check(`excerpt.${e.id}`, e.source))
+        CONTEST_FLOW.filter((f) => evaluate(f.appliesTo, p)).forEach((f) => {
+          check(`flow.${f.id}`, f.source)
+          check(`flow.${f.id}.exit`, f.exit?.source)
+        })
+      }
+      FAQ.filter((f) => !f.tracks || f.tracks.includes(track)).forEach((f) => check(`faq.${f.id}`, f.source))
+      expect([...new Set(wrong)]).toEqual([])
+    })
   }
 
   it('every platform has a complete front page', () => {

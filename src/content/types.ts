@@ -206,6 +206,9 @@ export interface DocItem {
   source?: SourceId
   /** Downloadable official form, if any. */
   form?: SourceId
+  /** Where a programme's own page says the same thing, cite that one instead. */
+  sourceFor?: Partial<Record<Track, SourceId>>
+  formFor?: Partial<Record<Track, SourceId>>
 }
 
 export type FaqStatus = 'official' | 'confirmed' | 'partial' | 'unverified'
@@ -276,6 +279,8 @@ export interface StagePatch {
   mistakes?: L[]
   /** Replaces the text of checklist items by id. */
   checklist?: Record<string, L>
+  /** Replaces the source link of checklist items by id, where the shared one is another programme's. */
+  links?: Record<string, SourceId | null>
   sources?: SourceId[]
 }
 

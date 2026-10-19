@@ -60,6 +60,8 @@ export const AWARDED_STAGES: Stage[] = [
           en: 'The guarantor gathered the papers: a notarised ID copy, an employment certificate with position, start date and income for 12 months, and pension records for the same period.',
         },
         link: 'ns_winner',
+        // The guarantor's paper list is published for scientific internships only.
+        appliesTo: { track: ['science_internship'] },
       },
       {
         id: 'notary_consents',

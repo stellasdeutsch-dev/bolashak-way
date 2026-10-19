@@ -24,9 +24,12 @@
   border: none;
   background: none;
   font: inherit;
-  font-size: 15px;
+  /* 16px or more, or iOS Safari zooms the page in on focus. */
+  font-size: 16px;
   color: var(--text);
   outline: none;
+  -webkit-appearance: none;
+  appearance: none;
 }
 .hint {
   margin: 0;
@@ -114,4 +117,84 @@
 .taken {
   font-size: 12px;
   color: var(--text-3);
+}
+
+.clear {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  color: var(--text-3);
+  background: var(--surface-3);
+  cursor: pointer;
+}
+.clear:hover {
+  color: var(--text);
+}
+.subhead {
+  margin: 4px 0 0;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--text-3);
+}
+.rowButton {
+  width: 100%;
+  text-align: left;
+  border: 1.5px solid transparent;
+  cursor: pointer;
+  transition: border-color 0.18s var(--ease-out);
+}
+.rowButton:hover {
+  border-color: var(--accent);
+}
+.codeAlt {
+  background: var(--surface-3);
+  color: var(--text-2);
+}
+.picked {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: var(--r-md);
+  background: var(--accent-tint);
+  border: 1.5px solid rgba(var(--accent-rgb), 0.35);
+}
+.pickedText {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-size: 13px;
+  color: var(--text-2);
+}
+.pickedText b {
+  font-size: 14.5px;
+  color: var(--text);
+}
+
+.countryPick {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--text-2);
+}
+.countryPick select {
+  flex: 1;
+  min-width: 0;
+  max-width: 100%;
+  padding: 9px 12px;
+  border-radius: var(--r-md);
+  border: 1.5px solid var(--line-strong);
+  background: var(--surface);
+  color: var(--text);
+  font: inherit;
+  font-size: 14px;
 }

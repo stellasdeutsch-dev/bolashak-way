@@ -28,12 +28,24 @@ beforeEach(() => {
   useAppStore.setState({ locale: 'ru' })
 })
 
+const startAt = (platform: string) =>
+  render(
+    <MemoryRouter initialEntries={[`/${platform}/start`]}>
+      <Routes>
+        <Route path="/:platform/start" element={<Onboarding />} />
+        <Route path="/:platform/roadmap" element={<p>roadmap</p>} />
+        <Route path="/:platform" element={<p>home</p>} />
+      </Routes>
+    </MemoryRouter>,
+  )
+
 describe('onboarding flow', () => {
-  it('walks four questions and stores a usable profile', () => {
-    renderAt(<Onboarding />)
+  it('walks the questions of its own platform and stores a usable profile', () => {
+    startAt('master')
     fireEvent.click(screen.getByRole('button', { name: /Начать/i }))
 
-    fireEvent.click(screen.getByRole('button', { name: /Магистратура/ }))
+    // The platform already fixed the track: no programme choice, only the category.
+    expect(screen.queryByRole('button', { name: /Научная стажировка/ })).toBeNull()
     fireEvent.click(screen.getByRole('button', { name: /^Медицинский работник$/ }))
     fireEvent.click(screen.getByRole('button', { name: /^Далее/ }))
 
@@ -50,18 +62,31 @@ describe('onboarding flow', () => {
 
     const stored = useAppStore.getState().profile
     expect(stored).not.toBeNull()
+    expect(stored!.track).toBe('master')
     expect(stored!.category).toBe('master_medical')
     expect(stored!.kazakhCert).toBe(true)
-    expect(useAppStore.getState().onboardedAt).not.toBeNull()
+    expect(screen.getByText('roadmap')).toBeInTheDocument()
+  })
+
+  it('asks the bachelor three questions, not four', () => {
+    startAt('bachelor')
+    fireEvent.click(screen.getByRole('button', { name: /Начать/i }))
+    expect(screen.getByText(/Вопрос 1 из 3/)).toBeInTheDocument()
   })
 
   it('lets the user step back without losing the earlier answer', () => {
-    renderAt(<Onboarding />)
+    startAt('master')
     fireEvent.click(screen.getByRole('button', { name: /Начать/i }))
-    fireEvent.click(screen.getByRole('button', { name: /Научная стажировка/ }))
+    fireEvent.click(screen.getByRole('button', { name: /^Госслужащий|^Государственный служащий$/ }))
     fireEvent.click(screen.getByRole('button', { name: /^Далее/ }))
     fireEvent.click(screen.getByRole('button', { name: /Назад/ }))
-    expect(screen.getByRole('button', { name: /Научная стажировка/ })).toHaveAttribute('aria-pressed', 'true')
+    expect(screen.getByRole('button', { name: /^Государственный служащий$/ })).toHaveAttribute('aria-pressed', 'true')
+  })
+
+  it('warns before replacing a roadmap from another programme', () => {
+    useAppStore.setState({ profile: medic, onboardedAt: new Date().toISOString() })
+    startAt('science')
+    expect(screen.getByText(/ответы анкеты заменятся/)).toBeInTheDocument()
   })
 })
 

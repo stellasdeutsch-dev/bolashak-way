@@ -22,7 +22,7 @@ export function Documents() {
   usePageChrome(t('nav.documents'))
 
   useEffect(() => {
-    if (!profile) navigate('/onboarding', { replace: true })
+    if (!profile) navigate('/', { replace: true })
   }, [profile, navigate])
 
   const groups = useMemo(() => (profile ? documentsFor(profile) : []), [profile])

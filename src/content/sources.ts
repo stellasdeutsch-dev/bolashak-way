@@ -1,4 +1,4 @@
-import type { Source, SourceId } from './types'
+import type { Source, SourceId, Track } from './types'
 
 const B = 'https://bolashak.gov.kz'
 
@@ -54,6 +54,12 @@ export const SOURCES: Record<SourceId, Source> = {
     org: 'bolashak.gov.kz',
     url: `${B}/storage/app/media/pretendentu--specialnosti-dlya-stazhirovok/2026/spisok_stazhirovka_2026_rus.pdf`,
     title: { ru: 'Специальности для прохождения стажировок, 2026 (PDF)', kk: 'Тағылымдамадан өтуге арналған мамандықтар, 2026 (PDF)', en: 'Specialties for internships, 2026 (PDF)' },
+  },
+  ns_employer_form: {
+    id: 'ns_employer_form',
+    org: 'bolashak.gov.kz',
+    url: `${B}/storage/app/media/500%20uchennye/dokumenty/%D0%97%D0%B0%D1%8F%D0%B2%D0%BA%D0%B0%20%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%BE%D0%B4%D0%B0%D1%82%D0%B5%D0%BB%D1%8F%20%D1%84%D0%BE%D1%80%D0%BC%D0%B0%20%D0%BD%D0%BE%D0%B2%D0%B0%D1%8F%202022.docx`,
+    title: { ru: 'Заявка работодателя на научную стажировку (docx)', kk: 'Ғылыми тағылымдамаға жұмыс беруші өтінімі (docx)', en: 'Employer request for a scientific internship (docx)' },
   },
   ns_requirements: {
     id: 'ns_requirements',
@@ -221,7 +227,7 @@ export const SOURCES: Record<SourceId, Source> = {
     id: 'stipendiat_master',
     org: 'bolashak.gov.kz',
     url: `${B}/ru/stipendiatu/magistratura`,
-    title: { ru: 'Стипендиату: магистратура/докторантура — действия после присуждения', kk: 'Стипендиатқа: магистратура/докторантура — тағайындалғаннан кейінгі әрекеттер', en: 'For awardees: master\'s/PhD — steps after the award' },
+    title: { ru: 'Стипендиату на обучение: действия после присуждения', kk: 'Оқуға стипендиатқа: тағайындалғаннан кейінгі әрекеттер', en: 'For degree awardees: steps after the award' },
   },
   stipendiat_internship: {
     id: 'stipendiat_internship',
@@ -314,3 +320,63 @@ export const getSource = (id: SourceId): Source => {
   if (!s) throw new Error(`Unknown source id: ${id}`)
   return s
 }
+
+const ACADEMIC: Track[] = ['bachelor', 'master', 'phd_residency']
+const BOLASHAK: Track[] = ['bachelor', 'master', 'phd_residency', 'internship']
+const SCIENCE: Track[] = ['science_internship']
+
+/**
+ * Which programmes a source speaks for. A platform shows only its own sources, so a
+ * bachelor applicant is never pointed at the scientific-internship rules or an intern at
+ * the degree-holder's page. Sources not listed here hold for all five.
+ */
+export const SOURCE_TRACKS: Partial<Record<SourceId, Track[]>> = {
+  // ПП 573 and everything published for the Bolashak scholarship
+  pp573: BOLASHAK,
+  pravila: BOLASHAK,
+  prikaz318: BOLASHAK,
+  egov_bolashak: BOLASHAK,
+  employer_form: ['master', 'phd_residency', 'internship'],
+  dogovory: BOLASHAK,
+  zamena_zaloga: BOLASHAK,
+  obrazcy: BOLASHAK,
+  guide: BOLASHAK,
+  finance: BOLASHAK,
+  otrabotka: BOLASHAK,
+  formy_vypusknika: BOLASHAK,
+  distribution2026: BOLASHAK,
+  'chat-faq': BOLASHAK,
+  // degrees
+  stipendiat_master: ACADEMIC,
+  vuzy2026: ACADEMIC,
+  vuzy_page: ACADEMIC,
+  pps2026: ACADEMIC,
+  admission_guide: ACADEMIC,
+  related2026: ['master'],
+  olympiads: ['bachelor'],
+  // Bolashak internships
+  stipendiat_internship: ['internship'],
+  pps_internship2026: ['internship'],
+  pps_internship_pdf: ['internship'],
+  internship_program: ['internship'],
+  // scientific internships (ПП 791)
+  pp791: SCIENCE,
+  ns_about: SCIENCE,
+  ns_finance: SCIENCE,
+  ns_orgs: SCIENCE,
+  ns_orgs_pdf: SCIENCE,
+  ns_requirements: SCIENCE,
+  ns_documents: SCIENCE,
+  ns_contest: SCIENCE,
+  ns_winner: SCIENCE,
+  ns_alumni: SCIENCE,
+  ns_priorities: SCIENCE,
+  ns_minscore: SCIENCE,
+  ns_anketa: SCIENCE,
+  ns_program: SCIENCE,
+  ns_employer_form: SCIENCE,
+  egov_ns: SCIENCE,
+}
+
+export const sourceFits = (id: SourceId | undefined, track: Track): boolean =>
+  !id || !SOURCE_TRACKS[id] || SOURCE_TRACKS[id]!.includes(track)
