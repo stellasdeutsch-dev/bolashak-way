@@ -35,9 +35,9 @@ export const APPLY_STAGES: Stage[] = [
       {
         id: 'id',
         text: {
-          ru: 'Готовы удостоверение личности и паспорт. На научную стажировку нужны оригиналы и копии — оригиналы вернут после сверки.',
-          kk: 'Жеке куәлік пен паспорт дайын. Ғылыми тағылымдамаға түпнұсқа мен көшірме керек — түпнұсқаны салыстырғаннан кейін қайтарады.',
-          en: 'Your ID card and passport are ready. For a scientific internship you need originals and copies — the originals come back after checking.',
+          ru: 'Готовы удостоверение личности и паспорт.',
+          kk: 'Жеке куәлік пен паспорт дайын.',
+          en: 'Your ID card and passport are ready.',
         },
       },
       {
@@ -114,6 +114,18 @@ export const APPLY_STAGES: Stage[] = [
           en: 'Kazakh and foreign language certificates — at or above the minimum scores.',
         },
         link: 'prikaz318',
+        // The packages that list a foreign certificate (pravila / ПП 573 п. 10–14, ПП 791 п. 9).
+        appliesTo: { category: ['master_rural', 'master_engineer', 'master_medical', 'master_civil', 'master_nuclear', 'phd_self', 'phd_nuclear', 'internship', 'science_internship'] },
+      },
+      {
+        id: 'lang_kazakh',
+        text: {
+          ru: 'Сертификат по казахскому языку — не ниже B1. Сертификата по иностранному в списке документов вашей категории нет: язык подтверждает зачисление в вуз.',
+          kk: 'Қазақ тілі сертификаты — B1-ден төмен емес. Сіздің санатыңыздың құжаттар тізімінде шет тілі сертификаты жоқ: тілді ЖОО-ға қабылдау растайды.',
+          en: 'A Kazakh certificate at B1 or above. Your category\'s document list has no foreign-language certificate: the university admission vouches for your language.',
+        },
+        link: 'pravila',
+        appliesTo: { category: ['bachelor', 'master_self', 'residency'] },
       },
       {
         id: 'offer_docs',
@@ -166,9 +178,9 @@ export const APPLY_STAGES: Stage[] = [
     ],
     mistakes: [
       {
-        ru: 'Оставить нотариальные переводы на последний день. Приглашение, программу стажировки и остальное переводят заранее — это не делается за час.',
-        kk: 'Нотариалды аударманы соңғы күнге қалдыру. Шақыруды, тағылымдама бағдарламасын және қалғанын алдын ала аударады — бұл бір сағатта бітпейді.',
-        en: 'Leaving notarised translations to the last day. The offer, the internship programme and the rest are translated in advance — it is not an hour\'s work.',
+        ru: 'Оставить нотариальные переводы на последний день. Приглашение и остальное переводят заранее — это не делается за час.',
+        kk: 'Нотариалды аударманы соңғы күнге қалдыру. Шақыруды және қалғанын алдын ала аударады — бұл бір сағатта бітпейді.',
+        en: 'Leaving notarised translations to the last day. The offer and the rest are translated in advance — it is not an hour\'s work.',
       },
       {
         ru: 'Написать мотивационное письмо длиннее 500 слов или забыть поставить дату и подпись в конце.',
@@ -192,9 +204,9 @@ export const APPLY_STAGES: Stage[] = [
     kicker: { ru: 'Подача', kk: 'Тапсыру', en: 'Submission' },
     title: { ru: 'Подайте заявку на конкурс', kk: 'Конкурсқа өтініш беріңіз', en: 'Submit your application' },
     summary: {
-      ru: 'Через портал egov.kz. На научную стажировку документы несут лично в ЦМП в Астане.',
-      kk: 'egov.kz порталы арқылы. Ғылыми тағылымдамаға құжатты Астанадағы ХБО-ға өзі апарады.',
-      en: 'Through egov.kz. For a scientific internship you bring the documents to the CIP office in Astana yourself.',
+      ru: 'Через портал egov.kz, внутри срока приёма.',
+      kk: 'egov.kz порталы арқылы, қабылдау мерзімі ішінде.',
+      en: 'Through egov.kz, inside the intake window.',
     },
     why: {
       ru: 'Сроки приёма объявляют каждый год и публикуют не позднее чем за 10 календарных дней до начала. Пропустили окно — ждать до следующего конкурсного года.',
@@ -202,7 +214,7 @@ export const APPLY_STAGES: Stage[] = [
       en: 'The intake dates are announced each year, at least 10 calendar days before they open. Miss the window and you wait for the next competition year.',
     },
     inShort: {
-      what: { ru: 'Собственно подача. Через портал egov.kz, а для научной стажировки — лично в Центр международных программ в Астане.', kk: 'Тапсырудың өзі. egov.kz порталы арқылы, ал ғылыми тағылымдамаға — Астанадағы Халықаралық бағдарламалар орталығына өзі.', en: 'The submission itself. Through egov.kz — or, for a scientific internship, in person at the Center for International Programs in Astana.' },
+      what: { ru: 'Собственно подача — через портал egov.kz.', kk: 'Тапсырудың өзі — egov.kz порталы арқылы.', en: 'The submission itself — through the egov.kz portal.' },
       you: { ru: 'Узнать сроки приёма и подать пакет внутри этого окна. Оно открывается раз в год.', kk: 'Қабылдау мерзімін біліп, топтаманы сол терезе ішінде тапсыру. Ол жылына бір рет ашылады.', en: 'Find the intake dates and submit inside that window. It opens once a year.' },
       result: { ru: 'Уведомление в личном кабинете: документы приняли и допустили к конкурсу — или отказали с указанием причины.', kk: 'Жеке кабинеттегі хабарлама: құжат қабылданып, конкурсқа жіберілді — не себебі көрсетіліп, бас тартылды.', en: 'A notice in your account: your documents were accepted and admitted — or refused with the reason given.' },
     },
@@ -275,6 +287,7 @@ export const APPLY_STAGES: Stage[] = [
           en: 'The dates for the intake and the competition are set each year and published at least 10 calendar days before the intake opens.',
         },
         source: 'pp573',
+        appliesTo: { not: { track: ['science_internship'] } },
       },
       {
         text: {
@@ -283,6 +296,7 @@ export const APPLY_STAGES: Stage[] = [
           en: 'Scientific internship: documents are reviewed and either accepted or refused within 3 working days.',
         },
         source: 'pp791',
+        appliesTo: { track: ['science_internship'] },
       },
     ],
     mistakes: [

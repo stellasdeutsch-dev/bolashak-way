@@ -1,7 +1,8 @@
 import { useEffect, useMemo, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router'
 import { IconArrowLeft as ArrowLeft, IconArrowRight as ArrowRight, IconCheck as Check, IconChevronDown as ChevronDown, IconAlertCircle as CircleAlert, IconExternal as ExternalLink, IconLock as Lock, IconSparkles as Sparkles, IconAlertTriangle as TriangleAlert } from '@/components/icons'
-import { CHAPTERS, getStage } from '@/content/stages'
+import { CHAPTERS } from '@/content/stages'
+import { getStageFor } from '@/domain/resolve'
 import { DOCUMENTS } from '@/content/documents'
 import { faqForStage } from '@/content/faq'
 import { excerptsForStage } from '@/content/excerpts'
@@ -417,7 +418,7 @@ export function StagePage() {
   }, [id])
 
   const progress = useMemo(() => (profile ? computeProgress({ profile, checked, stagesDone }) : null), [profile, checked, stagesDone])
-  const stage = id ? getStage(id) : undefined
+  const stage = id && profile ? getStageFor(id, profile.track) : undefined
   usePageChrome(stage ? cf(stage.title).text : undefined)
 
   if (!profile || !progress) return null
@@ -436,7 +437,8 @@ export function StagePage() {
   const chapter = CHAPTERS.find((ch) => ch.id === stage.chapter)!
   const locked = sp.status === 'locked'
   const stageDocs = DOCUMENTS.filter((d) => d.stage === stage.id && evaluate(d.appliesTo, profile))
-  const faq = faqForStage(stage.id)
+  const faq = faqForStage(stage.id, profile.track)
+  const deadlines = (stage.deadlines ?? []).filter((d) => evaluate(d.appliesTo, profile))
   const visibleNotes = (stage.notes ?? []).filter((n) => evaluate(n.appliesTo, profile))
 
   const order = progress.stages
@@ -708,12 +710,12 @@ export function StagePage() {
 
       <DeadlinePanel stage={stage.id} />
 
-      {stage.deadlines && stage.deadlines.length > 0 && (
+      {deadlines.length > 0 && (
         <Card>
           <div className={s.section}>
             <span className={s.sectionTitle}>{t('stage.deadlines')}</span>
             {/* Deadlines are facts, not warnings — amber stays reserved for mistakes and locks. */}
-            {stage.deadlines.map((d, i) => (
+            {deadlines.map((d, i) => (
               <Callout key={i} tone="info" source={d.source}>
                 {c(d.text)}
               </Callout>

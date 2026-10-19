@@ -11,7 +11,7 @@ import type { CategoryId, ExamId, LanguageThreshold, L, SourceId } from './types
  */
 export type LanguageGroup = 'preferential' | 'self' | 'internship' | 'science' | 'none'
 
-export const ENGLISH_THRESHOLDS: Record<Exclude<LanguageGroup, 'none' | 'science'>, LanguageThreshold[]> = {
+export const ENGLISH_THRESHOLDS: Record<Exclude<LanguageGroup, 'none'>, LanguageThreshold[]> = {
   preferential: [
     { exam: 'ielts', label: 'IELTS', first: 5.0, second: 6.0, third: 6.5, scale: 'из 9.0', max: 9 },
     { exam: 'toefl_ibt', label: 'TOEFL iBT', first: 35, second: 60, third: 79, scale: 'из 120', max: 120 },
@@ -30,7 +30,32 @@ export const ENGLISH_THRESHOLDS: Record<Exclude<LanguageGroup, 'none' | 'science
     { exam: 'toefl_pbt', label: 'TOEFL PBT / ITP', first: null, second: null, third: 417, scale: 'из 677', max: 677 },
     { exam: 'det', label: 'Duolingo English Test', first: null, second: null, third: 80, scale: 'из 160', max: 160 },
   ],
+  // Scientific internships have their own minimums, approved by the working body in a
+  // separate file (ns_minscore) — not Order No. 318. One level only: meet it or not.
+  science: [
+    { exam: 'ielts', label: 'IELTS', first: null, second: null, third: 5.0, scale: 'из 9.0', max: 9 },
+    { exam: 'toefl_ibt', label: 'TOEFL iBT', first: null, second: null, third: 35, scale: 'из 120', max: 120 },
+    { exam: 'toefl_pbt', label: 'TOEFL PBT / ITP', first: null, second: null, third: 417, scale: 'из 677', max: 677 },
+    { exam: 'det', label: 'Duolingo English Test', first: null, second: null, third: 80, scale: 'из 160', max: 160 },
+  ],
 }
+
+/**
+ * Minimum foreign-language level for a scientific internship, by the language the
+ * internship runs in (ns_minscore). Exam names are left exactly as the file prints them.
+ */
+export const SCIENCE_LANGUAGES: { lang: L; level: string }[] = [
+  { lang: { ru: 'Английский', kk: 'Ағылшын', en: 'English' }, level: 'IELTS 5.0 · TOEFL iBT 35 · PBT/ITP 417 · DET 80 · IELTS Indicator 5.0' },
+  { lang: { ru: 'Китайский', kk: 'Қытай', en: 'Chinese' }, level: 'HSK 3' },
+  { lang: { ru: 'Корейский', kk: 'Корей', en: 'Korean' }, level: 'TOPIK 3' },
+  { lang: { ru: 'Немецкий', kk: 'Неміс', en: 'German' }, level: 'Goethe-Zertifikat B1 · OnSet B1 · DSH 1 · TestDaF TDN 3' },
+  { lang: { ru: 'Итальянский', kk: 'Итальян', en: 'Italian' }, level: 'CILS DUE B1 · CELI 2' },
+  { lang: { ru: 'Испанский', kk: 'Испан', en: 'Spanish' }, level: 'DELE B1' },
+  { lang: { ru: 'Французский', kk: 'Француз', en: 'French' }, level: 'TCF 300–399 · DELF B1' },
+  { lang: { ru: 'Японский', kk: 'Жапон', en: 'Japanese' }, level: 'JLPT N3' },
+  { lang: { ru: 'Турецкий', kk: 'Түрік', en: 'Turkish' }, level: 'Tömer B1' },
+  { lang: { ru: 'Русский', kk: 'Орыс', en: 'Russian' }, level: '—' },
+]
 
 export const LANGUAGE_GROUP_BY_CATEGORY: Record<CategoryId, LanguageGroup> = {
   bachelor: 'none',
@@ -49,7 +74,7 @@ export const LANGUAGE_GROUP_BY_CATEGORY: Record<CategoryId, LanguageGroup> = {
 
 /** Score required to be sent straight to study/internship (level III). */
 export function requiredScore(group: LanguageGroup, exam: ExamId): number | null {
-  if (group === 'none' || group === 'science' || exam === 'other') return null
+  if (group === 'none' || exam === 'other') return null
   const row = ENGLISH_THRESHOLDS[group].find((r) => r.exam === exam)
   return row?.third ?? null
 }

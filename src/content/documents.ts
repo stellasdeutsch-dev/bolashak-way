@@ -82,8 +82,16 @@ export const DOCUMENTS: DocItem[] = [
     id: 'id_passport',
     stage: 'documents',
     title: { ru: 'Удостоверение личности и паспорт', kk: 'Жеке куәлік және паспорт', en: 'ID card and passport' },
-    note: { ru: 'Для научной стажировки — оригиналы и копии; оригиналы возвращают после сверки', kk: 'Ғылыми тағылымдамаға — түпнұсқа мен көшірме; түпнұсқа қайтарылады', en: 'For scientific internships — originals and copies; originals are returned' },
     source: 'pravila',
+    appliesTo: { not: { track: ['science_internship'] } },
+  },
+  {
+    id: 'id_passport_ns',
+    stage: 'documents',
+    title: { ru: 'Удостоверение личности и паспорт — оригиналы и копии', kk: 'Жеке куәлік және паспорт — түпнұсқа мен көшірме', en: 'ID card and passport — originals and copies' },
+    note: { ru: 'Оригиналы возвращают после сверки', kk: 'Түпнұсқалар салыстырылған соң қайтарылады', en: 'The originals come back after checking' },
+    source: 'ns_documents',
+    appliesTo: { track: ['science_internship'] },
   },
   {
     id: 'diploma',
@@ -244,7 +252,7 @@ export const DOCUMENTS: DocItem[] = [
   {
     id: 'completion_application',
     stage: 'return',
-    title: { ru: 'Заявление о завершении обучения или стажировки', kk: 'Оқуды не тағылымдаманы аяқтау туралы өтініш', en: 'Study or internship completion application' },
+    title: { ru: 'Заявление о завершении — по установленной форме', kk: 'Аяқтау туралы өтініш — белгіленген нысан бойынша', en: 'Completion application — on the standard form' },
     source: 'obrazcy',
     form: 'obrazcy',
   },

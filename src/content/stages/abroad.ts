@@ -6,7 +6,7 @@ export const ABROAD_STAGES: Stage[] = [
     chapter: 'abroad',
     icon: 'BookOpenCheck',
     kicker: { ru: 'За рубежом', kk: 'Шетелде', en: 'Abroad' },
-    title: { ru: 'Обучение или стажировка и отчётность', kk: 'Оқу не тағылымдама және есептілік', en: 'Study or internship and reporting' },
+    title: { ru: 'Обучение и отчётность', kk: 'Оқу және есептілік', en: 'Study and reporting' },
     summary: {
       ru: 'Регистрация, страховка, консульский учёт, учебный план и регулярные отчёты куратору.',
       kk: 'Тіркеу, сақтандыру, консулдық есеп, оқу жоспары және кураторға тұрақты есептер.',
@@ -18,7 +18,7 @@ export const ABROAD_STAGES: Stage[] = [
       en: 'Your obligations do not end when the plane takes off. The contract asks you to keep your grades up, send transcripts on time and stay in touch with your curator. Break the terms and funding can be suspended.',
     },
     inShort: {
-      what: { ru: 'Сама учёба или стажировка за границей. Обязательства при этом не заканчиваются: договор требует отчётности.', kk: 'Шетелдегі оқудың не тағылымдаманың өзі. Міндеттеме бітпейді: шарт есептілікті талап етеді.', en: 'The studies or internship abroad themselves. Your obligations do not stop: the contract requires reporting.' },
+      what: { ru: 'Сама учёба за границей. Обязательства при этом не заканчиваются: договор требует отчётности.', kk: 'Шетелдегі оқудың өзі. Міндеттеме бітпейді: шарт есептілікті талап етеді.', en: 'Your studies abroad. Your obligations do not stop: the contract requires reporting.' },
       you: { ru: 'Встать на учёт, оформить страховку, сдать куратору учебный план и присылать транскрипты после каждого семестра.', kk: 'Есепке тұру, сақтандыру рәсімдеу, кураторға оқу жоспарын тапсыру және әр семестрден кейін транскрипт жіберу.', en: 'Register locally, arrange insurance, give your curator the study plan and send transcripts after each semester.' },
       result: { ru: 'Завершённая программа и диплом — без нарушений договора и приостановки финансирования.', kk: 'Аяқталған бағдарлама және диплом — шартты бұзбай, қаржыландыру тоқтамай.', en: 'A completed programme and a diploma — with no contract breaches and no funding suspension.' },
     },
@@ -49,6 +49,7 @@ export const ABROAD_STAGES: Stage[] = [
           en: 'You registered with the Kazakhstan embassy and sent the confirmation to your curator.',
         },
         link: 'stipendiat_internship',
+        appliesTo: { not: { track: ['science_internship'] } },
       },
       {
         id: 'plan',
@@ -184,7 +185,7 @@ export const ABROAD_STAGES: Stage[] = [
           kk: 'Тағылымдаманың аяқталғаны туралы құжатты, жетекшінің қорытынды пікірін және нәтиже есебін әкелдіңіз.',
           en: 'You brought the internship completion document, your supervisor\'s final feedback and the results report.',
         },
-        appliesTo: { track: ['internship', 'science_internship'] },
+        appliesTo: { track: ['internship'] },
         link: 'stipendiat_internship',
       },
       {
@@ -196,6 +197,16 @@ export const ABROAD_STAGES: Stage[] = [
         },
         appliesTo: { track: ['science_internship'] },
         link: 'pp791',
+      },
+      {
+        id: 'ns_completion',
+        text: {
+          ru: 'Сдали нотариально заверенные переводы документов о завершении стажировки на казахский или русский язык.',
+          kk: 'Тағылымдаманың аяқталғаны туралы құжаттардың қазақ не орыс тіліне нотариалды куәландырылған аудармасын тапсырдыңыз.',
+          en: 'You handed in notarised Kazakh or Russian translations of the documents confirming the internship was completed.',
+        },
+        appliesTo: { track: ['science_internship'] },
+        link: 'ns_alumni',
       },
       {
         id: 'no_diploma',
@@ -216,6 +227,7 @@ export const ABROAD_STAGES: Stage[] = [
           en: 'Scientific internship: the final report is due within a month of your return. Miss it and the question of repaying budget money comes up.',
         },
         source: 'pp791',
+        appliesTo: { track: ['science_internship'] },
       },
     ],
     mistakes: [
@@ -306,6 +318,7 @@ export const ABROAD_STAGES: Stage[] = [
           en: 'You had the lien on the pledged property lifted after fulfilment was confirmed.',
         },
         link: 'zamena_zaloga',
+        appliesTo: { not: { track: ['science_internship'] } },
       },
     ],
     deadlines: [
@@ -324,11 +337,13 @@ export const ABROAD_STAGES: Stage[] = [
           en: 'The work-back counts from the degree award date or, if employment starts later, from the employment date. Continuous service is counted per region when there are no parallel pension contributions.',
         },
         source: 'otrabotka',
+        appliesTo: { track: ['bachelor', 'master', 'phd_residency'] },
       },
     ],
     notes: [
       {
         tone: 'info',
+        appliesTo: { not: { track: ['science_internship'] } },
         text: {
           ru: 'Отсрочку исполнения обязательств можно запросить: лечение заболевания, препятствующего работе; беременность или ребёнок до трёх лет; сопровождение супруга-госслужащего или обучающегося за рубежом; продолжение обучения в докторантуре; производственная стажировка в компаниях из рейтингов Fortune Global 500, Forbes Global 2000 или Forbes Top 100 Digital Companies — не более 12 месяцев.',
           kk: 'Міндеттемелерді орындауды кейінге қалдыруды сұрауға болады: емделу; жүктілік не үш жасқа дейінгі бала; жұбайын алып жүру; докторантурада оқуды жалғастыру; рейтингтегі компанияларда өндірістік тағылымдама — 12 айдан аспайды.',

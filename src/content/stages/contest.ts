@@ -80,11 +80,21 @@ export const CONTEST_STAGES: Stage[] = [
     deadlines: [
       {
         text: {
-          ru: 'О месте и времени первого и второго туров сообщают на портале, а также по почте и телефону — не позднее чем за 10 календарных дней. Для научных стажировок — за 5 дней.',
-          kk: 'Бірінші және екінші тур орны мен уақытын порталда, сондай-ақ пошта мен телефон арқылы хабарлайды — 10 күнтізбелік күннен кешіктірмей. Ғылыми тағылымдамада — 5 күн бұрын.',
-          en: 'You are told the time and place of rounds one and two on the portal, and by email and phone, at least 10 calendar days ahead. For scientific internships it is 5 days.',
+          ru: 'О месте и времени первого и второго туров сообщают на портале, а также по почте и телефону — не позднее чем за 10 календарных дней.',
+          kk: 'Бірінші және екінші тур орны мен уақытын порталда, сондай-ақ пошта мен телефон арқылы хабарлайды — 10 күнтізбелік күннен кешіктірмей.',
+          en: 'You are told the time and place of rounds one and two on the portal, and by email and phone, at least 10 calendar days ahead.',
         },
         source: 'pp573',
+        appliesTo: { not: { track: ['science_internship'] } },
+      },
+      {
+        text: {
+          ru: 'О месте и времени первого и второго туров сообщают по телефону или электронной почте — не позднее чем за 5 календарных дней.',
+          kk: 'Бірінші және екінші тур орны мен уақытын телефон не электрондық пошта арқылы хабарлайды — 5 күнтізбелік күннен кешіктірмей.',
+          en: 'You are told the time and place of rounds one and two by phone or email at least 5 calendar days ahead.',
+        },
+        source: 'pp791',
+        appliesTo: { track: ['science_internship'] },
       },
     ],
     mistakes: [
@@ -162,6 +172,7 @@ export const CONTEST_STAGES: Stage[] = [
         },
         required: false,
         link: 'pravila',
+        appliesTo: { track: ['bachelor', 'master', 'phd_residency'] },
       },
       {
         id: 'research_blocks',
@@ -190,6 +201,7 @@ export const CONTEST_STAGES: Stage[] = [
           en: 'The interview link comes by email the day before. Slots are released in waves by field, usually two weeks ahead.',
         },
         source: 'chat-faq',
+        appliesTo: { not: { track: ['science_internship'] } },
       },
     ],
     mistakes: [
@@ -199,9 +211,9 @@ export const CONTEST_STAGES: Stage[] = [
         en: 'Waiting for someone to assign you a slot. You book it yourself, and dates appear in waves — refresh the page with CTRL + SHIFT + R.',
       },
       {
-        ru: 'Готовиться только по своей специальности. Про программу, вуз и страну спрашивают всех, включая льготные категории.',
-        kk: 'Тек өз мамандығы бойынша дайындалу. Бағдарлама, ЖОО және ел туралы бәрінен сұрайды, жеңілдікті санаттардан да.',
-        en: 'Preparing only your subject. Everyone is asked about the programme, the university and the country — preferential categories included.',
+        ru: 'Готовиться только по своей специальности. Про программу, вуз и страну спрашивают всех.',
+        kk: 'Тек өз мамандығы бойынша дайындалу. Бағдарлама, ЖОО және ел туралы бәрінен сұрайды.',
+        en: 'Preparing only your subject. Everyone is asked about the programme, the university and the country.',
       },
       {
         ru: 'Молчать, если не получается прийти в назначенный день. Напишите на info@bolashak.gov.kz: ФИО, дата слота и причина.',
@@ -261,6 +273,7 @@ export const CONTEST_STAGES: Stage[] = [
           en: 'The file goes to the working body at least 15 calendar days before round three. The decision is announced on the administrator\'s site within 3 working days.',
         },
         source: 'pp573',
+        appliesTo: { not: { track: ['science_internship'] } },
       },
     ],
     mistakes: [

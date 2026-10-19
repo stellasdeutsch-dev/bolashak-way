@@ -1,5 +1,6 @@
 import type { ChapterId, ChecklistItem, Profile, Stage, StageId } from '@/content/types'
 import { CHAPTER_ORDER, STAGES } from '@/content/stages'
+import { resolveStage } from './resolve'
 import { evaluate } from './applicability'
 
 export type StageStatus = 'locked' | 'available' | 'in-progress' | 'done'
@@ -37,7 +38,9 @@ export interface ProgressInput {
   stagesDone: StageId[]
 }
 
-export const applicableStages = (profile: Profile): Stage[] => STAGES.filter((s) => evaluate(s.appliesTo, profile))
+/** The profile's stages, worded the way its own platform tells them. */
+export const applicableStages = (profile: Profile): Stage[] =>
+  STAGES.filter((s) => evaluate(s.appliesTo, profile)).map((s) => resolveStage(s, profile.track))
 
 export const applicableItems = (stage: Stage, profile: Profile): ChecklistItem[] =>
   stage.checklist.filter((i) => evaluate(i.appliesTo, profile))

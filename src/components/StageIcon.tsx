@@ -1,5 +1,5 @@
 import {
-  IconBadgeCheck, IconBookOpen, IconBriefcase, IconClock, IconCompass, IconFileSignature,
+  IconBadgeCheck, IconBookOpen, IconBriefcase, IconClock, IconCompass, IconFileSignature, IconFlask,
   IconFileStack, IconFolderCheck, IconGavel, IconGlobe, IconGraduationCap, IconLandmark,
   IconLanguages, IconListChecks, IconMailCheck, IconMessages, IconMonitorCheck, IconPlaneLanding,
   IconPlaneTakeoff, IconSchool, IconSend, IconShieldCheck, IconUpload, IconUserCheck, IconWallet,
@@ -27,6 +27,7 @@ const ICONS: Record<string, (p: IconProps) => React.ReactElement> = {
   BookOpenCheck: IconBookOpen,
   PlaneLanding: IconPlaneLanding,
   Briefcase: IconBriefcase,
+  FlaskConical: IconFlask,
   /* Not stage icons: used by the About page blocks and the stage summary cards. */
   Wallet: IconWallet,
   Clock: IconClock,

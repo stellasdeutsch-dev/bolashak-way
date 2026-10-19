@@ -10,9 +10,9 @@ export const AWARDED_STAGES: Stage[] = [
     kicker: { ru: 'Обязательства', kk: 'Міндеттемелер', en: 'Obligations' },
     title: { ru: 'Договор и обеспечение обязательств', kk: 'Шарт және міндеттемелерді қамтамасыз ету', en: 'Contract and security of obligations' },
     summary: {
-      ru: '90 календарных дней на договор обучения и договор залога или гарантии (для научной стажировки — 60 дней).',
-      kk: 'Оқу шарты мен кепіл не кепілдік шартына 90 күнтізбелік күн (ғылыми тағылымдамаға — 60 күн).',
-      en: '90 calendar days to sign the study contract and the pledge or guarantee agreement (60 days for scientific internships).',
+      ru: '90 календарных дней на договор и договор залога или гарантии.',
+      kk: 'Шартқа және кепіл не кепілдік шартына 90 күнтізбелік күн.',
+      en: '90 calendar days to sign the contract and the pledge or guarantee agreement.',
     },
     why: {
       ru: 'Самый жёсткий срок за всю процедуру. Не подписали договор вовремя — рабочий орган начинает процедуру лишения стипендии. Залог недвижимости или гарантия нужны на случай, если обязательства не выполнят: так государство возвращает потраченное.',
@@ -21,7 +21,7 @@ export const AWARDED_STAGES: Stage[] = [
     },
     inShort: {
       what: { ru: 'Юридическое оформление победы. Договор об учёбе плюс обеспечение обязательств — залог недвижимости или гарантия поручителя.', kk: 'Жеңістің заңды рәсімделуі. Оқу туралы шарт және міндеттемені қамтамасыз ету — жылжымайтын мүлік кепілі не кепілгердің кепілдігі.', en: 'Making the win official. The study contract plus security — a property pledge or a guarantor\'s guarantee.' },
-      you: { ru: 'Уложиться в 90 календарных дней (для научной стажировки — 60) и собрать документы гаранта или собственника залога.', kk: '90 күнтізбелік күнге (ғылыми тағылымдамаға — 60) сыйып, кепілгер не кепіл иесінің құжаттарын жинау.', en: 'Fit into 90 calendar days (60 for a scientific internship) and gather the guarantor\'s or property owner\'s documents.' },
+      you: { ru: 'Уложиться в 90 календарных дней и собрать документы гаранта или собственника залога.', kk: '90 күнтізбелік күнге сыйып, кепілгер не кепіл иесінің құжаттарын жинау.', en: 'Fit into 90 calendar days and gather the guarantor\'s or property owner\'s documents.' },
       result: { ru: 'Подписанный договор — основание, по которому государство начинает платить за вашу учёбу.', kk: 'Қол қойылған шарт — мемлекет оқуыңызды төлей бастайтын негіз.', en: 'A signed contract — the basis on which the state starts paying for your studies.' },
     },
     checklist: [
@@ -70,6 +70,7 @@ export const AWARDED_STAGES: Stage[] = [
         },
         required: false,
         link: 'zamena_zaloga',
+        appliesTo: { not: { track: ['science_internship'] } },
       },
       {
         id: 'register',
@@ -80,6 +81,7 @@ export const AWARDED_STAGES: Stage[] = [
         },
         required: false,
         link: 'zamena_zaloga',
+        appliesTo: { not: { track: ['science_internship'] } },
       },
     ],
     deadlines: [
@@ -90,6 +92,7 @@ export const AWARDED_STAGES: Stage[] = [
           en: 'The contract is signed within 90 calendar days of the Republican Commission\'s decision. Miss it and the question of withdrawing the scholarship is raised.',
         },
         source: 'pp573',
+        appliesTo: { not: { track: ['science_internship'] } },
       },
       {
         text: {
@@ -98,11 +101,13 @@ export const AWARDED_STAGES: Stage[] = [
           en: 'Scientific internship: the contract is signed within 60 calendar days of the commission decision.',
         },
         source: 'ns_winner',
+        appliesTo: { track: ['science_internship'] },
       },
     ],
     notes: [
       {
         tone: 'warn',
+        appliesTo: { not: { track: ['science_internship'] } },
         text: {
           ru: 'Подписать договор залога или гарантии за себя по доверенности нельзя: стипендиат не может быть доверенным лицом в сделке, которая заключается в его же интересах (пункт 3 статьи 163 Гражданского кодекса).',
           kk: 'Кепіл не кепілдік шартына сенімхатпен өз атыңыздан қол қоюға болмайды: стипендиат өз мүддесінде жасалатын мәмілеге сенім білдірілген адам бола алмайды (Азаматтық кодекстің 163-бабы, 3-тармақ).',
@@ -300,6 +305,7 @@ export const AWARDED_STAGES: Stage[] = [
           en: 'After signing the contract you got in touch with your curator: the Americas, CIS and Oceania department, or the Europe and Asia one.',
         },
         link: 'stipendiat_master',
+        appliesTo: { not: { track: ['science_internship'] } },
       },
       {
         id: 'guarantee_letter',
@@ -309,6 +315,7 @@ export const AWARDED_STAGES: Stage[] = [
           en: 'You filed the request, got the financial guarantee letter and sent a scan to the university or host organisation.',
         },
         link: 'stipendiat_internship',
+        appliesTo: { not: { track: ['science_internship'] } },
       },
       {
         id: 'visa_docs',
@@ -318,6 +325,7 @@ export const AWARDED_STAGES: Stage[] = [
           en: 'You received the visa documents from the university.',
         },
         link: 'stipendiat_master',
+        appliesTo: { track: ['bachelor', 'master', 'phd_residency'] },
       },
       {
         id: 'card',
@@ -345,6 +353,7 @@ export const AWARDED_STAGES: Stage[] = [
           en: 'You sent a scan of the visa to your curator.',
         },
         link: 'stipendiat_master',
+        appliesTo: { not: { track: ['science_internship'] } },
       },
       {
         id: 'ticket',
@@ -354,6 +363,17 @@ export const AWARDED_STAGES: Stage[] = [
           en: 'You sent the flight-ticket request to your curator.',
         },
         link: 'obrazcy',
+        appliesTo: { not: { track: ['science_internship'] } },
+      },
+      {
+        id: 'ns_advance',
+        text: {
+          ru: 'Подали заявление на аванс и сведения по карт-счёту — формы на странице о финансировании научных стажировок.',
+          kk: 'Аванс алуға өтініш пен карт-шот мәліметтерін тапсырдыңыз — нысандар ғылыми тағылымдаманы қаржыландыру бетінде.',
+          en: 'You filed the advance request and your card-account details — the forms are on the scientific-internship funding page.',
+        },
+        link: 'ns_finance',
+        appliesTo: { track: ['science_internship'] },
       },
     ],
     mistakes: [

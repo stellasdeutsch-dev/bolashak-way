@@ -31,6 +31,30 @@ export const SOURCES: Record<SourceId, Source> = {
     url: 'https://adilet.zan.kz/rus/docs/P2200000791',
     title: { ru: 'Правила отбора претендентов и прохождения научных стажировок (ПП РК от 05.10.2022 № 791)', kk: 'Ғылыми тағылымдамадан өту қағидалары (ҚР ҮҚ 05.10.2022 № 791)', en: 'Rules for scientific internships (Gov. Decree No. 791 of 05.10.2022)' },
   },
+  ns_about: {
+    id: 'ns_about',
+    org: 'bolashak.gov.kz',
+    url: `${B}/ru/o-nauchnyh-stazhirovkah-po-ns`,
+    title: { ru: 'О научных стажировках', kk: 'Ғылыми тағылымдамалар туралы', en: 'About scientific internships' },
+  },
+  ns_finance: {
+    id: 'ns_finance',
+    org: 'bolashak.gov.kz',
+    url: `${B}/ru/pretendentu-po-ns/vse-o-finansirovanii-po-ns`,
+    title: { ru: 'Всё о финансировании научных стажировок', kk: 'Ғылыми тағылымдаманы қаржыландыру туралы', en: 'Funding of scientific internships' },
+  },
+  ns_orgs_pdf: {
+    id: 'ns_orgs_pdf',
+    org: 'bolashak.gov.kz',
+    url: `${B}/storage/app/media/pretendentu-po-ns--vuzy-nauchnye-centry-organizaciya/2026/28-09/2.%20%D0%BF%D1%80%D0%B8%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D0%B5%20%D1%80%D1%83%D1%81.pdf`,
+    title: { ru: 'Список организаций для научных стажировок на 2026 год (PDF)', kk: '2026 жылғы ғылыми тағылымдама ұйымдарының тізімі (PDF)', en: 'Organisations for scientific internships, 2026 (PDF)' },
+  },
+  pps_internship_pdf: {
+    id: 'pps_internship_pdf',
+    org: 'bolashak.gov.kz',
+    url: `${B}/storage/app/media/pretendentu--specialnosti-dlya-stazhirovok/2026/spisok_stazhirovka_2026_rus.pdf`,
+    title: { ru: 'Специальности для прохождения стажировок, 2026 (PDF)', kk: 'Тағылымдамадан өтуге арналған мамандықтар, 2026 (PDF)', en: 'Specialties for internships, 2026 (PDF)' },
+  },
   ns_requirements: {
     id: 'ns_requirements',
     org: 'bolashak.gov.kz',
@@ -82,7 +106,7 @@ export const SOURCES: Record<SourceId, Source> = {
   vuzy2026: {
     id: 'vuzy2026',
     org: 'bolashak.gov.kz',
-    url: `${B}/storage/app/media/pretendentu--vuzy/vuzy_bolashak_2026_rus.pdf`,
+    url: `${B}/storage/app/media/pretendentu--vuzy/09-10-2026/%D0%A1%D0%BF%D0%B8%D1%81%D0%BE%D0%BA%20%D0%92%D1%83%D0%B7%20%D0%91%D0%BE%D0%BB%D0%B0%D1%88%D0%B0%D0%BA%20%D1%80%D1%83%D1%81.pdf`,
     title: { ru: 'Список ведущих зарубежных вузов на 2026 год (PDF)', kk: '2026 жылғы жетекші шетелдік ЖОО тізімі (PDF)', en: 'List of leading foreign universities, 2026 (PDF)' },
   },
   vuzy_page: {

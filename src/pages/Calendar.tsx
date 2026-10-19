@@ -2,7 +2,7 @@ import { useMemo, useState } from 'react'
 import { Link } from 'react-router'
 import { DEADLINE_RULES } from '@/content/deadlines'
 import { getSource } from '@/content/sources'
-import { getStage } from '@/content/stages'
+import { getStageFor } from '@/domain/resolve'
 import type { DateKey } from '@/content/types'
 import { computeDeadlines, type ComputedDeadline } from '@/domain/deadlines'
 import { evaluate } from '@/domain/applicability'
@@ -136,7 +136,7 @@ export function Calendar() {
         date: d.due,
         summary: c(d.rule.label),
         description: [
-          c(getStage(d.rule.stage)?.title),
+          c(getStageFor(d.rule.stage, profile!.track)?.title),
           `${getSource(d.rule.source).org}: ${getSource(d.rule.source).url}`,
         ].join('\n'),
         // Nothing already overdue should wake anybody up a week before it happened.
@@ -331,7 +331,7 @@ export function Calendar() {
                   </p>
                   <div className={s.dayItemLinks}>
                     <Link className={s.stageLink} to={`/stage/${e.d.rule.stage}`}>
-                      {c(getStage(e.d.rule.stage)?.title)}
+                      {c(getStageFor(e.d.rule.stage, profile!.track)?.title)}
                     </Link>
                     <SourceLink id={e.d.rule.source} />
                   </div>
