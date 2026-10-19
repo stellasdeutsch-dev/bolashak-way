@@ -705,9 +705,9 @@ export const SCIENCE_STAGES: StagePatches = {
 
 export const SCIENCE_HOME: PlatformHome = {
   intro: {
-    ru: 'Научные стажировки — отдельная программа для учёных со своими правилами (ПП № 791), своим списком организаций и своей подачей — лично в Центре. От 3 до 12 месяцев в зарубежном вузе или научном центре по вашему исследованию, затем не меньше 3 лет работы у своего работодателя.',
-    kk: 'Ғылыми тағылымдамалар — ғалымдарға арналған бөлек бағдарлама: өз қағидасы (№ 791 ҮҚ), өз ұйымдар тізімі және өз тапсыру тәртібі — Орталыққа өзіңіз. Зерттеуіңіз бойынша шетелдік ЖОО-да не ғылыми орталықта 3-тен 12 айға дейін, содан кейін өз жұмыс берушіңізде кемінде 3 жыл жұмыс.',
-    en: 'Scientific internships are a separate programme for researchers with their own rules (Decree No. 791), their own host list and their own submission — in person at the Center. Three to twelve months at a foreign university or research centre for your research, then at least three years with your employer.',
+    ru: 'Научные стажировки — отдельная программа для учёных со своими правилами (ПП № 791), своим списком организаций и своей подачей: документы принимает сам Центр. От 3 до 12 месяцев в зарубежном вузе или научном центре по вашему исследованию, затем не меньше 3 лет работы у своего работодателя.',
+    kk: 'Ғылыми тағылымдамалар — ғалымдарға арналған бөлек бағдарлама: өз қағидасы (№ 791 ҮҚ), өз ұйымдар тізімі және өз тапсыру тәртібі: құжатты Орталықтың өзі қабылдайды. Зерттеуіңіз бойынша шетелдік ЖОО-да не ғылыми орталықта 3-тен 12 айға дейін, содан кейін өз жұмыс берушіңізде кемінде 3 жыл жұмыс.',
+    en: 'Scientific internships are a separate programme for researchers with their own rules (Decree No. 791), their own host list and their own submission: the Center itself takes the documents. Three to twelve months at a foreign university or research centre for your research, then at least three years with your employer.',
   },
   facts: [
     { value: '3–12', caption: { ru: 'месяцев — срок стажировки', kk: 'ай — тағылымдама мерзімі', en: 'months — the length of the internship' }, source: 'pp791' },
