@@ -9,6 +9,7 @@ import { PLATFORMS, PLATFORM_HOMES, STAGE_PATCHES } from '@/content/platforms'
 import { evaluate } from '@/domain/applicability'
 import { resolveStage } from '@/domain/resolve'
 import { ICON_NAMES } from '@/components/StageIcon'
+import { chaptersFor } from '@/content/platforms/chapters'
 import { EXCERPTS } from '@/content/excerpts'
 import { SOURCE_TRACKS, sourceFits } from '@/content/sources'
 import { CONTEST_FLOW } from '@/content/explain'
@@ -95,6 +96,10 @@ function visibleTexts(track: Track, locale: 'ru' | 'kk' | 'en'): [string, string
     DEADLINE_RULES.filter((d) => evaluate(d.appliesTo, p)).forEach((d) => add(`deadline.${d.id}`, d.label))
     FORMS.filter((f) => evaluate(f.appliesTo, p)).forEach((f) => add(`form.${f.id}`, f.title))
   }
+  chaptersFor(track).forEach((ch) => {
+    add(`chapter.${ch.id}.title`, ch.title)
+    add(`chapter.${ch.id}.subtitle`, ch.subtitle)
+  })
   return out
 }
 

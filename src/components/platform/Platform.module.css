@@ -835,3 +835,241 @@
     flex: none;
   }
 }
+
+/* ── the short version ── */
+.overview {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.five {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 10px;
+  counter-reset: five;
+}
+@media (min-width: 900px) {
+  .five {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+}
+.fiveItem {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 14px;
+  border-radius: var(--r-md);
+  background: var(--surface-2);
+  opacity: 0;
+  transform: translateY(10px);
+  transition:
+    opacity 0.45s var(--ease-spring),
+    transform 0.45s var(--ease-spring);
+}
+@media (min-width: 900px) {
+  .fiveItem {
+    flex-direction: column;
+    gap: 10px;
+  }
+  /* an arrow between the cards: the chapters are a sequence */
+  .fiveItem:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    right: -9px;
+    top: 26px;
+    width: 8px;
+    height: 8px;
+    border-top: 2px solid var(--accent);
+    border-right: 2px solid var(--accent);
+    transform: rotate(45deg);
+    opacity: 0.6;
+  }
+}
+@media (max-width: 899.98px) {
+  /* on a phone the line runs down the left edge instead */
+  .fiveItem:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    left: 29px;
+    top: 48px;
+    bottom: -12px;
+    width: 2px;
+    background: rgba(var(--accent-rgb), 0.3);
+  }
+}
+.fiveItemOn {
+  opacity: 1;
+  transform: none;
+}
+.fiveNum {
+  flex: none;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-size: 14px;
+  font-weight: 800;
+  color: #fff;
+  background: var(--accent);
+  position: relative;
+  z-index: 1;
+}
+.fiveBody {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+.fiveBody b {
+  font-size: 15px;
+  letter-spacing: -0.01em;
+}
+.fiveBody span {
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: var(--text-2);
+}
+.moreBtn {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 14px;
+  border-radius: var(--r-pill);
+  background: var(--accent-tint);
+  color: var(--accent-deep, var(--accent));
+  font-size: 13.5px;
+  font-weight: 650;
+  cursor: pointer;
+}
+.moreBtn svg,
+.moreHead svg {
+  transition: transform 0.25s var(--ease-spring);
+  flex: none;
+}
+.chevOpen {
+  transform: rotate(180deg);
+}
+
+.deal {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 18px;
+}
+@media (min-width: 860px) {
+  .deal {
+    grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+  }
+}
+.dealCol {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-width: 0;
+}
+.dealCol .coverage {
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 220px), 1fr));
+}
+.dealTitle {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-3);
+}
+.oweList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.oweList li {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 14px;
+  border-radius: var(--r-md);
+  background: var(--surface-2);
+  border-left: 3px solid var(--warn);
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--text-2);
+}
+.oweList li > svg {
+  flex: none;
+  color: var(--warn);
+  margin-top: 2px;
+}
+.oweList b {
+  display: block;
+  color: var(--text);
+  font-size: 14.5px;
+  margin-bottom: 2px;
+}
+
+/* ── folded details ── */
+.more {
+  border-radius: var(--r-lg);
+  background: var(--surface);
+  border: var(--card-hairline);
+  box-shadow: var(--shadow-card);
+  overflow: hidden;
+}
+.moreHead {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 16px 18px;
+  text-align: left;
+  cursor: pointer;
+  color: var(--text);
+}
+.moreHead:hover {
+  background: var(--surface-2);
+}
+.moreText {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+}
+.moreText b {
+  font-size: 15.5px;
+  letter-spacing: -0.01em;
+}
+.moreText span {
+  font-size: 13px;
+  line-height: 1.45;
+  color: var(--text-3);
+}
+.moreOpen .moreHead {
+  border-bottom: 1px solid var(--line);
+}
+.moreBody {
+  padding: 18px;
+  animation: menuIn 0.25s var(--ease-spring) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fiveItem {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  .moreBody {
+    animation: none;
+  }
+}
+.dealCol .cover {
+  padding: 9px 12px;
+  font-size: 13.5px;
+}

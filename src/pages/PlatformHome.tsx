@@ -12,10 +12,9 @@ import { usePageChrome } from '@/i18n/usePageChrome'
 import { ButtonLink, Card, Pill } from '@/components/ui'
 import { StageIcon } from '@/components/StageIcon'
 import { VideoList } from '@/components/Videos'
-import { Reveal } from '@/components/Reveal'
 import { AwardTimeline, ContestFlow, DepartureChain, PathLanes, WorkbackTable } from '@/components/Explain'
 import { InternshipSpecialtySearch, ScienceSearch, SpecialtySearch, UniversitySearch, type SpecialtyLevel } from '@/components/ListSearch'
-import { Coverage, Facts, Fit, Journey, Requirements } from '@/components/platform/PlatformBlocks'
+import { Deal, Facts, Fit, More, PathOverview, Requirements } from '@/components/platform/PlatformBlocks'
 import { IconArrowRight as ArrowRight } from '@/components/icons'
 import s from './PlatformHome.module.css'
 
@@ -54,9 +53,6 @@ export function PlatformHome() {
   usePageChrome(c(platform.name))
 
   const videos = VIDEOS.filter((v) => PLATFORM_VIDEO_IDS.includes(v.id) && evaluate(v.appliesTo, { track } as never))
-  let n = 0
-  const next = () => ++n
-
   return (
     <div className={s.page}>
       <Card dark className={s.hero}>
@@ -83,87 +79,18 @@ export function PlatformHome() {
 
       <Facts home={home} />
 
-      <Section n={next()} title={t('platform.fitTitle')}>
+      {/* The short version: three questions a newcomer actually has. */}
+      <Section n={1} title={t('platform.fitTitle')}>
         <Fit home={home} />
       </Section>
 
-      <Section n={next()} title={t('platform.requirementsTitle')} text={t(`platform.requirementsText_${slug}`)}>
-        <Requirements track={track} />
+      <Section n={2} title={t('platform.pathTitle')} text={t('platform.pathText')}>
+        <PathOverview platform={platform} />
       </Section>
 
-      <Section n={next()} title={t('platform.journeyTitle')} text={t('platform.journeyText')}>
-        <Journey platform={platform} />
-        {track === 'master' && (
-          <>
-            <span className={s.sub}>{t('platform.lanesTitle')}</span>
-            <Reveal>
-              <PathLanes />
-            </Reveal>
-          </>
-        )}
+      <Section n={3} title={t('platform.dealTitle')}>
+        <Deal home={home} track={track} />
       </Section>
-
-      <Section n={next()} title={t('platform.listsTitle')} text={t(`platform.listsText_${slug}`)}>
-        <div className={s.lists}>
-          {LEVEL[track] && (
-            <div>
-              <span className={s.sub}>{t('lists.specialtyTitle')}</span>
-              <SpecialtySearch level={LEVEL[track]} />
-            </div>
-          )}
-          {LEVEL[track] && (
-            <div>
-              <span className={s.sub}>{t('lists.universityTitle')}</span>
-              <UniversitySearch />
-            </div>
-          )}
-          {track === 'internship' && (
-            <div>
-              <span className={s.sub}>{t('lists.internshipTitle')}</span>
-              <InternshipSpecialtySearch />
-            </div>
-          )}
-          {track === 'science_internship' && (
-            <div>
-              <span className={s.sub}>{t('lists.scienceTitle')}</span>
-              <ScienceSearch />
-            </div>
-          )}
-        </div>
-      </Section>
-
-      <Section n={next()} title={t('platform.contestTitle')} text={t('platform.contestText')}>
-        <Reveal>
-          <ContestFlow track={track} />
-        </Reveal>
-      </Section>
-
-      <Section n={next()} title={t('platform.moneyTitle')} text={t('platform.moneyText')}>
-        <span className={s.sub}>{t('platform.clockTitle')}</span>
-        <Reveal>
-          <AwardTimeline track={track} />
-        </Reveal>
-        <span className={s.sub}>{t('platform.coverageTitle')}</span>
-        <Coverage home={home} />
-      </Section>
-
-      <Section n={next()} title={t('platform.departureTitle')}>
-        <Reveal>
-          <DepartureChain track={track} />
-        </Reveal>
-      </Section>
-
-      <Section n={next()} title={t('platform.workbackTitle')} text={t('platform.workbackText')}>
-        <Reveal>
-          <WorkbackTable track={track} />
-        </Reveal>
-      </Section>
-
-      {videos.length > 0 && (
-        <Section n={next()} title={t('video.aboutTitle')} text={t('video.aboutBody')}>
-          <VideoList items={videos} />
-        </Section>
-      )}
 
       <Card dark className={s.cta}>
         <div>
@@ -175,6 +102,59 @@ export function PlatformHome() {
           <ArrowRight size={16} aria-hidden="true" />
         </ButtonLink>
       </Card>
+
+      {/* Everything else, folded: there when wanted, not in the way of a first read. */}
+      <section className={s.details} aria-labelledby="details">
+        <h2 id="details" className={s.detailsTitle}>
+          {t('platform.detailsTitle')}
+        </h2>
+        <p className={s.detailsText}>{t('platform.detailsText')}</p>
+        <div className={s.detailsList}>
+          <More title={t('platform.requirementsTitle')} hint={t(`platform.requirementsText_${slug}`)}>
+            <Requirements track={track} />
+          </More>
+          {track === 'master' && (
+            <More title={t('platform.lanesTitle')} hint={t('platform.lanesHint')}>
+              <PathLanes />
+            </More>
+          )}
+          <More title={t('platform.listsTitle')} hint={t(`platform.listsText_${slug}`)}>
+            <div className={s.lists}>
+              {LEVEL[track] && (
+                <div>
+                  <span className={s.sub}>{t('lists.specialtyTitle')}</span>
+                  <SpecialtySearch level={LEVEL[track]} />
+                </div>
+              )}
+              {LEVEL[track] && (
+                <div>
+                  <span className={s.sub}>{t('lists.universityTitle')}</span>
+                  <UniversitySearch />
+                </div>
+              )}
+              {track === 'internship' && <InternshipSpecialtySearch />}
+              {track === 'science_internship' && <ScienceSearch />}
+            </div>
+          </More>
+          <More title={t('platform.contestTitle')} hint={t('platform.contestText')}>
+            <ContestFlow track={track} />
+          </More>
+          <More title={t('platform.clockTitle')} hint={t('platform.clockHint')}>
+            <AwardTimeline track={track} />
+          </More>
+          <More title={t('platform.departureTitle')} hint={t('platform.departureHint')}>
+            <DepartureChain track={track} />
+          </More>
+          <More title={t('platform.workbackTitle')} hint={t('platform.workbackText')}>
+            <WorkbackTable track={track} />
+          </More>
+          {videos.length > 0 && (
+            <More title={t('video.aboutTitle')} hint={t('video.aboutBody')}>
+              <VideoList items={videos} />
+            </More>
+          )}
+        </div>
+      </section>
 
       <p className={s.footnote}>
         {t('common.verifiedOn')}: {CONTENT_META.lastVerified}. {c(CONTENT_META.disclaimer)}
