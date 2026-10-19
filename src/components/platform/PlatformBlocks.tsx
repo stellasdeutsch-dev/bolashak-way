@@ -2,17 +2,18 @@ import { useMemo, useState } from 'react'
 import { Link } from 'react-router'
 import { CATEGORIES, CATEGORIES_BY_TRACK, WORKER_GROUPS } from '@/content/categories'
 import { getPlatform, type PlatformMeta } from '@/content/platforms'
-import { CHAPTERS, STAGES } from '@/content/stages'
+import { STAGES } from '@/content/stages'
+import { chaptersFor } from '@/content/platforms/chapters'
 import type { Category, CategoryId, L, PlatformHome, PlatformSlug, Profile, SourceId, Track } from '@/content/types'
 import { evaluate } from '@/domain/applicability'
-import { resolveStage } from '@/domain/resolve'
+import { getStageFor, resolveStage } from '@/domain/resolve'
 import { platformPaths } from '@/domain/paths'
 import { useAppStore } from '@/store/useAppStore'
 import { useI18n } from '@/i18n'
 import { SourceLink } from '@/components/ui'
 import { StageIcon } from '@/components/StageIcon'
 import { useCountUp, useInView } from '@/components/Reveal'
-import { IconCheck as Check, IconArrowRight as ArrowRight, IconClose as Cross } from '@/components/icons'
+import { IconCheck as Check, IconArrowRight as ArrowRight, IconClose as Cross, IconChevronDown as ChevronDown } from '@/components/icons'
 import s from './Platform.module.css'
 
 /* ── the figures ── */
@@ -354,7 +355,7 @@ export function Journey({ platform }: { platform: PlatformMeta }) {
   const p = mine && profile ? profile : sample(platform.track, lanes.find((l) => l.id === lane)!.category)
   const byChapter = useMemo(
     () =>
-      CHAPTERS.map((ch) => ({
+      chaptersFor(platform.track).map((ch) => ({
         chapter: ch,
         stages: STAGES.filter((st) => st.chapter === ch.id && evaluate(st.appliesTo, p)).map((st) => resolveStage(st, platform.track)),
       })).filter((g) => g.stages.length > 0),
@@ -445,3 +446,96 @@ export function Coverage({ home }: { home: PlatformHome }) {
 }
 
 export type { PlatformSlug }
+
+/* ── the short version: five chapters at a glance ── */
+
+/**
+ * For someone who has never heard of the programme: the whole path as five chapters, one
+ * line each. The seventeen stages are one tap away, not on the page by default.
+ */
+export function PathOverview({ platform }: { platform: PlatformMeta }) {
+  const { t, c } = useI18n()
+  const [open, setOpen] = useState(false)
+  const [ref, seen] = useInView<HTMLOListElement>()
+  const profile = useAppStore((st) => st.profile)
+  const p = profile?.track === platform.track ? profile : sample(platform.track, CATEGORIES_BY_TRACK[platform.track][0])
+  const stages = STAGES.filter((st) => evaluate(st.appliesTo, p))
+  const chapters = chaptersFor(platform.track)
+    .map((ch) => ({ ch, n: stages.filter((st) => st.chapter === ch.id).length }))
+    .filter((x) => x.n > 0)
+
+  return (
+    <div className={s.overview}>
+      <ol className={s.five} ref={ref}>
+        {chapters.map(({ ch }, i) => (
+          <li key={ch.id} className={[s.fiveItem, seen ? s.fiveItemOn : ''].join(' ')} style={{ transitionDelay: `${i * 110}ms` }}>
+            <span className={s.fiveNum}>{i + 1}</span>
+            <span className={s.fiveBody}>
+              <b>{c(ch.title)}</b>
+              <span>{c(ch.subtitle)}</span>
+            </span>
+          </li>
+        ))}
+      </ol>
+      <button className={s.moreBtn} aria-expanded={open} onClick={() => setOpen((v) => !v)}>
+        {t(open ? 'platform.hideStages' : 'platform.showStages', { n: stages.length })}
+        <ChevronDown size={15} aria-hidden="true" className={open ? s.chevOpen : ''} />
+      </button>
+      {open && <Journey platform={platform} />}
+    </div>
+  )
+}
+
+/* ── what you get and what you owe ── */
+
+export function Deal({ home, track }: { home: PlatformHome; track: Track }) {
+  const { t, c } = useI18n()
+  const contract = getStageFor('contract', track)!
+  const workback = getStageFor('workback', track)!
+  return (
+    <div className={s.deal}>
+      <div className={s.dealCol}>
+        <span className={s.dealTitle}>{t('platform.youGet')}</span>
+        <Coverage home={home} />
+      </div>
+      <div className={[s.dealCol, s.dealOwe].join(' ')}>
+        <span className={s.dealTitle}>{t('platform.youOwe')}</span>
+        <ul className={s.oweList}>
+          <li>
+            <StageIcon name={contract.icon} size={18} />
+            <span>
+              <b>{c(contract.title)}</b>
+              {c(contract.summary)}
+            </span>
+          </li>
+          <li>
+            <StageIcon name={workback.icon} size={18} />
+            <span>
+              <b>{c(workback.title)}</b>
+              {c(workback.summary)}
+            </span>
+          </li>
+        </ul>
+      </div>
+    </div>
+  )
+}
+
+/* ── the details, folded ── */
+
+/** One folded topic. Its content mounts only when opened, so the page stays light. */
+export function More({ title, hint, children }: { title: string; hint?: string; children: React.ReactNode }) {
+  const [open, setOpen] = useState(false)
+  return (
+    <div className={[s.more, open ? s.moreOpen : ''].join(' ')}>
+      <button className={s.moreHead} aria-expanded={open} onClick={() => setOpen((v) => !v)}>
+        <span className={s.moreText}>
+          <b>{title}</b>
+          {hint && <span>{hint}</span>}
+        </span>
+        <ChevronDown size={18} aria-hidden="true" className={open ? s.chevOpen : ''} />
+      </button>
+      {open && <div className={s.moreBody}>{children}</div>}
+    </div>
+  )
+}

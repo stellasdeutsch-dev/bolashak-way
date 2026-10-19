@@ -6,6 +6,7 @@ import { StepBar } from '@/components/Meter'
 import { Link, useNavigate } from 'react-router'
 import { IconArrowDown as ArrowDown, IconCheck as Check, IconChevronRight as ChevronRight, IconLock as Lock, IconSparkles as Sparkles } from '@/components/icons'
 import { CHAPTERS } from '@/content/stages'
+import { chaptersFor } from '@/content/platforms/chapters'
 import { CATEGORIES } from '@/content/categories'
 import { CONTENT_META } from '@/content/meta'
 import type { ChapterId } from '@/content/types'
@@ -160,7 +161,7 @@ export function Roadmap() {
   const category = CATEGORIES[profile.category]
   const current = progress.current
 
-  const byChapter = CHAPTERS.map((ch) => ({
+  const byChapter = chaptersFor(profile.track).map((ch) => ({
     chapter: ch,
     items: progress.stages.filter((s2) => s2.stage.chapter === (ch.id as ChapterId)),
   })).filter((g) => g.items.length > 0)

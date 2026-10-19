@@ -140,3 +140,28 @@
   color: var(--text-3);
   padding: 0 4px;
 }
+
+.details {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 8px;
+}
+.detailsTitle {
+  font-size: clamp(19px, 2.4vw, 22px);
+  font-weight: 750;
+  letter-spacing: -0.02em;
+  padding: 0 4px;
+}
+.detailsText {
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--text-2);
+  padding: 0 4px;
+  margin-bottom: 4px;
+}
+.detailsList {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}

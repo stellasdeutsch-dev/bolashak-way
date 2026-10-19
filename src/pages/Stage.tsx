@@ -3,7 +3,7 @@ import { useMyPaths } from '@/components/platform/usePlatform'
 import { dateLabelKey, platformPaths } from '@/domain/paths'
 import { Link, useNavigate, useParams } from 'react-router'
 import { IconArrowLeft as ArrowLeft, IconArrowRight as ArrowRight, IconCheck as Check, IconChevronDown as ChevronDown, IconAlertCircle as CircleAlert, IconExternal as ExternalLink, IconLock as Lock, IconSparkles as Sparkles, IconAlertTriangle as TriangleAlert } from '@/components/icons'
-import { CHAPTERS } from '@/content/stages'
+import { chaptersFor } from '@/content/platforms/chapters'
 import { getStageFor } from '@/domain/resolve'
 import { DOCUMENTS, docForTrack } from '@/content/documents'
 import { faqForStage } from '@/content/faq'
@@ -497,7 +497,8 @@ export function StagePage() {
   }
 
   const sp = progress.byId.get(stage.id)!
-  const chapter = CHAPTERS.find((ch) => ch.id === stage.chapter)!
+  const chapters = chaptersFor(profile.track)
+  const chapter = chapters.find((ch) => ch.id === stage.chapter)!
   const locked = sp.status === 'locked'
   const stageDocs = DOCUMENTS.filter((d) => d.stage === stage.id && evaluate(d.appliesTo, profile)).map((d) => docForTrack(d, profile.track))
   const faq = faqForStage(stage.id, profile.track)
@@ -507,7 +508,7 @@ export function StagePage() {
   const order = progress.stages
   const prev = order[sp.index - 1]
   const next = order[sp.index + 1]
-  const lockedChapter = locked ? CHAPTERS[CHAPTERS.findIndex((ch) => ch.id === stage.chapter) - 1] : null
+  const lockedChapter = locked ? chapters[chapters.findIndex((ch) => ch.id === stage.chapter) - 1] : null
 
   const title = cf(stage.title)
   const why = cf(stage.why)
