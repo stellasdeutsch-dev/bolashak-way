@@ -55,6 +55,7 @@
   top: 0;
   bottom: 0;
   border-radius: 5px;
+  background: var(--success);
   background: linear-gradient(90deg, color-mix(in srgb, var(--success) 45%, transparent), var(--success));
   transform: scaleX(0);
   transform-origin: left center;
@@ -165,11 +166,13 @@
   display: block;
   height: 100%;
   border-radius: 4px;
+  background: var(--warn);
   background: linear-gradient(90deg, var(--warn), color-mix(in srgb, var(--warn) 70%, var(--accent)));
   width: 0;
   transition: width 700ms var(--ease-out);
 }
 .meterFillOk {
+  background: var(--success);
   background: linear-gradient(90deg, color-mix(in srgb, var(--success) 60%, transparent), var(--success));
 }
 

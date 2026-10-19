@@ -12,7 +12,7 @@
     "import:faq": "node scripts/import-faq.mjs",
     "i18n:coverage": "tsx scripts/i18n-coverage.mjs",
     "check:forms": "node scripts/check-forms.mjs",
-    "import:lists": "node scripts/import-lists.mjs"
+    "import:lists": "node scripts/import-lists.mjs && node scripts/import-platform-lists.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.115.0",

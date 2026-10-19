@@ -94,6 +94,7 @@
   opacity: 0.6;
 }
 .isPast {
+  background: var(--surface-2);
   background: color-mix(in srgb, var(--surface-2) 55%, transparent);
 }
 .isDrop {

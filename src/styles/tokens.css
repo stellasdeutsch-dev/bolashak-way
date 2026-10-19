@@ -22,11 +22,15 @@
   --line: rgba(17, 24, 39, 0.08);
   --line-strong: rgba(17, 24, 39, 0.16);
 
+  /* The accent is the platform's colour: master's blue by default, overridden per
+     platform below. Everything tinted is derived from the two rgb triplets. */
   --accent: #2f7bff;
   --accent-2: #5aa9ff;
   --accent-deep: #1f5fd6;
-  --accent-tint: rgba(47, 123, 255, 0.1);
-  --accent-tint-2: rgba(47, 123, 255, 0.18);
+  --accent-rgb: 47, 123, 255;
+  --accent-2-rgb: 90, 169, 255;
+  --accent-tint: rgba(var(--accent-rgb), 0.1);
+  --accent-tint-2: rgba(var(--accent-rgb), 0.18);
   --steel: #6c8ead;
   --steel-tint: rgba(108, 142, 173, 0.16);
   --success: #1db56a;
@@ -42,16 +46,17 @@
   --gloss: inset 0 1px 0 rgba(255, 255, 255, 0.38);
   --gloss-soft: inset 0 1px 0 rgba(255, 255, 255, 0.22);
   /* Light that keeps large navy blocks from looking flat. */
-  --navy-sheen: radial-gradient(120% 90% at 12% -10%, rgba(90, 169, 255, 0.22) 0%, rgba(90, 169, 255, 0) 55%);
+  --navy-sheen: radial-gradient(120% 90% at 12% -10%, rgba(var(--accent-2-rgb), 0.22) 0%, rgba(var(--accent-2-rgb), 0) 55%);
   /* Faint dot grid so large navy panels have texture instead of reading as flat ink. */
   --navy-grid: radial-gradient(rgba(255, 255, 255, 0.055) 1px, transparent 1px);
   --navy-grid-size: 22px 22px;
   --card-hairline: 1px solid rgba(17, 24, 39, 0.05);
   --shadow-card-lift: 0 2px 4px rgba(11, 18, 32, 0.05), 0 28px 60px rgba(11, 18, 32, 0.12);
   --shadow-navy: 0 20px 60px rgba(11, 18, 32, 0.3);
-  --glow: 0 12px 32px rgba(47, 123, 255, 0.42);
-  --glow-strong: 0 16px 44px rgba(47, 123, 255, 0.55);
-  --focus: 0 0 0 4px rgba(47, 123, 255, 0.32);
+  --glow: 0 12px 32px rgba(var(--accent-rgb), 0.42);
+  --glow-strong: 0 16px 44px rgba(var(--accent-rgb), 0.55);
+  --focus: 0 0 0 4px rgba(var(--accent-rgb), 0.32);
+  --accent-shadow: rgba(var(--accent-rgb), 0.35);
 
   --r-xl: 32px;
   --r-lg: 24px;
@@ -85,8 +90,10 @@
   --line-strong: rgba(255, 255, 255, 0.18);
   --accent: #3b8dff;
   --accent-2: #6fb4ff;
-  --accent-tint: rgba(59, 141, 255, 0.16);
-  --accent-tint-2: rgba(59, 141, 255, 0.26);
+  --accent-rgb: 59, 141, 255;
+  --accent-2-rgb: 111, 180, 255;
+  --accent-tint: rgba(var(--accent-rgb), 0.16);
+  --accent-tint-2: rgba(var(--accent-rgb), 0.26);
   --steel: #7f9fbd;
   --steel-tint: rgba(127, 159, 189, 0.2);
   --success-tint: rgba(29, 181, 106, 0.18);
@@ -94,9 +101,82 @@
   --danger-tint: rgba(229, 72, 77, 0.16);
   --locked: #3a4660;
   --card-hairline: 1px solid rgba(255, 255, 255, 0.06);
-  --navy-sheen: radial-gradient(120% 90% at 12% -10%, rgba(111, 180, 255, 0.16) 0%, rgba(111, 180, 255, 0) 55%);
+  --navy-sheen: radial-gradient(120% 90% at 12% -10%, rgba(var(--accent-2-rgb), 0.16) 0%, rgba(var(--accent-2-rgb), 0) 55%);
   --navy-grid: radial-gradient(rgba(255, 255, 255, 0.045) 1px, transparent 1px);
   --shadow-card: 0 1px 2px rgba(0, 0, 0, 0.3), 0 16px 40px rgba(0, 0, 0, 0.35);
   --shadow-card-lift: 0 2px 4px rgba(0, 0, 0, 0.35), 0 28px 60px rgba(0, 0, 0, 0.5);
-  --glow: 0 12px 32px rgba(59, 141, 255, 0.4);
+  --glow: 0 12px 32px rgba(var(--accent-rgb), 0.4);
+}
+
+/* ── platform colours ──
+   Set on <html data-platform="…"> while a platform is open. Same lightness family as the
+   default blue, so white text on an accent button stays readable on every one. */
+:root[data-platform='bachelor'] {
+  --accent: #e2600f;
+  --accent-2: #ff9147;
+  --accent-deep: #b84a06;
+  --accent-rgb: 226, 96, 15;
+  --accent-2-rgb: 255, 145, 71;
+}
+:root[data-platform='doctorate'] {
+  --accent: #7352ec;
+  --accent-2: #a38bff;
+  --accent-deep: #5634cf;
+  --accent-rgb: 115, 82, 236;
+  --accent-2-rgb: 163, 139, 255;
+}
+:root[data-platform='internship'] {
+  --accent: #0a9583;
+  --accent-2: #38c9b3;
+  --accent-deep: #06705f;
+  --accent-rgb: 10, 149, 131;
+  --accent-2-rgb: 56, 201, 179;
+}
+:root[data-platform='science'] {
+  --accent: #cf3674;
+  --accent-2: #f272a5;
+  --accent-deep: #a82258;
+  --accent-rgb: 207, 54, 116;
+  --accent-2-rgb: 242, 114, 165;
+}
+:root[data-theme='dark'][data-platform='bachelor'] {
+  --accent: #ff7b2e;
+  --accent-rgb: 255, 123, 46;
+}
+:root[data-theme='dark'][data-platform='doctorate'] {
+  --accent: #8f73ff;
+  --accent-rgb: 143, 115, 255;
+}
+:root[data-theme='dark'][data-platform='internship'] {
+  --accent: #19b8a0;
+  --accent-rgb: 25, 184, 160;
+}
+:root[data-theme='dark'][data-platform='science'] {
+  --accent: #ec5a93;
+  --accent-rgb: 236, 90, 147;
+}
+
+/* Each platform's own colour, for places that show all five side by side (the chooser,
+   the switcher, the comparison table): set data-p="…" on the element and use --p. */
+[data-p='bachelor'] { --p: #e2600f; --p-rgb: 226, 96, 15; }
+[data-p='master'] { --p: #2f7bff; --p-rgb: 47, 123, 255; }
+[data-p='doctorate'] { --p: #7352ec; --p-rgb: 115, 82, 236; }
+[data-p='internship'] { --p: #0a9583; --p-rgb: 10, 149, 131; }
+[data-p='science'] { --p: #cf3674; --p-rgb: 207, 54, 116; }
+:root[data-theme='dark'] [data-p='bachelor'] { --p: #ff7b2e; --p-rgb: 255, 123, 46; }
+:root[data-theme='dark'] [data-p='master'] { --p: #3b8dff; --p-rgb: 59, 141, 255; }
+:root[data-theme='dark'] [data-p='doctorate'] { --p: #8f73ff; --p-rgb: 143, 115, 255; }
+:root[data-theme='dark'] [data-p='internship'] { --p: #19b8a0; --p-rgb: 25, 184, 160; }
+:root[data-theme='dark'] [data-p='science'] { --p: #ec5a93; --p-rgb: 236, 90, 147; }
+
+/* Big screens (iMac, external monitors): let the layout breathe instead of a narrow strip. */
+@media (min-width: 1600px) {
+  :root {
+    --content-max: 1280px;
+  }
+}
+@media (min-width: 2200px) {
+  :root {
+    --content-max: 1440px;
+  }
 }

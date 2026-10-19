@@ -1,8 +1,9 @@
 import { useMemo, useState } from 'react'
+import { dateLabelKey, pathsForTrack } from '@/domain/paths'
 import { Link } from 'react-router'
 import { DEADLINE_RULES } from '@/content/deadlines'
 import { getSource } from '@/content/sources'
-import { getStage } from '@/content/stages'
+import { getStageFor } from '@/domain/resolve'
 import type { DateKey } from '@/content/types'
 import { computeDeadlines, type ComputedDeadline } from '@/domain/deadlines'
 import { evaluate } from '@/domain/applicability'
@@ -11,7 +12,7 @@ import { atNoon, isoOf, monthMatrix } from '@/domain/calendar'
 import { useAppStore } from '@/store/useAppStore'
 import { useI18n } from '@/i18n'
 import { usePageChrome } from '@/i18n/usePageChrome'
-import { Button, Callout, Card, Pill, SourceLink } from '@/components/ui'
+import { Button, Callout, Card, Pill, SourceLink, ButtonLink } from '@/components/ui'
 import {
   IconArrowLeft as ArrowLeft, IconArrowRight as ArrowRight, IconCalendar as CalendarIcon,
   IconClose as Close, IconDownload as Download, IconLock as Lock,
@@ -82,7 +83,7 @@ export function Calendar() {
     const list: CalEvent[] = []
     for (const key of usedAnchors) {
       const iso = dates[key]
-      if (iso) list.push({ kind: 'anchor', id: `anchor-${key}`, key, iso, title: t(`deadlines.${key}`) })
+      if (iso) list.push({ kind: 'anchor', id: `anchor-${key}`, key, iso, title: t(dateLabelKey(key, profile!.track)) })
     }
     for (const d of deadlines) {
       list.push({
@@ -136,7 +137,7 @@ export function Calendar() {
         date: d.due,
         summary: c(d.rule.label),
         description: [
-          c(getStage(d.rule.stage)?.title),
+          c(getStageFor(d.rule.stage, profile!.track)?.title),
           `${getSource(d.rule.source).org}: ${getSource(d.rule.source).url}`,
         ].join('\n'),
         // Nothing already overdue should wake anybody up a week before it happened.
@@ -164,9 +165,7 @@ export function Calendar() {
           <CalendarIcon size={26} />
           <h1 className={s.emptyTitle}>{t('calendar.noProfileTitle')}</h1>
           <p className={s.emptyText}>{t('calendar.noProfileText')}</p>
-          <Link to="/onboarding">
-            <Button>{t('about.ctaButton')}</Button>
-          </Link>
+          <ButtonLink to="/">{t('platform.allProgrammes')}</ButtonLink>
         </Card>
       </div>
     )
@@ -327,11 +326,11 @@ export function Calendar() {
                     {t('calendar.officialTerm')}
                   </span>
                   <p className={s.dayItemNote}>
-                    {t('calendar.countedFrom', { anchor: t(`deadlines.${e.d.rule.anchor}`) })}
+                    {t('calendar.countedFrom', { anchor: t(dateLabelKey(e.d.rule.anchor, profile!.track)) })}
                   </p>
                   <div className={s.dayItemLinks}>
-                    <Link className={s.stageLink} to={`/stage/${e.d.rule.stage}`}>
-                      {c(getStage(e.d.rule.stage)?.title)}
+                    <Link className={s.stageLink} to={pathsForTrack(profile!.track).stage(e.d.rule.stage)}>
+                      {c(getStageFor(e.d.rule.stage, profile!.track)?.title)}
                     </Link>
                     <SourceLink id={e.d.rule.source} />
                   </div>
@@ -373,7 +372,7 @@ export function Calendar() {
           <div className={s.missing}>
             {missingAnchors.map((key) => (
               <label key={key} className={s.missingRow}>
-                <span>{t(`deadlines.${key}`)}</span>
+                <span>{t(dateLabelKey(key, profile!.track))}</span>
                 <input
                   type="date"
                   value=""

@@ -17,8 +17,9 @@ import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 
 const SPECIALTIES_PDF =
-  'https://bolashak.gov.kz/storage/app/media/pretendentu--specialnosti/2026/20-08/1.1.%20%D0%A1%D0%BF%D0%B8%D1%81%D0%BE%D0%BA%20%D0%9F%D0%9F%D0%A1%20%D1%80%D1%83%D1%81.pdf'
-const UNIVERSITIES_PDF = 'https://bolashak.gov.kz/storage/app/media/pretendentu--vuzy/vuzy_bolashak_2026_rus.pdf'
+  'https://bolashak.gov.kz/storage/app/media/pretendentu--specialnosti/2026/16-10/1.1.%20%D0%A1%D0%BF%D0%B8%D1%81%D0%BE%D0%BA%20%D0%9F%D0%9F%D0%A1%20%D1%80%D1%83%D1%81.pdf'
+const UNIVERSITIES_PDF =
+  'https://bolashak.gov.kz/storage/app/media/pretendentu--vuzy/09-10-2026/%D0%A1%D0%BF%D0%B8%D1%81%D0%BE%D0%BA%20%D0%92%D1%83%D0%B7%20%D0%91%D0%BE%D0%BB%D0%B0%D1%88%D0%B0%D0%BA%20%D1%80%D1%83%D1%81.pdf'
 
 const work = mkdtempSync(join(tmpdir(), 'bolashak-lists-'))
 const collapse = (s) => s.replace(/\s+/g, ' ').trim()
@@ -189,7 +190,15 @@ function repairUniversities(rows) {
   for (const r of rows) if (r.country) counts.set(r.country, (counts.get(r.country) ?? 0) + 1)
   // The country names the document uses; rarer values are fragments of these, left
   // behind when a wrapped line got split between the name and the country column.
-  const canon = [...counts.entries()].filter(([, n]) => n >= 3).map(([c]) => c).sort((a, b) => b.length - a.length)
+  // A fragment can repeat often enough to look canonical ("Соединенное Великобритании и
+  // Северной Ирландии" six times), so a value whose words all sit inside a more common one
+  // is a fragment of it, however often it occurs.
+  const frequent = [...counts.entries()].filter(([, n]) => n >= 3)
+  const inside = (a, b) => a !== b && a.split(' ').every((w) => b.split(' ').includes(w))
+  const canon = frequent
+    .filter(([c, n]) => !frequent.some(([d, m]) => m > n && inside(c, d)))
+    .map(([c]) => c)
+    .sort((a, b) => b.length - a.length)
 
   const byWord = new Map()
   for (const r of rows) for (const w of r.country.split(' ')) {
@@ -230,6 +239,18 @@ function repairUniversities(rows) {
       }
     }
     r.name = collapse(r.name)
+
+    // The English name sits in the trailing brackets, so a Cyrillic word inside them can only
+    // have wrapped in from the country column ("University Северной of London"). Take it out,
+    // and finish the country it was torn from.
+    r.name = r.name.replace(/\(([^()]*)\)\s*$/, (whole, inner) => {
+      const kept = inner.split(' ').filter((w) => !/^[\p{Script=Cyrillic}]+$/u.test(w))
+      return kept.length === inner.split(' ').length ? whole : `(${collapse(kept.join(' '))})`
+    })
+    if (!canon.includes(r.country)) {
+      const whole = canon.find((c) => c.startsWith(r.country) || c.split(' ').length > 2 && r.country.split(' ').every((w) => c.split(' ').includes(w)))
+      if (whole) r.country = whole
+    }
   }
   return rows
 }

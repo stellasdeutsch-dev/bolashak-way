@@ -3,6 +3,7 @@ import type { Locale, Profile, StageId } from '@/content/types'
 import { pick } from '@/i18n'
 import { applicableItems, applicableStages } from './progress'
 import { documentsFor } from './documents'
+import { pathsForTrack } from './paths'
 
 export type ResultKind = 'stage' | 'checklist' | 'mistake' | 'document' | 'faq'
 
@@ -36,6 +37,7 @@ export function searchAll(query: string, profile: Profile, locale: Locale, limit
   if (q.length < MIN_QUERY) return []
 
   const results: SearchResult[] = []
+  const paths = pathsForTrack(profile.track)
   const stages = applicableStages(profile)
   const stageIds = new Set<StageId>(stages.map((s) => s.id))
 
@@ -50,7 +52,7 @@ export function searchAll(query: string, profile: Profile, locale: Locale, limit
         id: `stage:${stage.id}`,
         kind: 'stage',
         stageId: stage.id,
-        href: `/stage/${stage.id}`,
+        href: paths.stage(stage.id),
         title,
         snippet: snippetAround(norm(summary).includes(q) ? summary : why, q),
         score: inTitle ? 100 : 60,
@@ -60,14 +62,14 @@ export function searchAll(query: string, profile: Profile, locale: Locale, limit
     for (const item of applicableItems(stage, profile)) {
       const text = pick(item.text, locale).text
       if (norm(text).includes(q)) {
-        results.push({ id: `check:${stage.id}:${item.id}`, kind: 'checklist', stageId: stage.id, href: `/stage/${stage.id}`, title, snippet: snippetAround(text, q), score: 50 })
+        results.push({ id: `check:${stage.id}:${item.id}`, kind: 'checklist', stageId: stage.id, href: paths.stage(stage.id), title, snippet: snippetAround(text, q), score: 50 })
       }
     }
 
     for (const [i, m] of stage.mistakes.entries()) {
       const text = pick(m, locale).text
       if (norm(text).includes(q)) {
-        results.push({ id: `mistake:${stage.id}:${i}`, kind: 'mistake', stageId: stage.id, href: `/stage/${stage.id}`, title, snippet: snippetAround(text, q), score: 40 })
+        results.push({ id: `mistake:${stage.id}:${i}`, kind: 'mistake', stageId: stage.id, href: paths.stage(stage.id), title, snippet: snippetAround(text, q), score: 40 })
       }
     }
   }
@@ -78,18 +80,18 @@ export function searchAll(query: string, profile: Profile, locale: Locale, limit
       const note = doc.note ? pick(doc.note, locale).text : ''
       const inTitle = norm(title).includes(q)
       if (inTitle || (note && norm(note).includes(q))) {
-        results.push({ id: `doc:${doc.id}`, kind: 'document', stageId: doc.stage, href: '/documents', title, snippet: snippetAround(note || title, q), score: inTitle ? 70 : 45 })
+        results.push({ id: `doc:${doc.id}`, kind: 'document', stageId: doc.stage, href: paths.documents, title, snippet: snippetAround(note || title, q), score: inTitle ? 70 : 45 })
       }
     }
   }
 
   for (const f of FAQ) {
-    if (!stageIds.has(f.stage)) continue
+    if (!stageIds.has(f.stage) || (f.tracks && !f.tracks.includes(profile.track))) continue
     const q1 = pick(f.q, locale).text
     const a1 = pick(f.a, locale).text
     const inQ = norm(q1).includes(q)
     if (inQ || norm(a1).includes(q)) {
-      results.push({ id: `faq:${f.id}`, kind: 'faq', stageId: f.stage, href: `/stage/${f.stage}`, title: q1, snippet: snippetAround(a1, q), score: inQ ? 65 : 35 })
+      results.push({ id: `faq:${f.id}`, kind: 'faq', stageId: f.stage, href: paths.stage(f.stage), title: q1, snippet: snippetAround(a1, q), score: inQ ? 65 : 35 })
     }
   }
 

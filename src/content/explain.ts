@@ -1,4 +1,4 @@
-import type { ChapterId, L, Rule, SourceId, StageId } from './types'
+import type { ChapterId, L, Rule, SourceId, StageId, Track } from './types'
 
 /**
  * Content for the explanatory visuals: a table, a two-lane path diagram and a timeline.
@@ -14,42 +14,87 @@ export interface ExplainTable {
   sources: SourceId[]
 }
 
-/** Who owes how much, side by side. Prose made this list hard to compare. */
-export const WORKBACK_TABLE: ExplainTable = {
-  head: [
-    { ru: 'Кто и как учился', kk: 'Кім және қалай оқыды', en: 'Who studied, and how' },
-    { ru: 'Сколько', kk: 'Қанша', en: 'How long' },
-    { ru: 'Где', kk: 'Қайда', en: 'Where' },
-  ],
-  accentColumn: 1,
-  rows: [
-    [
-      { ru: 'Учились на степень', kk: 'Дәрежеге оқыдыңыз', en: 'You studied for a degree' },
+/** One row of the work-back table, with the programmes it is true for. */
+export interface WorkbackRow {
+  cells: [L, L, L]
+  tracks: Track[]
+}
+
+const ACADEMIC: Track[] = ['bachelor', 'master', 'phd_residency']
+
+/** Who owes how much, side by side. Each platform shows only its own rows. */
+export const WORKBACK_HEAD: L[] = [
+  { ru: 'Кто', kk: 'Кім', en: 'Who' },
+  { ru: 'Сколько', kk: 'Қанша', en: 'How long' },
+  { ru: 'Где', kk: 'Қайда', en: 'Where' },
+]
+
+export const WORKBACK_ROWS: WorkbackRow[] = [
+  {
+    tracks: ACADEMIC,
+    cells: [
+      { ru: 'Работаете в столице или городе республиканского значения', kk: 'Астанада не республикалық маңызы бар қалада жұмыс істейсіз', en: 'You work in the capital or a city of national status' },
       { ru: '5 лет', kk: '5 жыл', en: '5 years' },
       { ru: 'Астана, Алматы или Шымкент', kk: 'Астана, Алматы не Шымкент', en: 'Astana, Almaty or Shymkent' },
     ],
-    [
-      { ru: 'Учились на степень', kk: 'Дәрежеге оқыдыңыз', en: 'You studied for a degree' },
+  },
+  {
+    tracks: ACADEMIC,
+    cells: [
+      { ru: 'Работаете в регионе', kk: 'Өңірде жұмыс істейсіз', en: 'You work in the regions' },
       { ru: '3 года', kk: '3 жыл', en: '3 years' },
-      { ru: 'Любой регион, кроме этих трёх городов', kk: 'Осы үш қаладан басқа кез келген өңір', en: 'Any region outside those three cities' },
+      { ru: 'Областные центры, города и районы областей', kk: 'Облыс орталықтары, облыстың қалалары мен аудандары', en: 'Regional centres, towns and districts' },
     ],
-    [
+  },
+  {
+    tracks: ['master'],
+    cells: [
       { ru: 'Госслужащий', kk: 'Мемлекеттік қызметші', en: 'Civil servant' },
       { ru: '3 года', kk: '3 жыл', en: '3 years' },
       { ru: 'Госслужба; первый год — в органе, который вас направил', kk: 'Мемлекеттік қызмет; бірінші жыл — жіберген органда', en: 'Public service; the first year at the body that sent you' },
     ],
-    [
-      { ru: 'Стажировка или научная стажировка', kk: 'Тағылымдама не ғылыми тағылымдама', en: 'Internship or scientific internship' },
+  },
+  {
+    tracks: ['master', 'phd_residency'],
+    cells: [
+      { ru: 'Работник атомной отрасли', kk: 'Атом саласының қызметкері', en: 'Nuclear-industry worker' },
       { ru: '3 года', kk: '3 жыл', en: '3 years' },
-      { ru: 'У своего работодателя', kk: 'Өз жұмыс берушіңізде', en: 'With your own employer' },
+      { ru: 'У работодателя, в его филиале или по его направлению', kk: 'Жұмыс берушіде, оның филиалында не оның жолдамасымен', en: 'With the employer, at its branch, or where it sends you' },
     ],
-    [
-      { ru: 'Всё обучение было бесплатным, успеваемость по договору выдержана', kk: 'Бүкіл оқу тегін болды, шарттағы үлгерім сақталды', en: 'The whole programme was free and you kept the required grades' },
+  },
+  {
+    tracks: ['internship'],
+    cells: [
+      { ru: 'Стажёр', kk: 'Тағылымдамашы', en: 'Intern' },
+      { ru: '3 года', kk: '3 жыл', en: '3 years' },
+      { ru: 'В организации, которая направила; в другой — с согласия работодателя', kk: 'Жіберген ұйымда; басқасында — жұмыс беруші келісімімен', en: 'At the organisation that sent you; elsewhere with its consent' },
+    ],
+  },
+  {
+    tracks: ['science_internship'],
+    cells: [
+      { ru: 'Учёный после научной стажировки', kk: 'Ғылыми тағылымдамадан кейінгі ғалым', en: 'Researcher after the internship' },
+      { ru: '3 года подряд', kk: 'Қатарынан 3 жыл', en: '3 years in a row' },
+      { ru: 'У работодателя, который направил; сменить — только при его ликвидации или реорганизации', kk: 'Жіберген жұмыс берушіде; ауыстыру — тек ол таратылса не қайта ұйымдастырылса', en: 'With the employer who sent you; a change only on its liquidation or reorganisation' },
+    ],
+  },
+  {
+    tracks: ACADEMIC,
+    cells: [
+      { ru: 'Всё обучение было бесплатным, успеваемость по договору выдержана', kk: 'Бүкіл оқу тегін болды, шарттағы үлгерім сақталды', en: 'The whole programme was free and the contractual grades were kept' },
       { ru: '−1 год', kk: '−1 жыл', en: '−1 year' },
       { ru: 'Снимают год от срока выше', kk: 'Жоғарыдағы мерзімнен бір жыл алынады', en: 'One year comes off the term above' },
     ],
-  ],
-  sources: ['pp573', 'pp791'],
+  },
+]
+
+export function workbackTable(track: Track): ExplainTable {
+  return {
+    head: WORKBACK_HEAD,
+    rows: WORKBACK_ROWS.filter((r) => r.tracks.includes(track)).map((r) => r.cells),
+    accentColumn: 1,
+    sources: track === 'science_internship' ? ['pp791', 'ns_alumni'] : ['pp573'],
+  }
 }
 
 /**
@@ -102,34 +147,23 @@ export interface TimelineMark {
   source: SourceId
 }
 
-export const AWARD_TIMELINE: { title: L; note: L; total: number; marks: TimelineMark[] } = {
-  title: { ru: 'Отсчёт после присуждения', kk: 'Тағайындалғаннан кейінгі санақ', en: 'The clock after the award' },
-  note: {
-    ru: 'Отсчёт идёт в календарных днях и начинается в день решения комиссии, а не в день, когда вы о нём узнали.',
-    kk: 'Санақ күнтізбелік күнмен жүреді және комиссия шешімі күні басталады, сіз білген күні емес.',
-    en: 'The count runs in calendar days from the day of the decision, not the day you found out about it.',
-  },
-  total: 90,
-  marks: [
-    {
-      day: 0,
-      tone: 'start',
-      label: { ru: 'Решение комиссии', kk: 'Комиссия шешімі', en: 'Commission decision' },
-      source: 'pp573',
+/** The clock after the award, per programme: 90 days under ПП 573, 60 under ПП 791. */
+export function awardTimeline(track: Track): { total: number; marks: TimelineMark[]; note: L } {
+  const science = track === 'science_internship'
+  return {
+    total: science ? 60 : 90,
+    note: {
+      ru: 'Отсчёт идёт в календарных днях и начинается в день решения комиссии, а не в день, когда вы о нём узнали.',
+      kk: 'Санақ күнтізбелік күнмен жүреді және сіз білген күннен емес, комиссия шешім қабылдаған күннен басталады.',
+      en: 'The count runs in calendar days from the day of the decision, not the day you found out about it.',
     },
-    {
-      day: 60,
-      tone: 'ns',
-      label: { ru: '60 дней — договор по научной стажировке', kk: '60 күн — ғылыми тағылымдама шарты', en: '60 days — scientific internship contract' },
-      source: 'pp791',
-    },
-    {
-      day: 90,
-      tone: 'main',
-      label: { ru: '90 дней — договор и залог или гарантия', kk: '90 күн — шарт және кепіл не кепілдік', en: '90 days — contract and pledge or guarantee' },
-      source: 'pp573',
-    },
-  ],
+    marks: [
+      { day: 0, tone: 'start', label: { ru: 'Решение комиссии', kk: 'Комиссия шешімі', en: 'Commission decision' }, source: science ? 'pp791' : 'pp573' },
+      science
+        ? { day: 60, tone: 'ns', label: { ru: '60 дней — договор и два гаранта', kk: '60 күн — шарт және екі кепілгер', en: '60 days — the contract and two guarantors' }, source: 'pp791' }
+        : { day: 90, tone: 'main', label: { ru: '90 дней — договор и залог или гарантия', kk: '90 күн — шарт және кепіл не кепілдік', en: '90 days — contract and pledge or guarantee' }, source: 'pp573' },
+    ],
+  }
 }
 
 /* ─────────────  the competition, as a flowchart  ───────────── */
@@ -401,21 +435,64 @@ export const CONTEST_FLOW: FlowStep[] = [
 
 /* ─────────────  the run-up to departure  ───────────── */
 
-/** Seven things in a fixed order — the order is the whole point, so it is drawn as a chain. */
-export const DEPARTURE_CHAIN: { steps: L[]; note: L; sources: SourceId[] } = {
-  steps: [
-    { ru: 'Куратор', kk: 'Куратор', en: 'Curator' },
-    { ru: 'Письмо о финансовой гарантии', kk: 'Қаржылық кепілдік хаты', en: 'Financial guarantee letter' },
-    { ru: 'Визовые документы от вуза', kk: 'ЖОО-дан виза құжаттары', en: 'Visa papers from the university' },
-    { ru: 'Банковская карта', kk: 'Банк картасы', en: 'Bank card' },
-    { ru: 'Виза', kk: 'Виза', en: 'Visa' },
-    { ru: 'Скан визы куратору', kk: 'Виза сканы кураторға', en: 'Visa scan to the curator' },
-    { ru: 'Авиабилет', kk: 'Авиабилет', en: 'Flight ticket' },
-  ],
-  note: {
-    ru: 'Порядок именно такой: каждый следующий шаг опирается на документ из предыдущего. Карту оформляют за месяц до отъезда.',
-    kk: 'Рет дәл осылай: әр келесі қадам алдыңғысының құжатына сүйенеді. Картаны кетерден бір ай бұрын рәсімдейді.',
-    en: 'The order matters: each step needs the document from the one before it. The card is arranged a month before departure.',
-  },
-  sources: ['stipendiat_master', 'stipendiat_internship', 'viza'],
+/** Steps in a fixed order — the order is the whole point, so it is drawn as a chain. */
+export interface DepartureChain {
+  steps: L[]
+  note: L
+  sources: SourceId[]
+}
+
+export function departureChain(track: Track): DepartureChain {
+  if (track === 'internship')
+    return {
+      steps: [
+        { ru: 'Договор', kk: 'Шарт', en: 'Contract' },
+        { ru: 'Куратор', kk: 'Куратор', en: 'Curator' },
+        { ru: 'Письмо о финансовой гарантии', kk: 'Қаржылық кепілдік хаты', en: 'Financial guarantee letter' },
+        { ru: 'Скан письма — в принимающую организацию', kk: 'Хат сканы — қабылдаушы ұйымға', en: 'Letter scan to the host' },
+        { ru: 'Банковская карта', kk: 'Банк картасы', en: 'Bank card' },
+        { ru: 'Консульский сбор и виза', kk: 'Консулдық алым және виза', en: 'Consular fee and visa' },
+        { ru: 'Скан визы куратору', kk: 'Виза сканы кураторға', en: 'Visa scan to the curator' },
+        { ru: 'Заявление на авиабилет', kk: 'Авиабилетке өтініш', en: 'Ticket request' },
+      ],
+      note: {
+        ru: 'Карту оформляют за месяц до отъезда, а данные карт-счёта отправляют в Управление финансового обеспечения.',
+        kk: 'Картаны кетуге бір ай қалғанда рәсімдеп, карт-шот деректерін қаржы қамтамасыз ету басқармасына жібереді.',
+        en: 'The card is opened a month before departure and its details go to the finance department.',
+      },
+      sources: ['stipendiat_internship', 'viza'],
+    }
+  if (track === 'science_internship')
+    return {
+      steps: [
+        { ru: 'Договор и два гаранта', kk: 'Шарт және екі кепілгер', en: 'Contract and two guarantors' },
+        { ru: 'Сведения по карт-счёту', kk: 'Карт-шот мәліметтері', en: 'Card-account details' },
+        { ru: 'Заявление на аванс', kk: 'Авансқа өтініш', en: 'Advance request' },
+        { ru: 'Виза', kk: 'Виза', en: 'Visa' },
+        { ru: 'Выезд на стажировку', kk: 'Тағылымдамаға шығу', en: 'Departure' },
+      ],
+      note: {
+        ru: 'Договор — основание для оплаты расходов: деньги перечисляют после того, как он заключён.',
+        kk: 'Шарт — шығысты төлеу негізі: ақша ол жасалғаннан кейін аударылады.',
+        en: 'The contract is the basis for paying costs: money is transferred once it is signed.',
+      },
+      sources: ['ns_finance', 'pp791'],
+    }
+  return {
+    steps: [
+      { ru: 'Куратор', kk: 'Куратор', en: 'Curator' },
+      { ru: 'Письмо о финансовой гарантии', kk: 'Қаржылық кепілдік хаты', en: 'Financial guarantee letter' },
+      { ru: 'Визовые документы от вуза', kk: 'ЖОО-дан виза құжаттары', en: 'Visa papers from the university' },
+      { ru: 'Банковская карта', kk: 'Банк картасы', en: 'Bank card' },
+      { ru: 'Виза', kk: 'Виза', en: 'Visa' },
+      { ru: 'Скан визы куратору', kk: 'Виза сканы кураторға', en: 'Visa scan to the curator' },
+      { ru: 'Авиабилет', kk: 'Авиабилет', en: 'Flight ticket' },
+    ],
+    note: {
+      ru: 'Порядок именно такой: каждый следующий шаг опирается на документ из предыдущего. Карту оформляют за месяц до отъезда.',
+      kk: 'Рет дәл осындай: әр келесі қадам алдыңғысының құжатына сүйенеді. Картаны кетуге бір ай қалғанда рәсімдейді.',
+      en: 'The order matters: each step needs the document from the one before it. The card is arranged a month before departure.',
+    },
+    sources: ['stipendiat_master', 'viza'],
+  }
 }

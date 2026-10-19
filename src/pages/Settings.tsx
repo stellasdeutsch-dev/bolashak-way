@@ -1,4 +1,5 @@
 import { useMemo, useRef, useState } from 'react'
+import { pathsForTrack } from '@/domain/paths'
 import { useNavigate } from 'react-router'
 import { IconDownload as Download, IconMail as Mail, IconPhone as Phone, IconReset as RotateCcw, IconTrash as Trash2, IconUpload as Upload, IconUserCog as UserCog } from '@/components/icons'
 import { CATEGORIES, WORKER_GROUPS } from '@/content/categories'
@@ -142,9 +143,12 @@ export function Settings() {
               </div>
             </div>
             <div className={s.row}>
-              <Button variant="ghost" onClick={() => navigate('/onboarding?edit=1')}>
+              <Button variant="ghost" onClick={() => navigate(`${pathsForTrack(state.profile!.track).start}?edit=1`)}>
                 <UserCog size={16} aria-hidden="true" />
                 {t('settings.editProfile')}
+              </Button>
+              <Button variant="quiet" onClick={() => navigate('/')}>
+                {t('settings.changeProgramme')}
               </Button>
             </div>
             <p className={s.hint}>{t('onboarding.editNote')}</p>
@@ -250,13 +254,13 @@ export function Settings() {
         onConfirm={() => {
           state.reset()
           setConfirmReset(false)
-          navigate('/onboarding', { replace: true })
+          navigate('/', { replace: true })
         }}
       />
       <div style={{ display: 'flex', justifyContent: 'center', paddingBottom: 8 }}>
-        <Button variant="quiet" size="sm" onClick={() => navigate('/')}>
+        <Button variant="quiet" size="sm" onClick={() => navigate(state.profile ? pathsForTrack(state.profile.track).roadmap : '/')}>
           <RotateCcw size={14} aria-hidden="true" />
-          {t('common.toRoadmap')}
+          {t(state.profile ? 'common.toRoadmap' : 'platform.allProgrammes')}
         </Button>
       </div>
     </div>

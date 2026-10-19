@@ -1,4 +1,6 @@
 import { useEffect, useMemo, type CSSProperties } from 'react'
+import { useMyPaths } from '@/components/platform/usePlatform'
+import { platformPaths } from '@/domain/paths'
 import { useHideOnScroll } from '@/components/useHideOnScroll'
 import { StepBar } from '@/components/Meter'
 import { Link, useNavigate } from 'react-router'
@@ -29,6 +31,7 @@ type Row =
  */
 function RoadmapTrack({ rows, currentId, continueLabel }: { rows: Row[]; currentId?: string; continueLabel: string }) {
   const { t, c } = useI18n()
+  const paths = useMyPaths() ?? platformPaths('master')
   const stageIds = rows.filter((r) => r.kind === 'stage').map((r) => r.id)
   const firstStageId = stageIds[0]
   const lastStageId = stageIds[stageIds.length - 1]
@@ -72,7 +75,7 @@ function RoadmapTrack({ rows, currentId, continueLabel }: { rows: Row[]; current
           <Link
             key={item.stage.id}
             id={`node-${item.stage.id}`}
-            to={`/stage/${item.stage.id}`}
+            to={paths.stage(item.stage.id)}
             className={[s.row, item.status === 'locked' ? s.rowLocked : '', isCurrent ? s.rowCurrent : ''].join(' ')}
             style={{ '--i': index } as CSSProperties}
             aria-label={`${c(item.stage.title)} — ${statusLabel}`}
@@ -132,13 +135,14 @@ function RoadmapTrack({ rows, currentId, continueLabel }: { rows: Row[]; current
 export function Roadmap() {
   const { t, c, locale } = useI18n()
   const navigate = useNavigate()
+  const paths = useMyPaths() ?? platformPaths('master')
   const profile = useAppStore((st) => st.profile)
   const checked = useAppStore((st) => st.checked)
   const stagesDone = useAppStore((st) => st.stagesDone)
   const hudHidden = useHideOnScroll()
 
   useEffect(() => {
-    if (!profile) navigate('/onboarding', { replace: true })
+    if (!profile) navigate('/', { replace: true })
   }, [profile, navigate])
 
   const progress = useMemo(
@@ -177,7 +181,7 @@ export function Roadmap() {
     if (!current) return
     const el = document.getElementById(`node-${current.stage.id}`)
     if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' })
-    else navigate(`/stage/${current.stage.id}`)
+    else navigate(paths.stage(current.stage.id))
   }
 
   return (
@@ -239,7 +243,7 @@ export function Roadmap() {
             </div>
             <div className={s.hudTitle}>{current ? c(current.stage.title) : c(category.workBack)}</div>
             {progress.nextItem && (
-              <Link className={s.hudNext} to={`/stage/${progress.nextItem.stage.stage.id}`}>
+              <Link className={s.hudNext} to={paths.stage(progress.nextItem.stage.stage.id)}>
                 <span className={s.hudNextLabel}>{t('roadmap.nextAction')}</span>
                 <span className={s.hudNextText}>{c(progress.nextItem.item.text)}</span>
               </Link>
@@ -249,7 +253,7 @@ export function Roadmap() {
                 {t('roadmap.stagesDoneOf', { done: progress.doneStages, total: progress.totalStages })}
               </Pill>
               {nearest && (
-                <Link to={`/stage/${nearest.rule.stage}`} className={s.hudDeadline}>
+                <Link to={paths.stage(nearest.rule.stage)} className={s.hudDeadline}>
                   <Pill tone={nearest.status === 'overdue' ? 'warn' : 'accent'}>
                     <span title={c(nearest.rule.label)}>
                       {nearest.daysLeft < 0

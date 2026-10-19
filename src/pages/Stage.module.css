@@ -151,7 +151,7 @@
   background: linear-gradient(135deg, var(--accent) 0%, var(--accent-2) 100%);
   border-color: transparent;
   color: #fff;
-  box-shadow: 0 4px 10px rgba(47, 123, 255, 0.35), var(--gloss);
+  box-shadow: 0 4px 10px rgba(var(--accent-rgb), 0.35), var(--gloss);
 }
 .checkText {
   display: block;
@@ -518,7 +518,7 @@
   margin: 0;
   display: grid;
   gap: 12px;
-  grid-template-columns: repeat(auto-fit, minmax(196px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 196px), 1fr));
 }
 .shortRow {
   display: flex;

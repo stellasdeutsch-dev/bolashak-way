@@ -194,7 +194,7 @@ export function Account() {
             void run(async () => {
               await auth.signOut()
               app.reset()
-              navigate('/onboarding', { replace: true })
+              navigate('/', { replace: true })
             })
           }}
         />

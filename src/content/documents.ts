@@ -1,4 +1,4 @@
-import type { DocItem } from './types'
+import type { DocItem, Track } from './types'
 
 const PREFERENTIAL = ['master_rural', 'master_engineer', 'master_medical', 'master_civil', 'master_nuclear'] as const
 const WITH_EMPLOYER = ['master_civil', 'master_nuclear', 'phd_nuclear', 'internship', 'science_internship'] as const
@@ -17,6 +17,7 @@ export const DOCUMENTS: DocItem[] = [
     note: { ru: 'Действительный на момент подачи', kk: 'Тапсыру кезінде жарамды', en: 'Valid at the time of application' },
     source: 'prikaz318',
     autoCompleteWhen: { kazakhCert: true },
+    sourceFor: { science_internship: 'ns_minscore' },
   },
   {
     id: 'foreign_cert',
@@ -24,8 +25,9 @@ export const DOCUMENTS: DocItem[] = [
     title: { ru: 'Сертификат по иностранному языку', kk: 'Шет тілі сертификаты', en: 'Foreign language certificate' },
     note: { ru: 'Результат не ниже порогового уровня вашей категории', kk: 'Нәтиже санатыңыздың шекті деңгейінен төмен емес', en: 'A score at or above your category threshold' },
     source: 'prikaz318',
-    appliesTo: { not: { category: ['bachelor'] } },
+    appliesTo: { category: ['master_rural', 'master_engineer', 'master_medical', 'master_civil', 'master_nuclear', 'phd_self', 'phd_nuclear', 'internship', 'science_internship'] },
     autoCompleteWhen: { hasForeignCert: true },
+    sourceFor: { science_internship: 'ns_minscore' },
   },
   {
     id: 'offer_letter',
@@ -35,6 +37,7 @@ export const DOCUMENTS: DocItem[] = [
     source: 'pravila',
     appliesTo: { not: { category: [...PREFERENTIAL] } },
     autoCompleteWhen: { invitation: ['unconditional'] },
+    sourceFor: { internship: 'pp573', science_internship: 'pp791' },
   },
   {
     id: 'free_tuition_docs',
@@ -42,7 +45,7 @@ export const DOCUMENTS: DocItem[] = [
     title: { ru: 'Документы о бесплатном обучении с полным покрытием расходов', kk: 'Шығыстары толық жабылған тегін оқу туралы құжаттар', en: 'Documents proving free tuition with full cost coverage' },
     note: { ru: 'При наличии, с нотариальным переводом', kk: 'Болған жағдайда, нотариалды аудармасымен', en: 'If applicable, notarially translated' },
     source: 'pravila',
-    appliesTo: { not: { category: [...PREFERENTIAL] } },
+    appliesTo: { track: ['bachelor', 'master', 'phd_residency'] },
   },
   {
     id: 'internship_programme',
@@ -69,6 +72,7 @@ export const DOCUMENTS: DocItem[] = [
     stage: 'documents',
     title: { ru: 'Анкета претендента по утверждённой форме', kk: 'Бекітілген нысандағы үміткер сауалнамасы', en: 'Applicant questionnaire on the approved form' },
     source: 'prikaz318',
+    appliesTo: { not: { track: ['science_internship'] } },
   },
   {
     id: 'anketa_ns',
@@ -82,8 +86,16 @@ export const DOCUMENTS: DocItem[] = [
     id: 'id_passport',
     stage: 'documents',
     title: { ru: 'Удостоверение личности и паспорт', kk: 'Жеке куәлік және паспорт', en: 'ID card and passport' },
-    note: { ru: 'Для научной стажировки — оригиналы и копии; оригиналы возвращают после сверки', kk: 'Ғылыми тағылымдамаға — түпнұсқа мен көшірме; түпнұсқа қайтарылады', en: 'For scientific internships — originals and copies; originals are returned' },
     source: 'pravila',
+    appliesTo: { not: { track: ['science_internship'] } },
+  },
+  {
+    id: 'id_passport_ns',
+    stage: 'documents',
+    title: { ru: 'Удостоверение личности и паспорт — оригиналы и копии', kk: 'Жеке куәлік және паспорт — түпнұсқа мен көшірме', en: 'ID card and passport — originals and copies' },
+    note: { ru: 'Оригиналы возвращают после сверки', kk: 'Түпнұсқалар салыстырылған соң қайтарылады', en: 'The originals come back after checking' },
+    source: 'ns_documents',
+    appliesTo: { track: ['science_internship'] },
   },
   {
     id: 'diploma',
@@ -91,7 +103,7 @@ export const DOCUMENTS: DocItem[] = [
     title: { ru: 'Диплом бакалавра или специалиста с приложением', kk: 'Бакалавр не маман дипломы қосымшасымен', en: 'Bachelor or specialist diploma with transcript' },
     note: { ru: 'При учёбе за рубежом — удостоверение о признании или нострификации', kk: 'Шетелде оқыған болса — тану не нострификация куәлігі', en: 'If you studied abroad — a recognition or nostrification certificate' },
     source: 'pravila',
-    appliesTo: { not: { track: ['bachelor'] } },
+    appliesTo: { not: { track: ['bachelor', 'science_internship'] } },
   },
   {
     id: 'school_certificate',
@@ -120,6 +132,7 @@ export const DOCUMENTS: DocItem[] = [
     stage: 'documents',
     title: { ru: 'Медицинская справка формы 072/у для выезжающего за границу', kk: 'Шетелге шығушыға 072/у нысанындағы медициналық анықтама', en: 'Medical certificate form 072/u for travel abroad' },
     source: 'pravila',
+    sourceFor: { science_internship: 'pp791' },
   },
   {
     id: 'motivation_letter',
@@ -135,6 +148,7 @@ export const DOCUMENTS: DocItem[] = [
     title: { ru: 'Документы о трудовой деятельности', kk: 'Еңбек қызметі туралы құжаттар', en: 'Employment documents' },
     source: 'pravila',
     appliesTo: { category: [...WITH_EXPERIENCE] },
+    sourceFor: { science_internship: 'pp791' },
   },
   {
     id: 'pension_statement',
@@ -143,6 +157,7 @@ export const DOCUMENTS: DocItem[] = [
     note: { ru: 'За требуемый период стажа, включая оплачиваемый трудовой отпуск', kk: 'Талап етілетін өтіл кезеңіне, ақылы демалысты қоса', en: 'For the required experience period, paid leave included' },
     source: 'pp573',
     appliesTo: { category: [...WITH_EXPERIENCE] },
+    sourceFor: { science_internship: 'pp791' },
   },
   {
     id: 'employer_request_doc',
@@ -151,6 +166,8 @@ export const DOCUMENTS: DocItem[] = [
     source: 'employer_form',
     form: 'employer_form',
     appliesTo: { category: [...WITH_EMPLOYER] },
+    sourceFor: { science_internship: 'ns_employer_form' },
+    formFor: { science_internship: 'ns_employer_form' },
   },
   {
     id: 'study_plan_doc',
@@ -205,18 +222,21 @@ export const DOCUMENTS: DocItem[] = [
     stage: 'contract',
     title: { ru: 'Документы для договора: удостоверение личности, реквизиты и учредительные документы работодателя', kk: 'Шартқа құжаттар: жеке куәлік, жұмыс берушінің деректемелері мен құрылтай құжаттары', en: 'Contract documents: ID, employer bank details and constituent documents' },
     source: 'ns_winner',
+    appliesTo: { track: ['science_internship'] },
   },
   {
     id: 'guarantor_docs',
     stage: 'contract',
     title: { ru: 'Документы гаранта: копия удостоверения, справка о доходах и пенсионных отчислениях за 12 месяцев', kk: 'Кепілгер құжаттары: куәлік көшірмесі, 12 айлық табыс және зейнетақы аударымдары анықтамасы', en: 'Guarantor documents: ID copy, 12-month income and pension statements' },
     source: 'ns_winner',
+    appliesTo: { track: ['science_internship'] },
   },
   {
     id: 'pledge_docs',
     stage: 'contract',
     title: { ru: 'Документы по залогу: правоустанавливающие документы, отчёт об оценке, справка о зарегистрированных правах (форма 2), нотариальные согласия', kk: 'Кепіл құжаттары: құқық белгілейтін құжаттар, бағалау есебі, тіркелген құқықтар анықтамасы (2-нысан), нотариалды келісімдер', en: 'Pledge documents: title deeds, valuation report, title certificate (form 2), notarised consents' },
     source: 'zamena_zaloga',
+    appliesTo: { not: { track: ['science_internship'] } },
   },
   {
     id: 'card_details',
@@ -224,6 +244,7 @@ export const DOCUMENTS: DocItem[] = [
     title: { ru: 'Форма сведений по карт-счёту обладателя стипендии', kk: 'Стипендиат карт-шоты бойынша мәліметтер нысаны', en: 'Scholarship holder card-account details form' },
     source: 'finance',
     form: 'finance',
+    appliesTo: { not: { track: ['science_internship'] } },
   },
   {
     id: 'guarantee_letter_doc',
@@ -231,6 +252,7 @@ export const DOCUMENTS: DocItem[] = [
     title: { ru: 'Заявление на письмо о финансовой гарантии', kk: 'Қаржылық кепілдік хатына өтініш', en: 'Request for the financial guarantee letter' },
     source: 'obrazcy',
     form: 'obrazcy',
+    appliesTo: { not: { track: ['science_internship'] } },
   },
   {
     id: 'ticket_request',
@@ -238,15 +260,18 @@ export const DOCUMENTS: DocItem[] = [
     title: { ru: 'Заявление на приобретение авиабилета', kk: 'Авиабилет сатып алуға өтініш', en: 'Flight ticket request' },
     source: 'obrazcy',
     form: 'obrazcy',
+    appliesTo: { not: { track: ['science_internship'] } },
   },
 
   // — Return and work-back —
   {
     id: 'completion_application',
     stage: 'return',
-    title: { ru: 'Заявление о завершении обучения или стажировки', kk: 'Оқуды не тағылымдаманы аяқтау туралы өтініш', en: 'Study or internship completion application' },
+    title: { ru: 'Заявление о завершении — по установленной форме', kk: 'Аяқтау туралы өтініш — белгіленген нысан бойынша', en: 'Completion application — on the standard form' },
     source: 'obrazcy',
     form: 'obrazcy',
+    sourceFor: { science_internship: 'ns_alumni' },
+    formFor: { science_internship: 'ns_alumni' },
   },
   {
     id: 'diploma_translation',
@@ -260,13 +285,29 @@ export const DOCUMENTS: DocItem[] = [
     stage: 'return',
     title: { ru: 'Копия паспорта с отметкой о въезде в Казахстан', kk: 'Қазақстанға кіру белгісі бар паспорт көшірмесі', en: 'Passport copy with the Kazakhstan entry stamp' },
     source: 'otrabotka',
+    sourceFor: { internship: 'stipendiat_internship', science_internship: 'ns_alumni' },
   },
   {
     id: 'internship_report',
     stage: 'return',
     title: { ru: 'Итоговый отчёт и отзыв руководителя стажировки', kk: 'Қорытынды есеп және тағылымдама жетекшісінің пікірі', en: 'Final report and internship supervisor feedback' },
     source: 'stipendiat_internship',
-    appliesTo: { track: ['internship', 'science_internship'] },
+    appliesTo: { track: ['internship'] },
+  },
+  {
+    id: 'ns_card_details',
+    stage: 'departure',
+    title: { ru: 'Сведения по карт-счёту и заявление на аванс', kk: 'Карт-шот мәліметтері және аванс туралы өтініш', en: 'Card-account details and the advance request' },
+    source: 'ns_finance',
+    form: 'ns_finance',
+    appliesTo: { track: ['science_internship'] },
+  },
+  {
+    id: 'ns_final_report',
+    stage: 'return',
+    title: { ru: 'Итоговый отчёт о научной стажировке — в течение месяца после возвращения, утверждённый работодателем', kk: 'Ғылыми тағылымдама туралы қорытынды есеп — оралғаннан кейін бір ай ішінде, жұмыс беруші бекіткен', en: 'Final report on the scientific internship — within a month of coming back, approved by your employer' },
+    source: 'pp791',
+    appliesTo: { track: ['science_internship'] },
   },
   {
     id: 'workback_certificates',
@@ -274,6 +315,7 @@ export const DOCUMENTS: DocItem[] = [
     title: { ru: 'Справки с места работы каждые 6 месяцев', kk: 'Әр 6 айда жұмыс орнынан анықтама', en: 'Employment certificates every 6 months' },
     note: { ru: 'С датой регистрации, номером, подписью и печатью, в PDF', kk: 'Тіркеу күні, нөмірі, қолы мен мөрі бар, PDF форматта', en: 'With registration date, number, signature and seal, as PDF' },
     source: 'otrabotka',
+    sourceFor: { internship: 'stipendiat_internship', science_internship: 'ns_alumni' },
   },
   {
     id: 'obligations_application',
@@ -282,5 +324,14 @@ export const DOCUMENTS: DocItem[] = [
     note: { ru: 'С копией трудовой книжки, выпиской о пенсионных отчислениях и характеристикой работодателя', kk: 'Еңбек кітапшасының көшірмесі, зейнетақы аударымдары үзіндісі және мінездемемен', en: 'With employment record copy, pension statement and employer reference' },
     source: 'formy_vypusknika',
     form: 'formy_vypusknika',
+    sourceFor: { science_internship: 'ns_alumni' },
+    formFor: { science_internship: 'ns_alumni' },
   },
 ]
+
+/** A document as one programme tells it: its own source and its own blank. */
+export function docForTrack(d: DocItem, track: Track): DocItem {
+  const source = d.sourceFor?.[track] ?? d.source
+  const form = d.formFor?.[track] ?? d.form
+  return source === d.source && form === d.form ? d : { ...d, source, form }
+}

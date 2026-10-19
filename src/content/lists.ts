@@ -32,6 +32,40 @@ export interface RecommendedUniversity {
   url: string
 }
 
+/** A specialty from the separate list for Bolashak internships. */
+export interface InternshipSpecialty {
+  n: number
+  direction: string
+  group: string
+  name: string
+  /** The list's code, e.g. "34Т". */
+  code: string
+}
+
+/** A top-level area of the research-priorities list ("1. Экология …"). */
+export interface ScienceArea {
+  code: string
+  name: string
+}
+
+/** A research direction from the same list, e.g. "3.9 Искусственный интеллект". */
+export interface ScienceDirection {
+  code: string
+  name: string
+}
+
+/**
+ * A host recommended for scientific internships. Universities name the directions they
+ * take; research centres and other organisations take every direction (codes is empty).
+ */
+export interface ScienceOrg {
+  kind: 'university' | 'centre'
+  n: number
+  name: string
+  country: string
+  codes: string[]
+}
+
 /** Where each list came from, for the source line under the search box. */
 export const LIST_SOURCES: { specialties: SourceId; universities: SourceId } = {
   specialties: 'pps2026',

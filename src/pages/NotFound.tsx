@@ -17,7 +17,7 @@ export function NotFound() {
         <b>{t('common.notFound')}</b>
       </h1>
       <div style={{ marginTop: 20 }}>
-        <Button onClick={() => navigate('/')}>{t('common.toRoadmap')}</Button>
+        <Button onClick={() => navigate('/')}>{t('platform.allProgrammes')}</Button>
       </div>
     </Card>
   )

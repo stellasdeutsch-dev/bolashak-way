@@ -134,6 +134,7 @@ export interface ChecklistItem {
 export interface Deadline {
   text: L
   source: SourceId
+  appliesTo?: Rule
 }
 
 export interface Stage {
@@ -205,6 +206,9 @@ export interface DocItem {
   source?: SourceId
   /** Downloadable official form, if any. */
   form?: SourceId
+  /** Where a programme's own page says the same thing, cite that one instead. */
+  sourceFor?: Partial<Record<Track, SourceId>>
+  formFor?: Partial<Record<Track, SourceId>>
 }
 
 export type FaqStatus = 'official' | 'confirmed' | 'partial' | 'unverified'
@@ -212,6 +216,8 @@ export type FaqStatus = 'official' | 'confirmed' | 'partial' | 'unverified'
 export interface FaqItem {
   id: string
   stage: StageId
+  /** Programmes the answer is true for. Omitted only when it holds for all five. */
+  tracks?: Track[]
   category?: string
   frequency?: number
   status: FaqStatus
@@ -249,4 +255,56 @@ export interface LanguageThreshold {
   scale: string
   /** The same ceiling as a number, so a score can be drawn on the scale. */
   max: number
+}
+
+/* ─────────────  platforms  ───────────── */
+
+/** URL slug of a programme platform: /#/master, /#/science … */
+export type PlatformSlug = 'bachelor' | 'master' | 'doctorate' | 'internship' | 'science'
+
+/**
+ * What one platform says differently about a shared stage. The stage skeleton (ids,
+ * checklist ids, rules) stays shared so progress keeps working; the words a reader of
+ * that programme sees come from here. A field left out falls back to the stage's own,
+ * which is written to be true for every programme and names none of them.
+ */
+export interface StagePatch {
+  icon?: string
+  kicker?: L
+  title?: L
+  summary?: L
+  why?: L
+  inShort?: { what: L; you: L; result: L }
+  /** Replaces the stage's mistakes entirely. */
+  mistakes?: L[]
+  /** Replaces the text of checklist items by id. */
+  checklist?: Record<string, L>
+  /** Replaces the source link of checklist items by id, where the shared one is another programme's. */
+  links?: Record<string, SourceId | null>
+  sources?: SourceId[]
+}
+
+export type StagePatches = Partial<Record<StageId, StagePatch>>
+
+/** A figure worth seeing before any paragraph, with the act it comes from. */
+export interface PlatformFact {
+  value: string
+  caption: L
+  source: SourceId
+}
+
+/** The programme's own front page: what it is, who it is for, what it pays, what it asks. */
+export interface PlatformHome {
+  /** One paragraph for someone who has never heard of the programme. */
+  intro: L
+  facts: PlatformFact[]
+  /** "This is your programme if …" */
+  fitYes: L[]
+  /** "… and it is not if" — each pointing at the platform that fits instead. */
+  fitNo: { text: L; go: PlatformSlug }[]
+  fitSources: SourceId[]
+  /** What the programme pays for, in plain words. */
+  coverage: L[]
+  coverageSource: SourceId
+  coverageNote?: L
 }

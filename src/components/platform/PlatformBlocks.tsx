@@ -1,0 +1,447 @@
+import { useMemo, useState } from 'react'
+import { Link } from 'react-router'
+import { CATEGORIES, CATEGORIES_BY_TRACK, WORKER_GROUPS } from '@/content/categories'
+import { getPlatform, type PlatformMeta } from '@/content/platforms'
+import { CHAPTERS, STAGES } from '@/content/stages'
+import type { Category, CategoryId, L, PlatformHome, PlatformSlug, Profile, SourceId, Track } from '@/content/types'
+import { evaluate } from '@/domain/applicability'
+import { resolveStage } from '@/domain/resolve'
+import { platformPaths } from '@/domain/paths'
+import { useAppStore } from '@/store/useAppStore'
+import { useI18n } from '@/i18n'
+import { SourceLink } from '@/components/ui'
+import { StageIcon } from '@/components/StageIcon'
+import { useCountUp, useInView } from '@/components/Reveal'
+import { IconCheck as Check, IconArrowRight as ArrowRight, IconClose as Cross } from '@/components/icons'
+import s from './Platform.module.css'
+
+/* ── the figures ── */
+
+function FactValue({ value, on }: { value: string; on: boolean }) {
+  const numeric = /^\d+$/.test(value) ? Number(value) : null
+  const shown = useCountUp(numeric ?? 0, on)
+  return <span className={s.factValue}>{numeric === null ? value : shown}</span>
+}
+
+export function Facts({ home }: { home: PlatformHome }) {
+  const { c } = useI18n()
+  const [ref, seen] = useInView<HTMLDivElement>()
+  return (
+    <div className={s.facts} ref={ref}>
+      {home.facts.map((f, i) => (
+        <div key={f.value + i} className={[s.fact, seen ? s.factOn : ''].join(' ')} style={{ transitionDelay: `${i * 80}ms` }}>
+          <FactValue value={f.value} on={seen} />
+          <span className={s.factCaption}>{c(f.caption)}</span>
+        </div>
+      ))}
+      <div className={s.factSources}>
+        {[...new Set(home.facts.map((f) => f.source))].map((src) => (
+          <SourceLink key={src} id={src} />
+        ))}
+      </div>
+    </div>
+  )
+}
+
+/* ── is this my programme ── */
+
+export function Fit({ home }: { home: PlatformHome }) {
+  const { t, c } = useI18n()
+  return (
+    <div className={s.fit}>
+      <div className={s.fitCol}>
+        <span className={s.fitTitle}>{t('platform.fitYes')}</span>
+        <ul className={s.fitList}>
+          {home.fitYes.map((line, i) => (
+            <li key={i} className={s.fitYes}>
+              <span className={s.fitMark}>
+                <Check size={14} aria-hidden="true" />
+              </span>
+              {c(line)}
+            </li>
+          ))}
+        </ul>
+      </div>
+      <div className={s.fitCol}>
+        <span className={s.fitTitle}>{t('platform.fitNo')}</span>
+        <ul className={s.fitList}>
+          {home.fitNo.map((n) => {
+            const other = getPlatform(n.go)
+            return (
+              <li key={n.go} className={s.fitNo}>
+                <span className={[s.fitMark, s.fitMarkNo].join(' ')}>
+                  <Cross size={12} aria-hidden="true" />
+                </span>
+                <span className={s.fitNoBody}>
+                  {c(n.text)}
+                  <Link to={platformPaths(n.go).home} className={s.fitGo} data-p={n.go}>
+                    <StageIcon name={other.icon} size={13} />
+                    {c(other.name)}
+                    <ArrowRight size={13} aria-hidden="true" />
+                  </Link>
+                </span>
+              </li>
+            )
+          })}
+        </ul>
+      </div>
+      <div className={s.fitSources}>
+        {home.fitSources.map((src) => (
+          <SourceLink key={src} id={src} />
+        ))}
+      </div>
+    </div>
+  )
+}
+
+/* ── requirements ── */
+
+const EMPLOYER_REQUEST: CategoryId[] = ['master_civil', 'master_nuclear', 'phd_nuclear']
+const STUDY_PLAN: CategoryId[] = ['phd_self', 'phd_nuclear']
+
+type Cell = { kind: 'yes' } | { kind: 'no' } | { kind: 'text'; text: L }
+
+interface MatrixRow {
+  label: L
+  cell: (c: Category) => Cell
+}
+
+const yes = (v: boolean): Cell => (v ? { kind: 'yes' } : { kind: 'no' })
+
+/**
+ * Categories side by side, one requirement per row. Everything is read from the category
+ * data the roadmap itself runs on, so the table cannot drift from what the stages ask.
+ */
+const MATRIX: MatrixRow[] = [
+  {
+    label: { ru: 'Приглашение при подаче', kk: 'Тапсыру кезінде шақыру', en: 'Offer when applying' },
+    cell: (c) => yes(c.requiresInvitationAtApplication),
+  },
+  {
+    label: { ru: 'Стаж', kk: 'Өтіл', en: 'Experience' },
+    cell: (c) => {
+      if (!c.experience) return { kind: 'no' }
+      const y = c.experience.years
+      const m = c.experience.continuousMonths
+      return {
+        kind: 'text',
+        text: {
+          ru: [y ? `${y} г.` : '', m ? `${m} мес. подряд` : ''].filter(Boolean).join(', '),
+          kk: [y ? `${y} жыл` : '', m ? `қатарынан ${m} ай` : ''].filter(Boolean).join(', '),
+          en: [y ? `${y} yr` : '', m ? `${m} mo in a row` : ''].filter(Boolean).join(', '),
+        },
+      }
+    },
+  },
+  {
+    label: { ru: 'GPA не ниже 3.00', kk: 'GPA 3.00-ден төмен емес', en: 'GPA of 3.00 or more' },
+    cell: (c) => yes(c.preferential),
+  },
+  {
+    label: { ru: 'Родственная специальность', kk: 'Туыстас мамандық', en: 'Related specialty' },
+    cell: (c) => yes(c.preferential),
+  },
+  {
+    label: { ru: 'Заявка работодателя', kk: 'Жұмыс беруші өтінімі', en: 'Employer request' },
+    cell: (c) => yes(EMPLOYER_REQUEST.includes(c.id)),
+  },
+  {
+    label: { ru: 'Индивидуальный учебный план', kk: 'Жеке оқу жоспары', en: 'Individual study plan' },
+    cell: (c) => yes(STUDY_PLAN.includes(c.id)),
+  },
+  {
+    label: { ru: 'Порог иностранного языка', kk: 'Шет тілі шегі', en: 'Foreign-language threshold' },
+    cell: (c) =>
+      c.languageGroup === 'preferential'
+        ? { kind: 'text', text: { ru: 'I — и курсы', kk: 'I — және курстар', en: 'I — plus courses' } }
+        : c.languageGroup === 'self'
+          ? { kind: 'text', text: { ru: 'III', kk: 'III', en: 'III' } }
+          : { kind: 'no' },
+  },
+]
+
+function CellView({ cell }: { cell: Cell }) {
+  const { t, c } = useI18n()
+  if (cell.kind === 'yes')
+    return (
+      <span className={s.matrixYes} aria-label={t('common.yes')}>
+        <Check size={14} aria-hidden="true" />
+      </span>
+    )
+  if (cell.kind === 'no')
+    return (
+      <span className={s.matrixNo} aria-label={t('common.no')}>
+        —
+      </span>
+    )
+  return <span className={s.matrixText}>{c(cell.text)}</span>
+}
+
+function Matrix({ track }: { track: Track }) {
+  const { t, c } = useI18n()
+  const cats = CATEGORIES_BY_TRACK[track].map((id) => CATEGORIES[id])
+  const profile = useAppStore((st) => st.profile)
+  const [picked, setPicked] = useState<CategoryId>(profile?.track === track ? profile.category : cats[0].id)
+  // A row nobody on this platform needs would only be noise.
+  const rows = MATRIX.filter((r) => cats.some((cat) => r.cell(cat).kind !== 'no'))
+  const one = CATEGORIES[picked]
+  return (
+    <>
+      {/* Phones: pick a category, read its column as a card. */}
+      <div className={s.catPick}>
+        <div className={s.catChips} role="group">
+          {cats.map((cat) => (
+            <button key={cat.id} className={[s.catChip, picked === cat.id ? s.catChipOn : ''].join(' ')} aria-pressed={picked === cat.id} onClick={() => setPicked(cat.id)}>
+              {c(cat.short)}
+            </button>
+          ))}
+        </div>
+        <div className={s.catCard}>
+          <p className={s.catDesc}>{c(one.desc)}</p>
+          <ul className={s.catRows}>
+            {rows.map((r, i) => (
+              <li key={i} className={s.catRow}>
+                <span>{c(r.label)}</span>
+                <CellView cell={r.cell(one)} />
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+
+      {/* Wider screens: every category side by side. */}
+      <div className={s.matrixScroll} tabIndex={0} role="region" aria-label={t('platform.requirementsTitle')}>
+        <table className={s.matrix}>
+          <thead>
+            <tr>
+              <th className={s.matrixCorner} />
+              {cats.map((cat) => (
+                <th key={cat.id} title={c(cat.desc)}>
+                  {c(cat.short)}
+                </th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {rows.map((r, ri) => (
+              <tr key={ri}>
+                <th scope="row" className={s.matrixLabel}>
+                  {c(r.label)}
+                </th>
+                {cats.map((cat) => (
+                  <td key={cat.id}>
+                    <CellView cell={r.cell(cat)} />
+                  </td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <div className={s.sources}>
+        <SourceLink id="pravila" />
+        <SourceLink id="pp573" />
+        <SourceLink id="prikaz318" />
+      </div>
+    </>
+  )
+}
+
+/** One category: its requirements as numbered cards, each with its own source. */
+function Conditions({ category }: { category: Category }) {
+  const { c } = useI18n()
+  const [ref, seen] = useInView<HTMLOListElement>()
+  return (
+    <ol className={s.conditions} ref={ref}>
+      {category.requirements.map((r, i) => (
+        <li key={i} className={[s.condition, seen ? s.conditionOn : ''].join(' ')} style={{ transitionDelay: `${i * 90}ms` }}>
+          <span className={s.conditionNum}>{i + 1}</span>
+          <span className={s.conditionText}>{c(r.text)}</span>
+          <SourceLink id={r.source} />
+        </li>
+      ))}
+    </ol>
+  )
+}
+
+/** Three years in total, the last twelve months unbroken — drawn, because prose kept losing it. */
+function ExperienceBar() {
+  const { t } = useI18n()
+  const [ref, seen] = useInView<HTMLDivElement>()
+  return (
+    <div className={s.exp} ref={ref}>
+      <div className={s.expRail}>
+        {[0, 1, 2].map((y) => (
+          <span key={y} className={[s.expYear, seen ? s.expYearOn : '', y === 2 ? s.expYearLast : ''].join(' ')} style={{ transitionDelay: `${y * 220}ms` }}>
+            {t('platform.expYear', { n: y + 1 })}
+          </span>
+        ))}
+        <span className={[s.expBrace, seen ? s.expBraceOn : ''].join(' ')}>{t('platform.expContinuous')}</span>
+      </div>
+      <div className={s.expLegend}>
+        <span>
+          <i className={s.expSwatchAll} /> {t('platform.expTotal')}
+        </span>
+        <span>
+          <i className={s.expSwatchLast} /> {t('platform.expLast')}
+        </span>
+      </div>
+      <p className={s.expNote}>{t('platform.expShort')}</p>
+    </div>
+  )
+}
+
+function WorkerGroups() {
+  const { t, c } = useI18n()
+  return (
+    <ul className={s.groups}>
+      {WORKER_GROUPS.map((g) => (
+        <li key={g.id} className={s.group}>
+          {c(g.title)}
+          {g.shortMonths && <span className={s.groupBadge}>{t('onboarding.shortMonths', { n: g.shortMonths })}</span>}
+        </li>
+      ))}
+    </ul>
+  )
+}
+
+export function Requirements({ track }: { track: Track }) {
+  const { t } = useI18n()
+  const cats = CATEGORIES_BY_TRACK[track]
+  return (
+    <div className={s.reqs}>
+      {cats.length > 1 ? <Matrix track={track} /> : <Conditions category={CATEGORIES[cats[0]]} />}
+      {track === 'internship' && (
+        <>
+          <span className={s.subTitle}>{t('platform.workerGroups')}</span>
+          <WorkerGroups />
+          <span className={s.subTitle}>{t('platform.experience')}</span>
+          <ExperienceBar />
+        </>
+      )}
+    </div>
+  )
+}
+
+/* ── the path, drawn from the platform's own stages ── */
+
+/** Stand-in profile for a platform page: the reader may have none yet, or another one. */
+const sample = (track: Track, category: CategoryId): Profile => ({
+  track,
+  category,
+  workerGroup: track === 'internship' ? 'teacher' : null,
+  invitation: 'none',
+  foreignCert: null,
+  kazakhCert: false,
+  experience: null,
+})
+
+export function Journey({ platform }: { platform: PlatformMeta }) {
+  const { t, c } = useI18n()
+  const profile = useAppStore((st) => st.profile)
+  const mine = profile?.track === platform.track
+  const lanes: { id: string; category: CategoryId; label: L }[] =
+    platform.track === 'master'
+      ? [
+          { id: 'self', category: 'master_self', label: { ru: 'Поступаю сам', kk: 'Өзім түсемін', en: 'Getting in myself' } },
+          { id: 'pref', category: 'master_rural', label: { ru: 'Льготная категория', kk: 'Жеңілдікті санат', en: 'Preferential category' } },
+        ]
+      : [{ id: 'one', category: CATEGORIES_BY_TRACK[platform.track][0], label: { ru: '', en: '' } }]
+  const initial = mine && profile ? (CATEGORIES[profile.category].preferential ? 'pref' : 'self') : lanes[0].id
+  const [lane, setLane] = useState(lanes.some((l) => l.id === initial) ? initial : lanes[0].id)
+  const [ref, seen] = useInView<HTMLDivElement>()
+
+  const p = mine && profile ? profile : sample(platform.track, lanes.find((l) => l.id === lane)!.category)
+  const byChapter = useMemo(
+    () =>
+      CHAPTERS.map((ch) => ({
+        chapter: ch,
+        stages: STAGES.filter((st) => st.chapter === ch.id && evaluate(st.appliesTo, p)).map((st) => resolveStage(st, platform.track)),
+      })).filter((g) => g.stages.length > 0),
+    [p, platform.track],
+  )
+  const paths = platformPaths(platform.slug)
+  let n = 0
+
+  return (
+    <div className={s.journey} ref={ref}>
+      {lanes.length > 1 && !mine && (
+        <div className={s.laneSwitch} role="group">
+          {lanes.map((l) => (
+            <button key={l.id} className={[s.laneBtn, lane === l.id ? s.laneBtnOn : ''].join(' ')} aria-pressed={lane === l.id} onClick={() => setLane(l.id)}>
+              {c(l.label)}
+            </button>
+          ))}
+        </div>
+      )}
+      <ol className={s.chapters}>
+        {byChapter.map(({ chapter, stages }, ci) => (
+          <li key={chapter.id} className={[s.chapter, seen ? s.chapterOn : ''].join(' ')} style={{ transitionDelay: `${ci * 110}ms` }}>
+            <div className={s.chapterHead}>
+              <span className={s.chapterNum}>{String(ci + 1).padStart(2, '0')}</span>
+              <span className={s.chapterTitle}>{c(chapter.title)}</span>
+            </div>
+            <ol className={s.steps}>
+              {stages.map((st) => {
+                n += 1
+                const body = (
+                  <>
+                    <span className={s.stepIcon}>
+                      <StageIcon name={st.icon} size={16} />
+                    </span>
+                    <span className={s.stepBody}>
+                      <span className={s.stepTitle}>
+                        <span className={s.stepNum}>{n}</span>
+                        {c(st.title)}
+                      </span>
+                      <span className={s.stepSummary}>{c(st.summary)}</span>
+                    </span>
+                  </>
+                )
+                return (
+                  <li key={st.id}>
+                    {mine ? (
+                      <Link to={paths.stage(st.id)} className={[s.step, s.stepLink].join(' ')}>
+                        {body}
+                      </Link>
+                    ) : (
+                      <div className={s.step}>{body}</div>
+                    )}
+                  </li>
+                )
+              })}
+            </ol>
+          </li>
+        ))}
+      </ol>
+      <p className={s.journeyNote}>{t(mine ? 'platform.journeyMine' : 'platform.journeySample')}</p>
+    </div>
+  )
+}
+
+/* ── what the programme pays for ── */
+
+export function Coverage({ home }: { home: PlatformHome }) {
+  const { c } = useI18n()
+  const [ref, seen] = useInView<HTMLUListElement>()
+  return (
+    <>
+      <ul className={s.coverage} ref={ref}>
+        {home.coverage.map((item, i) => (
+          <li key={i} className={[s.cover, seen ? s.coverOn : ''].join(' ')} style={{ transitionDelay: `${i * 60}ms` }}>
+            <span className={s.coverMark}>
+              <Check size={14} aria-hidden="true" />
+            </span>
+            {c(item)}
+          </li>
+        ))}
+      </ul>
+      {home.coverageNote && <p className={s.coverNote}>{c(home.coverageNote)}</p>}
+      <div className={s.sources}>
+        <SourceLink id={home.coverageSource as SourceId} />
+      </div>
+    </>
+  )
+}
+
+export type { PlatformSlug }

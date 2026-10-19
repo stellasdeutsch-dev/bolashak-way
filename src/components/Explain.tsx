@@ -1,15 +1,13 @@
 import {
-  AWARD_TIMELINE, CONTEST_FLOW, DEPARTURE_CHAIN, PATH_LANES, PATH_LANES_SOURCE, WORKBACK_TABLE,
+  CONTEST_FLOW, PATH_LANES, PATH_LANES_SOURCE, awardTimeline, departureChain, workbackTable,
   type ExplainTable, type FlowStep,
 } from '@/content/explain'
 import { CHAPTERS } from '@/content/stages'
-import type { L, Profile, StageId } from '@/content/types'
+import type { Profile, StageId, Track } from '@/content/types'
 import { evaluate } from '@/domain/applicability'
-import { useAppStore } from '@/store/useAppStore'
 import { useI18n } from '@/i18n'
 import { SourceLink } from '@/components/ui'
 import { useInView } from '@/components/Reveal'
-import { useState } from 'react'
 import s from './Explain.module.css'
 
 /** A comparison table. Rows scroll sideways rather than squeezing the page. */
@@ -50,8 +48,9 @@ export function DataTable({ table }: { table: ExplainTable }) {
   )
 }
 
-export function WorkbackTable() {
-  return <DataTable table={WORKBACK_TABLE} />
+/** Who owes how much — only the rows that are true for this programme. */
+export function WorkbackTable({ track }: { track: Track }) {
+  return <DataTable table={workbackTable(track)} />
 }
 
 /**
@@ -110,14 +109,11 @@ export function PathLanes() {
   )
 }
 
-/**
- * The 0 → 60 → 90 day run after the award. `highlight` dims the mark that does not
- * apply to the reader, so a scientist is not left counting the wrong deadline.
- */
-export function AwardTimeline({ highlight }: { highlight?: 'ns' | 'main' }) {
+/** The run after the award: 0 → 90 days under ПП 573, 0 → 60 under ПП 791. */
+export function AwardTimeline({ track }: { track: Track }) {
   const { c } = useI18n()
   const [ref, seen] = useInView<HTMLDivElement>()
-  const { total, marks, note } = AWARD_TIMELINE
+  const { total, marks, note } = awardTimeline(track)
 
   return (
     <div className={s.block} ref={ref}>
@@ -127,7 +123,7 @@ export function AwardTimeline({ highlight }: { highlight?: 'ns' | 'main' }) {
           {marks.map((m) => (
             <span
               key={m.day}
-              className={[s.tick, s[`tick_${m.tone}`], seen ? s.tickOn : '', highlight && m.tone !== 'start' && m.tone !== highlight ? s.tickMuted : ''].join(' ')}
+              className={[s.tick, s[`tick_${m.tone}`], seen ? s.tickOn : ''].join(' ')}
               style={{ left: `${(m.day / total) * 100}%`, transitionDelay: `${300 + (m.day / total) * 500}ms` }}
             >
               <span className={s.tickDay}>{m.day}</span>
@@ -138,7 +134,7 @@ export function AwardTimeline({ highlight }: { highlight?: 'ns' | 'main' }) {
           {marks.map((m) => (
             <li
               key={m.day}
-              className={[s.legendItem, s[`legend_${m.tone}`], highlight && m.tone !== 'start' && m.tone !== highlight ? s.legendMuted : ''].join(' ')}
+              className={[s.legendItem, s[`legend_${m.tone}`]].join(' ')}
             >
               <span className={s.legendDot} />
               <span>{c(m.label)}</span>
@@ -159,12 +155,6 @@ export function AwardTimeline({ highlight }: { highlight?: 'ns' | 'main' }) {
 
 
 /* ── the competition as a flowchart ── */
-
-/** Stand-in profiles for the About page, where the reader has no profile yet. */
-const FLOW_TRACKS: { id: 'main' | 'science'; label: L; profile: Pick<Profile, 'track'> }[] = [
-  { id: 'main', label: { ru: 'Стипендия «Болашак»', kk: '«Болашақ» стипендиясы', en: 'The Bolashak scholarship' }, profile: { track: 'master' } },
-  { id: 'science', label: { ru: 'Научная стажировка', kk: 'Ғылыми тағылымдама', en: 'Scientific internship' }, profile: { track: 'science_internship' } },
-]
 
 function FlowChart({ steps, hereStage, seen }: { steps: FlowStep[]; hereStage?: StageId; seen: boolean }) {
   const { c, t } = useI18n()
@@ -206,38 +196,13 @@ function FlowChart({ steps, hereStage, seen }: { steps: FlowStep[]; hereStage?: 
   )
 }
 
-/**
- * On a stage screen the reader's own track decides which nodes show, and the node they
- * are standing on is marked. On the About page there is no profile yet, so the two
- * tracks sit behind a switch rather than one of them being quietly picked for everyone.
- */
-export function ContestFlow({ hereStage }: { hereStage?: StageId }) {
-  const { c } = useI18n()
-  const profile = useAppStore((st) => st.profile)
+/** The three rounds of this programme, with the exits drawn in and this stage marked. */
+export function ContestFlow({ track, hereStage }: { track: Track; hereStage?: StageId }) {
   const [ref, seen] = useInView<HTMLDivElement>()
-  const [track, setTrack] = useState<'main' | 'science'>(
-    profile?.track === 'science_internship' ? 'science' : 'main',
-  )
-
-  const forProfile = profile ?? (FLOW_TRACKS.find((tr) => tr.id === track)!.profile as Profile)
-  const steps = CONTEST_FLOW.filter((step) => evaluate(step.appliesTo, forProfile))
+  const steps = CONTEST_FLOW.filter((step) => evaluate(step.appliesTo, { track } as Profile))
 
   return (
     <div className={s.block} ref={ref}>
-      {!profile && (
-        <div className={s.switch} role="group">
-          {FLOW_TRACKS.map((tr) => (
-            <button
-              key={tr.id}
-              className={[s.switchBtn, tr.id === track ? s.switchOn : ''].join(' ')}
-              aria-pressed={tr.id === track}
-              onClick={() => setTrack(tr.id)}
-            >
-              {c(tr.label)}
-            </button>
-          ))}
-        </div>
-      )}
       <FlowChart steps={steps} hereStage={hereStage} seen={seen} />
       <div className={s.sources}>
         {[...new Set(steps.flatMap((step) => [...(step.source ? [step.source] : []), ...(step.exit ? [step.exit.source] : [])]))].map((src) => (
@@ -251,9 +216,10 @@ export function ContestFlow({ hereStage }: { hereStage?: StageId }) {
 /* ── the run-up to departure ── */
 
 /** A chain, because the order is the fact worth showing. */
-export function DepartureChain() {
+export function DepartureChain({ track }: { track: Track }) {
   const { c } = useI18n()
   const [ref, seen] = useInView<HTMLDivElement>()
+  const DEPARTURE_CHAIN = departureChain(track)
   return (
     <div className={s.block} ref={ref}>
       <ol className={s.chain}>

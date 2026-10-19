@@ -1,16 +1,19 @@
 import { useEffect, useMemo, useState } from 'react'
+import { useMyPaths } from '@/components/platform/usePlatform'
+import { dateLabelKey, platformPaths } from '@/domain/paths'
 import { Link, useNavigate, useParams } from 'react-router'
 import { IconArrowLeft as ArrowLeft, IconArrowRight as ArrowRight, IconCheck as Check, IconChevronDown as ChevronDown, IconAlertCircle as CircleAlert, IconExternal as ExternalLink, IconLock as Lock, IconSparkles as Sparkles, IconAlertTriangle as TriangleAlert } from '@/components/icons'
-import { CHAPTERS, getStage } from '@/content/stages'
-import { DOCUMENTS } from '@/content/documents'
+import { CHAPTERS } from '@/content/stages'
+import { getStageFor } from '@/domain/resolve'
+import { DOCUMENTS, docForTrack } from '@/content/documents'
 import { faqForStage } from '@/content/faq'
 import { excerptsForStage } from '@/content/excerpts'
 import { videosForStage } from '@/content/videos'
 import { getSource } from '@/content/sources'
 import { CONTENT_META } from '@/content/meta'
-import { ENGLISH_THRESHOLDS, KAZAKH_REQUIREMENT, LANGUAGE_GROUP_BY_CATEGORY, LANGUAGE_NOTES } from '@/content/language'
+import { ENGLISH_THRESHOLDS, KAZAKH_REQUIREMENT, LANGUAGE_GROUP_BY_CATEGORY, LANGUAGE_NOTES, SCIENCE_LANGUAGES } from '@/content/language'
 import { getCategory } from '@/content/categories'
-import type { DateKey, FaqItem, StageId } from '@/content/types'
+import type { DateKey, FaqItem, StageId, Track } from '@/content/types'
 import { computeProgress } from '@/domain/progress'
 import { computeDeadlines } from '@/domain/deadlines'
 import { DEADLINE_RULES } from '@/content/deadlines'
@@ -23,7 +26,16 @@ import { Button, Callout, Card, FallbackBadge, Pill, SourceLink } from '@/compon
 import { StageIcon } from '@/components/StageIcon'
 import { VideoList } from '@/components/Videos'
 import { AwardTimeline, ContestFlow, WorkbackTable } from '@/components/Explain'
-import { SpecialtySearch, UniversitySearch } from '@/components/ListSearch'
+import { InternshipSpecialtySearch, ScienceSearch, SpecialtySearch, UniversitySearch, type SpecialtyLevel } from '@/components/ListSearch'
+
+const LEVEL_BY_TRACK: Partial<Record<Track, SpecialtyLevel>> = { bachelor: 'Бакалавриат', master: 'Магистратура', phd_residency: 'Докторантура' }
+const LIST_TITLE: Record<Track, Record<'specialty' | 'university', string>> = {
+  bachelor: { specialty: 'lists.specialtyTitle', university: 'lists.universityTitle' },
+  master: { specialty: 'lists.specialtyTitle', university: 'lists.universityTitle' },
+  phd_residency: { specialty: 'lists.specialtyTitle', university: 'lists.universityTitle' },
+  internship: { specialty: 'lists.internshipTitle', university: 'lists.internshipTitle' },
+  science_internship: { specialty: 'lists.scienceTitle', university: 'lists.scienceHostsTitle' },
+}
 import { StageForms } from '@/components/Forms'
 import { formsForStage } from '@/content/forms'
 import { Reveal } from '@/components/Reveal'
@@ -70,7 +82,10 @@ function LanguageTable() {
   const { t } = useI18n()
   const profile = useAppStore((st) => st.profile)!
   const group = LANGUAGE_GROUP_BY_CATEGORY[profile.category]
-  if (group === 'none' || group === 'science') return null
+  if (group === 'none') return null
+  const science = group === 'science'
+  // Only the preferential table has three levels; everywhere else one threshold decides.
+  const oneLevel = group !== 'preferential'
   const rows = ENGLISH_THRESHOLDS[group]
   const th = foreignThreshold(profile)
   const meets = foreignCertMeets(profile)
@@ -131,30 +146,75 @@ function LanguageTable() {
           <thead>
             <tr>
               <th>{t('onboarding.exam')}</th>
-              <th>{t('stage.level1')}</th>
-              <th>{t('stage.level2')}</th>
-              <th>{t('stage.level3')}</th>
+              {oneLevel ? (
+                <th>{t('stage.threshold')}</th>
+              ) : (
+                <>
+                  <th>{t('stage.level1')}</th>
+                  <th>{t('stage.level2')}</th>
+                  <th>{t('stage.level3')}</th>
+                </>
+              )}
             </tr>
           </thead>
           <tbody>
             {rows.map((r) => (
               <tr key={r.exam} className={profile.foreignCert?.exam === r.exam ? s.rowActive : ''}>
                 <td>{r.label}</td>
-                <td>{r.first ?? '—'}</td>
-                <td>{r.second ?? '—'}</td>
-                <td>{r.third ?? '—'}</td>
+                {oneLevel ? (
+                  <td>{r.third ?? '—'}</td>
+                ) : (
+                  <>
+                    <td>{r.first ?? '—'}</td>
+                    <td>{r.second ?? '—'}</td>
+                    <td>{r.third ?? '—'}</td>
+                  </>
+                )}
               </tr>
             ))}
           </tbody>
         </table>
       </div>
-      <p className={s.body} style={{ marginTop: 12, fontSize: 13.5 }}>
-        {t('stage.levelsNote')}
-      </p>
+      {!oneLevel && (
+        <p className={s.body} style={{ marginTop: 12, fontSize: 13.5 }}>
+          {t('stage.levelsNote')}
+        </p>
+      )}
+      {science && <ScienceLanguages />}
       <div style={{ marginTop: 10 }}>
-        <SourceLink id="prikaz318" />
+        <SourceLink id={science ? 'ns_minscore' : 'prikaz318'} />
       </div>
     </Card>
+  )
+}
+
+/** Minimums for scientific internships by the language they run in (their own file, not Order 318). */
+function ScienceLanguages() {
+  const { t, c } = useI18n()
+  return (
+    <>
+      <p className={s.body} style={{ marginTop: 16, fontSize: 13.5 }}>
+        {t('stage.scienceLanguagesNote')}
+      </p>
+      <div className={s.tableWrap}>
+        <table className={s.table}>
+          <thead>
+            <tr>
+              <th>{t('stage.internshipLanguage')}</th>
+              <th>{t('stage.minimum')}</th>
+            </tr>
+          </thead>
+          <tbody>
+            {SCIENCE_LANGUAGES.map((r) => (
+              <tr key={r.lang.ru}>
+                <td>{c(r.lang)}</td>
+                <td>{r.level === '—' ? t('stage.notRequired') : r.level}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </>
   )
 }
 
@@ -260,7 +320,7 @@ function DeadlinePanel({ stage }: { stage: StageId }) {
         <p className={s.body} style={{ fontSize: 13.5 }}>{t('deadlines.intro')}</p>
         {anchors.map((key) => (
           <label key={key} className={s.dateField}>
-            <span className={s.dateLabel}>{t(`deadlines.${key}`)}</span>
+            <span className={s.dateLabel}>{t(dateLabelKey(key, profile.track))}</span>
             <span className={s.dateRow}>
               <input type="date" className={s.dateInput} value={dates[key] ?? ''} onChange={(e) => setDate(key, e.target.value || null)} />
               {dates[key] && (
@@ -292,13 +352,16 @@ function DeadlinePanel({ stage }: { stage: StageId }) {
 /** Special cases and non-English thresholds from приказ №318, shown under the table. */
 function LanguageNotes() {
   const { t, cf } = useI18n()
+  const track = useAppStore((st) => st.profile!.track)
+  const notes = LANGUAGE_NOTES.filter((n) => n.tracks.includes(track))
   // Every note comes from the same order, so the link belongs to the block, not each line.
-  const sources = [...new Set(LANGUAGE_NOTES.map((n) => n.source))]
+  const sources = [...new Set(notes.map((n) => n.source))]
+  if (notes.length === 0) return null
   return (
     <Card>
       <div className={s.section}>
         <span className={s.sectionTitle}>{t('stage.languageNotes')}</span>
-        {LANGUAGE_NOTES.map((n, i) => {
+        {notes.map((n, i) => {
           const text = cf(n.text)
           return (
             <p key={i} className={s.reqRow}>
@@ -397,6 +460,7 @@ function CategoryRequirements() {
 export function StagePage() {
   const { id } = useParams<{ id: StageId }>()
   const navigate = useNavigate()
+  const paths = useMyPaths() ?? platformPaths('master')
   const { t, c, cf } = useI18n()
 
   const profile = useAppStore((st) => st.profile)
@@ -410,14 +474,14 @@ export function StagePage() {
   const setNote = useAppStore((st) => st.setNote)
 
   useEffect(() => {
-    if (!profile) navigate('/onboarding', { replace: true })
+    if (!profile) navigate('/', { replace: true })
   }, [profile, navigate])
   useEffect(() => {
     window.scrollTo({ top: 0 })
   }, [id])
 
   const progress = useMemo(() => (profile ? computeProgress({ profile, checked, stagesDone }) : null), [profile, checked, stagesDone])
-  const stage = id ? getStage(id) : undefined
+  const stage = id && profile ? getStageFor(id, profile.track) : undefined
   usePageChrome(stage ? cf(stage.title).text : undefined)
 
   if (!profile || !progress) return null
@@ -426,7 +490,7 @@ export function StagePage() {
       <Card>
         <h1 className={s.heroTitle}>{t('common.notFound')}</h1>
         <div style={{ marginTop: 16 }}>
-          <Button onClick={() => navigate('/')}>{t('common.toRoadmap')}</Button>
+          <Button onClick={() => navigate(paths.roadmap)}>{t('common.toRoadmap')}</Button>
         </div>
       </Card>
     )
@@ -435,8 +499,9 @@ export function StagePage() {
   const sp = progress.byId.get(stage.id)!
   const chapter = CHAPTERS.find((ch) => ch.id === stage.chapter)!
   const locked = sp.status === 'locked'
-  const stageDocs = DOCUMENTS.filter((d) => d.stage === stage.id && evaluate(d.appliesTo, profile))
-  const faq = faqForStage(stage.id)
+  const stageDocs = DOCUMENTS.filter((d) => d.stage === stage.id && evaluate(d.appliesTo, profile)).map((d) => docForTrack(d, profile.track))
+  const faq = faqForStage(stage.id, profile.track)
+  const deadlines = (stage.deadlines ?? []).filter((d) => evaluate(d.appliesTo, profile))
   const visibleNotes = (stage.notes ?? []).filter((n) => evaluate(n.appliesTo, profile))
 
   const order = progress.stages
@@ -450,7 +515,7 @@ export function StagePage() {
   return (
     <div className={s.page}>
       <div className={s.top}>
-        <Button variant="quiet" size="sm" onClick={() => navigate('/')}>
+        <Button variant="quiet" size="sm" onClick={() => navigate(paths.roadmap)}>
           <ArrowLeft size={15} aria-hidden="true" />
           {t('common.toRoadmap')}
         </Button>
@@ -561,7 +626,7 @@ export function StagePage() {
         </>
       )}
       {stage.id === 'kazakh' && (
-        <Callout tone="info" source={KAZAKH_REQUIREMENT.source}>
+        <Callout tone="info" source={profile.track === 'science_internship' ? 'ns_minscore' : KAZAKH_REQUIREMENT.source}>
           <strong>{t('stage.kazakhTitle')}</strong>
           <br />
           {c(KAZAKH_REQUIREMENT.text)}
@@ -569,7 +634,7 @@ export function StagePage() {
       )}
       {stage.id === 'workback' && (
         <>
-          <Callout tone="info" source="pp573">
+          <Callout tone="info" source={profile.track === 'science_internship' ? 'pp791' : 'pp573'}>
             <strong>{t('stage.workBackTitle')}</strong>
             <br />
             {c(getCategory(profile.category).workBack)}
@@ -578,7 +643,7 @@ export function StagePage() {
             <div className={s.section}>
               <span className={s.sectionTitle}>{t('stage.workBackTable')}</span>
               <Reveal>
-                <WorkbackTable />
+                <WorkbackTable track={profile.track} />
               </Reveal>
             </div>
           </Card>
@@ -591,7 +656,7 @@ export function StagePage() {
             <span className={s.sectionTitle}>{t('flow.contestTitle')}</span>
             <Reveal>
               {/* The three rounds with the exits drawn in, and this stage marked on them. */}
-              <ContestFlow hereStage={stage.id} />
+              <ContestFlow track={profile.track} hereStage={stage.id} />
             </Reveal>
           </div>
         </Card>
@@ -603,28 +668,27 @@ export function StagePage() {
             <span className={s.sectionTitle}>{t('stage.awardClock')}</span>
             <Reveal>
               {/* Dim the term that is not yours, so nobody counts the wrong deadline. */}
-              <AwardTimeline highlight={profile.track === 'science_internship' ? 'ns' : 'main'} />
+              <AwardTimeline track={profile.track} />
             </Reveal>
           </div>
         </Card>
       )}
 
-      {stage.id === 'specialty' && (
+      {/* Each platform searches its own official list: degree specialties at its level,
+          the internship list, or research directions with the hosts that take them. */}
+      {(stage.id === 'specialty' || stage.id === 'university') && !(profile.track === 'internship' && stage.id === 'university') && (
         <Card>
           <div className={s.section}>
-            <span className={s.sectionTitle}>{t('lists.specialtyTitle')}</span>
-            <SpecialtySearch />
-          </div>
-        </Card>
-      )}
-
-      {/* The list of recommended universities is not used for the internship tracks, so the
-          search would only mislead the people it does not apply to. */}
-      {stage.id === 'university' && profile.track !== 'internship' && profile.track !== 'science_internship' && (
-        <Card>
-          <div className={s.section}>
-            <span className={s.sectionTitle}>{t('lists.universityTitle')}</span>
-            <UniversitySearch />
+            <span className={s.sectionTitle}>{t(LIST_TITLE[profile.track][stage.id])}</span>
+            {profile.track === 'science_internship' ? (
+              <ScienceSearch />
+            ) : profile.track === 'internship' ? (
+              <InternshipSpecialtySearch />
+            ) : stage.id === 'specialty' ? (
+              <SpecialtySearch level={LEVEL_BY_TRACK[profile.track]} />
+            ) : (
+              <UniversitySearch />
+            )}
           </div>
         </Card>
       )}
@@ -698,7 +762,7 @@ export function StagePage() {
                 </button>
               )
             })}
-            <Link to="/documents" style={{ fontSize: 14, display: 'inline-flex', gap: 6, alignItems: 'center' }}>
+            <Link to={paths.documents} style={{ fontSize: 14, display: 'inline-flex', gap: 6, alignItems: 'center' }}>
               {t('stage.allDocuments')}
               <ArrowRight size={14} aria-hidden="true" />
             </Link>
@@ -708,12 +772,12 @@ export function StagePage() {
 
       <DeadlinePanel stage={stage.id} />
 
-      {stage.deadlines && stage.deadlines.length > 0 && (
+      {deadlines.length > 0 && (
         <Card>
           <div className={s.section}>
             <span className={s.sectionTitle}>{t('stage.deadlines')}</span>
             {/* Deadlines are facts, not warnings — amber stays reserved for mistakes and locks. */}
-            {stage.deadlines.map((d, i) => (
+            {deadlines.map((d, i) => (
               <Callout key={i} tone="info" source={d.source}>
                 {c(d.text)}
               </Callout>
@@ -796,7 +860,7 @@ export function StagePage() {
 
       <div className={s.footerNav}>
         {prev && (
-          <Button variant="ghost" onClick={() => navigate(`/stage/${prev.stage.id}`)}>
+          <Button variant="ghost" onClick={() => navigate(paths.stage(prev.stage.id))}>
             <ArrowLeft size={15} aria-hidden="true" />
             {t('stage.prevStage')}
           </Button>
@@ -820,7 +884,7 @@ export function StagePage() {
           </Button>
         )}
         {next && (
-          <Button onClick={() => navigate(`/stage/${next.stage.id}`)}>
+          <Button onClick={() => navigate(paths.stage(next.stage.id))}>
             {t('stage.nextStage')}
             {next.status === 'locked' ? <Lock size={14} aria-hidden="true" /> : <ArrowRight size={15} aria-hidden="true" />}
           </Button>

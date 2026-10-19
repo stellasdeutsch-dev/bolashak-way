@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import { useNavigate } from 'react-router'
 import { IconCheck as Check, IconDownload as Download, IconFileSignature as FileSignature, IconFileStack as FileStack } from '@/components/icons'
-import { getStage } from '@/content/stages'
+import { getStageFor } from '@/domain/resolve'
 import { getSource } from '@/content/sources'
 import { documentsFor, isDocAuto } from '@/domain/documents'
 import { useAppStore } from '@/store/useAppStore'
@@ -22,7 +22,7 @@ export function Documents() {
   usePageChrome(t('nav.documents'))
 
   useEffect(() => {
-    if (!profile) navigate('/onboarding', { replace: true })
+    if (!profile) navigate('/', { replace: true })
   }, [profile, navigate])
 
   const groups = useMemo(() => (profile ? documentsFor(profile) : []), [profile])
@@ -67,7 +67,7 @@ export function Documents() {
       )}
 
       {visible.map((group, idx) => {
-        const stage = getStage(group.stage)
+        const stage = getStageFor(group.stage, profile.track)
         const groupDone = group.items.filter((d) => isDone(d.id, isDocAuto(d, profile))).length
         return (
           <Card key={group.stage}>

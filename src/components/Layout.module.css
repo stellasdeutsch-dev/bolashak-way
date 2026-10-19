@@ -1,4 +1,5 @@
 .shell {
+  min-height: 100vh;
   min-height: 100dvh;
   display: flex;
   flex-direction: column;
@@ -9,7 +10,9 @@
   position: sticky;
   top: 0;
   z-index: 40;
+  background: var(--bg);
   background: color-mix(in srgb, var(--bg) 88%, transparent);
+  -webkit-backdrop-filter: saturate(180%) blur(14px);
   backdrop-filter: saturate(180%) blur(14px);
   border-bottom: 1px solid var(--line);
 }
@@ -110,7 +113,9 @@
   bottom: 0;
   z-index: 40;
   display: flex;
+  background: var(--surface);
   background: color-mix(in srgb, var(--surface) 92%, transparent);
+  -webkit-backdrop-filter: saturate(180%) blur(14px);
   backdrop-filter: saturate(180%) blur(14px);
   border-top: 1px solid var(--line);
   padding: 8px 8px calc(8px + env(safe-area-inset-bottom));
@@ -163,6 +168,7 @@
 
 .iconBtn {
   flex: none;
+  text-decoration: none;
   border: 1px solid var(--line);
   background: var(--surface);
   color: var(--text-2);
@@ -221,5 +227,25 @@
 @media (prefers-reduced-motion: reduce) {
   .main {
     animation: none;
+  }
+}
+
+/* Without a platform there is no tab bar, so the page does not need to clear it. */
+.mainNoTabs {
+  padding-bottom: 48px;
+}
+
+/* With a platform open the switcher carries the identity; on a phone the brand text
+   steps aside so brand mark, switcher, search and language still share one row. */
+@media (max-width: 560px) {
+  .brandTextCollapsible {
+    display: none;
+  }
+}
+
+/* Below this width the brand mark alone carries the name; the wordmark would be cut. */
+@media (max-width: 420px) {
+  .brandText {
+    display: none;
   }
 }

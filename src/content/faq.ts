@@ -1,4 +1,4 @@
-import type { FaqItem } from './types'
+import type { FaqItem, Track } from './types'
 import { GENERATED_FAQ } from './faq.generated'
 import { FAQ_TRANSLATIONS } from './faq.i18n'
 
@@ -10,43 +10,177 @@ import { FAQ_TRANSLATIONS } from './faq.i18n'
  */
 export const OFFICIAL_FAQ: FaqItem[] = [
   {
+    id: 'off-02s',
+    tracks: ['science_internship'],
+    stage: 'eligibility',
+    status: 'official',
+    q: { ru: 'Есть ли ограничение по возрасту?', kk: 'Жас шектеуі бар ма?', en: 'Is there an age limit?' },
+    a: {
+      ru: 'Прямого предельного возраста нет. Требование другое: научная стажировка вместе с последующей отработкой должна укладываться в сроки с учётом статьи 207 Социального кодекса — то есть до пенсионного возраста.',
+      kk: 'Тікелей жас шегі жоқ. Талап басқа: ғылыми тағылымдама кейінгі өтеумен бірге Әлеуметтік кодекстің 207-бабын ескере отырып — яғни зейнеткерлік жасқа дейін сыюы керек.',
+      en: 'There is no age limit as such. The requirement is different: the internship plus the work-back after it must fit the terms set by article 207 of the Social Code — that is, before retirement age.',
+    },
+    source: 'ns_requirements',
+  },
+  {
+    id: 'off-15s',
+    tracks: ['science_internship'],
+    stage: 'kazakh',
+    status: 'official',
+    q: { ru: 'Нужен ли сертификат по казахскому языку?', kk: 'Қазақ тілі сертификаты керек пе?', en: 'Do I need a Kazakh certificate?' },
+    a: {
+      ru: 'Да. Минимальный уровень государственного языка для научной стажировки — B1: сертификат КАЗТЕСТ или Qazaq Resmi Test с ID-номером и QR-кодом. В пакет идут оригинал и копия.',
+      kk: 'Иә. Ғылыми тағылымдамаға мемлекеттік тілдің ең төменгі деңгейі — B1: ID нөмірі мен QR-коды бар ҚАЗТЕСТ не Qazaq Resmi Test сертификаты. Топтамаға түпнұсқа мен көшірме беріледі.',
+      en: 'Yes. The minimum state-language level for a scientific internship is B1: a KAZTEST or Qazaq Resmi Test certificate with an ID number and QR code. The original and a copy go in the package.',
+    },
+    source: 'ns_minscore',
+  },
+  {
+    id: 'off-05a',
+    tracks: ['internship'],
+    stage: 'workback',
+    status: 'official',
+    q: { ru: 'Сколько лет нужно отработать после стажировки?', kk: 'Тағылымдамадан кейін қанша жыл өтеу керек?', en: 'How long is the work-back after an internship?' },
+    a: {
+      ru: 'Не менее 3 лет в организации, которая направила вас по заявке, — или в её филиале либо представительстве в Казахстане. В другой организации — только с согласия работодателя; работникам атомной отрасли — по его направлению.',
+      kk: 'Сізді өтініммен жіберген ұйымда — не оның Қазақстандағы филиалында, өкілдігінде — кемінде 3 жыл. Басқа ұйымда — тек жұмыс берушінің келісімімен; атом саласының қызметкерлеріне — оның жолдамасымен.',
+      en: 'At least 3 years at the organisation that sent you — or its branch or office in Kazakhstan. Elsewhere only with your employer\'s consent; nuclear-industry workers only where the employer sends them.',
+    },
+    source: 'pp573',
+  },
+  {
+    id: 'off-05s',
+    tracks: ['science_internship'],
+    stage: 'workback',
+    status: 'official',
+    q: { ru: 'Сколько лет нужно отработать после научной стажировки?', kk: 'Ғылыми тағылымдамадан кейін қанша жыл өтеу керек?', en: 'How long is the work-back after a scientific internship?' },
+    a: {
+      ru: 'Не менее 3 лет непрерывно у работодателя, по заявке которого вы проходили стажировку, по выбранному направлению исследования. Сменить работодателя можно только при его ликвидации или реорганизации.',
+      kk: 'Өтінімі бойынша тағылымдамадан өткен жұмыс берушіде таңдаған зерттеу бағыты бойынша кемінде 3 жыл үздіксіз. Жұмыс берушіні тек ол таратылса не қайта ұйымдастырылса ауыстыруға болады.',
+      en: 'At least 3 continuous years in your research direction with the employer whose request sent you. You can change employer only if it is liquidated or reorganised.',
+    },
+    source: 'pp791',
+  },
+  {
+    id: 'off-06s',
+    tracks: ['science_internship'],
+    stage: 'commission',
+    status: 'official',
+    q: { ru: 'Можно ли участвовать повторно, если отказали?', kk: 'Бас тартылса, қайта қатысуға бола ма?', en: 'Can I reapply after a refusal?' },
+    a: {
+      ru: 'В этом году — нет: тем, кому отказала Республиканская комиссия, к повторному участию в конкурсе текущего года путь закрыт. Так же исключают за заведомо ложные сведения. Пробовать можно в следующем году.',
+      kk: 'Биыл — жоқ: Республикалық комиссия бас тартқандар ағымдағы жылғы конкурсқа қайта қатыса алмайды. Көрінеу жалған мәлімет үшін де солай шығарылады. Келесі жылы қатысуға болады.',
+      en: 'Not this year: those the Republican Commission refused cannot take part again in the current year. The same applies for knowingly false information. You can try next year.',
+    },
+    source: 'pp791',
+  },
+  {
+    id: 'off-07a',
+    tracks: ['bachelor', 'phd_residency'],
+    stage: 'departure',
+    status: 'official',
+    q: { ru: 'Какие расходы покрывает стипендия?', kk: 'Стипендия қандай шығыстарды жабады?', en: 'Which expenses does the scholarship cover?' },
+    a: {
+      ru: 'Оформление и продление визы, подача не более 5 анкет в вузы, регистрация в стране обучения, само обучение, обязательные услуги вуза, проживание и питание, учебная литература, медобследование и страховка, банковская карта, транскрипты и проезд к месту учёбы и обратно.',
+      kk: 'Визаны рәсімдеу және ұзарту, ЖОО-ға 5-ке дейін анкета беру, оқу елінде тіркелу, оқудың өзі, ЖОО-ның міндетті қызметтері, тұру мен тамақ, оқу әдебиеті, медициналық тексеру мен сақтандыру, банк картасы, транскрипттер және оқу орнына барып-қайту.',
+      en: 'Visa and renewals, up to 5 university applications, registration in the host country, tuition itself, mandatory university services, housing and meals, textbooks, medical checks and insurance, a bank card, transcripts and travel to and from the place of study.',
+    },
+    source: 'pp573',
+  },
+  {
+    id: 'off-07i',
+    tracks: ['internship'],
+    stage: 'departure',
+    status: 'official',
+    q: { ru: 'Какие расходы покрывает стипендия на стажировку?', kk: 'Тағылымдамаға стипендия қандай шығыстарды жабады?', en: 'Which expenses does the internship scholarship cover?' },
+    a: {
+      ru: 'Стоимость стажировки, обязательные услуги принимающей организации, проживание и питание, визу и консульский сбор, регистрацию в стране, медобследование и страховку, банковскую карту, проезд к месту стажировки и обратно.',
+      kk: 'Тағылымдама құнын, қабылдаушы ұйымның міндетті қызметтерін, тұру мен тамақты, виза мен консулдық алымды, елде тіркелуді, медициналық тексеру мен сақтандыруды, банк картасын, тағылымдама орнына барып-қайтуды.',
+      en: 'The internship fee, mandatory host services, housing and meals, the visa and consular fee, registration in the country, medical checks and insurance, a bank card, and travel to the internship and back.',
+    },
+    source: 'pp573',
+  },
+  {
+    id: 'off-07s',
+    tracks: ['science_internship'],
+    stage: 'departure',
+    status: 'official',
+    q: { ru: 'Что оплачивает программа научных стажировок?', kk: 'Ғылыми тағылымдама бағдарламасы нені төлейді?', en: 'What does the scientific-internship programme pay for?' },
+    a: {
+      ru: 'Визу и её продление, саму стажировку, обязательные услуги по требованию страны и принимающей организации, проживание, питание и научную литературу по нормам рабочего органа, медобследование и страховку, проезд от дома до места стажировки и обратно.',
+      kk: 'Виза мен оны ұзартуды, тағылымдаманың өзін, ел мен қабылдаушы ұйым талап ететін міндетті қызметтерді, жұмыс органы нормасы бойынша тұру, тамақ және ғылыми әдебиетті, медициналық тексеру мен сақтандыруды, үйден тағылымдама орнына барып-қайтуды.',
+      en: 'The visa and renewals, the internship itself, mandatory services the country and host require, housing, meals and research literature at the working body\'s rates, medical checks and insurance, and travel from home to the host and back.',
+    },
+    source: 'pp791',
+  },
+  {
+    id: 'off-11i',
+    tracks: ['internship'],
+    stage: 'university',
+    status: 'official',
+    q: { ru: 'Есть ли список организаций для стажировки?', kk: 'Тағылымдамаға ұйымдар тізімі бар ма?', en: 'Is there a list of host organisations for internships?' },
+    a: {
+      ru: 'Отдельного списка нет. Правила допускают стажировку в зарубежных организациях на базе вузов из Списка, в признанных мировых научно-исследовательских центрах, научных организациях, отраслевых организациях и на производстве — сроком до 12 месяцев.',
+      kk: 'Жеке тізім жоқ. Қағида тағылымдаманы Тізімдегі ЖОО базасындағы шетелдік ұйымдарда, танылған әлемдік ғылыми-зерттеу орталықтарында, ғылыми ұйымдарда, салалық ұйымдарда және өндірісте — 12 айға дейін өтуге рұқсат етеді.',
+      en: 'There is no separate list. The rules allow internships at foreign organisations based at listed universities, recognised world research centres, research organisations, industry organisations and production sites — for up to 12 months.',
+    },
+    source: 'pp573',
+  },
+  {
+    id: 'off-11s',
+    tracks: ['science_internship'],
+    stage: 'university',
+    status: 'official',
+    q: { ru: 'Что если организации нет в списке научных стажировок?', kk: 'Ұйым ғылыми тағылымдама тізімінде болмаса ше?', en: 'What if my host is not on the scientific-internship list?' },
+    a: {
+      ru: 'Допуск рассматривает рабочий орган в индивидуальном порядке — в течение 10 рабочих дней со дня приёма документов. Уведомление о решении приходит в течение 3 рабочих дней после него. Отказать могут, если организация не соответствует критериям отбора.',
+      kk: 'Рұқсатты жұмыс органы жеке тәртіппен — құжат қабылданған күннен бастап 10 жұмыс күні ішінде қарайды. Шешім туралы хабарлама одан кейін 3 жұмыс күні ішінде келеді. Ұйым іріктеу өлшемдеріне сай келмесе, бас тартуы мүмкін.',
+      en: 'The working body decides admission individually — within 10 working days of your documents being accepted. You are notified within 3 working days of the decision. It can refuse if the host does not meet the selection criteria.',
+    },
+    source: 'pp791',
+  },
+  {
     id: 'off-01',
+    tracks: ['bachelor', 'master', 'phd_residency', 'internship'],
     stage: 'eligibility',
     status: 'official',
     q: { ru: 'Можно ли получить стипендию во второй раз?', kk: 'Стипендияны екінші рет алуға бола ма?', en: 'Can the scholarship be awarded twice?' },
     a: {
-      ru: 'Стипендия присуждается однократно: на прохождение стажировки и на получение каждой степени — бакалавр, магистр, PhD, доктор по профилю, обучение в резидентуре. Исключение — лица, не воспользовавшиеся ранее присуждённой стипендией и не приступившие к обучению или стажировке, при отсутствии задолженности перед администратором: им даётся повторная однократная возможность участия.',
-      kk: 'Стипендия бір рет беріледі: тағылымдамаға және әр дәрежеге. Ерекшелік — бұрын берілген стипендияны пайдаланбағандар, берешегі болмаса, бір рет қайта қатыса алады.',
-      en: 'The scholarship is awarded once: for an internship and for each degree. The exception is those who never used a previously awarded scholarship and never started, provided they owe the administrator nothing — they get one repeat chance.',
+      ru: 'Стипендию на одну и ту же программу присуждают один раз. Повторная однократная возможность есть только у тех, кто не воспользовался прошлой стипендией, не приступил к ней и не имеет задолженности перед администратором.',
+      kk: 'Бір бағдарламаға стипендия бір рет беріледі. Бір рет қайта қатысу мүмкіндігі тек бұрынғы стипендияны пайдаланбаған, оған кіріспеген және әкімші алдында берешегі жоқтарға беріледі.',
+      en: 'The scholarship for the same programme is awarded once. A single repeat chance goes only to those who never used the earlier award, never started it and owe the administrator nothing.',
     },
     source: 'pp573',
   },
   {
     id: 'off-02',
+    tracks: ['bachelor', 'master', 'phd_residency', 'internship'],
     stage: 'eligibility',
     status: 'official',
     q: { ru: 'Есть ли ограничение по возрасту?', kk: 'Жас шектеуі бар ма?', en: 'Is there an age limit?' },
     a: {
-      ru: 'Прямого предельного возраста в Правилах нет. Ограничение сформулировано иначе: совокупные сроки языковых курсов, обучения или стажировки и последующей отработки не должны выходить за пределы общеустановленного пенсионного возраста на момент подачи документов.',
-      kk: 'Қағидаларда нақты жас шегі жоқ. Шектеу былай: тіл курстары, оқу не тағылымдама және өтеу мерзімдерінің жиынтығы құжат тапсыру кезіндегі зейнеткерлік жастан аспауы керек.',
-      en: 'The rules set no explicit age cap. Instead, the combined duration of language courses, study or internship and the subsequent work-back must fit within the statutory retirement age as of the application date.',
+      ru: 'Прямого предельного возраста в правилах нет. Ограничение другое: вся программа вместе с последующей отработкой должна укладываться до пенсионного возраста на момент подачи документов.',
+      kk: 'Қағидада тікелей жас шегі жоқ. Шектеу басқа: бүкіл бағдарлама кейінгі өтеумен бірге құжат тапсырған сәттегі зейнеткерлік жасқа дейін сыюы керек.',
+      en: 'The rules set no age limit as such. The limit is different: the whole programme plus the work-back after it must fit before retirement age as of the day you apply.',
     },
     source: 'pp573',
   },
   {
     id: 'off-03',
+    tracks: ['master'],
     stage: 'foreign',
     status: 'official',
     q: { ru: 'Что значит первый, второй и третий пороговый уровень языка?', kk: 'Бірінші, екінші, үшінші шекті деңгей дегеніміз не?', en: 'What do the first, second and third language thresholds mean?' },
     a: {
-      ru: 'Первый пороговый уровень — для направления на языковые курсы в Казахстане либо за рубежом (кроме английского языка). Второй — для направления на языковые курсы за рубежом. Третий — для направления сразу на академическое обучение или прохождение стажировки.',
-      kk: 'Бірінші шек — Қазақстанда не шетелде тіл курстарына жіберу үшін (ағылшыннан басқа). Екінші — шетелдегі тіл курстарына. Үшінші — бірден академиялық оқуға не тағылымдамаға.',
-      en: 'Level I sends you to language courses in Kazakhstan or abroad (except English), level II to language courses abroad, and level III straight to academic study or an internship.',
+      ru: 'Первый пороговый уровень — для направления на языковые курсы в Казахстане либо за рубежом (кроме английского языка). Второй — для направления на языковые курсы за рубежом. Третий — для направления сразу на учёбу.',
+      kk: 'Бірінші шек — Қазақстанда не шетелде тіл курстарына жіберу үшін (ағылшыннан басқа). Екінші — шетелдегі тіл курстарына. Үшінші — бірден оқуға.',
+      en: 'Level I sends you to language courses in Kazakhstan or abroad (except English), level II to language courses abroad, and level III straight to study.',
     },
     source: 'prikaz318',
   },
   {
     id: 'off-04',
+    tracks: ['bachelor', 'master', 'phd_residency', 'internship'],
     stage: 'contract',
     status: 'official',
     q: { ru: 'Что будет, если не заключить договор в срок?', kk: 'Шартты мерзімінде жасамаса не болады?', en: 'What happens if the contract is not signed in time?' },
@@ -59,18 +193,20 @@ export const OFFICIAL_FAQ: FaqItem[] = [
   },
   {
     id: 'off-05',
+    tracks: ['bachelor', 'master', 'phd_residency'],
     stage: 'workback',
     status: 'official',
     q: { ru: 'Сколько лет нужно отработать?', kk: 'Қанша жыл өтеу керек?', en: 'How many years must be worked back?' },
     a: {
-      ru: 'Не менее 5 лет — в столице или городе республиканского значения; не менее 3 лет — в городах (областных центрах), городах областного, районного значения и иных районах областей; не менее 3 лет для государственных служащих (первый год — в направившем органе) и для стажировок — у работодателя, направившего по заявке. Срок сокращается на один календарный год при полном бесплатном обучении и соблюдении успеваемости по договору.',
-      kk: 'Кемінде 5 жыл — астанада не республикалық маңызы бар қалада; кемінде 3 жыл — өңірлерде; мемлекеттік қызметшілер мен тағылымдамашыларға — 3 жыл. Толық тегін оқу кезінде мерзім бір жылға қысқарады.',
-      en: 'At least 5 years in the capital or a city of republican status; at least 3 years in regional centres and other districts; at least 3 years for civil servants (first year in the sending body) and for internships at the requesting employer. The term shrinks by one calendar year if the entire programme was free of charge.',
+      ru: 'Не менее 5 лет — в Астане, Алматы или Шымкенте; не менее 3 лет — в областных центрах, городах и районах областей. Госслужащим — не менее 3 лет на госслужбе, первый год — в направившем органе; работникам атомной отрасли — не менее 3 лет у работодателя. Срок сокращается на год, если всё обучение было бесплатным, а успеваемость по договору выдержана.',
+      kk: 'Астанада, Алматыда не Шымкентте — кемінде 5 жыл; облыс орталықтарында, облыстың қалалары мен аудандарында — кемінде 3 жыл. Мемқызметшілерге — мемқызметте кемінде 3 жыл, бірінші жылы — жіберген органда; атом саласының қызметкерлеріне — жұмыс берушіде кемінде 3 жыл. Бүкіл оқу тегін болып, шарттағы үлгерім сақталса, мерзім бір жылға қысқарады.',
+      en: 'At least 5 years in Astana, Almaty or Shymkent; at least 3 in regional centres, towns and districts. Civil servants owe at least 3 years in public service, the first at the sending body; nuclear-industry workers at least 3 years with their employer. The term drops by a year if the whole programme was free and the contractual grades were kept.',
     },
     source: 'pp573',
   },
   {
     id: 'off-06',
+    tracks: ['bachelor', 'master', 'phd_residency', 'internship'],
     stage: 'commission',
     status: 'official',
     q: { ru: 'Можно ли участвовать повторно, если отказали?', kk: 'Бас тартылса, қайта қатысуға бола ма?', en: 'Can I reapply after a refusal?' },
@@ -79,22 +215,24 @@ export const OFFICIAL_FAQ: FaqItem[] = [
       kk: 'Комиссия шешімімен бас тартылған үміткерлер ағымдағы жылы қайта қатыса алмайды. Келесі конкурс жылында қатысуға болады.',
       en: 'Applicants refused by the Republican Commission cannot re-enter the same year\'s competition; they may apply in the next competition year. Submitting false documents also excludes an applicant for the current year.',
     },
-    source: 'pp791',
+    source: 'pp573',
   },
   {
     id: 'off-07',
+    tracks: ['master'],
     stage: 'departure',
     status: 'official',
     q: { ru: 'Какие расходы покрывает стипендия?', kk: 'Стипендия қандай шығыстарды жабады?', en: 'Which expenses does the scholarship cover?' },
     a: {
-      ru: 'Оформление и продление визы, подача не более 5 аппликационных форм, регистрация в уполномоченных органах, языковые курсы по решению комиссии, само обучение или стажировка, обязательные услуги вуза, проживание и питание, учебная литература, обязательное медицинское обследование, медицинская страховка, выпуск и обслуживание банковской карты, транскрипты и проезд к месту обучения и обратно.',
-      kk: 'Виза рәсімдеу, 5-ке дейін өтінім нысаны, тіркеу, комиссия шешімі бойынша тіл курстары, оқу не тағылымдама, тұру мен тамақтану, оқу әдебиеті, медициналық тексеру мен сақтандыру, банк картасы, жол жүру.',
-      en: 'Visa processing and renewal, up to 5 application forms, registration with host authorities, language courses where the commission decides, the study or internship itself, mandatory university services, accommodation and meals, study literature, medical examination and insurance, bank card issuance, transcripts and travel to and from the place of study.',
+      ru: 'Оформление и продление визы, подача не более 5 анкет в вузы, регистрация в стране обучения, языковые курсы с контрольными тестами — по решению комиссии, само обучение, обязательные услуги вуза, проживание и питание, учебная литература, медобследование и страховка, банковская карта, транскрипты и проезд к месту учёбы и обратно.',
+      kk: 'Визаны рәсімдеу және ұзарту, ЖОО-ға 5-ке дейін анкета беру, оқу елінде тіркелу, бақылау тестері бар тіл курстары — комиссия шешімімен, оқудың өзі, ЖОО-ның міндетті қызметтері, тұру мен тамақ, оқу әдебиеті, медициналық тексеру мен сақтандыру, банк картасы, транскрипттер және оқу орнына барып-қайту.',
+      en: 'Visa and renewals, up to 5 university applications, registration in the host country, language courses with control tests — by the commission\'s decision, tuition itself, mandatory university services, housing and meals, textbooks, medical checks and insurance, a bank card, transcripts and travel to and from the place of study.',
     },
     source: 'pp573',
   },
   {
     id: 'off-08',
+    tracks: ['master', 'phd_residency'],
     stage: 'category',
     // The Rules never forbid this outright; the answer is drawn from how the
     // per-category conditions and document lists are written, so it is not a direct norm.
@@ -109,18 +247,20 @@ export const OFFICIAL_FAQ: FaqItem[] = [
   },
   {
     id: 'off-09',
+    tracks: ['master', 'phd_residency', 'internship'],
     stage: 'category',
     status: 'official',
     q: { ru: 'Чем подтверждается трудовой стаж?', kk: 'Еңбек өтілі немен расталады?', en: 'How is work experience proven?' },
     a: {
-      ru: 'Документами о трудовой деятельности и выпиской о перечисленных обязательных пенсионных взносах за требуемый период — они подтягиваются из государственных информационных систем через портал. Для стажировок период считается с учётом оплачиваемого ежегодного трудового отпуска. Освобождённые от уплаты взносов по пункту 3 статьи 248 Социального кодекса — исключение.',
-      kk: 'Еңбек қызметін растайтын құжаттармен және талап етілетін кезеңдегі міндетті зейнетақы жарналары туралы үзінді көшірмемен — олар портал арқылы мемлекеттік ақпараттық жүйелерден алынады. Тағылымдамалар үшін кезең жыл сайынғы ақылы еңбек демалысы ескеріле есептеледі.',
-      en: 'By employment documents and a statement of mandatory pension contributions for the required period — both pulled from state information systems through the portal. For internships the period counts paid annual leave in. Those exempt from contributions under article 248(3) of the Social Code are an exception.',
+      ru: 'Документами о трудовой деятельности и выпиской о перечисленных обязательных пенсионных взносах за требуемый период — они подтягиваются из государственных информационных систем через портал. Освобождённые от уплаты взносов по пункту 3 статьи 248 Социального кодекса — исключение.',
+      kk: 'Еңбек қызметі туралы құжаттармен және талап етілетін кезеңдегі міндетті зейнетақы жарналары үзінді көшірмесімен — олар портал арқылы мемлекеттік ақпараттық жүйелерден тартылады. Әлеуметтік кодекстің 248-бабының 3-тармағы бойынша жарнадан босатылғандар — ерекшелік.',
+      en: 'With employment documents and a statement of the mandatory pension contributions for the required period — pulled from state information systems through the portal. Those exempt from contributions under article 248(3) of the Social Code are the exception.',
     },
     source: 'pp573',
   },
   {
     id: 'off-10',
+    tracks: ['bachelor', 'master', 'phd_residency'],
     stage: 'specialty',
     status: 'official',
     q: { ru: 'Что делать, если моей специальности нет в перечне?', kk: 'Мамандығым тізімде болмаса не істеу керек?', en: 'What if my specialty is not on the list?' },
@@ -133,18 +273,20 @@ export const OFFICIAL_FAQ: FaqItem[] = [
   },
   {
     id: 'off-11',
+    tracks: ['bachelor', 'master', 'phd_residency'],
     stage: 'university',
     status: 'official',
     q: { ru: 'Что если нужный вуз или организация не входит в Список?', kk: 'Қажетті ЖОО не ұйым Тізімде болмаса ше?', en: 'What if the university or organisation is not on the list?' },
     a: {
-      ru: 'Для академического обучения и стажировок по стипендии «Болашак» приглашение должно быть из организации, входящей в Список, утверждаемый рабочим органом. Отдельный порядок есть только у научных стажировок: если зарубежной организации нет в списке, рабочий орган рассматривает материалы претендента в индивидуальном порядке в течение 10 рабочих дней со дня приёма документов.',
-      kk: 'Академиялық оқу мен тағылымдамалар үшін шақыру жұмыс органы бекіткен Тізімге кіретін ұйымнан болуы тиіс. Жеке тәртіп тек ғылыми тағылымдамаларда: ұйым тізімде болмаса, жұмыс органы материалдарды 10 жұмыс күні ішінде жеке қарайды.',
-      en: 'For Bolashak study and internships the invitation must come from an organisation on the list approved by the working body. Only scientific internships have a separate route: if the foreign organisation is not listed, the working body reviews the case individually within 10 working days of the documents being accepted.',
+      ru: 'Приглашение должно быть из вуза, который входит в Список на текущий год. Приглашение из вуза вне Списка права на стипендию не даёт, а сам Список утверждают заново каждый год.',
+      kk: 'Шақыру ағымдағы жылғы Тізімге кіретін ЖОО-дан болуы керек. Тізімнен тыс ЖОО шақыруы стипендияға құқық бермейді, ал Тізімнің өзі жыл сайын қайта бекітіледі.',
+      en: 'The offer has to come from a university on this year\'s list. An offer from outside it gives no right to the scholarship, and the list itself is re-approved every year.',
     },
-    source: 'pp791',
+    source: 'vuzy_page',
   },
   {
     id: 'off-12',
+    tracks: ['bachelor', 'master', 'phd_residency'],
     stage: 'admission',
     status: 'official',
     q: { ru: 'Оплачивает ли стипендия подачу заявок в зарубежные вузы?', kk: 'Стипендия шетелдік ЖОО-ға өтінім беруді төлей ме?', en: 'Does the scholarship pay for applying to foreign universities?' },
@@ -157,6 +299,7 @@ export const OFFICIAL_FAQ: FaqItem[] = [
   },
   {
     id: 'off-13',
+    tracks: ['bachelor', 'master', 'phd_residency', 'internship'],
     stage: 'documents',
     status: 'official',
     q: { ru: 'Что будет, если подать неполный пакет документов?', kk: 'Толық емес құжаттар топтамасын тапсырсам не болады?', en: 'What happens if my document package is incomplete?' },
@@ -169,6 +312,7 @@ export const OFFICIAL_FAQ: FaqItem[] = [
   },
   {
     id: 'off-14',
+    tracks: ['bachelor', 'master'],
     stage: 'documents',
     status: 'official',
     q: { ru: 'Каким должно быть мотивационное письмо?', kk: 'Мотивациялық хат қандай болуы керек?', en: 'What should the motivation letter look like?' },
@@ -181,18 +325,20 @@ export const OFFICIAL_FAQ: FaqItem[] = [
   },
   {
     id: 'off-15',
+    tracks: ['bachelor', 'master', 'phd_residency', 'internship'],
     stage: 'kazakh',
     status: 'official',
     q: { ru: 'Нужен ли сертификат по казахскому языку, если я подаю на англоязычную программу?', kk: 'Ағылшын тілді бағдарламаға тапсырсам, қазақ тілі сертификаты керек пе?', en: 'Do I need a Kazakh certificate for an English-taught programme?' },
     a: {
-      ru: 'Да. Уровень знания государственного языка входит в условия участия для всех категорий — и для магистратуры, и для докторантуры и резидентуры, и для стажировок, независимо от языка обучения за рубежом. Минимальный уровень утверждается рабочим органом, сертификат должен быть действительным на момент подачи.',
-      kk: 'Иә. Мемлекеттік тілді білу деңгейі барлық санаттар үшін қатысу шарттарына кіреді — шетелдегі оқу тіліне қарамастан. Ең төменгі деңгейді жұмыс органы бекітеді, сертификат тапсыру сәтінде жарамды болуы тиіс.',
-      en: 'Yes. The state-language level is part of the participation conditions for every category — master\'s, doctoral, residency and internships — whatever the language of instruction abroad. The minimum level is set by the working body and the certificate must be valid when you apply.',
+      ru: 'Да. Уровень государственного языка — условие участия для всех, независимо от того, на каком языке пройдёт программа за рубежом. Нужен действующий сертификат КАЗТЕСТ или Qazaq Resmi Test не ниже B1 на момент подачи.',
+      kk: 'Иә. Мемлекеттік тіл деңгейі — шетелдегі бағдарлама қай тілде өтетініне қарамастан, барлығына қатысу шарты. Тапсыру сәтінде B1-ден төмен емес жарамды ҚАЗТЕСТ не Qazaq Resmi Test сертификаты керек.',
+      en: 'Yes. The state-language level is a condition for everyone, whatever language the programme abroad runs in. You need a valid KAZTEST or Qazaq Resmi Test certificate at B1 or above when you apply.',
     },
     source: 'pp573',
   },
   {
     id: 'off-16',
+    tracks: ['master'],
     stage: 'language_courses',
     status: 'official',
     q: { ru: 'Кому положены языковые курсы за счёт стипендии?', kk: 'Стипендия есебінен тіл курстары кімге тиесілі?', en: 'Who gets language courses paid by the scholarship?' },
@@ -205,6 +351,7 @@ export const OFFICIAL_FAQ: FaqItem[] = [
   },
   {
     id: 'off-17',
+    tracks: ['master'],
     stage: 'language_courses',
     status: 'official',
     q: { ru: 'Что будет, если не сдать контрольный тест после языковых курсов?', kk: 'Тіл курстарынан кейінгі бақылау тестін тапсыра алмасам не болады?', en: 'What if I fail the control test after the language courses?' },
@@ -217,6 +364,7 @@ export const OFFICIAL_FAQ: FaqItem[] = [
   },
   {
     id: 'off-18',
+    tracks: ['bachelor', 'master', 'phd_residency'],
     stage: 'studying',
     status: 'official',
     q: { ru: 'Можно ли сменить вуз, специальность или взять академический отпуск?', kk: 'ЖОО-ны, мамандықты ауыстыруға не академиялық демалыс алуға бола ма?', en: 'Can I change university or specialty, or take academic leave?' },
@@ -229,18 +377,20 @@ export const OFFICIAL_FAQ: FaqItem[] = [
   },
   {
     id: 'off-19',
+    tracks: ['bachelor', 'master', 'phd_residency'],
     stage: 'return',
     status: 'official',
     q: { ru: 'Что делать сразу после завершения обучения?', kk: 'Оқуды аяқтағаннан кейін бірден не істеу керек?', en: 'What do I do right after finishing my studies?' },
     a: {
-      ru: 'В течение 30 дней со дня завершения обучения вернуться в Казахстан для трудовой отработки. Затем направить куратору заявление о завершении обучения, предоставить нотариально заверенные переводы диплома и транскрипта за весь период обучения на казахский или русский язык и показать отметку в паспорте о возвращении. Стипендиаты стажировок дополнительно сдают отчёт о результатах и итоговый отзыв руководителя.',
-      kk: 'Оқу аяқталған күннен бастап 30 күн ішінде Қазақстанға оралу қажет. Содан соң кураторға оқудың аяқталғаны туралы өтініш, диплом мен транскрипттің нотариат куәландырған аудармаларын беру және паспорттағы оралу белгісін көрсету керек. Тағылымдамадан өткендер қосымша есеп пен жетекшінің пікірін тапсырады.',
-      en: 'Return to Kazakhstan within 30 days of finishing, to begin the work-back. Then send your curator the completion application, notarised translations of the diploma and full transcript into Kazakh or Russian, and show the re-entry stamp in your passport. Internship holders additionally submit a results report and their supervisor\'s final review.',
+      ru: 'В течение 30 дней со дня завершения обучения вернуться в Казахстан для трудовой отработки. Затем направить куратору заявление о завершении обучения, нотариально заверенные переводы диплома и транскрипта за весь период обучения на казахский или русский язык и копию паспорта с отметкой о въезде.',
+      kk: 'Оқу аяқталған күннен бастап 30 күн ішінде еңбек өтеуге Қазақстанға оралу. Содан кейін кураторға оқуды аяқтау туралы өтінішті, диплом мен бүкіл оқу кезеңіндегі транскрипттің қазақ не орыс тіліне нотариалды аудармасын және кіру белгісі бар паспорт көшірмесін жіберу.',
+      en: 'Return to Kazakhstan within 30 days of finishing to start the work-back. Then send your curator the completion application, notarised Kazakh or Russian translations of your diploma and full transcript, and a passport copy with the entry stamp.',
     },
     source: 'stipendiat_master',
   },
   {
     id: 'off-20',
+    tracks: ['master'],
     stage: 'admission_after_courses',
     status: 'official',
     q: { ru: 'Что если во время языковых курсов я уже получу приглашение из вуза?', kk: 'Тіл курстары кезінде ЖОО-дан шақыру алсам ше?', en: 'What if I get a university offer while still on the language courses?' },
@@ -256,13 +406,16 @@ export const OFFICIAL_FAQ: FaqItem[] = [
 /** Chat-sourced entries are Russian-only until the overlay supplies kk/en. */
 const TRANSLATED_FAQ: FaqItem[] = GENERATED_FAQ.map((item) => {
   const tr = FAQ_TRANSLATIONS[item.id]
-  return tr ? { ...item, q: { ...item.q, ...tr.q }, a: { ...item.a, ...tr.a } } : item
+  // Collected in Bolashak applicant chats, so they speak for the four Bolashak programmes only.
+  const tracks: Track[] = ['bachelor', 'master', 'phd_residency', 'internship']
+  return tr ? { ...item, tracks, q: { ...item.q, ...tr.q }, a: { ...item.a, ...tr.a } } : { ...item, tracks }
 })
 
 export const FAQ: FaqItem[] = [...OFFICIAL_FAQ, ...TRANSLATED_FAQ]
 
-export const faqForStage = (stage: string): FaqItem[] =>
-  FAQ.filter((f) => f.stage === stage).sort((a, b) => {
+/** Answers for one stage that hold on this platform; untagged answers hold everywhere. */
+export const faqForStage = (stage: string, track?: Track): FaqItem[] =>
+  FAQ.filter((f) => f.stage === stage && (!track || !f.tracks || f.tracks.includes(track))).sort((a, b) => {
     if (a.status === 'official' && b.status !== 'official') return -1
     if (b.status === 'official' && a.status !== 'official') return 1
     return (b.frequency ?? 0) - (a.frequency ?? 0)

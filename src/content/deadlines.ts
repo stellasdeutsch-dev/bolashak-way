@@ -12,9 +12,9 @@ export const DEADLINE_RULES: DeadlineRule[] = [
     days: 90,
     appliesTo: { not: { track: ['science_internship'] } },
     label: {
-      ru: 'Заключить договор на обучение / прохождение стажировки и договор залога или гарантии',
-      kk: 'Оқуға / тағылымдамадан өтуге шарт және кепіл не кепілдік шартын жасау',
-      en: 'Sign the study / internship contract and the pledge or guarantee agreement',
+      ru: 'Заключить договор и договор залога или гарантии',
+      kk: 'Шарт пен кепіл не кепілдік шартын жасау',
+      en: 'Sign the contract and the pledge or guarantee agreement',
     },
     source: 'pp573',
   },

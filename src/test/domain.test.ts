@@ -117,7 +117,12 @@ describe('language thresholds', () => {
 
   it('never claims a threshold is met for exams it cannot evaluate', () => {
     expect(foreignCertMeets(profile({ foreignCert: { exam: 'other', score: 100 } }))).toBe(false)
-    expect(foreignCertMeets(profile({ track: 'science_internship', category: 'science_internship', foreignCert: { exam: 'ielts', score: 9 } }))).toBe(false)
+  })
+
+  it('measures scientific internships against their own minimums (IELTS 5.0), not Order 318', () => {
+    const ns = (score: number) => profile({ track: 'science_internship', category: 'science_internship', foreignCert: { exam: 'ielts', score } })
+    expect(foreignCertMeets(ns(5))).toBe(true)
+    expect(foreignCertMeets(ns(4.5))).toBe(false)
   })
 })
 
