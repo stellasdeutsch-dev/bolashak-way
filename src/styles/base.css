@@ -42,7 +42,7 @@ ol {
 }
 
 a {
-  color: var(--accent);
+  color: var(--accent-ink);
   text-decoration: none;
 }
 a:hover {
@@ -109,7 +109,7 @@ svg {
   border-radius: var(--r-pill);
   background: var(--surface-3);
   color: var(--text-2);
-  font-size: 12px;
+  font-size: 13.5px;
   font-weight: 500;
   letter-spacing: 0.02em;
 }
@@ -193,7 +193,7 @@ svg {
 
   [class*='box']::before {
     content: '☐ ';
-    font-size: 15px;
+    font-size: 15.5px;
   }
 
   [class*='boxDone']::before,
@@ -208,7 +208,7 @@ svg {
   /* Links are useless on paper unless the address is printed too. */
   a[href^='http']::after {
     content: ' (' attr(href) ')';
-    font-size: 11px;
+    font-size: 12px;
     color: #444;
     word-break: break-all;
   }
@@ -241,4 +241,11 @@ svg {
 a,
 button {
   -webkit-tap-highlight-color: transparent;
+}
+
+/* Headings take focus after navigation so screen readers announce the new page; that
+   focus is for assistive tech, not a visible ring around the title. */
+[tabindex='-1']:focus {
+  outline: none;
+  box-shadow: none;
 }

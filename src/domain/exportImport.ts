@@ -3,6 +3,7 @@ import { CONTENT_META } from '@/content/meta'
 import { CATEGORIES } from '@/content/categories'
 import { STAGES } from '@/content/stages'
 import { DOCUMENTS } from '@/content/documents'
+import { isIsoDate } from './dates'
 
 export interface Snapshot {
   app: 'bolashak-way'
@@ -28,13 +29,12 @@ const STAGE_IDS = new Set<string>(STAGES.map((s) => s.id))
 const DOC_IDS = new Set<string>(DOCUMENTS.map((d) => d.id))
 const CHECK_IDS = new Set<string>(STAGES.flatMap((s) => s.checklist.map((i) => `${s.id}:${i.id}`)))
 
-const isIsoDate = (v: unknown): v is string => typeof v === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(v) && !Number.isNaN(Date.parse(v))
 
 /**
  * Accepts a profile only when every field matches the current content model —
  * an unknown category would otherwise crash the roadmap on the next render.
  */
-function validProfile(value: unknown): Profile | null {
+export function validProfile(value: unknown): Profile | null {
   if (!value || typeof value !== 'object') return null
   const p = value as Record<string, unknown>
   if (!TRACKS.includes(p.track as Track)) return null
@@ -99,14 +99,32 @@ export function parseSnapshot(text: string): Snapshot | null {
   }
   if (!data || typeof data !== 'object' || data.app !== 'bolashak-way') return null
 
-  const profile = data.profile == null ? null : validProfile(data.profile)
+  const progress = sanitizeProgress(data)
   // A payload that carries a profile we cannot honour is rejected outright.
-  if (data.profile != null && profile === null) return null
+  if (data.profile != null && progress.profile === null) return null
 
+  return {
+    app: 'bolashak-way',
+    schemaVersion: typeof data.schemaVersion === 'number' ? data.schemaVersion : CONTENT_META.schemaVersion,
+    exportedAt: typeof data.exportedAt === 'string' ? data.exportedAt : '',
+    competitionYear: typeof data.competitionYear === 'number' ? data.competitionYear : CONTENT_META.competitionYear,
+    ...progress,
+  }
+}
+
+export type Progress = Pick<Snapshot, 'profile' | 'onboardedAt' | 'checked' | 'stagesDone' | 'documentsDone' | 'notes' | 'dates'>
+
+/**
+ * Keeps only what the current content model understands. Used for imported files and
+ * for whatever the browser stored last year: a category renamed since then must lead
+ * back to the questions, not to a blank screen.
+ */
+export function sanitizeProgress(raw: unknown): Progress {
+  const data = (raw && typeof raw === 'object' ? raw : {}) as Record<string, unknown>
   const notes: Record<string, string> = {}
   if (data.notes && typeof data.notes === 'object') {
     for (const [k, v] of Object.entries(data.notes)) {
-      if (STAGE_IDS.has(k) && typeof v === 'string') notes[k] = v
+      if (STAGE_IDS.has(k) && typeof v === 'string') notes[k] = v.slice(0, 20_000)
     }
   }
 
@@ -117,13 +135,10 @@ export function parseSnapshot(text: string): Snapshot | null {
     }
   }
 
+  const profile = data.profile == null ? null : validProfile(data.profile)
   return {
-    app: 'bolashak-way',
-    schemaVersion: typeof data.schemaVersion === 'number' ? data.schemaVersion : CONTENT_META.schemaVersion,
-    exportedAt: typeof data.exportedAt === 'string' ? data.exportedAt : '',
-    competitionYear: typeof data.competitionYear === 'number' ? data.competitionYear : CONTENT_META.competitionYear,
     profile,
-    onboardedAt: typeof data.onboardedAt === 'string' ? data.onboardedAt : null,
+    onboardedAt: profile && typeof data.onboardedAt === 'string' ? data.onboardedAt : null,
     checked: keepKnown(data.checked, CHECK_IDS),
     stagesDone: keepKnown(data.stagesDone, STAGE_IDS) as StageId[],
     documentsDone: keepKnown(data.documentsDone, DOC_IDS),

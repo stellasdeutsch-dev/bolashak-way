@@ -1,8 +1,9 @@
 import { create } from 'zustand'
 import { persist, createJSONStorage } from 'zustand/middleware'
-import type { DateKey, Locale, Profile, StageId } from '@/content/types'
+import type { DateKey, Locale, Profile, StageId, Track } from '@/content/types'
 import { CONTENT_META } from '@/content/meta'
 import { STORE_KEY } from '@/cloud/config'
+import { sanitizeProgress, type Progress } from '@/domain/exportImport'
 
 export type ThemePref = 'system' | 'light' | 'dark'
 
@@ -22,6 +23,12 @@ export interface AppState {
   notes: Record<string, string>
   /** Anchor dates (ISO yyyy-mm-dd) that personal deadlines are computed from. */
   dates: Partial<Record<DateKey, string>>
+  /**
+   * Progress of the other programmes the reader has tried. Checklists share stage ids
+   * across programmes, so a tick made for the master's must not count for an internship:
+   * switching programme files the current progress here and brings back the target's.
+   */
+  archive: Partial<Record<Track, Progress>>
 
   setLocale: (l: Locale) => void
   setTheme: (t: ThemePref) => void
@@ -52,6 +59,16 @@ const EMPTY = {
   dates: {} as Partial<Record<DateKey, string>>,
 }
 
+const progressOf = (st: AppState): Progress => ({
+  profile: st.profile,
+  onboardedAt: st.onboardedAt,
+  checked: st.checked,
+  stagesDone: st.stagesDone,
+  documentsDone: st.documentsDone,
+  notes: st.notes,
+  dates: st.dates,
+})
+
 export const useAppStore = create<AppState>()(
   persist(
     (set, get) => ({
@@ -59,10 +76,22 @@ export const useAppStore = create<AppState>()(
       locale: detectLocale(),
       theme: 'system',
       ...EMPTY,
+      archive: {},
 
       setLocale: (locale) => set({ locale }),
       setTheme: (theme) => set({ theme }),
-      setProfile: (profile) => set({ profile, onboardedAt: new Date().toISOString() }),
+      setProfile: (profile) => {
+        const st = get()
+        const now = new Date().toISOString()
+        if (!st.profile || st.profile.track === profile.track) {
+          set({ profile, onboardedAt: st.onboardedAt && st.profile ? st.onboardedAt : now })
+          return
+        }
+        const archive = { ...st.archive, [st.profile.track]: progressOf(st) }
+        const back = archive[profile.track]
+        delete archive[profile.track]
+        set({ ...EMPTY, ...(back ?? {}), profile, onboardedAt: back?.onboardedAt ?? now, archive })
+      },
 
       toggleCheck: (stage, item) => {
         const key = `${stage}:${item}`
@@ -90,7 +119,7 @@ export const useAppStore = create<AppState>()(
         set({ dates })
       },
 
-      reset: () => set({ ...EMPTY }),
+      reset: () => set({ ...EMPTY, archive: {} }),
 
       hydrateFrom: (data) =>
         set({
@@ -121,7 +150,25 @@ export const useAppStore = create<AppState>()(
         documentsDone: s.documentsDone,
         notes: s.notes,
         dates: s.dates,
+        archive: s.archive,
       }),
+      // Runs on every load, not only on version bumps: whatever the browser kept from an
+      // older content year is cut down to what the current model understands.
+      merge: (persisted, current) => {
+        const raw = (persisted ?? {}) as Partial<AppState>
+        const archive: Partial<Record<Track, Progress>> = {}
+        for (const [track, value] of Object.entries(raw.archive ?? {})) {
+          const clean = sanitizeProgress(value)
+          if (clean.profile && clean.profile.track === track) archive[track as Track] = clean
+        }
+        return {
+          ...current,
+          locale: raw.locale === 'kk' || raw.locale === 'en' || raw.locale === 'ru' ? raw.locale : current.locale,
+          theme: raw.theme === 'light' || raw.theme === 'dark' || raw.theme === 'system' ? raw.theme : current.theme,
+          ...sanitizeProgress(raw),
+          archive,
+        }
+      },
       migrate: (persisted, version) => {
         const state = { ...((persisted ?? {}) as Record<string, unknown>) }
         // v0 → v1: the pre-release build stored a flat `answers` object; normalise the lists.
@@ -134,6 +181,10 @@ export const useAppStore = create<AppState>()(
         // v1 → v2: personal anchor dates.
         if (version < 2) {
           state.dates = typeof state.dates === 'object' && state.dates ? state.dates : {}
+        }
+        // v2 → v3: progress of other programmes is kept apart.
+        if (version < 3) {
+          state.archive = {}
         }
         state.schemaVersion = CONTENT_META.schemaVersion
         return state

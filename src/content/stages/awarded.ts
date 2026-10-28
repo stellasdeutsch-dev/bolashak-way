@@ -98,11 +98,11 @@ export const AWARDED_STAGES: Stage[] = [
       },
       {
         text: {
-          ru: 'Научная стажировка: договор заключается в течение 60 календарных дней со дня решения Республиканской комиссии.',
-          kk: 'Ғылыми тағылымдама: шарт комиссия шешімінен бастап 60 күнтізбелік күн ішінде жасалады.',
-          en: 'Scientific internship: the contract is signed within 60 calendar days of the commission decision.',
+          ru: 'Научная стажировка: договор заключается в течение 90 календарных дней со дня решения Республиканской комиссии. Если мешают болезнь, командировка или другие обстоятельства, до истечения срока можно обратиться в Комиссию — продление до 90 дней даётся один раз.',
+          kk: 'Ғылыми тағылымдама: шарт Республикалық комиссия шешімінен бастап 90 күнтізбелік күн ішінде жасалады. Ауру, іссапар не басқа жағдай кедергі болса, мерзім өткенге дейін Комиссияға жүгінуге болады — 90 күнге дейін ұзарту бір рет беріледі.',
+          en: 'Scientific internship: the contract is signed within 90 calendar days of the Republican Commission\'s decision. If illness, a work trip or other circumstances get in the way, apply to the Commission before the term runs out — an extension of up to 90 days is granted once.',
         },
-        source: 'ns_winner',
+        source: 'ns_rules422',
         appliesTo: { track: ['science_internship'] },
       },
     ],

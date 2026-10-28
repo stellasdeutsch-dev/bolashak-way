@@ -2,7 +2,8 @@ import type { Category, CategoryId, L, Track, WorkerGroup } from './types'
 
 /**
  * All applicant categories, per п.4 and п.9–14 of the selection rules (pp573),
- * the requirements page (pravila) and, for scientific internships, pp791 / ns_requirements.
+ * the requirements page (pravila) and, for scientific internships, the Rules approved by
+ * приказ МНВО № 422 (ns_rules422) and ns_requirements.
  */
 
 const WORKBACK_ACADEMIC: L = {
@@ -23,10 +24,16 @@ const WORKBACK_EMPLOYER: L = {
   en: 'You owe at least 3 years at the organisation that requested your training, or at its branch. With your employer\'s consent — at another organisation in Kazakhstan.',
 }
 
+const WORKBACK_NUCLEAR: L = {
+  ru: 'Отработать не меньше 3 лет в организации, которая давала на вас заявку, либо в её филиале или представительстве. В другой организации в Казахстане — только по направлению работодателя.',
+  kk: 'Сізге өтінім берген ұйымда не оның филиалында, өкілдігінде кемінде 3 жыл өтеу керек. Қазақстандағы басқа ұйымда — тек жұмыс берушінің жолдамасымен.',
+  en: 'You owe at least 3 years at the organisation that requested your training, or at its branch. At another organisation in Kazakhstan only where your employer sends you.',
+}
+
 const WORKBACK_SCIENCE: L = {
-  ru: 'Отработать не меньше 3 лет подряд у того работодателя, по заявке которого вы поехали. Сменить его можно, только если организацию ликвидировали или реорганизовали.',
-  kk: 'Өтінімі бойынша барған жұмыс берушіде қатарынан кемінде 3 жыл өтеу керек. Оны ауыстыруға тек ұйым таратылса не қайта ұйымдастырылса болады.',
-  en: 'You owe at least 3 continuous years with the employer that sent you. You can change it only if the organisation is liquidated or reorganised.',
+  ru: 'Отработать не меньше 3 лет подряд у того работодателя, по заявке которого вы поехали, по выбранному направлению исследования. Сменить его можно при ликвидации или реорганизации — либо с согласия работодателя и по решению Комиссии, перейдя в другую аккредитованную научную организацию с тем же направлением.',
+  kk: 'Өтінімі бойынша барған жұмыс берушіде таңдаған зерттеу бағыты бойынша қатарынан кемінде 3 жыл өтеу керек. Оны ұйым таратылса не қайта ұйымдастырылса — не жұмыс берушінің келісімімен және Комиссия шешімімен сол бағыттағы басқа аккредиттелген ғылыми ұйымға ауысып ауыстыруға болады.',
+  en: 'You owe at least 3 continuous years in your research direction with the employer that sent you. You can change it on liquidation or reorganisation — or, with your employer\'s consent and the Commission\'s decision, by moving to another accredited research organisation in the same direction.',
 }
 
 const KAZ_B1 = {
@@ -304,7 +311,7 @@ export const CATEGORIES: Record<CategoryId, Category> = {
       FOREIGN_LANG,
     ],
     experience: { years: 3, continuousMonths: 6 },
-    workBack: WORKBACK_EMPLOYER,
+    workBack: WORKBACK_NUCLEAR,
     sources: ['pravila', 'pp573'],
   },
 
@@ -357,16 +364,16 @@ export const CATEGORIES: Record<CategoryId, Category> = {
       KAZ_B1,
       {
         text: {
-          ru: 'Стаж в атомной отрасли не меньше 3 лет, из них последние 6 месяцев вы работаете именно в своей области.',
-          kk: 'Атом саласындағы өтіл 3 жылдан кем емес, оның соңғы 6 айында дәл өз саласында жұмыс істейсіз.',
-          en: 'At least 3 years in the nuclear sector, and for the last 6 months you have worked specifically in your field.',
+          ru: 'Вы работаете в организации атомной отрасли; общий стаж работы не меньше 3 лет, и на момент подачи последние 6 месяцев вы фактически работаете в выбранной области специализации.',
+          kk: 'Атом саласының ұйымында жұмыс істейсіз; жалпы жұмыс өтіліңіз 3 жылдан кем емес, әрі тапсыру сәтінде соңғы 6 айда таңдаған мамандану саласында нақты жұмыс істейсіз.',
+          en: 'You work at a nuclear-industry organisation; your total work experience is at least 3 years, and when you apply you have actually worked in your chosen field for the last 6 months.',
         },
-        source: 'pravila',
+        source: 'pp573',
       },
       EMPLOYER_REQUEST,
     ],
     experience: { years: 3, continuousMonths: 6 },
-    workBack: WORKBACK_EMPLOYER,
+    workBack: WORKBACK_NUCLEAR,
     sources: ['pravila', 'pp573'],
   },
 
@@ -443,9 +450,9 @@ export const CATEGORIES: Record<CategoryId, Category> = {
     title: { ru: 'Научная стажировка', kk: 'Ғылыми тағылымдама', en: 'Scientific internship' },
     short: { ru: 'Научная стажировка', kk: 'Ғылыми тағылымдама', en: 'Scientific internship' },
     desc: {
-      ru: 'Отдельная программа для учёных: 3–12 месяцев в зарубежном научном центре или вузе. Правила утверждены ПП РК № 791, приём документов — нарочно в ЦМП.',
-      kk: 'Ғалымдарға арналған жеке бағдарлама: шетелдік ғылыми орталықта немесе ЖОО-да 3–12 ай. Қағидалар ҚР ҮҚ № 791-мен бекітілген, құжаттар ХБО-ға қолма-қол тапсырылады.',
-      en: 'A separate programme for scientists: 3–12 months at a foreign research centre or university. Rules approved by Decree No. 791; documents are submitted in person at the CIP.',
+      ru: 'Отдельная программа для учёных: 3–12 месяцев в зарубежном научном центре или вузе. Правила утверждены приказом МНВО РК № 422, документы подают через egov.kz и (или) на бумаге в ЦМП.',
+      kk: 'Ғалымдарға арналған жеке бағдарлама: шетелдік ғылыми орталықта немесе ЖОО-да 3–12 ай. Қағидалар ҚР ҒЖБМ № 422 бұйрығымен бекітілген, құжаттар egov.kz арқылы және (немесе) қағаз түрінде ХБО-ға тапсырылады.',
+      en: 'A separate programme for scientists: 3–12 months at a foreign research centre or university. Rules approved by Ministry Order No. 422; documents go in through egov.kz and/or on paper at the CIP.',
     },
     preferential: false,
     requiresInvitationAtApplication: true,
@@ -462,19 +469,19 @@ export const CATEGORIES: Record<CategoryId, Category> = {
       },
       {
         text: {
-          ru: 'Стаж непрерывной фактической работы последние 12 месяцев в выбранной области научного исследования в аккредитованных субъектах научной или научно-технической деятельности (юридических лицах).',
-          kk: 'Аккредиттелген ғылыми немесе ғылыми-техникалық қызмет субъектілерінде таңдалған ғылыми зерттеу саласында соңғы 12 ай үздіксіз нақты жұмыс өтілі.',
-          en: 'Twelve months of continuous actual work in the chosen research field at accredited scientific or research organisations (legal entities).',
+          ru: 'Стаж непрерывной фактической работы последние 12 месяцев в выбранной области научного исследования в аккредитованных субъектах научной или научно-технической деятельности (юридических лицах), подтверждённый пенсионными отчислениями за весь период.',
+          kk: 'Аккредиттелген ғылыми немесе ғылыми-техникалық қызмет субъектілерінде таңдалған ғылыми зерттеу саласында соңғы 12 ай үздіксіз нақты жұмыс өтілі, бүкіл кезеңге зейнетақы аударымдарымен расталған.',
+          en: 'Twelve months of continuous actual work in the chosen research field at accredited scientific or research organisations (legal entities), backed by pension contributions for the whole period.',
         },
         source: 'ns_requirements',
       },
       {
         text: {
-          ru: 'Безусловное приглашение зарубежной организации из Списка, принимающей на научную стажировку по проводимому исследованию.',
-          kk: 'Жүргізіліп жатқан зерттеу бойынша ғылыми тағылымдамаға қабылдайтын тізімдегі шетелдік ұйымның сөзсіз шақыруы.',
-          en: 'An unconditional invitation from a listed foreign organisation hosting the internship for your research.',
+          ru: 'Безусловное приглашение (кроме финансовых условий) зарубежной организации из списка научных стажировок, принимающей вас по проводимому исследованию.',
+          kk: 'Жүргізіліп жатқан зерттеу бойынша сізді қабылдайтын ғылыми тағылымдама тізіміндегі шетелдік ұйымның сөзсіз шақыруы (қаржылық шарттардан басқа).',
+          en: 'An unconditional invitation (financial conditions aside) from a foreign organisation on the scientific-internship list, taking you for your ongoing research.',
         },
-        source: 'ns_orgs',
+        source: 'ns_rules422',
       },
       {
         text: {
@@ -486,11 +493,11 @@ export const CATEGORIES: Record<CategoryId, Category> = {
       },
       {
         text: {
-          ru: 'Знание государственного и иностранного языков на уровне требований рабочего органа (файл с минимальными баллами публикуется на сайте).',
-          kk: 'Мемлекеттік және шет тілдерін жұмыс органының талаптары деңгейінде білу (ең төменгі балдар файлы сайтта жарияланады).',
-          en: 'Command of the state and a foreign language at the level required by the working body (the minimum-score file is published on the website).',
+          ru: 'Действительные сертификаты по казахскому (не ниже B1) и иностранному языкам на уровне приложения 4 к Правилам — порог зависит от языка стажировки.',
+          kk: 'Қазақ (B1-ден төмен емес) және шет тілдері бойынша Қағидалардың 4-қосымшасындағы деңгейдегі жарамды сертификаттар — шек тағылымдама тіліне байланысты.',
+          en: 'Valid certificates in Kazakh (B1 or above) and a foreign language at the level in Appendix 4 to the Rules — the threshold depends on the internship language.',
         },
-        source: 'ns_minscore',
+        source: 'ns_rules422',
       },
       {
         text: {
@@ -503,7 +510,7 @@ export const CATEGORIES: Record<CategoryId, Category> = {
     ],
     experience: { continuousMonths: 12 },
     workBack: WORKBACK_SCIENCE,
-    sources: ['ns_requirements', 'pp791'],
+    sources: ['ns_requirements', 'ns_rules422'],
   },
 }
 
@@ -515,14 +522,18 @@ export const CATEGORIES_BY_TRACK: Record<Track, CategoryId[]> = {
   science_internship: ['science_internship'],
 }
 
-/** Worker categories for Bolashak internships (bolashak.gov.kz/ru/pretendentu/pravila). */
+/**
+ * Worker categories for Bolashak internships, named as the requirements page lists them
+ * (bolashak.gov.kz/ru/pretendentu/pravila, checked 2026-10-28). ПП 573 itself leaves the
+ * list to the Republican Commission (п. 3 пп. 2, п. 4 пп. 6).
+ */
 export const WORKER_GROUPS: { id: WorkerGroup; title: L; shortMonths?: number }[] = [
-  { id: 'engineer_agro', title: { ru: 'Инженерно-технические работники, АПК, специалисты по ИИ', kk: 'Инженерлік-техникалық қызметкерлер, АӨК, ЖИ мамандары', en: 'Engineering, agro-industrial and AI specialists' } },
-  { id: 'teacher', title: { ru: 'Педагоги и работники образования', kk: 'Педагогтер және білім беру қызметкерлері', en: 'Teachers and education staff' } },
+  { id: 'engineer_agro', title: { ru: 'Инженерно-технические работники, работники сферы агропромышленного комплекса', kk: 'Инженерлік-техникалық қызметкерлер, агроөнеркәсіптік кешен саласының қызметкерлері', en: 'Engineering and technical workers, agro-industrial workers' } },
+  { id: 'teacher', title: { ru: 'Педагоги организаций дошкольного, среднего, технического и профессионального образования, педагоги и работники организаций высшего и (или) послевузовского образования', kk: 'Мектепке дейінгі, орта, техникалық және кәсіптік білім беру ұйымдарының педагогтері, жоғары және (немесе) жоғары оқу орнынан кейінгі білім беру ұйымдарының педагогтері мен қызметкерлері', en: 'Teachers at preschool, secondary and technical-vocational organisations; teachers and staff of higher and postgraduate education organisations' } },
   { id: 'medical', title: { ru: 'Медицинские работники', kk: 'Медицина қызметкерлері', en: 'Medical workers' } },
   { id: 'civil', title: { ru: 'Государственные служащие', kk: 'Мемлекеттік қызметшілер', en: 'Civil servants' } },
-  { id: 'media', title: { ru: 'Работники СМИ', kk: 'БАҚ қызметкерлері', en: 'Media workers' } },
-  { id: 'culture', title: { ru: 'Работники культуры, туризма и спорта', kk: 'Мәдениет, туризм және спорт қызметкерлері', en: 'Culture, tourism and sport workers' } },
+  { id: 'media', title: { ru: 'Работники средств массовой информации', kk: 'Бұқаралық ақпарат құралдарының қызметкерлері', en: 'Mass media workers' } },
+  { id: 'culture', title: { ru: 'Работники сферы культуры, туризма и спорта', kk: 'Мәдениет, туризм және спорт саласының қызметкерлері', en: 'Culture, tourism and sport workers' } },
   { id: 'judge', title: { ru: 'Судьи и работники судов', kk: 'Судьялар және сот қызметкерлері', en: 'Judges and court staff' } },
   { id: 'ai_user', title: { ru: 'Пользователи системы искусственного интеллекта', kk: 'Жасанды интеллект жүйесін пайдаланушылар', en: 'AI system users' }, shortMonths: 6 },
   { id: 'nuclear', title: { ru: 'Работники атомной отрасли', kk: 'Атом саласының қызметкерлері', en: 'Nuclear industry workers' }, shortMonths: 6 },

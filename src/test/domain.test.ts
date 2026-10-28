@@ -371,7 +371,7 @@ describe('snapshot validation', () => {
 describe('personal deadlines', () => {
   const at = (iso: string) => new Date(`${iso}T12:00:00Z`)
 
-  it('counts 90 days to the contract, and 60 for a scientific internship', () => {
+  it('counts 90 days to the contract on both programmes, each from its own act', () => {
     const academic = computeDeadlines(profile(), { award_date: '2026-09-01' }, at('2026-09-02'))
     const contract = academic.find((d) => d.rule.id === 'contract')!
     expect(contract.due).toBe('2026-11-30')
@@ -379,7 +379,9 @@ describe('personal deadlines', () => {
 
     const science = profile({ track: 'science_internship', category: 'science_internship' })
     const ns = computeDeadlines(science, { award_date: '2026-09-01' }, at('2026-09-02'))
-    expect(ns.find((d) => d.rule.id === 'contract_ns')!.due).toBe('2026-10-31')
+    // приказ МНВО № 422 п. 21: 90 calendar days, the same as ПП 573 п. 24.
+    expect(ns.find((d) => d.rule.id === 'contract_ns')!.due).toBe('2026-11-30')
+    expect(ns.find((d) => d.rule.id === 'contract_ns')!.rule.source).toBe('ns_rules422')
     expect(ns.some((d) => d.rule.id === 'contract')).toBe(false)
   })
 
@@ -405,7 +407,7 @@ describe('personal deadlines', () => {
     expect(ids(profile())).toContain('workback_cert')
     const intern = profile({ track: 'internship', category: 'internship', workerGroup: 'media' })
     expect(ids(intern)).toEqual(['workback_cert_internship'])
-    // ПП 791 puts the monitoring on the administrator, so the person gets no 6-month duty.
+    // приказ МНВО № 422 sets no six-monthly reporting duty for the person (п. 36), so none here.
     const science = profile({ track: 'science_internship', category: 'science_internship' })
     expect(ids(science)).toEqual([])
   })

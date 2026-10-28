@@ -5,7 +5,7 @@ import { IconDownload as Download, IconMail as Mail, IconPhone as Phone, IconRes
 import { CATEGORIES, WORKER_GROUPS } from '@/content/categories'
 import { CONTENT_META } from '@/content/meta'
 import { SOURCES } from '@/content/sources'
-import { buildSnapshot, downloadSnapshot, parseSnapshot } from '@/domain/exportImport'
+import { buildSnapshot, downloadSnapshot, parseSnapshot, type Snapshot } from '@/domain/exportImport'
 import { useAppStore, type ThemePref } from '@/store/useAppStore'
 import { LOCALES, useI18n } from '@/i18n'
 import { usePageChrome } from '@/i18n/usePageChrome'
@@ -19,6 +19,8 @@ export function Settings() {
   const state = useAppStore()
   const [confirmReset, setConfirmReset] = useState(false)
   const [importStatus, setImportStatus] = useState<'ok' | 'fail' | null>(null)
+  // A file waiting for confirmation: importing replaces what is on this device.
+  const [pending, setPending] = useState<Snapshot | null>(null)
   const fileRef = useRef<HTMLInputElement>(null)
   usePageChrome(t('nav.settings'))
 
@@ -43,10 +45,15 @@ export function Settings() {
   }
 
   const doImport = async (file: File) => {
+    // A progress file is a few kilobytes; anything far larger is not ours.
+    if (file.size > 2_000_000) return setImportStatus('fail')
     const parsed = parseSnapshot(await file.text())
     if (!parsed) return setImportStatus('fail')
-    state.hydrateFrom(parsed)
-    setImportStatus('ok')
+    if (!state.profile) {
+      state.hydrateFrom(parsed)
+      return setImportStatus('ok')
+    }
+    setPending(parsed)
   }
 
   const themes: { id: ThemePref; label: string }[] = [
@@ -179,11 +186,13 @@ export function Settings() {
                 e.target.value = ''
               }}
             />
-            {importStatus && (
-              <span className={[s.status, importStatus === 'ok' ? s.statusOk : s.statusFail].join(' ')}>
-                {importStatus === 'ok' ? t('settings.importOk') : t('settings.importFail')}
-              </span>
-            )}
+            <span role="status" aria-live="polite">
+              {importStatus && (
+                <span className={[s.status, importStatus === 'ok' ? s.statusOk : s.statusFail].join(' ')}>
+                  {importStatus === 'ok' ? t('settings.importOk') : t('settings.importFail')}
+                </span>
+              )}
+            </span>
           </div>
           <p className={s.hint}>{t('settings.exportHint')}</p>
         </div>
@@ -245,6 +254,18 @@ export function Settings() {
         </div>
       </Card>
 
+      <ConfirmDialog
+        open={pending !== null}
+        title={t('settings.importTitle')}
+        text={t('settings.importText')}
+        confirmLabel={t('settings.importConfirm')}
+        onCancel={() => setPending(null)}
+        onConfirm={() => {
+          if (pending) state.hydrateFrom(pending)
+          setPending(null)
+          setImportStatus('ok')
+        }}
+      />
       <ConfirmDialog
         open={confirmReset}
         title={t('settings.resetTitle')}

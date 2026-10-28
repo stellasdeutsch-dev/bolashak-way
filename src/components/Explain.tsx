@@ -109,7 +109,7 @@ export function PathLanes() {
   )
 }
 
-/** The run after the award: 0 → 90 days under ПП 573, 0 → 60 under ПП 791. */
+/** The run after the award: 0 → 90 days under ПП 573 and under Order 422 for scientific internships. */
 export function AwardTimeline({ track }: { track: Track }) {
   const { c } = useI18n()
   const [ref, seen] = useInView<HTMLDivElement>()

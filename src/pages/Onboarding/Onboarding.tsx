@@ -1,4 +1,4 @@
-import { useMemo, useState, type ReactNode } from 'react'
+import { useEffect, useMemo, useRef, useState, type ReactNode } from 'react'
 import { useNavigate, useParams, useSearchParams } from 'react-router'
 import {
   IconArrowLeft as ArrowLeft, IconArrowRight as ArrowRight,
@@ -12,7 +12,7 @@ import type { PlatformSlug } from '@/content/types'
 import { platformPaths } from '@/domain/paths'
 import { StageIcon } from '@/components/StageIcon'
 import { CONTENT_META } from '@/content/meta'
-import type { ExamId, Invitation, Track } from '@/content/types'
+import type { CategoryId, ExamId, Invitation, Track } from '@/content/types'
 import { defaultCategoryFor, draftFromProfile, emptyDraft, isStepComplete, toProfile, type OnboardingDraft } from '@/domain/profile'
 import { useAppStore } from '@/store/useAppStore'
 import { useI18n } from '@/i18n'
@@ -89,9 +89,17 @@ export function Onboarding() {
   )
   const [step, setStep] = useState(editing ? 0 : -1)
 
-  // The bachelor's track has no experience requirement, so its fourth question would be noise.
-  const STEPS = track === 'bachelor' ? 3 : 4
+  // The work-experience question is asked only where the chosen category sets a requirement:
+  // for a self-enrolled master's or a bachelor's it would be noise.
+  const needsExperience = Boolean(CATEGORIES[draft.category as CategoryId]?.experience)
+  const STEPS = needsExperience ? 4 : 3
   const LAST_STEP = STEPS - 1
+  const maxSteps = CATEGORIES_BY_TRACK[track].some((id) => CATEGORIES[id].experience) ? 4 : 3
+  const questionRef = useRef<HTMLHeadingElement>(null)
+  // Each new question takes focus, so keyboard and screen-reader users hear it straight away.
+  useEffect(() => {
+    if (step >= 0) questionRef.current?.focus({ preventScroll: false })
+  }, [step])
 
   const update = (patch: Partial<OnboardingDraft>) => setDraft((d) => ({ ...d, ...patch }))
 
@@ -99,7 +107,7 @@ export function Onboarding() {
   const canNext = step >= 0 && isStepComplete(draft, step)
 
   const finish = () => {
-    const done = track === 'bachelor' ? { ...draft, hasExperience: false } : draft
+    const done = needsExperience ? draft : { ...draft, hasExperience: false }
     setProfile(toProfile(done))
     navigate(paths.roadmap, { replace: true })
   }
@@ -133,7 +141,7 @@ export function Onboarding() {
             {c(platform.name)}
             <b>{t('onboarding.welcomeTitle')}</b>
           </h1>
-          <p className={s.welcomeText}>{t('onboarding.welcomeText', { n: STEPS })}</p>
+          <p className={s.welcomeText}>{t('onboarding.welcomeText', { n: maxSteps })}</p>
           {replacing && mine && (
             <p className={s.replaceNote}>{t('onboarding.replaceNote', { mine: c(mine.name), name: c(platform.name) })}</p>
           )}
@@ -168,7 +176,7 @@ export function Onboarding() {
 
       <div className={s.head}>
         <span className={s.step}>{t('onboarding.stepOf', { n: step + 1, total: STEPS })}</span>
-        <h1 className={s.question}>
+        <h1 className={s.question} ref={questionRef} tabIndex={-1}>
           {step === 0 && t(Q1[track])}
           {step === 1 && t(host ? 'onboarding.q2_host' : 'onboarding.q2')}
           {step === 2 && t('onboarding.q3')}
@@ -218,7 +226,7 @@ export function Onboarding() {
           {draft.track === 'internship' && (
             <>
               <div className={s.subhead}>{t('category.workerGroup')}</div>
-              <div className={s.chips}>
+              <div className={[s.chips, s.chipsList].join(' ')}>
                 {WORKER_GROUPS.map((g) => (
                   <button
                     key={g.id}

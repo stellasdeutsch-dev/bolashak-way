@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react'
 import { Link } from 'react-router'
-import { PLATFORMS, PLATFORM_HOMES, getPlatform, platformForTrack } from '@/content/platforms'
+import { PLATFORMS, getPlatform, platformForTrack } from '@/content/platforms'
 import { COMPARE, FINDER, type FinderOption } from '@/content/platforms/compare'
 import { CONTENT_META } from '@/content/meta'
 import type { PlatformSlug } from '@/content/types'
@@ -8,10 +8,11 @@ import { platformPaths } from '@/domain/paths'
 import { useAppStore } from '@/store/useAppStore'
 import { useI18n } from '@/i18n'
 import { usePageChrome } from '@/i18n/usePageChrome'
-import { ButtonLink, Card, Pill, SourceLink } from '@/components/ui'
+import { Button, ButtonLink, Card, Pill, SourceLink } from '@/components/ui'
+import { Glossary } from '@/components/Glossary'
 import { StageIcon } from '@/components/StageIcon'
 import { useInView } from '@/components/Reveal'
-import { IconArrowRight as ArrowRight, IconSparkles as Sparkles, IconReset as Reset } from '@/components/icons'
+import { IconArrowRight as ArrowRight, IconSparkles as Sparkles, IconReset as Reset, IconExternal as ExternalLink } from '@/components/icons'
 import s from './Landing.module.css'
 
 /**
@@ -37,6 +38,17 @@ export function Landing() {
           <b>{t('landing.heroTitle')}</b>
         </h1>
         <p className={s.heroText}>{t('landing.heroText')}</p>
+        {!mine && (
+          <div className={s.heroActions}>
+            <Button size="lg" onClick={() => scrollToId('finder')}>
+              {t('landing.ctaFind')}
+              <ArrowRight size={16} aria-hidden="true" />
+            </Button>
+            <Button size="lg" variant="ghost" onClick={() => scrollToId('choose')}>
+              {t('landing.ctaAll')}
+            </Button>
+          </div>
+        )}
         {mine && (
           <div className={s.continue} data-p={mine.slug}>
             <span className={s.continueIcon}>
@@ -54,19 +66,80 @@ export function Landing() {
         )}
       </Card>
 
-      <PlatformCards />
+      <WhatIs />
       <Finder />
-      <ProgrammeMap />
+      <PlatformCards />
+
+      <Card className={s.glossary}>
+        <h2 className={s.sectionTitle}>{t('landing.glossaryTitle')}</h2>
+        <p className={s.sectionText}>{t('landing.glossaryText')}</p>
+        <Glossary />
+      </Card>
+
       <CompareTable />
 
-      <p className={s.footnote}>
-        {t('common.verifiedOn')}: {CONTENT_META.lastVerified}. {c(CONTENT_META.disclaimer)}
-      </p>
+      <footer className={s.footnote}>
+        <p>{t('landing.unofficial')}</p>
+        <p>
+          {t('common.verifiedOn')}: {CONTENT_META.lastVerified}. {c(CONTENT_META.disclaimer)}
+        </p>
+        <p className={s.footLinks}>
+          <a href="https://bolashak.gov.kz/ru" target="_blank" rel="noopener noreferrer">
+            <ExternalLink size={13} aria-hidden="true" /> {t('landing.official')}
+          </a>
+          <a href={REPORT_URL} target="_blank" rel="noopener noreferrer">
+            <ExternalLink size={13} aria-hidden="true" /> {t('landing.report')}
+          </a>
+        </p>
+      </footer>
     </div>
   )
 }
 
+export const REPORT_URL = 'https://github.com/stellasdeutsch-dev/bolashak-way/issues/new'
+
+const scrollToId = (id: string) => {
+  const el = document.getElementById(id)
+  if (!el) return
+  const smooth = !window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  el.scrollIntoView({ behavior: smooth ? 'smooth' : 'auto', block: 'start' })
+  const focusable = el.querySelector<HTMLElement>('h2')
+  if (focusable) {
+    focusable.setAttribute('tabindex', '-1')
+    focusable.focus({ preventScroll: true })
+  }
+}
+
+/* ── what this is, for someone who has only heard the name ── */
+
+function WhatIs() {
+  const { t } = useI18n()
+  const steps = ['landing.whatStep1', 'landing.whatStep2', 'landing.whatStep3']
+  return (
+    <Card className={s.what}>
+      <h2 className={s.sectionTitle}>{t('landing.whatTitle')}</h2>
+      <ol className={s.whatSteps}>
+        {steps.map((key, i) => (
+          <li key={key} className={s.whatStep}>
+            <span className={s.whatNum} aria-hidden="true">{i + 1}</span>
+            <span>{t(key)}</span>
+          </li>
+        ))}
+      </ol>
+      <p className={s.sectionText}>{t('landing.whatWho')}</p>
+      <div className={s.whatSources}>
+        <SourceLink id="pp573" label={t('landing.srcBolashak')} />
+        <SourceLink id="ns_rules422" label={t('landing.srcScience')} />
+      </div>
+    </Card>
+  )
+}
+
 /* ── five doors ── */
+
+// Plain answers a newcomer can compare — how long abroad, what is owed back — taken from
+// the same sourced rows as the comparison table, not the specialist facts of each platform.
+const CARD_ROWS = COMPARE.filter((r) => r.id === 'length' || r.id === 'workback')
 
 function PlatformCards() {
   const { t, c } = useI18n()
@@ -78,7 +151,6 @@ function PlatformCards() {
       </h2>
       <div className={s.cards} ref={ref}>
         {PLATFORMS.map((p, i) => {
-          const home = PLATFORM_HOMES[p.slug]
           return (
             <Link
               key={p.slug}
@@ -95,11 +167,11 @@ function PlatformCards() {
               </span>
               <span className={s.cardName}>{c(p.name)}</span>
               <span className={s.cardTagline}>{c(p.tagline)}</span>
-              <span className={s.cardFacts}>
-                {home.facts.slice(0, 2).map((f) => (
-                  <span key={f.value} className={s.cardFact}>
-                    <b>{f.value}</b>
-                    <span>{c(f.caption)}</span>
+              <span className={s.cardRows}>
+                {CARD_ROWS.map((row) => (
+                  <span key={row.id} className={s.cardRow}>
+                    <span>{c(row.label)}</span>
+                    <b>{c(row.cells[p.slug])}</b>
                   </span>
                 ))}
               </span>
@@ -150,9 +222,9 @@ function Finder() {
   const picked = result ? getPlatform(result) : null
 
   return (
-    <Card className={s.finder}>
+    <Card className={s.finder} id="finder">
       <div className={s.finderHead}>
-        <h2 className={s.sectionTitle}>{t('landing.finderTitle')}</h2>
+        <h2 className={s.sectionTitle} id="finder-title">{t('landing.finderTitle')}</h2>
         <p className={s.sectionText}>{t('landing.finderText')}</p>
       </div>
 
@@ -230,45 +302,6 @@ function Finder() {
               )
             })}
           </div>
-        </div>
-      </div>
-    </Card>
-  )
-}
-
-/* ── why science stands apart ── */
-
-function ProgrammeMap() {
-  const { t, c } = useI18n()
-  const [ref, seen] = useInView<HTMLDivElement>()
-  const groups: { id: 'bolashak' | 'science'; act: 'pp573' | 'pp791' }[] = [
-    { id: 'bolashak', act: 'pp573' },
-    { id: 'science', act: 'pp791' },
-  ]
-  return (
-    <Card className={s.map}>
-      <h2 className={s.sectionTitle}>{t('landing.mapTitle')}</h2>
-      <p className={s.sectionText}>{t('landing.mapText')}</p>
-      <div className={[s.mapTree, seen ? s.mapOn : ''].join(' ')} ref={ref}>
-        <span className={s.mapRoot}>{t('landing.mapRoot')}</span>
-        <div className={s.mapGroups}>
-          {groups.map((g, gi) => (
-            <div key={g.id} className={s.mapGroup} style={{ transitionDelay: `${200 + gi * 160}ms` }}>
-              <div className={s.mapGroupHead}>
-                <b>{t(g.id === 'bolashak' ? 'platform.bolashak' : 'platform.scienceProgramme')}</b>
-                <span>{t(g.id === 'bolashak' ? 'landing.mapBolashakNote' : 'landing.mapScienceNote')}</span>
-              </div>
-              <div className={s.mapChips}>
-                {PLATFORMS.filter((p) => p.programme === g.id).map((p, i) => (
-                  <Link key={p.slug} to={platformPaths(p.slug).home} className={s.mapChip} data-p={p.slug} style={{ transitionDelay: `${380 + gi * 160 + i * 70}ms` }}>
-                    <StageIcon name={p.icon} size={14} />
-                    {c(p.name)}
-                  </Link>
-                ))}
-              </div>
-              <SourceLink id={g.act} />
-            </div>
-          ))}
         </div>
       </div>
     </Card>

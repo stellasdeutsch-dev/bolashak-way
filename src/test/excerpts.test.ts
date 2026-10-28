@@ -45,7 +45,7 @@ describe('document excerpts', () => {
   it('gives each track its own contract deadline quote', () => {
     const pick = (p: Profile) => excerptsForStage('contract').filter((e) => evaluate(e.appliesTo, p)).map((e) => e.id)
     expect(pick(medic)).toEqual(['x-contract-90'])
-    expect(pick(scientist)).toEqual(['x-contract-60'])
+    expect(pick(scientist)).toEqual(['x-contract-ns', 'x-contract-ns-extend'])
   })
 
   it('leaves no stage with quotes that nobody can see', () => {
@@ -157,7 +157,8 @@ describe('explanatory visuals', () => {
         expect(getSource(m.source), `unknown source ${m.source}`).toBeDefined()
       }
     }
-    expect(awardTimeline('science_internship').total).toBe(60)
+    // приказ МНВО № 422 п. 21 and ПП 573 п. 24 both give 90 calendar days.
+    expect(awardTimeline('science_internship').total).toBe(90)
     expect(awardTimeline('master').total).toBe(90)
   })
 })
@@ -186,19 +187,19 @@ describe('the competition flowchart', () => {
         expect(step.source, 'the entry node should not claim a source').toBeUndefined()
       } else {
         expect(getSource(step.source!), `${step.id} → unknown source ${step.source}`).toBeDefined()
-        expect(step.clause, `${step.id} has no clause`).toMatch(/^ПП \d+, пункт \d+$/)
+        expect(step.clause, `${step.id} has no clause`).toMatch(/^(ПП|Приказ №) \d+, пункт \d+$/)
       }
       if (step.exit) {
         expect(getSource(step.exit.source), `${step.id} exit → unknown source`).toBeDefined()
-        expect(step.exit.clause).toMatch(/^ПП \d+, пункт \d+$/)
+        expect(step.exit.clause).toMatch(/^(ПП|Приказ №) \d+, пункт \d+$/)
       }
     }
   })
 
-  it('keeps the threshold exit off the science track, where no such clause exists', () => {
+  it('draws the threshold exit on both tracks — приказ № 422 п. 15 has one too', () => {
     const exits = (track: Profile['track']) => forTrack(track).filter((st) => st.exit).map((st) => st.id)
     expect(exits('master')).toEqual(['round1', 'round3'])
-    expect(exits('science_internship')).toEqual(['round3_ns'])
+    expect(exits('science_internship')).toEqual(['round1_ns', 'round3_ns'])
   })
 
   it('marks the stages the reader can be standing on', () => {
@@ -215,7 +216,7 @@ describe('the competition flowchart', () => {
     const acts = (track: Profile['track']) =>
       new Set(forTrack(track).flatMap((st) => [...(st.source ? [st.source] : []), ...(st.exit ? [st.exit.source] : [])]))
     expect([...acts('master')]).toEqual(['pp573'])
-    expect([...acts('science_internship')]).toEqual(['pp791'])
+    expect([...acts('science_internship')]).toEqual(['ns_rules422'])
   })
 
   it('keeps every departure chain translated and sourced', () => {
@@ -253,7 +254,8 @@ describe('official forms', () => {
   })
 
   it('gives the pledge paperwork only to tracks that actually pledge', () => {
-    // ПП 791 mentions neither a pledge nor a guarantee, so a scientist must not see those.
+    // The pledge forms are the scholarship's; a scientist secures the contract with two guarantors
+    // under its own form (приказ МНВО № 422 п. 24–26), so must not see these.
     const pledge = formsForStage('contract')
     expect(pledge.length).toBeGreaterThan(0)
     for (const f of pledge) {

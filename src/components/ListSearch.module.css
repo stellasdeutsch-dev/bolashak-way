@@ -33,13 +33,13 @@
 }
 .hint {
   margin: 0;
-  font-size: 13px;
+  font-size: 14px;
   line-height: 1.5;
   color: var(--text-3);
 }
 .status {
   margin: 0;
-  font-size: 13px;
+  font-size: 14px;
   color: var(--text-3);
 }
 .results {
@@ -66,13 +66,13 @@
   flex-wrap: wrap;
 }
 .rowTitle {
-  font-size: 14.5px;
+  font-size: 15.5px;
   font-weight: 650;
   line-height: 1.4;
   color: var(--text);
 }
 .rowMeta {
-  font-size: 12.5px;
+  font-size: 13.5px;
   color: var(--text-3);
 }
 .codes {
@@ -84,13 +84,13 @@
   padding: 2px 8px;
   border-radius: var(--r-pill);
   background: var(--accent-tint);
-  color: var(--accent-deep);
-  font-size: 11.5px;
+  color: var(--accent-ink);
+  font-size: 12.5px;
   font-weight: 650;
   white-space: nowrap;
 }
 .why {
-  font-size: 12.5px;
+  font-size: 13.5px;
   line-height: 1.5;
   color: var(--text-2);
 }
@@ -98,9 +98,9 @@
   display: inline-flex;
   align-items: center;
   gap: 5px;
-  font-size: 12.5px;
+  font-size: 13.5px;
   font-weight: 650;
-  color: var(--accent-deep);
+  color: var(--accent-ink);
   text-decoration: none;
   white-space: nowrap;
 }
@@ -115,7 +115,7 @@
   padding-top: 2px;
 }
 .taken {
-  font-size: 12px;
+  font-size: 13.5px;
   color: var(--text-3);
 }
 
@@ -135,7 +135,7 @@
 }
 .subhead {
   margin: 4px 0 0;
-  font-size: 12px;
+  font-size: 13.5px;
   font-weight: 700;
   letter-spacing: 0.05em;
   text-transform: uppercase;
@@ -170,11 +170,11 @@
   display: flex;
   flex-direction: column;
   gap: 2px;
-  font-size: 13px;
+  font-size: 14px;
   color: var(--text-2);
 }
 .pickedText b {
-  font-size: 14.5px;
+  font-size: 15.5px;
   color: var(--text);
 }
 
@@ -183,7 +183,7 @@
   align-items: center;
   flex-wrap: wrap;
   gap: 8px;
-  font-size: 13px;
+  font-size: 14px;
   color: var(--text-2);
 }
 .countryPick select {
@@ -196,5 +196,5 @@
   background: var(--surface);
   color: var(--text);
   font: inherit;
-  font-size: 14px;
+  font-size: 15px;
 }

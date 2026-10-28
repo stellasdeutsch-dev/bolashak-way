@@ -27,7 +27,7 @@
   border-radius: var(--r-pill);
   background: var(--surface);
   border: 1.5px solid var(--line);
-  font-size: 13.5px;
+  font-size: 14.5px;
   font-weight: 550;
   color: var(--text-2);
 }
@@ -51,8 +51,7 @@
   font-size: 22px;
   font-weight: 800;
   letter-spacing: -0.04em;
-  color: var(--text-3);
-  opacity: 0.5;
+  color: var(--accent-ink);
   font-variant-numeric: tabular-nums;
   line-height: 1;
 }
@@ -69,16 +68,17 @@
   border-radius: var(--r-pill);
   background: var(--surface-3);
   color: var(--text-2);
-  font-size: 12px;
+  font-size: 13.5px;
   font-weight: 600;
   font-variant-numeric: tabular-nums;
   white-space: nowrap;
 }
 .groupCountDone {
   background: var(--success-tint);
-  color: var(--success);
+  color: var(--success-ink);
 }
 .row {
+  position: relative;
   display: flex;
   gap: 12px;
   align-items: flex-start;
@@ -91,14 +91,14 @@
   transition: background 0.16s var(--ease-out), border-color 0.16s var(--ease-out), box-shadow 0.16s var(--ease-out),
     transform 0.16s var(--ease-spring);
 }
-.row:hover:not(:disabled) {
+.row:hover:not(.rowOff) {
   border-color: var(--accent);
   background: var(--surface);
   box-shadow: var(--shadow-card);
   transform: translateY(-1px);
 }
 .rowDone,
-.rowDone:hover:not(:disabled) {
+.rowDone:hover:not(.rowOff) {
   background: var(--success-tint);
   border-color: transparent;
   box-shadow: none;
@@ -123,13 +123,13 @@
 }
 .docTitle {
   display: block;
-  font-size: 14.8px;
+  font-size: 15.5px;
   line-height: 1.45;
   color: var(--text);
 }
 .docNote {
   display: block;
-  font-size: 12.5px;
+  font-size: 13.5px;
   color: var(--text-3);
   margin-top: 4px;
   line-height: 1.45;
@@ -139,7 +139,7 @@
   gap: 12px;
   flex-wrap: wrap;
   margin-top: 8px;
-  font-size: 12.5px;
+  font-size: 13.5px;
 }
 .empty {
   text-align: center;
@@ -174,7 +174,7 @@
   align-items: center;
   gap: 10px;
   margin-bottom: 2px;
-  color: var(--accent-deep);
+  color: var(--accent-ink);
 }
 .formsTitle {
   font-size: 17px;
@@ -189,4 +189,33 @@
   flex-direction: column;
   align-items: flex-end;
   gap: 6px;
+}
+
+.rowOff {
+  opacity: 0.8;
+}
+/* Invisible checkbox stretched over the row; links sit above it as their own targets. */
+.hit {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  width: 100%;
+  border-radius: inherit;
+  background: transparent;
+  cursor: pointer;
+}
+.rowOff .hit {
+  cursor: default;
+}
+.hit:focus-visible {
+  outline: none;
+  box-shadow: var(--focus);
+}
+.above {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 0;
 }

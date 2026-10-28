@@ -8,6 +8,11 @@ import type { CategoryId, ExamId, LanguageThreshold, L, SourceId, Track } from '
  *  I   — referral to language courses in Kazakhstan or abroad (except English);
  *  II  — referral to language courses abroad;
  *  III — referral straight to academic study / internship.
+ *
+ * The 'self' row is Order 318's own "самостоятельно поступившие" line. It is shown for
+ * reference only: ПП 573 asks a foreign-language level only of п. 4 пп. 2)–5), 7) (п. 9
+ * пп. 3) and none of doctoral or residency applicants (п. 11–12), and neither package lists
+ * a foreign certificate — so it must never be presented as a condition to apply.
  */
 export type LanguageGroup = 'preferential' | 'self' | 'internship' | 'science' | 'none'
 
@@ -30,8 +35,8 @@ export const ENGLISH_THRESHOLDS: Record<Exclude<LanguageGroup, 'none'>, Language
     { exam: 'toefl_pbt', label: 'TOEFL PBT / ITP', first: null, second: null, third: 417, scale: 'из 677', max: 677 },
     { exam: 'det', label: 'Duolingo English Test', first: null, second: null, third: 80, scale: 'из 160', max: 160 },
   ],
-  // Scientific internships have their own minimums, approved by the working body in a
-  // separate file (ns_minscore) — not Order No. 318. One level only: meet it or not.
+  // Scientific internships have their own minimums — Appendix 4 to the Rules approved by
+  // приказ МНВО № 422 (ns_rules422), not Order No. 318. One level only: meet it or not.
   science: [
     { exam: 'ielts', label: 'IELTS', first: null, second: null, third: 5.0, scale: 'из 9.0', max: 9 },
     { exam: 'toefl_ibt', label: 'TOEFL iBT', first: null, second: null, third: 35, scale: 'из 120', max: 120 },
@@ -42,10 +47,12 @@ export const ENGLISH_THRESHOLDS: Record<Exclude<LanguageGroup, 'none'>, Language
 
 /**
  * Minimum foreign-language level for a scientific internship, by the language the
- * internship runs in (ns_minscore). Exam names are left exactly as the file prints them.
+ * internship runs in — Appendix 4 to the Rules (приказ МНВО № 422, ред. 04.07.2025).
+ * Exam names are left as the appendix prints them. Russian needs no certificate, but an
+ * internship in Russian is allowed only where Russian is a state or official language.
  */
 export const SCIENCE_LANGUAGES: { lang: L; level: string }[] = [
-  { lang: { ru: 'Английский', kk: 'Ағылшын', en: 'English' }, level: 'IELTS 5.0 · TOEFL iBT 35 · PBT/ITP 417 · DET 80 · IELTS Indicator 5.0' },
+  { lang: { ru: 'Английский', kk: 'Ағылшын', en: 'English' }, level: 'IELTS 5.0 · TOEFL iBT 35 · PBT/ITP 417 · DET 80' },
   { lang: { ru: 'Китайский', kk: 'Қытай', en: 'Chinese' }, level: 'HSK 3' },
   { lang: { ru: 'Корейский', kk: 'Корей', en: 'Korean' }, level: 'TOPIK 3' },
   { lang: { ru: 'Немецкий', kk: 'Неміс', en: 'German' }, level: 'Goethe-Zertifikat B1 · OnSet B1 · DSH 1 · TestDaF TDN 3' },
@@ -53,7 +60,7 @@ export const SCIENCE_LANGUAGES: { lang: L; level: string }[] = [
   { lang: { ru: 'Испанский', kk: 'Испан', en: 'Spanish' }, level: 'DELE B1' },
   { lang: { ru: 'Французский', kk: 'Француз', en: 'French' }, level: 'TCF 300–399 · DELF B1' },
   { lang: { ru: 'Японский', kk: 'Жапон', en: 'Japanese' }, level: 'JLPT N3' },
-  { lang: { ru: 'Турецкий', kk: 'Түрік', en: 'Turkish' }, level: 'Tömer B1' },
+  { lang: { ru: 'Турецкий', kk: 'Түрік', en: 'Turkish' }, level: 'Tömer B1 · TYS B1' },
   { lang: { ru: 'Русский', kk: 'Орыс', en: 'Russian' }, level: '—' },
 ]
 

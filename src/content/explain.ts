@@ -75,7 +75,7 @@ export const WORKBACK_ROWS: WorkbackRow[] = [
     cells: [
       { ru: 'Учёный после научной стажировки', kk: 'Ғылыми тағылымдамадан кейінгі ғалым', en: 'Researcher after the internship' },
       { ru: '3 года подряд', kk: 'Қатарынан 3 жыл', en: '3 years in a row' },
-      { ru: 'У работодателя, который направил; сменить — только при его ликвидации или реорганизации', kk: 'Жіберген жұмыс берушіде; ауыстыру — тек ол таратылса не қайта ұйымдастырылса', en: 'With the employer who sent you; a change only on its liquidation or reorganisation' },
+      { ru: 'У работодателя, который направил; сменить — при его ликвидации или реорганизации либо по решению Комиссии с согласия работодателя, сохранив направление исследования', kk: 'Жіберген жұмыс берушіде; ауыстыру — ол таратылса не қайта ұйымдастырылса, не жұмыс берушінің келісімімен Комиссия шешімі бойынша, зерттеу бағытын сақтап', en: 'With the employer who sent you; a change on its liquidation or reorganisation, or by the Commission\'s decision with the employer\'s consent, keeping your research direction' },
     ],
   },
   {
@@ -93,7 +93,7 @@ export function workbackTable(track: Track): ExplainTable {
     head: WORKBACK_HEAD,
     rows: WORKBACK_ROWS.filter((r) => r.tracks.includes(track)).map((r) => r.cells),
     accentColumn: 1,
-    sources: track === 'science_internship' ? ['pp791', 'ns_alumni'] : ['pp573'],
+    sources: track === 'science_internship' ? ['ns_rules422', 'ns_alumni'] : ['pp573'],
   }
 }
 
@@ -147,20 +147,29 @@ export interface TimelineMark {
   source: SourceId
 }
 
-/** The clock after the award, per programme: 90 days under ПП 573, 60 under ПП 791. */
+/**
+ * The clock after the award: 90 calendar days for both programmes — ПП 573 п. 24 for the
+ * scholarship, приказ МНВО № 422 п. 21 for scientific internships.
+ */
 export function awardTimeline(track: Track): { total: number; marks: TimelineMark[]; note: L } {
   const science = track === 'science_internship'
   return {
-    total: science ? 60 : 90,
-    note: {
-      ru: 'Отсчёт идёт в календарных днях и начинается в день решения комиссии, а не в день, когда вы о нём узнали.',
-      kk: 'Санақ күнтізбелік күнмен жүреді және сіз білген күннен емес, комиссия шешім қабылдаған күннен басталады.',
-      en: 'The count runs in calendar days from the day of the decision, not the day you found out about it.',
-    },
+    total: 90,
+    note: science
+      ? {
+          ru: 'Отсчёт идёт в календарных днях и начинается в день решения комиссии, а не в день, когда вы о нём узнали. Если не успеваете из-за болезни, командировки или других обстоятельств, до истечения срока можно один раз попросить продление — до 90 дней с решения Комиссии по рассмотрению обращений.',
+          kk: 'Санақ күнтізбелік күнмен жүреді және сіз білген күннен емес, комиссия шешім қабылдаған күннен басталады. Ауру, іссапар не басқа жағдай себебінен үлгермесеңіз, мерзім өткенге дейін бір рет ұзартуды сұрауға болады — Өтініштерді қарау комиссиясының шешімінен бастап 90 күнге дейін.',
+          en: 'The count runs in calendar days from the day of the decision, not the day you found out about it. If illness, a work trip or other circumstances get in the way, you can ask once, before the term runs out, for an extension of up to 90 days from the appeals commission\'s decision.',
+        }
+      : {
+          ru: 'Отсчёт идёт в календарных днях и начинается в день решения комиссии, а не в день, когда вы о нём узнали.',
+          kk: 'Санақ күнтізбелік күнмен жүреді және сіз білген күннен емес, комиссия шешім қабылдаған күннен басталады.',
+          en: 'The count runs in calendar days from the day of the decision, not the day you found out about it.',
+        },
     marks: [
-      { day: 0, tone: 'start', label: { ru: 'Решение комиссии', kk: 'Комиссия шешімі', en: 'Commission decision' }, source: science ? 'pp791' : 'pp573' },
+      { day: 0, tone: 'start', label: { ru: 'Решение комиссии', kk: 'Комиссия шешімі', en: 'Commission decision' }, source: science ? 'ns_rules422' : 'pp573' },
       science
-        ? { day: 60, tone: 'ns', label: { ru: '60 дней — договор и два гаранта', kk: '60 күн — шарт және екі кепілгер', en: '60 days — the contract and two guarantors' }, source: 'pp791' }
+        ? { day: 90, tone: 'ns', label: { ru: '90 дней — договор и два гаранта', kk: '90 күн — шарт және екі кепілгер', en: '90 days — the contract and two guarantors' }, source: 'ns_rules422' }
         : { day: 90, tone: 'main', label: { ru: '90 дней — договор и залог или гарантия', kk: '90 күн — шарт және кепіл не кепілдік', en: '90 days — contract and pledge or guarantee' }, source: 'pp573' },
     ],
   }
@@ -191,7 +200,7 @@ export interface FlowStep {
  * Three rounds with the exits drawn in. Prose could say "three rounds" but never made
  * plain where you fall out and what happens then — which is the only part that scares
  * people. Both tracks are here; the rules genuinely differ, so each node cites its own
- * clause: ПП 573 for the scholarship, ПП 791 for scientific internships.
+ * clause: ПП 573 for the scholarship, приказ МНВО № 422 for scientific internships.
  */
 export const CONTEST_FLOW: FlowStep[] = [
   {
@@ -217,12 +226,12 @@ export const CONTEST_FLOW: FlowStep[] = [
     kind: 'admin',
     appliesTo: SCIENCE,
     label: {
-      ru: 'О месте и времени первых двух туров извещают не позднее чем за 5 календарных дней',
-      kk: 'Алғашқы екі тур орны мен уақыты туралы 5 күнтізбелік күннен кешіктірмей хабарлайды',
-      en: 'You are told the place and time of the first two rounds at least 5 calendar days ahead',
+      ru: 'О месте, дате и времени первых двух туров извещают по почте или телефону не позднее чем за 10 календарных дней',
+      kk: 'Алғашқы екі турдың орны, күні мен уақыты туралы пошта не телефон арқылы 10 күнтізбелік күннен кешіктірмей хабарлайды',
+      en: 'You are told the place, date and time of the first two rounds by email or phone at least 10 calendar days ahead',
     },
-    source: 'pp791',
-    clause: 'ПП 791, пункт 16',
+    source: 'ns_rules422',
+    clause: 'Приказ № 422, пункт 16',
   },
   {
     id: 'round1',
@@ -254,12 +263,21 @@ export const CONTEST_FLOW: FlowStep[] = [
     appliesTo: SCIENCE,
     label: { ru: 'I тур · Комплексное тестирование', kk: 'I тур · Кешенді тестілеу', en: 'Round I · Comprehensive testing' },
     detail: {
-      ru: 'Интеллектуальные способности, личностно-деловые компетенции, готовность к стажировке за рубежом.',
-      kk: 'Зияткерлік қабілет, тұлғалық-іскерлік құзыреттер, шетелде тағылымдамадан өтуге дайындық.',
-      en: 'Intellectual ability, personal and business competencies, readiness for an internship abroad.',
+      ru: 'Отборочный тур с допуском на следующий: интеллектуальные способности, личностно-деловые компетенции, психологическая готовность.',
+      kk: 'Келесіге жіберетін іріктеу туры: зияткерлік қабілет, тұлғалық-іскерлік құзыреттер, психологиялық дайындық.',
+      en: 'A qualifying round that decides who goes on: intellectual ability, personal and business competencies, psychological readiness.',
     },
-    source: 'pp791',
-    clause: 'ПП 791, пункт 15',
+    source: 'ns_rules422',
+    clause: 'Приказ № 422, пункт 15',
+    exit: {
+      label: {
+        ru: 'Не набрали пороговый балл — ко второму туру не допускают',
+        kk: 'Шекті балды жинамасаңыз — екінші турға жібермейді',
+        en: 'Below the cut-off score you are not admitted to the second round',
+      },
+      source: 'ns_rules422',
+      clause: 'Приказ № 422, пункт 15',
+    },
   },
   {
     id: 'round2',
@@ -285,17 +303,17 @@ export const CONTEST_FLOW: FlowStep[] = [
     stage: 'interview',
     appliesTo: SCIENCE,
     label: {
-      ru: 'II тур · Анонимное персональное собеседование',
-      kk: 'II тур · Анонимді жеке әңгімелесу',
-      en: 'Round II · Anonymous personal interview',
+      ru: 'II тур · Персональное собеседование',
+      kk: 'II тур · Жеке әңгімелесу',
+      en: 'Round II · Personal interview',
     },
     detail: {
-      ru: 'С экспертной комиссией. Определяют уровень научно-исследовательской подготовки, теоретических знаний и обоснованность выбора исследования и зарубежной организации.',
-      kk: 'Сараптама комиссиясымен. Ғылыми-зерттеу дайындығы, теориялық білім және зерттеу мен шетелдік ұйымды таңдау негізділігі анықталады.',
-      en: 'With the expert commission. It assesses your research background, theory and how well you justify the study and the host organisation.',
+      ru: 'С членами экспертной комиссии. Определяют уровень профессиональной подготовки, теоретических знаний и профессиональных компетенций в выбранной области специализации.',
+      kk: 'Сараптама комиссиясының мүшелерімен. Таңдалған мамандану саласындағы кәсіби дайындық, теориялық білім және кәсіби құзырет деңгейі анықталады.',
+      en: 'With members of the expert commission. It assesses your professional training, theory and professional competencies in your chosen field.',
     },
-    source: 'pp791',
-    clause: 'ПП 791, пункт 16',
+    source: 'ns_rules422',
+    clause: 'Приказ № 422, пункт 15',
   },
   {
     id: 'recommendation',
@@ -314,12 +332,12 @@ export const CONTEST_FLOW: FlowStep[] = [
     kind: 'admin',
     appliesTo: SCIENCE,
     label: {
-      ru: 'Рекомендация с учётом результатов первого и второго туров',
-      kk: 'Бірінші және екінші тур нәтижелерін ескере отырып ұсыным',
-      en: 'A recommendation that takes both rounds into account',
+      ru: 'Экспертная комиссия даёт рекомендацию по каждому претенденту',
+      kk: 'Сараптама комиссиясы әр үміткер бойынша ұсыным береді',
+      en: 'The expert commission issues a recommendation on each applicant',
     },
-    source: 'pp791',
-    clause: 'ПП 791, пункт 17',
+    source: 'ns_rules422',
+    clause: 'Приказ № 422, пункт 17',
   },
   {
     id: 'to_round3',
@@ -338,12 +356,12 @@ export const CONTEST_FLOW: FlowStep[] = [
     kind: 'admin',
     appliesTo: SCIENCE,
     label: {
-      ru: 'Материалы вносят на третий тур: результаты тестирования и рекомендации',
-      kk: 'Материалдар үшінші турға енгізіледі: тест нәтижелері мен ұсынымдар',
-      en: 'The papers go to round three: test results and recommendations',
+      ru: 'Материалы вносят на третий тур: результаты тестирования, рекомендации и ранжирование',
+      kk: 'Материалдар үшінші турға енгізіледі: тест нәтижелері, ұсынымдар және ранжирлеу',
+      en: 'The papers go to round three: test results, recommendations and the ranking',
     },
-    source: 'pp791',
-    clause: 'ПП 791, пункт 18',
+    source: 'ns_rules422',
+    clause: 'Приказ № 422, пункт 18',
   },
   {
     id: 'round3',
@@ -371,20 +389,20 @@ export const CONTEST_FLOW: FlowStep[] = [
     appliesTo: SCIENCE,
     label: { ru: 'III тур · Республиканская комиссия', kk: 'III тур · Республикалық комиссия', en: 'Round III · Republican Commission' },
     detail: {
-      ru: 'Принимает окончательное решение о присуждении либо отказе.',
-      kk: 'Тағайындау не бас тарту туралы түпкілікті шешім қабылдайды.',
-      en: 'Takes the final decision to award or refuse.',
+      ru: 'Рассматривает результаты первого и второго туров и принимает окончательное решение о присуждении либо отказе.',
+      kk: 'Бірінші және екінші тур нәтижелерін қарап, тағайындау не бас тарту туралы түпкілікті шешім қабылдайды.',
+      en: 'Reviews both rounds and takes the final decision to award or refuse.',
     },
-    source: 'pp791',
-    clause: 'ПП 791, пункт 19',
+    source: 'ns_rules422',
+    clause: 'Приказ № 422, пункт 19',
     exit: {
       label: {
-        ru: 'Отказ. К повторному участию в конкурсе текущего года не допускают',
-        kk: 'Бас тарту. Ағымдағы жыл конкурсына қайта қатысуға жібермейді',
-        en: 'Refused — and not admitted to this year\'s competition again',
+        ru: 'Отказ. Подать снова можно в этом же году, пока идёт приём, — с выездом в следующем календарном году',
+        kk: 'Бас тарту. Сол жылы қабылдау жүріп жатқанда қайта тапсыруға болады — келесі күнтізбелік жылы шығу шартымен',
+        en: 'Refused. You may apply again this year while the intake is open — to leave in the next calendar year',
       },
-      source: 'pp791',
-      clause: 'ПП 791, пункт 20',
+      source: 'ns_rules422',
+      clause: 'Приказ № 422, пункт 20',
     },
   },
   {
@@ -410,8 +428,8 @@ export const CONTEST_FLOW: FlowStep[] = [
       kk: 'Тағайындау туралы әкімшінің ресми сайтындағы жарияланыммен хабарлайды.',
       en: 'You are notified by a post on the administrator\'s official site.',
     },
-    source: 'pp791',
-    clause: 'ПП 791, пункт 19',
+    source: 'ns_rules422',
+    clause: 'Приказ № 422, пункт 19',
   },
   {
     id: 'contract_90',
@@ -423,13 +441,13 @@ export const CONTEST_FLOW: FlowStep[] = [
     clause: 'ПП 573, пункт 24',
   },
   {
-    id: 'contract_60',
+    id: 'contract_90_ns',
     kind: 'end',
     stage: 'contract',
     appliesTo: SCIENCE,
-    label: { ru: '60 календарных дней на договор', kk: 'Шартқа 60 күнтізбелік күн', en: '60 calendar days for the contract' },
-    source: 'pp791',
-    clause: 'ПП 791, пункт 21',
+    label: { ru: '90 календарных дней на договор', kk: 'Шартқа 90 күнтізбелік күн', en: '90 calendar days for the contract' },
+    source: 'ns_rules422',
+    clause: 'Приказ № 422, пункт 21',
   },
 ]
 
@@ -476,7 +494,7 @@ export function departureChain(track: Track): DepartureChain {
         kk: 'Шарт — шығысты төлеу негізі: ақша ол жасалғаннан кейін аударылады.',
         en: 'The contract is the basis for paying costs: money is transferred once it is signed.',
       },
-      sources: ['ns_finance', 'pp791'],
+      sources: ['ns_finance', 'ns_rules422'],
     }
   return {
     steps: [

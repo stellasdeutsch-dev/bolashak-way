@@ -1,6 +1,7 @@
 import { DEADLINE_RULES } from '@/content/deadlines'
 import type { DateKey, DeadlineRule, Profile } from '@/content/types'
 import { evaluate } from './applicability'
+import { localIso } from './dates'
 
 export type DeadlineStatus = 'upcoming' | 'soon' | 'overdue'
 
@@ -39,7 +40,7 @@ const dueFor = (rule: DeadlineRule, anchorMs: number, step = 1): number =>
  * so the result is deterministic and testable.
  */
 export function computeDeadlines(profile: Profile, dates: Partial<Record<DateKey, string>>, now: Date): ComputedDeadline[] {
-  const today = atNoon(now.toISOString().slice(0, 10))
+  const today = atNoon(localIso(now))
   const out: ComputedDeadline[] = []
 
   for (const rule of DEADLINE_RULES) {

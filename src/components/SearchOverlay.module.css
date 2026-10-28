@@ -42,7 +42,7 @@
   font-size: 16px;
   border: none;
   background: none;
-  color: var(--text-1);
+  color: var(--text);
   outline: none;
   min-width: 0;
 }
@@ -68,7 +68,7 @@
 
 .hint {
   color: var(--text-3);
-  font-size: 14px;
+  font-size: 15px;
   padding: 18px 12px;
   margin: 0;
 }
@@ -78,7 +78,7 @@
 }
 
 .groupTitle {
-  font-size: 11.5px;
+  font-size: 12.5px;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--text-3);
@@ -106,13 +106,13 @@
 }
 
 .resultTitle {
-  font-size: 14.5px;
+  font-size: 15.5px;
   font-weight: 600;
-  color: var(--text-1);
+  color: var(--text);
 }
 
 .resultSnippet {
-  font-size: 13px;
+  font-size: 14px;
   line-height: 1.5;
   color: var(--text-2);
 }

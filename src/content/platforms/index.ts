@@ -9,7 +9,7 @@ import { SCIENCE_HOME, SCIENCE_STAGES } from './science'
 /**
  * The five programmes, each a platform of its own: its own address, colour, front page and
  * wording. Two programmes administered by the same Center sit behind them — the Bolashak
- * scholarship (ПП 573: the first four) and scientific internships (ПП 791).
+ * scholarship (ПП 573: the first four) and scientific internships (приказ МНВО № 422).
  */
 export interface PlatformMeta {
   slug: PlatformSlug

@@ -128,7 +128,7 @@ export function SourceLink({ id, label }: { id: SourceId; label?: string }) {
     <a className={s.calloutSource} href={src.url} target="_blank" rel="noopener noreferrer">
       <ExternalLink size={13} aria-hidden="true" />
       {label ?? c(src.title)}
-      <span style={{ opacity: 0.6 }}>· {src.org}</span>
+      <span className={s.sourceOrg}> · {src.org}</span>
     </a>
   )
 }

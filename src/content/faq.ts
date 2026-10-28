@@ -55,11 +55,11 @@ export const OFFICIAL_FAQ: FaqItem[] = [
     status: 'official',
     q: { ru: 'Сколько лет нужно отработать после научной стажировки?', kk: 'Ғылыми тағылымдамадан кейін қанша жыл өтеу керек?', en: 'How long is the work-back after a scientific internship?' },
     a: {
-      ru: 'Не менее 3 лет непрерывно у работодателя, по заявке которого вы проходили стажировку, по выбранному направлению исследования. Сменить работодателя можно только при его ликвидации или реорганизации.',
-      kk: 'Өтінімі бойынша тағылымдамадан өткен жұмыс берушіде таңдаған зерттеу бағыты бойынша кемінде 3 жыл үздіксіз. Жұмыс берушіні тек ол таратылса не қайта ұйымдастырылса ауыстыруға болады.',
-      en: 'At least 3 continuous years in your research direction with the employer whose request sent you. You can change employer only if it is liquidated or reorganised.',
+      ru: 'Не менее 3 лет непрерывно у работодателя, по заявке которого вы проходили стажировку, по выбранному направлению исследования. Сменить работодателя можно при его ликвидации или реорганизации — либо по вашему обращению: в другой аккредитованной научной организации, с сохранением направления исследования, с согласия работодателя и по решению Комиссии.',
+      kk: 'Өтінімі бойынша тағылымдамадан өткен жұмыс берушіде таңдаған зерттеу бағыты бойынша кемінде 3 жыл үздіксіз. Жұмыс берушіні ол таратылса не қайта ұйымдастырылса ауыстыруға болады — не өз өтінішіңізбен: басқа аккредиттелген ғылыми ұйымда, зерттеу бағытын сақтап, жұмыс берушінің келісімімен және Комиссия шешімімен.',
+      en: 'At least 3 continuous years in your research direction with the employer whose request sent you. You can change employer if it is liquidated or reorganised — or at your own request: to another accredited research organisation, keeping your research direction, with your employer\'s consent and by the Commission\'s decision.',
     },
-    source: 'pp791',
+    source: 'ns_rules422',
   },
   {
     id: 'off-06s',
@@ -68,11 +68,11 @@ export const OFFICIAL_FAQ: FaqItem[] = [
     status: 'official',
     q: { ru: 'Можно ли участвовать повторно, если отказали?', kk: 'Бас тартылса, қайта қатысуға бола ма?', en: 'Can I reapply after a refusal?' },
     a: {
-      ru: 'В этом году — нет: тем, кому отказала Республиканская комиссия, к повторному участию в конкурсе текущего года путь закрыт. Так же исключают за заведомо ложные сведения. Пробовать можно в следующем году.',
-      kk: 'Биыл — жоқ: Республикалық комиссия бас тартқандар ағымдағы жылғы конкурсқа қайта қатыса алмайды. Көрінеу жалған мәлімет үшін де солай шығарылады. Келесі жылы қатысуға болады.',
-      en: 'Not this year: those the Republican Commission refused cannot take part again in the current year. The same applies for knowingly false information. You can try next year.',
+      ru: 'Да, даже в этом году: тем, кому отказала Республиканская комиссия, разрешено снова участвовать в конкурсе текущего года, пока идёт приём документов, — при условии, что на стажировку вы выедете в следующем календарном году. Исключение — заведомо ложные сведения: с ними к конкурсу этого года не допустят.',
+      kk: 'Иә, тіпті биыл да: Республикалық комиссия бас тартқандарға құжат қабылдау жүріп жатқанда ағымдағы жылғы конкурсқа қайта қатысуға рұқсат етіледі — тағылымдамаға келесі күнтізбелік жылы шығу шартымен. Ерекшелік — көрінеу жалған мәлімет: онымен биылғы конкурсқа жібермейді.',
+      en: 'Yes, even this year: applicants the Republican Commission refused may take part again in the current year\'s competition while the intake is open — provided they leave for the internship in the next calendar year. The exception is knowingly false information: with it you are barred from this year\'s competition.',
     },
-    source: 'pp791',
+    source: 'ns_rules422',
   },
   {
     id: 'off-07a',
@@ -107,11 +107,11 @@ export const OFFICIAL_FAQ: FaqItem[] = [
     status: 'official',
     q: { ru: 'Что оплачивает программа научных стажировок?', kk: 'Ғылыми тағылымдама бағдарламасы нені төлейді?', en: 'What does the scientific-internship programme pay for?' },
     a: {
-      ru: 'Визу и её продление, саму стажировку, обязательные услуги по требованию страны и принимающей организации, проживание, питание и научную литературу по нормам рабочего органа, медобследование и страховку, проезд от дома до места стажировки и обратно.',
-      kk: 'Виза мен оны ұзартуды, тағылымдаманың өзін, ел мен қабылдаушы ұйым талап ететін міндетті қызметтерді, жұмыс органы нормасы бойынша тұру, тамақ және ғылыми әдебиетті, медициналық тексеру мен сақтандыруды, үйден тағылымдама орнына барып-қайтуды.',
-      en: 'The visa and renewals, the internship itself, mandatory services the country and host require, housing, meals and research literature at the working body\'s rates, medical checks and insurance, and travel from home to the host and back.',
+      ru: 'Визу и её продление, саму стажировку, обязательные услуги по требованию страны и принимающей организации, проживание, питание и научную литературу по нормам приложения 3 к Правилам, медобследование и страховку, проезд от дома до места стажировки и обратно.',
+      kk: 'Виза мен оны ұзартуды, тағылымдаманың өзін, ел мен қабылдаушы ұйым талап ететін міндетті қызметтерді, Қағидалардың 3-қосымшасындағы нормалар бойынша тұру, тамақ және ғылыми әдебиетті, медициналық тексеру мен сақтандыруды, үйден тағылымдама орнына барып-қайтуды.',
+      en: 'The visa and renewals, the internship itself, mandatory services the country and host require, housing, meals and research literature at the rates in Appendix 3 to the Rules, medical checks and insurance, and travel from home to the host and back.',
     },
-    source: 'pp791',
+    source: 'ns_rules422',
   },
   {
     id: 'off-11i',
@@ -133,11 +133,11 @@ export const OFFICIAL_FAQ: FaqItem[] = [
     status: 'official',
     q: { ru: 'Что если организации нет в списке научных стажировок?', kk: 'Ұйым ғылыми тағылымдама тізімінде болмаса ше?', en: 'What if my host is not on the scientific-internship list?' },
     a: {
-      ru: 'Допуск рассматривает рабочий орган в индивидуальном порядке — в течение 10 рабочих дней со дня приёма документов. Уведомление о решении приходит в течение 3 рабочих дней после него. Отказать могут, если организация не соответствует критериям отбора.',
-      kk: 'Рұқсатты жұмыс органы жеке тәртіппен — құжат қабылданған күннен бастап 10 жұмыс күні ішінде қарайды. Шешім туралы хабарлама одан кейін 3 жұмыс күні ішінде келеді. Ұйым іріктеу өлшемдеріне сай келмесе, бас тартуы мүмкін.',
-      en: 'The working body decides admission individually — within 10 working days of your documents being accepted. You are notified within 3 working days of the decision. It can refuse if the host does not meet the selection criteria.',
+      ru: 'Тогда приглашение не подойдёт. Действующие правила требуют безусловного приглашения именно от организации, входящей в список, — порядка индивидуального рассмотрения организаций вне списка в них нет. Список утверждают на год: вузы из топ-100 QS по предмету, научные центры из первой 1000 SCImago, а также организации, с которыми у министерства есть соглашения или меморандумы; для направления «Национальная безопасность и оборона, биологическая безопасность» эти рейтинговые пороги не применяются.',
+      kk: 'Онда шақыру жарамайды. Қолданыстағы қағидалар сөзсіз шақыруды дәл тізімге кіретін ұйымнан талап етеді — тізімнен тыс ұйымдарды жеке қарау тәртібі оларда жоқ. Тізім бір жылға бекітіледі: пән бойынша QS топ-100 ЖОО-лары, SCImago алғашқы 1000-ындағы ғылыми орталықтар сондай-ақ министрлікпен келісімі не меморандумы бар ұйымдар; «Ұлттық қауіпсіздік және қорғаныс, биологиялық қауіпсіздік» бағыты үшін бұл рейтинг шектері қолданылмайды.',
+      en: 'Then the invitation will not do. The current rules require an unconditional invitation from an organisation on the list — they have no procedure for considering hosts off the list individually. The list is approved for one year: universities in the QS top 100 by subject, research centres in the SCImago top 1,000, and organisations that have agreements or memoranda with the ministry; for the "National security and defence, biological security" direction the ranking thresholds do not apply.',
     },
-    source: 'pp791',
+    source: 'ns_rules422',
   },
   {
     id: 'off-01',

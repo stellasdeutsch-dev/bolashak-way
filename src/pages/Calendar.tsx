@@ -8,7 +8,8 @@ import type { DateKey } from '@/content/types'
 import { computeDeadlines, type ComputedDeadline } from '@/domain/deadlines'
 import { evaluate } from '@/domain/applicability'
 import { buildIcs, downloadIcs } from '@/domain/ics'
-import { atNoon, isoOf, monthMatrix } from '@/domain/calendar'
+import { atNoon, monthMatrix } from '@/domain/calendar'
+import { localIso } from '@/domain/dates'
 import { useAppStore } from '@/store/useAppStore'
 import { useI18n } from '@/i18n'
 import { usePageChrome } from '@/i18n/usePageChrome'
@@ -33,7 +34,7 @@ export function Calendar() {
   const setDate = useAppStore((st) => st.setDate)
   usePageChrome(t('nav.calendar'))
 
-  const today = isoOf(Date.now())
+  const today = localIso(new Date())
   const [cursor, setCursor] = useState(() => {
     const now = new Date()
     return { year: now.getFullYear(), month: now.getMonth() }
@@ -62,6 +63,8 @@ export function Calendar() {
     [locale],
   )
   const showDate = (iso: string) => fmtDate.format(new Date(atNoon(iso)))
+  const statusLabel = (e: { kind: string; d?: { status: string } }) =>
+    t(e.kind === 'anchor' ? 'calendar.legendAnchor' : e.d?.status === 'overdue' ? 'calendar.legendOverdue' : e.d?.status === 'soon' ? 'calendar.legendSoon' : 'calendar.legendUpcoming')
 
   /** Anchors this profile can even be asked for: a rule has to depend on them. */
   const usedAnchors = useMemo(() => {
@@ -259,8 +262,9 @@ export function Calendar() {
                             ].join(' ')}
                             title={e.title}
                             // The label is the only accessible name once the chip
-                            // collapses to a dot on a narrow screen.
-                            aria-label={e.title}
+                            // collapses to a dot on a narrow screen — and the status is
+                            // spelled out, not left to the colour.
+                            aria-label={`${e.title}, ${statusLabel(e)}`}
                             draggable={e.kind === 'anchor'}
                             onDragStart={(ev) => {
                               if (e.kind !== 'anchor') return
@@ -358,6 +362,7 @@ export function Calendar() {
                 >
                   <span className={s.chipDot} aria-hidden="true" />
                   <span className={s.chipText}>{e.title}</span>
+                  <span className="visually-hidden">, {statusLabel(e)}</span>
                 </button>
               </li>
             ))}

@@ -3,8 +3,8 @@ import type { L } from './types'
 /** Bump these when the content is re-verified against the official sources. */
 export const CONTENT_META = {
   competitionYear: 2026,
-  lastVerified: '2026-10-19',
-  schemaVersion: 2,
+  lastVerified: '2026-10-28',
+  schemaVersion: 3,
   disclaimer: {
     ru: 'Требования программ меняются каждый год: категории, стаж, языковые пороги, списки вузов и специальностей. Мы сверили всё с официальными документами на указанную дату. Перед подачей перепроверьте на bolashak.gov.kz и в личном кабинете.',
     kk: 'Бағдарлама талаптары жыл сайын өзгереді: санаттар, өтіл, тілдік шектер, ЖОО мен мамандықтар тізімі. Біз бәрін көрсетілген күнге ресми құжаттармен салыстырдық. Тапсырар алдында bolashak.gov.kz-тен және жеке кабинеттен тексеріңіз.',

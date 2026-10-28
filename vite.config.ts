@@ -9,11 +9,12 @@ export default defineConfig({
     react(),
     // The app is fully local, so it works offline once cached; the manifest in public/ is reused.
     VitePWA({
-      registerType: 'autoUpdate',
+      // 'prompt' lets main.tsx pick the moment to switch: never in the middle of the questions.
+      registerType: 'prompt',
       injectRegister: 'auto',
       manifest: false,
       workbox: {
-        globPatterns: ['**/*.{js,css,html,svg,webmanifest}'],
+        globPatterns: ['**/*.{js,css,html,svg,webmanifest}', '**/inter-{latin,latin-ext,cyrillic,cyrillic-ext}-wght-normal-*.woff2'],
         // The two official lists are only fetched when somebody searches, so precaching them
         // would put 350 KB on every install for a screen most people open once. Cache the
         // chunk the first time it is actually asked for instead — after that it is offline too.
