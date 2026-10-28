@@ -13,7 +13,7 @@
   border: 1px solid var(--line);
   background: var(--surface);
   color: var(--text);
-  font-size: 13.5px;
+  font-size: 14.5px;
   font-weight: 600;
   cursor: pointer;
   transition: border-color 0.18s var(--ease-out), box-shadow 0.18s var(--ease-out);
@@ -69,7 +69,7 @@
 .switcherGroup {
   display: block;
   padding: 8px 10px 4px;
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 700;
   letter-spacing: 0.06em;
   text-transform: uppercase;
@@ -98,13 +98,13 @@
   min-width: 0;
   display: flex;
   flex-direction: column;
-  font-size: 14px;
+  font-size: 15px;
 }
 .switcherItemText b {
   font-weight: 600;
 }
 .switcherMine {
-  font-size: 11.5px;
+  font-size: 12.5px;
   color: var(--p);
   font-weight: 600;
 }
@@ -112,7 +112,7 @@
   margin-top: 6px;
   padding: 10px;
   border-top: 1px solid var(--line);
-  font-size: 13.5px;
+  font-size: 14.5px;
   font-weight: 600;
   color: var(--text-2);
   text-align: center;
@@ -126,15 +126,21 @@
 /* On a phone the chip shows only the colour badge and a short name; the brand gives way. */
 @media (max-width: 560px) {
   .switcherBtn {
-    font-size: 12.5px;
+    font-size: 13.5px;
     padding-right: 8px;
   }
   .switcherName {
     max-width: 30vw;
   }
+  /* The chooser's own label is short and is the only hint of what the chip does. */
+  .switcherName.hideNarrow {
+    max-width: none;
+    flex: none;
+  }
 }
 
-@media (max-width: 440px) {
+/* "Программы" stays readable on ordinary phones; only the narrowest screens fall back to the icon. */
+@media (max-width: 359px) {
   .hideNarrow {
     display: none;
   }
@@ -174,7 +180,7 @@
 .subTitle {
   display: block;
   margin: 22px 0 10px;
-  font-size: 12px;
+  font-size: 13.5px;
   font-weight: 700;
   letter-spacing: 0.06em;
   text-transform: uppercase;
@@ -220,7 +226,7 @@
   font-variant-numeric: tabular-nums;
 }
 .factCaption {
-  font-size: 13px;
+  font-size: 14px;
   line-height: 1.45;
   color: var(--text-2);
 }
@@ -249,7 +255,7 @@
   gap: 10px;
 }
 .fitTitle {
-  font-size: 12px;
+  font-size: 13.5px;
   font-weight: 700;
   letter-spacing: 0.06em;
   text-transform: uppercase;
@@ -270,7 +276,7 @@
   gap: 12px;
   padding: 12px 14px;
   border-radius: var(--r-md);
-  font-size: 14.5px;
+  font-size: 15.5px;
   line-height: 1.55;
 }
 .fitYes {
@@ -310,7 +316,7 @@
   background: var(--surface);
   border: 1.5px solid rgba(var(--p-rgb), 0.4);
   color: var(--text);
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 650;
   text-decoration: none;
 }
@@ -345,7 +351,7 @@
   border: 1.5px solid var(--line-strong);
   background: var(--surface);
   color: var(--text);
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 600;
   cursor: pointer;
 }
@@ -360,7 +366,7 @@
   background: var(--surface-2);
 }
 .catDesc {
-  font-size: 13.5px;
+  font-size: 14.5px;
   line-height: 1.55;
   color: var(--text-2);
   margin-bottom: 10px;
@@ -379,7 +385,7 @@
   gap: 12px;
   padding: 10px 0;
   border-top: 1px solid var(--line);
-  font-size: 14px;
+  font-size: 15px;
   color: var(--text);
 }
 .catRow:first-child {
@@ -415,7 +421,7 @@
   min-width: 560px;
   border-collapse: separate;
   border-spacing: 0;
-  font-size: 13.5px;
+  font-size: 14.5px;
 }
 .matrix th,
 .matrix td {
@@ -429,7 +435,7 @@
   border-bottom: none;
 }
 .matrix thead th {
-  font-size: 12.5px;
+  font-size: 13.5px;
   font-weight: 700;
   color: var(--text);
   background: var(--accent-tint);
@@ -451,7 +457,7 @@
 .matrixLabel {
   font-weight: 600;
   color: var(--text);
-  font-size: 13px;
+  font-size: 14px;
 }
 .matrixYes {
   display: inline-grid;
@@ -466,7 +472,7 @@
   color: var(--text-3);
 }
 .matrixText {
-  font-size: 12.5px;
+  font-size: 13.5px;
   font-weight: 600;
   color: var(--text);
   white-space: nowrap;
@@ -500,12 +506,12 @@
   transform: none;
 }
 .conditionNum {
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 800;
   color: var(--accent);
 }
 .conditionText {
-  font-size: 14.5px;
+  font-size: 15.5px;
   line-height: 1.55;
   color: var(--text);
   flex: 1;
@@ -526,11 +532,11 @@
   padding: 8px 12px;
   border-radius: var(--r-pill);
   background: var(--surface-2);
-  font-size: 13.5px;
+  font-size: 14.5px;
   color: var(--text);
 }
 .groupBadge {
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 700;
   padding: 2px 7px;
   border-radius: var(--r-pill);
@@ -557,7 +563,7 @@
   border-radius: 10px;
   background: rgba(var(--accent-rgb), 0.18);
   color: var(--text);
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 650;
   transform-origin: left center;
   transform: scaleX(0.2);
@@ -579,7 +585,7 @@
   top: 0;
   right: 0;
   width: calc((100% - 8px) / 3);
-  font-size: 12px;
+  font-size: 13.5px;
   font-weight: 700;
   color: var(--accent);
   text-align: center;
@@ -596,7 +602,7 @@
   display: flex;
   flex-wrap: wrap;
   gap: 8px 16px;
-  font-size: 12.5px;
+  font-size: 13.5px;
   color: var(--text-2);
 }
 .expLegend i {
@@ -615,7 +621,7 @@
 }
 .expNote {
   margin-top: 10px;
-  font-size: 13px;
+  font-size: 14px;
   line-height: 1.55;
   color: var(--text-2);
 }
@@ -640,7 +646,7 @@
 .laneBtn {
   padding: 8px 14px;
   border-radius: var(--r-pill);
-  font-size: 13.5px;
+  font-size: 14.5px;
   font-weight: 600;
   color: var(--text-2);
   cursor: pointer;
@@ -688,12 +694,12 @@
   gap: 8px;
 }
 .chapterNum {
-  font-size: 12px;
+  font-size: 13.5px;
   font-weight: 800;
   color: var(--accent);
 }
 .chapterTitle {
-  font-size: 14.5px;
+  font-size: 15.5px;
   font-weight: 700;
   letter-spacing: -0.01em;
 }
@@ -736,7 +742,7 @@
   gap: 3px;
 }
 .stepTitle {
-  font-size: 13.5px;
+  font-size: 14.5px;
   font-weight: 650;
   line-height: 1.35;
 }
@@ -744,12 +750,12 @@
   display: inline-block;
   min-width: 18px;
   margin-right: 4px;
-  font-size: 11.5px;
+  font-size: 12.5px;
   font-weight: 800;
   color: var(--text-3);
 }
 .stepSummary {
-  font-size: 12.5px;
+  font-size: 13.5px;
   line-height: 1.45;
   color: var(--text-2);
 }
@@ -760,7 +766,7 @@
   }
 }
 .journeyNote {
-  font-size: 13px;
+  font-size: 14px;
   color: var(--text-3);
 }
 
@@ -780,7 +786,7 @@
   padding: 12px 14px;
   border-radius: var(--r-md);
   background: var(--surface-2);
-  font-size: 14px;
+  font-size: 15px;
   line-height: 1.5;
   opacity: 0;
   transform: scale(0.97);
@@ -808,7 +814,7 @@
   padding: 12px 14px;
   border-radius: var(--r-md);
   background: var(--accent-tint);
-  font-size: 14px;
+  font-size: 15px;
   line-height: 1.55;
   color: var(--text);
 }
@@ -912,7 +918,7 @@
   border-radius: 50%;
   display: grid;
   place-items: center;
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 800;
   color: #fff;
   background: var(--accent);
@@ -926,11 +932,11 @@
   min-width: 0;
 }
 .fiveBody b {
-  font-size: 15px;
+  font-size: 15.5px;
   letter-spacing: -0.01em;
 }
 .fiveBody span {
-  font-size: 13.5px;
+  font-size: 14.5px;
   line-height: 1.5;
   color: var(--text-2);
 }
@@ -942,8 +948,8 @@
   padding: 9px 14px;
   border-radius: var(--r-pill);
   background: var(--accent-tint);
-  color: var(--accent-deep, var(--accent));
-  font-size: 13.5px;
+  color: var(--accent-ink);
+  font-size: 14.5px;
   font-weight: 650;
   cursor: pointer;
 }
@@ -976,7 +982,7 @@
   grid-template-columns: repeat(auto-fill, minmax(min(100%, 220px), 1fr));
 }
 .dealTitle {
-  font-size: 12px;
+  font-size: 13.5px;
   font-weight: 700;
   letter-spacing: 0.06em;
   text-transform: uppercase;
@@ -998,7 +1004,7 @@
   border-radius: var(--r-md);
   background: var(--surface-2);
   border-left: 3px solid var(--warn);
-  font-size: 14px;
+  font-size: 15px;
   line-height: 1.5;
   color: var(--text-2);
 }
@@ -1010,7 +1016,7 @@
 .oweList b {
   display: block;
   color: var(--text);
-  font-size: 14.5px;
+  font-size: 15.5px;
   margin-bottom: 2px;
 }
 
@@ -1043,11 +1049,11 @@
   min-width: 0;
 }
 .moreText b {
-  font-size: 15.5px;
+  font-size: 16px;
   letter-spacing: -0.01em;
 }
 .moreText span {
-  font-size: 13px;
+  font-size: 14px;
   line-height: 1.45;
   color: var(--text-3);
 }
@@ -1071,5 +1077,5 @@
 }
 .dealCol .cover {
   padding: 9px 12px;
-  font-size: 13.5px;
+  font-size: 14.5px;
 }

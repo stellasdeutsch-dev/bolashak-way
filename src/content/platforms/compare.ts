@@ -31,7 +31,7 @@ export const COMPARE: CompareRow[] = [
       internship: { ru: 'Стажировку в зарубежной организации', kk: 'Шетелдік ұйымда тағылымдама', en: 'An internship at a foreign host' },
       science: { ru: 'Исследовательскую стажировку', kk: 'Зерттеу тағылымдамасы', en: 'A research placement' },
     },
-    sources: ['pp573', 'pp791'],
+    sources: ['pp573', 'ns_rules422'],
   },
   {
     id: 'need',
@@ -43,7 +43,7 @@ export const COMPARE: CompareRow[] = [
       internship: { ru: 'Высшее образование, 3 года стажа, из них 12 месяцев подряд по своей области', kk: 'Жоғары білім, 3 жыл өтіл, оның 12 айы өз саласында қатарынан', en: 'Higher education, 3 years of experience, the last 12 months in a row in your field' },
       science: { ru: 'Учёная степень от магистра, 12 месяцев в науке, публикации', kk: 'Магистрден бастап ғылыми дәреже, ғылымда 12 ай, жарияланымдар', en: "A degree from master's up, 12 months in research, publications" },
     },
-    sources: ['pp573', 'pravila', 'pp791'],
+    sources: ['pp573', 'pravila', 'ns_rules422'],
   },
   {
     id: 'invite',
@@ -56,7 +56,7 @@ export const COMPARE: CompareRow[] = [
         science: { ru: 'Да — от организации из списка научных стажировок', kk: 'Иә — ғылыми тағылымдама тізіміндегі ұйымнан', en: 'Yes — from a host on the scientific-internship list' },
       },
     ),
-    sources: ['pp573', 'pp791'],
+    sources: ['pp573', 'ns_rules422'],
   },
   {
     id: 'length',
@@ -68,19 +68,19 @@ export const COMPARE: CompareRow[] = [
         science: { ru: 'От 3 до 12 месяцев', kk: '3-тен 12 айға дейін', en: '3 to 12 months' },
       },
     ),
-    sources: ['pp573', 'pp791'],
+    sources: ['pp573', 'ns_rules422'],
   },
   {
     id: 'language',
     label: { ru: 'Иностранный язык', kk: 'Шет тілі', en: 'Foreign language' },
     cells: {
       bachelor: { ru: 'По требованию вуза — сертификат в пакет не входит', kk: 'ЖОО талабы бойынша — сертификат топтамаға кірмейді', en: "As the university requires — no certificate in the package" },
-      master: { ru: 'Льготным — I порог и курсы; поступающим сами — III порог', kk: 'Жеңілдіктілерге — I шек және курстар; өз бетіншелерге — III шек', en: 'Preferential — level I plus courses; self-admitted — level III' },
-      doctorate: { ru: 'III порог — уровень прямого зачисления', kk: 'III шек — тікелей қабылдау деңгейі', en: 'Level III — the direct-admission level' },
+      master: { ru: 'Льготным — I порог и курсы; поступающим сами — по требованию вуза, сертификат в пакет не входит', kk: 'Жеңілдіктілерге — I шек және курстар; өз бетіншелерге — ЖОО талабы бойынша, сертификат топтамаға кірмейді', en: 'Preferential — level I plus courses; self-admitted — as the university requires, no certificate in the package' },
+      doctorate: { ru: 'По требованию вуза — сертификат в пакет не входит', kk: 'ЖОО талабы бойынша — сертификат топтамаға кірмейді', en: 'As the university requires — no certificate in the package' },
       internship: { ru: 'III порог, например IELTS 5.0', kk: 'III шек, мысалы IELTS 5.0', en: 'Level III, e.g. IELTS 5.0' },
       science: { ru: 'Своя таблица: английский — IELTS 5.0', kk: 'Өз кестесі: ағылшын — IELTS 5.0', en: 'Its own table: English — IELTS 5.0' },
     },
-    sources: ['prikaz318', 'ns_minscore'],
+    sources: ['pp573', 'prikaz318', 'ns_rules422'],
   },
   {
     id: 'submit',
@@ -89,16 +89,16 @@ export const COMPARE: CompareRow[] = [
       { ru: 'Через egov.kz', kk: 'egov.kz арқылы', en: 'Through egov.kz' },
       { science: { ru: 'В Центр нарочно: бумага и сканы (правила допускают и egov.kz)', kk: 'Орталыққа қолма-қол: қағаз бен сканерлер (қағида egov.kz-ті де рұқсат етеді)', en: 'By hand at the Center: paper and scans (the rules also allow egov.kz)' } },
     ),
-    sources: ['pp573', 'ns_documents', 'pp791'],
+    sources: ['pp573', 'ns_documents', 'ns_rules422'],
   },
   {
     id: 'contract',
     label: { ru: 'Договор после присуждения', kk: 'Тағайындалғаннан кейінгі шарт', en: 'Contract after the award' },
     cells: same(
       { ru: '90 дней; залог или гарантия', kk: '90 күн; кепіл не кепілдік', en: '90 days; a pledge or guarantee' },
-      { science: { ru: '60 дней; два гаранта', kk: '60 күн; екі кепілгер', en: '60 days; two guarantors' } },
+      { science: { ru: '90 дней; два гаранта', kk: '90 күн; екі кепілгер', en: '90 days; two guarantors' } },
     ),
-    sources: ['pp573', 'pp791', 'ns_about'],
+    sources: ['pp573', 'ns_rules422', 'ns_about'],
   },
   {
     id: 'workback',
@@ -110,13 +110,13 @@ export const COMPARE: CompareRow[] = [
       internship: { ru: '3 года у своего работодателя', kk: 'Өз жұмыс берушіде 3 жыл', en: '3 years with your employer' },
       science: { ru: '3 года подряд у своего работодателя', kk: 'Өз жұмыс берушіде қатарынан 3 жыл', en: '3 years in a row with your employer' },
     },
-    sources: ['pp573', 'pp791'],
+    sources: ['pp573', 'ns_rules422'],
   },
   {
     id: 'act',
     label: { ru: 'Правила', kk: 'Қағида', en: 'Rules' },
-    cells: same({ ru: 'ПП РК № 573', kk: 'ҚР ҮҚ № 573', en: 'Decree No. 573' }, { science: { ru: 'ПП РК № 791', kk: 'ҚР ҮҚ № 791', en: 'Decree No. 791' } }),
-    sources: ['pp573', 'pp791'],
+    cells: same({ ru: 'ПП РК № 573', kk: 'ҚР ҮҚ № 573', en: 'Decree No. 573' }, { science: { ru: 'Приказ МНВО РК № 422', kk: 'ҚР ҒЖБМ № 422 бұйрығы', en: 'Ministry Order No. 422' } }),
+    sources: ['pp573', 'ns_rules422'],
   },
 ]
 

@@ -37,7 +37,7 @@
   min-width: 0;
 }
 .hudKicker {
-  font-size: 11.5px;
+  font-size: 12.5px;
   letter-spacing: 0.06em;
   text-transform: uppercase;
   color: var(--on-navy-muted);
@@ -70,16 +70,16 @@
     padding: 12px 13px;
   }
   .hudTitle {
-    font-size: 14.5px;
+    font-size: 15.5px;
   }
   .hudMeta {
     gap: 5px;
     margin-top: 6px;
-    font-size: 11px;
+    font-size: 12px;
   }
   .hudMeta > * {
     padding: 5px 9px;
-    font-size: 11px;
+    font-size: 12px;
   }
 }
 .hudBtnWide {
@@ -132,7 +132,7 @@
 .introSub {
   margin-top: 10px;
   color: var(--text-2);
-  font-size: 14.5px;
+  font-size: 15.5px;
   line-height: 1.55;
   max-width: 62ch;
 }
@@ -164,7 +164,7 @@
   line-height: 1;
 }
 .statLabel {
-  font-size: 12px;
+  font-size: 13.5px;
   color: var(--text-3);
   line-height: 1.25;
   max-width: 12ch;
@@ -178,10 +178,15 @@
   gap: 10px;
 }
 .introRingLabel {
-  font-size: 11.5px;
+  font-size: 12.5px;
   letter-spacing: 0.06em;
   text-transform: uppercase;
   color: var(--text-3);
+}
+.introRingSub {
+  font-size: 13.5px;
+  color: var(--text-2);
+  font-variant-numeric: tabular-nums;
 }
 
 @media (max-width: 520px) {
@@ -207,7 +212,7 @@
   }
   .statLabel {
     max-width: 11ch;
-    font-size: 11.5px;
+    font-size: 12.5px;
   }
   .introRing {
     flex-direction: row;
@@ -232,12 +237,13 @@
   padding: 20px 22px;
   margin: 30px 0 16px;
   border-radius: 24px;
-  /* Dot grid over the sheen over the gradient — order matters, the grid must sit on top. */
-  background-image: var(--navy-grid), var(--navy-sheen), linear-gradient(135deg, var(--navy) 0%, var(--navy-2) 100%);
-  background-size: var(--navy-grid-size), auto, auto;
-  color: #fff;
-  border: 1px solid rgba(255, 255, 255, 0.07);
-  box-shadow: var(--shadow-navy);
+  /* Chapters are signposts, not alarms: light with an accent edge, so the one dark block
+     on the page — what to do now — keeps all the weight. */
+  background: var(--surface);
+  color: var(--text);
+  border: 1px solid var(--line);
+  border-left: 4px solid var(--accent);
+  box-shadow: var(--shadow-card);
 }
 .track > .banner:first-child {
   margin-top: 6px;
@@ -246,7 +252,7 @@
   font-size: 32px;
   font-weight: 800;
   letter-spacing: -0.04em;
-  color: rgba(255, 255, 255, 0.42);
+  color: var(--accent);
   line-height: 1;
   font-variant-numeric: tabular-nums;
   flex: none;
@@ -255,7 +261,7 @@
   font-size: 18px;
   font-weight: 700;
   letter-spacing: -0.02em;
-  color: #fff;
+  color: var(--text);
 }
 .chapterText {
   flex: 1;
@@ -263,8 +269,8 @@
 }
 .chapterSub {
   margin-top: 3px;
-  font-size: 13px;
-  color: rgba(255, 255, 255, 0.66);
+  font-size: 14px;
+  color: var(--text-2);
   line-height: 1.45;
 }
 .chapterCount {
@@ -274,18 +280,18 @@
   gap: 6px;
   padding: 7px 13px;
   border-radius: var(--r-pill);
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  color: rgba(255, 255, 255, 0.86);
-  font-size: 12.5px;
+  background: var(--surface-3);
+  border: 1px solid var(--line);
+  color: var(--text-2);
+  font-size: 13.5px;
   font-weight: 600;
   font-variant-numeric: tabular-nums;
   white-space: nowrap;
 }
 .chapterCountDone {
-  background: rgba(29, 181, 106, 0.24);
-  border-color: rgba(29, 181, 106, 0.42);
-  color: #8ff0c0;
+  background: var(--success-tint);
+  border-color: rgba(29, 181, 106, 0.32);
+  color: var(--success-ink);
 }
 
 /* On a dark canvas a navy banner would vanish, so it gains an accent-lit edge instead. */
@@ -310,7 +316,7 @@
   white-space: nowrap;
   background: var(--accent);
   color: #fff;
-  font-size: 11.5px;
+  font-size: 12.5px;
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -477,7 +483,7 @@
   color: #fff;
 }
 .badgeNum {
-  font-size: 10.5px;
+  font-size: 11.5px;
   font-weight: 700;
   font-variant-numeric: tabular-nums;
 }
@@ -495,14 +501,14 @@
   align-items: center;
   gap: 9px;
   flex-wrap: wrap;
-  font-size: 15.5px;
+  font-size: 16px;
   font-weight: 650;
   letter-spacing: -0.01em;
   color: var(--text);
   line-height: 1.3;
 }
 .rowSummary {
-  font-size: 13.5px;
+  font-size: 14.5px;
   line-height: 1.45;
   color: var(--text-2);
   display: -webkit-box;
@@ -512,7 +518,7 @@
   overflow: hidden;
 }
 .rowMeta {
-  font-size: 12.5px;
+  font-size: 13.5px;
   color: var(--text-3);
   font-variant-numeric: tabular-nums;
 }
@@ -521,7 +527,7 @@
   border-radius: var(--r-pill);
   background: linear-gradient(135deg, var(--accent) 0%, var(--accent-2) 100%);
   color: #fff;
-  font-size: 10.5px;
+  font-size: 11.5px;
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -546,7 +552,7 @@
     padding: 13px 12px 13px 6px;
   }
   .rowTitle {
-    font-size: 14.5px;
+    font-size: 15.5px;
   }
   /* In a ~186px column the summary wraps to three lines and triples the row height;
      the title and step count carry the scan, and the full text is on the stage screen. */
@@ -561,7 +567,7 @@
   gap: 10px;
   justify-content: center;
   padding: 26px 0 4px;
-  font-size: 12.5px;
+  font-size: 13.5px;
   color: var(--text-3);
 }
 .legendItem {
@@ -610,14 +616,14 @@
 }
 
 .hudNextLabel {
-  font-size: 11px;
+  font-size: 12px;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: rgba(255, 255, 255, 0.62);
 }
 
 .hudNextText {
-  font-size: 13.5px;
+  font-size: 14.5px;
   line-height: 1.4;
   color: #fff;
   display: -webkit-box;
@@ -658,7 +664,7 @@
 
   .chapterCount {
     padding: 5px 10px;
-    font-size: 11.5px;
+    font-size: 12.5px;
   }
 
   .chapterNum {
@@ -671,7 +677,7 @@
   }
 
   .chapterSub {
-    font-size: 12px;
+    font-size: 13.5px;
   }
 }
 

@@ -89,11 +89,11 @@ export const CONTEST_STAGES: Stage[] = [
       },
       {
         text: {
-          ru: 'О месте и времени первого и второго туров сообщают по телефону или электронной почте — не позднее чем за 5 календарных дней.',
-          kk: 'Бірінші және екінші тур орны мен уақытын телефон не электрондық пошта арқылы хабарлайды — 5 күнтізбелік күннен кешіктірмей.',
-          en: 'You are told the time and place of rounds one and two by phone or email at least 5 calendar days ahead.',
+          ru: 'О месте, дате и времени первого и второго туров сообщают по электронной почте или телефону — не позднее чем за 10 календарных дней.',
+          kk: 'Бірінші және екінші турдың орны, күні мен уақытын электрондық пошта не телефон арқылы хабарлайды — 10 күнтізбелік күннен кешіктірмей.',
+          en: 'You are told the place, date and time of rounds one and two by email or phone at least 10 calendar days ahead.',
         },
-        source: 'pp791',
+        source: 'ns_rules422',
         appliesTo: { track: ['science_internship'] },
       },
     ],
@@ -288,7 +288,7 @@ export const CONTEST_STAGES: Stage[] = [
         en: 'Treating a refusal as a reason to reapply the same year: refused applicants are not admitted to the current year\'s competition again.',
       },
     ],
-    sources: ['pravila', 'pp573', 'pp791', 'ns_contest'],
+    sources: ['pravila', 'pp573', 'ns_rules422', 'ns_contest'],
     estimateWeeks: [2, 8],
   },
 ]

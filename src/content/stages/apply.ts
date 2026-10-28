@@ -84,7 +84,7 @@ export const APPLY_STAGES: Stage[] = [
           kk: 'Мотивациялық хат: қазақ не орыс тілінде 500 сөзге дейінгі эссе. Соңында күні мен қолы міндетті.',
           en: 'A motivation letter: an essay of up to 500 words in Kazakh or Russian. It must be dated and signed at the end.',
         },
-        appliesTo: { not: { category: ['residency', 'phd_self', 'science_internship'] } },
+        appliesTo: { not: { category: ['residency', 'phd_self', 'phd_nuclear', 'science_internship'] } },
         link: 'pravila',
       },
       {
@@ -114,8 +114,10 @@ export const APPLY_STAGES: Stage[] = [
           en: 'Kazakh and foreign language certificates — at or above the minimum scores.',
         },
         link: 'prikaz318',
-        // The packages that list a foreign certificate (pravila / ПП 573 п. 10–14, ПП 791 п. 9).
-        appliesTo: { category: ['master_rural', 'master_engineer', 'master_medical', 'master_civil', 'master_nuclear', 'phd_self', 'phd_nuclear', 'internship', 'science_internship'] },
+        // The packages that list a foreign certificate: ПП 573 п. 10 пп. 5 (preferential master's),
+        // п. 14 пп. 5 (internship), приказ МНВО № 422 п. 9 пп. 8 (scientific internship). The
+        // doctoral package (п. 12) and the self-admitted master's one have none.
+        appliesTo: { category: ['master_rural', 'master_engineer', 'master_medical', 'master_civil', 'master_nuclear', 'internship', 'science_internship'] },
       },
       {
         id: 'lang_kazakh',
@@ -125,7 +127,7 @@ export const APPLY_STAGES: Stage[] = [
           en: 'A Kazakh certificate at B1 or above. Your category\'s document list has no foreign-language certificate: the university admission vouches for your language.',
         },
         link: 'pravila',
-        appliesTo: { category: ['bachelor', 'master_self', 'residency'] },
+        appliesTo: { category: ['bachelor', 'master_self', 'phd_self', 'phd_nuclear', 'residency'] },
       },
       {
         id: 'offer_docs',
@@ -143,7 +145,8 @@ export const APPLY_STAGES: Stage[] = [
           kk: 'Шетелдік ЖОО-мен келісілген жеке оқу жоспары, нотариалды аудармасымен.',
           en: 'An individual study plan agreed with the foreign university, with a notarised translation.',
         },
-        appliesTo: { category: ['phd_self', 'phd_nuclear'] },
+        // ПП 573 п. 12 пп. 8 — for PhD, professional doctorate and residency alike.
+        appliesTo: { category: ['phd_self', 'phd_nuclear', 'residency'] },
       },
       {
         id: 'parent_consent',
@@ -158,12 +161,12 @@ export const APPLY_STAGES: Stage[] = [
       {
         id: 'publications_list',
         text: {
-          ru: 'Список научных публикаций, утверждённый работодателем, и копия свидетельства об аккредитации вашей организации.',
-          kk: 'Жұмыс беруші бекіткен ғылыми жарияланымдар тізімі және ұйымыңыздың аккредиттеу куәлігінің көшірмесі.',
-          en: 'A list of your publications approved by your employer, plus a copy of your organisation\'s accreditation certificate.',
+          ru: 'Список научных результатов (статьи, обзоры, заявки Derwent Innovations Index), утверждённый работодателем, и копия действительного свидетельства об аккредитации.',
+          kk: 'Жұмыс беруші бекіткен ғылыми нәтижелер тізімі (мақалалар, шолулар, Derwent Innovations Index өтінімдері) және жарамды аккредиттеу куәлігінің көшірмесі.',
+          en: 'A list of your research results (articles, reviews, Derwent Innovations Index applications) approved by your employer, plus a copy of a valid accreditation certificate.',
         },
         appliesTo: { track: ['science_internship'] },
-        link: 'ns_documents',
+        link: 'ns_rules422',
       },
       {
         id: 'transcript_current',
@@ -173,7 +176,7 @@ export const APPLY_STAGES: Stage[] = [
           en: 'If you already study abroad — an official academic record from the university, notarially translated.',
         },
         required: false,
-        appliesTo: { category: ['master_self', 'phd_self', 'residency'] },
+        appliesTo: { category: ['master_self', 'phd_self', 'phd_nuclear', 'residency'] },
       },
     ],
     mistakes: [
@@ -241,9 +244,9 @@ export const APPLY_STAGES: Stage[] = [
       {
         id: 'in_person',
         text: {
-          ru: 'Отнесли документы лично: бумажный пакет плюс скан на флешке или диске. Астана, ул. Сыганак 70, БЦ «Сыганак», 5 этаж, каб. 508.',
-          kk: 'Құжатты өзіңіз апардыңыз: қағаз топтама және флешкадағы не дискідегі сканер көшірмесі. Астана, Сығанақ к-сі 70, «Сығанақ» БО, 5-қабат, 508-кабинет.',
-          en: 'You delivered the documents yourself: the paper package plus a scan on a flash drive or disc. Astana, Syganak street 70, Syganak business centre, floor 5, room 508.',
+          ru: 'Подали документы: правила допускают egov.kz и (или) бумагу. Центр описывает приём нарочно — бумажный пакет плюс скан на флешке или диске: Астана, ул. Сыганак 70, БЦ «Сыганак», 5 этаж, каб. 508.',
+          kk: 'Құжатты тапсырдыңыз: қағида egov.kz-ті және (немесе) қағазды рұқсат етеді. Орталық қолма-қол қабылдауды сипаттайды — қағаз топтама және флешкадағы не дискідегі сканер көшірмесі: Астана, Сығанақ к-сі 70, «Сығанақ» БО, 5-қабат, 508-кабинет.',
+          en: 'You submitted the documents: the rules allow egov.kz and/or paper. The Center describes in-person delivery — the paper package plus a scan on a flash drive or disc: Astana, Syganak street 70, Syganak business centre, floor 5, room 508.',
         },
         appliesTo: { track: ['science_internship'] },
         link: 'ns_documents',
@@ -291,11 +294,11 @@ export const APPLY_STAGES: Stage[] = [
       },
       {
         text: {
-          ru: 'Научная стажировка: документы рассматривают и принимают — или отказывают — за 3 рабочих дня.',
-          kk: 'Ғылыми тағылымдама: құжатты 3 жұмыс күнінде қарап, қабылдайды не бас тартады.',
-          en: 'Scientific internship: documents are reviewed and either accepted or refused within 3 working days.',
+          ru: 'Научная стажировка: документы рассматривают и принимают — или отказывают — за 2 рабочих дня.',
+          kk: 'Ғылыми тағылымдама: құжатты 2 жұмыс күнінде қарап, қабылдайды не бас тартады.',
+          en: 'Scientific internship: documents are reviewed and either accepted or refused within 2 working days.',
         },
-        source: 'pp791',
+        source: 'ns_rules422',
         appliesTo: { track: ['science_internship'] },
       },
     ],

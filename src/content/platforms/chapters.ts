@@ -115,7 +115,7 @@ const WORDS: Record<Track, Words> = {
     },
     awarded: {
       title: AWARD_TITLE,
-      subtitle: { ru: 'Договор за 60 дней, два гаранта, аванс и виза', kk: '60 күнде шарт, екі кепілгер, аванс және виза', en: 'The contract within 60 days, two guarantors, the advance and the visa' },
+      subtitle: { ru: 'Договор за 90 дней, два гаранта, аванс и виза', kk: '90 күнде шарт, екі кепілгер, аванс және виза', en: 'The contract within 90 days, two guarantors, the advance and the visa' },
     },
     abroad: {
       title: INTERN_TITLE,

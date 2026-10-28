@@ -1,10 +1,11 @@
-import { useEffect, useState, type ReactNode }  from 'react'
+import { useEffect, useRef, useState, type ReactNode } from 'react'
 import { NavLink, Link, useLocation } from 'react-router'
 import {
   IconMap as MapIcon, IconFolderCheck as FolderCheck, IconSettings as SettingsIcon,
   IconSearch as Search, IconBookOpen as BookOpen, IconCalendar as CalendarIcon,
 } from '@/components/icons'
 import { SearchOverlay } from './SearchOverlay'
+import { ErrorBoundary } from './ErrorBoundary'
 import { PlatformSwitcher } from './platform/PlatformSwitcher'
 import { useActivePlatform, usePlatformColour } from './platform/usePlatform'
 import { platformPaths } from '@/domain/paths'
@@ -32,7 +33,7 @@ export function LangSwitch() {
   const locale = useAppStore((st) => st.locale)
   const setLocale = useAppStore((st) => st.setLocale)
   return (
-    <div className={s.langSwitch} role="group" aria-label="Language">
+    <div className={s.langSwitch} role="group" aria-label="Язык · Тіл · Language">
       {LOCALES.map((l) => (
         <button
           key={l.id}
@@ -56,6 +57,27 @@ export function Layout({ children }: { children: ReactNode }) {
   const nav = useNav()
   const platform = useActivePlatform()
   usePlatformColour(platform?.slug ?? null)
+  const mainRef = useRef<HTMLElement>(null)
+  const firstRender = useRef(true)
+
+  // A new page is announced by moving focus to its heading — otherwise keyboard and
+  // screen-reader users stay on the link they pressed, somewhere in the old page.
+  useEffect(() => {
+    if (firstRender.current) {
+      firstRender.current = false
+      return
+    }
+    // Pages load on demand, so give the heading a few frames to appear before settling for <main>.
+    let tries = 0
+    let id = 0
+    const attempt = () => {
+      const main = mainRef.current
+      if (main?.querySelector('h1') || tries++ > 30) return focusMain(main)
+      id = requestAnimationFrame(attempt)
+    }
+    id = requestAnimationFrame(attempt)
+    return () => cancelAnimationFrame(id)
+  }, [pathname])
 
   // "/" is the conventional shortcut for search; ignore it while typing in a field.
   useEffect(() => {
@@ -74,6 +96,9 @@ export function Layout({ children }: { children: ReactNode }) {
 
   return (
     <div className={s.shell}>
+      <button type="button" className={s.skip} onClick={() => focusMain(mainRef.current)}>
+        {t('nav.skip')}
+      </button>
       <header className={s.header}>
         <div className={s.headerInner}>
           <Link to="/" className={s.brand}>
@@ -86,7 +111,7 @@ export function Layout({ children }: { children: ReactNode }) {
             <span className={[s.brandText, platform ? s.brandTextCollapsible : ''].join(' ')}>Bolashak&nbsp;Way</span>
           </Link>
           <PlatformSwitcher />
-          <nav className={s.deskNav}>
+          <nav className={s.deskNav} aria-label={t('nav.label')}>
             {nav.map(({ to, key, Icon, end }) => (
               <NavLink key={to} to={to} end={end} className={({ isActive }) => [s.deskLink, isActive ? s.deskLinkActive : ''].join(' ')}>
                 <Icon size={16} aria-hidden="true" />
@@ -110,12 +135,12 @@ export function Layout({ children }: { children: ReactNode }) {
       </header>
 
       {/* Keyed by route so the content fades in on every navigation. */}
-      <main className={[s.main, nav.length ? '' : s.mainNoTabs].join(' ')} key={pathname}>
-        {children}
+      <main ref={mainRef} tabIndex={-1} className={[s.main, nav.length ? '' : s.mainNoTabs].join(' ')} key={pathname}>
+        <ErrorBoundary inline>{children}</ErrorBoundary>
       </main>
 
       {nav.length > 0 && (
-        <nav className={s.tabbar} aria-label={t('nav.roadmap')}>
+        <nav className={s.tabbar} aria-label={t('nav.label')}>
           {nav.map(({ to, key, Icon, end }) => (
             <NavLink key={to} to={to} end={end} className={({ isActive }) => [s.tab, isActive ? s.tabActive : ''].join(' ')}>
               <Icon size={20} aria-hidden="true" />
@@ -127,4 +152,13 @@ export function Layout({ children }: { children: ReactNode }) {
       <SearchOverlay open={searchOpen} onClose={() => setSearchOpen(false)} />
     </div>
   )
+}
+
+/** Focus the page heading (or the page itself) without jumping the scroll position. */
+export function focusMain(main: HTMLElement | null) {
+  if (!main) return
+  const heading = main.querySelector<HTMLElement>('h1')
+  const target = heading ?? main
+  if (heading && !heading.hasAttribute('tabindex')) heading.setAttribute('tabindex', '-1')
+  target.focus({ preventScroll: true })
 }

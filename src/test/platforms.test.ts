@@ -12,7 +12,10 @@ import { ICON_NAMES } from '@/components/StageIcon'
 import { chaptersFor } from '@/content/platforms/chapters'
 import { EXCERPTS } from '@/content/excerpts'
 import { SOURCE_TRACKS, sourceFits } from '@/content/sources'
-import { CONTEST_FLOW } from '@/content/explain'
+import { CONTEST_FLOW, awardTimeline, departureChain, workbackTable } from '@/content/explain'
+import { COMPARE } from '@/content/platforms/compare'
+import fs from 'node:fs'
+import path from 'node:path'
 import type { CategoryId, L, PlatformSlug, Profile, Track } from '@/content/types'
 
 /**
@@ -25,21 +28,21 @@ const MARKERS: Record<'ru' | 'kk' | 'en', Record<PlatformSlug, RegExp>> = {
     master: /магистратур|льготн|языков\S* курс/i,
     doctorate: /докторантур|резидентур|индивидуальн\S* учебн/i,
     internship: /стажировк|стажёр|стажир/i,
-    science: /научн\S* стажир|ПП 791|№ 791|Web of Science|Scopus|аккредит/i,
+    science: /научн\S* стажир|ПП 791|№ 791|№ 422|Web of Science|Scopus|Derwent|аккредит/i,
   },
   kk: {
     bachelor: /бакалавриат|олимпиада|аттестат/i,
     master: /магистратура|жеңілдікті|тіл курс/i,
     doctorate: /докторантура|резидентура|жеке оқу жоспар/i,
     internship: /тағылымдама/i,
-    science: /ғылыми тағылымдама|№ 791|Web of Science|Scopus|аккредит/i,
+    science: /ғылыми тағылымдама|№ 791|№ 422|Web of Science|Scopus|Derwent|аккредит/i,
   },
   en: {
     bachelor: /bachelor's (?:track|degree|scholarship|level)|olympiad|school certificate/i,
     master: /master's (?:track|degree|scholarship|level)|preferential|language course/i,
     doctorate: /doctoral|doctorate|residency|individual study plan/i,
     internship: /\bintern(?:ship|s)?\b/i,
-    science: /scientific intern|research placement|No\. 791|Web of Science|Scopus|accredit/i,
+    science: /scientific intern|research placement|No\. 791|No\. 422|Web of Science|Scopus|Derwent|accredit/i,
   },
 }
 
@@ -51,7 +54,7 @@ const SKIP: Partial<Record<PlatformSlug, PlatformSlug[]>> = {
 /**
  * Deliberate cross-references, each a rule rather than a leak: the deferral list names
  * doctoral study and industrial placements as grounds for any graduate; a science applicant
- * with unfinished Bolashak-internship work-back is barred (ПП 791 п. 8).
+ * with unfinished Bolashak-internship work-back is barred (приказ МНВО № 422 п. 8).
  */
 const ALLOWED: string[] = [
   'workback.note:Отсрочку исполнения обязательств',
@@ -203,5 +206,38 @@ describe('five platforms, five stories', () => {
       }
     }
     expect(missing).toEqual([])
+  })
+})
+
+describe('the repealed scientific-internship act', () => {
+  // ПП РК № 791 was repealed in 2023 (ПП № 770); scientific internships run under the
+  // Rules approved by приказ МНВО № 422 (ns_rules422). Nothing may cite the old act.
+  it('is cited by no content file', () => {
+    const dir = path.resolve(__dirname, '../content')
+    const files = (fs.readdirSync(dir, { recursive: true }) as string[]).filter((f) => f.endsWith('.ts') && path.basename(f) !== 'sources.ts')
+    expect(files.length).toBeGreaterThan(10)
+    const hits = files.filter((f) => /['"]pp791['"]/.test(fs.readFileSync(path.join(dir, f), 'utf8')))
+    expect(hits).toEqual([])
+  })
+
+  it('is cited by nothing the science platform resolves at run time', () => {
+    const track: Track = 'science_internship'
+    const p = profileFor(track, 'science_internship')
+    const cited: string[] = []
+    for (const raw of STAGES.filter((st) => evaluate(st.appliesTo, p))) {
+      const st = resolveStage(raw, track)
+      cited.push(...st.sources, ...st.checklist.map((c) => c.link ?? ''), ...(st.deadlines ?? []).map((d) => d.source))
+    }
+    DOCUMENTS.filter((d) => evaluate(d.appliesTo, p)).forEach((d) => cited.push(docForTrack(d, track).source ?? ''))
+    DEADLINE_RULES.forEach((d) => cited.push(d.source))
+    EXCERPTS.forEach((e) => cited.push(e.source))
+    CONTEST_FLOW.forEach((f) => cited.push(f.source ?? '', f.exit?.source ?? ''))
+    awardTimeline(track).marks.forEach((m) => cited.push(m.source))
+    cited.push(...workbackTable(track).sources, ...departureChain(track).sources)
+    const home = PLATFORM_HOMES.science
+    cited.push(...home.facts.map((f) => f.source), ...home.fitSources, home.coverageSource)
+    COMPARE.forEach((r) => cited.push(...r.sources))
+    expect(cited).not.toContain('pp791')
+    expect(cited).toContain('ns_rules422')
   })
 })

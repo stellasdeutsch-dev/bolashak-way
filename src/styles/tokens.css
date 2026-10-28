@@ -16,7 +16,7 @@
 
   --text: #111827;
   --text-2: #4b5565;
-  --text-3: #6b7687;
+  --text-3: #5f6a7d;
   --text-on-accent: #ffffff;
 
   --line: rgba(17, 24, 39, 0.08);
@@ -24,17 +24,25 @@
 
   /* The accent is the platform's colour: master's blue by default, overridden per
      platform below. Everything tinted is derived from the two rgb triplets. */
-  --accent: #2f7bff;
+  --accent: #2a6ef0;
   --accent-2: #5aa9ff;
   --accent-deep: #1f5fd6;
-  --accent-rgb: 47, 123, 255;
+  /* Fill for buttons with white text: AA in both themes (the dark-theme --accent is
+     brighter for text on navy and would not hold white text). */
+  --accent-btn: #2a6ef0;
+  /* Accent for small text and links: the deep shade on light surfaces, the bright one on dark. */
+  --accent-ink: var(--accent-deep);
+  --accent-rgb: 42, 110, 240;
   --accent-2-rgb: 90, 169, 255;
   --accent-tint: rgba(var(--accent-rgb), 0.1);
   --accent-tint-2: rgba(var(--accent-rgb), 0.18);
-  --steel: #6c8ead;
-  --steel-tint: rgba(108, 142, 173, 0.16);
+  --steel: #557595;
+  --steel-tint: rgba(85, 117, 149, 0.16);
   --success: #1db56a;
   --success-tint: rgba(29, 181, 106, 0.12);
+  /* Text versions of the status colours, AA on their own tints. */
+  --success-ink: #11784a;
+  --danger-ink: #b42329;
   --warn: #f59e0b;
   --warn-tint: rgba(245, 158, 11, 0.14);
   --danger: #e5484d;
@@ -64,7 +72,7 @@
   --r-sm: 12px;
   --r-pill: 999px;
 
-  --font: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font: 'Inter Variable', 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
   --ease-spring: cubic-bezier(0.32, 0.72, 0, 1);
   --ease-out: cubic-bezier(0.25, 0.1, 0.25, 1);
 
@@ -85,18 +93,21 @@
   --navy-3: #182442;
   --text: #eef2f9;
   --text-2: #aab4c6;
-  --text-3: #6f7b91;
+  --text-3: #8a96ab;
   --line: rgba(255, 255, 255, 0.08);
   --line-strong: rgba(255, 255, 255, 0.18);
   --accent: #3b8dff;
   --accent-2: #6fb4ff;
+  --accent-ink: #6aa9ff;
   --accent-rgb: 59, 141, 255;
   --accent-2-rgb: 111, 180, 255;
   --accent-tint: rgba(var(--accent-rgb), 0.16);
   --accent-tint-2: rgba(var(--accent-rgb), 0.26);
-  --steel: #7f9fbd;
+  --steel: #557595;
   --steel-tint: rgba(127, 159, 189, 0.2);
   --success-tint: rgba(29, 181, 106, 0.18);
+  --success-ink: #8ff0c0;
+  --danger-ink: #ffa4a7;
   --warn-tint: rgba(245, 158, 11, 0.18);
   --danger-tint: rgba(229, 72, 77, 0.16);
   --locked: #3a4660;
@@ -112,28 +123,32 @@
    Set on <html data-platform="…"> while a platform is open. Same lightness family as the
    default blue, so white text on an accent button stays readable on every one. */
 :root[data-platform='bachelor'] {
-  --accent: #e2600f;
+  --accent: #c2550c;
+  --accent-btn: #c2550c;
   --accent-2: #ff9147;
   --accent-deep: #b84a06;
-  --accent-rgb: 226, 96, 15;
+  --accent-rgb: 194, 85, 12;
   --accent-2-rgb: 255, 145, 71;
 }
 :root[data-platform='doctorate'] {
   --accent: #7352ec;
+  --accent-btn: #7352ec;
   --accent-2: #a38bff;
   --accent-deep: #5634cf;
   --accent-rgb: 115, 82, 236;
   --accent-2-rgb: 163, 139, 255;
 }
 :root[data-platform='internship'] {
-  --accent: #0a9583;
+  --accent: #07806f;
+  --accent-btn: #07806f;
   --accent-2: #38c9b3;
   --accent-deep: #06705f;
-  --accent-rgb: 10, 149, 131;
+  --accent-rgb: 7, 128, 111;
   --accent-2-rgb: 56, 201, 179;
 }
 :root[data-platform='science'] {
   --accent: #cf3674;
+  --accent-btn: #cf3674;
   --accent-2: #f272a5;
   --accent-deep: #a82258;
   --accent-rgb: 207, 54, 116;
@@ -141,27 +156,31 @@
 }
 :root[data-theme='dark'][data-platform='bachelor'] {
   --accent: #ff7b2e;
+  --accent-ink: #ff9a5c;
   --accent-rgb: 255, 123, 46;
 }
 :root[data-theme='dark'][data-platform='doctorate'] {
   --accent: #8f73ff;
+  --accent-ink: #a996ff;
   --accent-rgb: 143, 115, 255;
 }
 :root[data-theme='dark'][data-platform='internship'] {
   --accent: #19b8a0;
+  --accent-ink: #3fd0b8;
   --accent-rgb: 25, 184, 160;
 }
 :root[data-theme='dark'][data-platform='science'] {
   --accent: #ec5a93;
+  --accent-ink: #f27aa8;
   --accent-rgb: 236, 90, 147;
 }
 
 /* Each platform's own colour, for places that show all five side by side (the chooser,
    the switcher, the comparison table): set data-p="…" on the element and use --p. */
-[data-p='bachelor'] { --p: #e2600f; --p-rgb: 226, 96, 15; }
-[data-p='master'] { --p: #2f7bff; --p-rgb: 47, 123, 255; }
+[data-p='bachelor'] { --p: #c2550c; --p-rgb: 194, 85, 12; }
+[data-p='master'] { --p: #2a6ef0; --p-rgb: 42, 110, 240; }
 [data-p='doctorate'] { --p: #7352ec; --p-rgb: 115, 82, 236; }
-[data-p='internship'] { --p: #0a9583; --p-rgb: 10, 149, 131; }
+[data-p='internship'] { --p: #07806f; --p-rgb: 7, 128, 111; }
 [data-p='science'] { --p: #cf3674; --p-rgb: 207, 54, 116; }
 :root[data-theme='dark'] [data-p='bachelor'] { --p: #ff7b2e; --p-rgb: 255, 123, 46; }
 :root[data-theme='dark'] [data-p='master'] { --p: #3b8dff; --p-rgb: 59, 141, 255; }

@@ -307,4 +307,6 @@ export interface PlatformHome {
   coverage: L[]
   coverageSource: SourceId
   coverageNote?: L
+  /** Where the note comes from, when that is not the coverage source. */
+  coverageNoteSource?: SourceId
 }

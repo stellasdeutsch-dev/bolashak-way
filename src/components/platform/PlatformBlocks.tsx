@@ -4,6 +4,7 @@ import { CATEGORIES, CATEGORIES_BY_TRACK, WORKER_GROUPS } from '@/content/catego
 import { getPlatform, type PlatformMeta } from '@/content/platforms'
 import { STAGES } from '@/content/stages'
 import { chaptersFor } from '@/content/platforms/chapters'
+import { MASTER_LANES, REQUIREMENT_MATRIX, REQUIREMENT_MATRIX_SOURCES, type MatrixCell } from '@/content/requirementsMatrix'
 import type { Category, CategoryId, L, PlatformHome, PlatformSlug, Profile, SourceId, Track } from '@/content/types'
 import { evaluate } from '@/domain/applicability'
 import { getStageFor, resolveStage } from '@/domain/resolve'
@@ -97,71 +98,14 @@ export function Fit({ home }: { home: PlatformHome }) {
 
 /* ── requirements ── */
 
-const EMPLOYER_REQUEST: CategoryId[] = ['master_civil', 'master_nuclear', 'phd_nuclear']
-const STUDY_PLAN: CategoryId[] = ['phd_self', 'phd_nuclear']
-
-type Cell = { kind: 'yes' } | { kind: 'no' } | { kind: 'text'; text: L }
-
-interface MatrixRow {
-  label: L
-  cell: (c: Category) => Cell
-}
-
-const yes = (v: boolean): Cell => (v ? { kind: 'yes' } : { kind: 'no' })
-
 /**
- * Categories side by side, one requirement per row. Everything is read from the category
- * data the roadmap itself runs on, so the table cannot drift from what the stages ask.
+ * Categories side by side, one requirement per row. The rows and the facts behind them live
+ * in content/requirementsMatrix.ts, read from the same category data the roadmap runs on,
+ * so the table cannot drift from what the stages ask.
  */
-const MATRIX: MatrixRow[] = [
-  {
-    label: { ru: 'Приглашение при подаче', kk: 'Тапсыру кезінде шақыру', en: 'Offer when applying' },
-    cell: (c) => yes(c.requiresInvitationAtApplication),
-  },
-  {
-    label: { ru: 'Стаж', kk: 'Өтіл', en: 'Experience' },
-    cell: (c) => {
-      if (!c.experience) return { kind: 'no' }
-      const y = c.experience.years
-      const m = c.experience.continuousMonths
-      return {
-        kind: 'text',
-        text: {
-          ru: [y ? `${y} г.` : '', m ? `${m} мес. подряд` : ''].filter(Boolean).join(', '),
-          kk: [y ? `${y} жыл` : '', m ? `қатарынан ${m} ай` : ''].filter(Boolean).join(', '),
-          en: [y ? `${y} yr` : '', m ? `${m} mo in a row` : ''].filter(Boolean).join(', '),
-        },
-      }
-    },
-  },
-  {
-    label: { ru: 'GPA не ниже 3.00', kk: 'GPA 3.00-ден төмен емес', en: 'GPA of 3.00 or more' },
-    cell: (c) => yes(c.preferential),
-  },
-  {
-    label: { ru: 'Родственная специальность', kk: 'Туыстас мамандық', en: 'Related specialty' },
-    cell: (c) => yes(c.preferential),
-  },
-  {
-    label: { ru: 'Заявка работодателя', kk: 'Жұмыс беруші өтінімі', en: 'Employer request' },
-    cell: (c) => yes(EMPLOYER_REQUEST.includes(c.id)),
-  },
-  {
-    label: { ru: 'Индивидуальный учебный план', kk: 'Жеке оқу жоспары', en: 'Individual study plan' },
-    cell: (c) => yes(STUDY_PLAN.includes(c.id)),
-  },
-  {
-    label: { ru: 'Порог иностранного языка', kk: 'Шет тілі шегі', en: 'Foreign-language threshold' },
-    cell: (c) =>
-      c.languageGroup === 'preferential'
-        ? { kind: 'text', text: { ru: 'I — и курсы', kk: 'I — және курстар', en: 'I — plus courses' } }
-        : c.languageGroup === 'self'
-          ? { kind: 'text', text: { ru: 'III', kk: 'III', en: 'III' } }
-          : { kind: 'no' },
-  },
-]
+const MATRIX = REQUIREMENT_MATRIX
 
-function CellView({ cell }: { cell: Cell }) {
+function CellView({ cell }: { cell: MatrixCell }) {
   const { t, c } = useI18n()
   if (cell.kind === 'yes')
     return (
@@ -200,8 +144,8 @@ function Matrix({ track }: { track: Track }) {
         <div className={s.catCard}>
           <p className={s.catDesc}>{c(one.desc)}</p>
           <ul className={s.catRows}>
-            {rows.map((r, i) => (
-              <li key={i} className={s.catRow}>
+            {rows.map((r) => (
+              <li key={r.id} className={s.catRow}>
                 <span>{c(r.label)}</span>
                 <CellView cell={r.cell(one)} />
               </li>
@@ -224,8 +168,8 @@ function Matrix({ track }: { track: Track }) {
             </tr>
           </thead>
           <tbody>
-            {rows.map((r, ri) => (
-              <tr key={ri}>
+            {rows.map((r) => (
+              <tr key={r.id}>
                 <th scope="row" className={s.matrixLabel}>
                   {c(r.label)}
                 </th>
@@ -240,9 +184,9 @@ function Matrix({ track }: { track: Track }) {
         </table>
       </div>
       <div className={s.sources}>
-        <SourceLink id="pravila" />
-        <SourceLink id="pp573" />
-        <SourceLink id="prikaz318" />
+        {REQUIREMENT_MATRIX_SOURCES.map((src) => (
+          <SourceLink key={src} id={src} />
+        ))}
       </div>
     </>
   )
@@ -343,10 +287,7 @@ export function Journey({ platform }: { platform: PlatformMeta }) {
   const mine = profile?.track === platform.track
   const lanes: { id: string; category: CategoryId; label: L }[] =
     platform.track === 'master'
-      ? [
-          { id: 'self', category: 'master_self', label: { ru: 'Поступаю сам', kk: 'Өзім түсемін', en: 'Getting in myself' } },
-          { id: 'pref', category: 'master_rural', label: { ru: 'Льготная категория', kk: 'Жеңілдікті санат', en: 'Preferential category' } },
-        ]
+      ? MASTER_LANES
       : [{ id: 'one', category: CATEGORIES_BY_TRACK[platform.track][0], label: { ru: '', en: '' } }]
   const initial = mine && profile ? (CATEGORIES[profile.category].preferential ? 'pref' : 'self') : lanes[0].id
   const [lane, setLane] = useState(lanes.some((l) => l.id === initial) ? initial : lanes[0].id)
@@ -440,6 +381,7 @@ export function Coverage({ home }: { home: PlatformHome }) {
       {home.coverageNote && <p className={s.coverNote}>{c(home.coverageNote)}</p>}
       <div className={s.sources}>
         <SourceLink id={home.coverageSource as SourceId} />
+        {home.coverageNoteSource && home.coverageNoteSource !== home.coverageSource && <SourceLink id={home.coverageNoteSource} />}
       </div>
     </>
   )

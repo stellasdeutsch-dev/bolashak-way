@@ -191,12 +191,12 @@ export const ABROAD_STAGES: Stage[] = [
       {
         id: 'ns_report',
         text: {
-          ru: 'Сдали итоговый отчёт в течение месяца после возвращения. Его утверждает работодатель, а потом отчёт публикуют в открытом доступе.',
-          kk: 'Оралғаннан кейін бір ай ішінде қорытынды есепті тапсырдыңыз. Оны жұмыс беруші бекітеді, содан соң есеп ашық жарияланады.',
-          en: 'You filed the final report within a month of coming back. Your employer approves it and then it is published openly.',
+          ru: 'Сдали итоговый отчёт в течение месяца после возвращения. Его утверждает работодатель и размещает на своём сайте.',
+          kk: 'Оралғаннан кейін бір ай ішінде қорытынды есепті тапсырдыңыз. Оны жұмыс беруші бекітіп, өз сайтында орналастырады.',
+          en: 'You filed the final report within a month of coming back. Your employer approves it and posts it on its website.',
         },
         appliesTo: { track: ['science_internship'] },
-        link: 'pp791',
+        link: 'ns_rules422',
       },
       {
         id: 'ns_completion',
@@ -227,7 +227,7 @@ export const ABROAD_STAGES: Stage[] = [
           kk: 'Ғылыми тағылымдама: қорытынды есепті оралғаннан кейін бір ай ішінде тапсырады. Тапсырмасаңыз — бюджет қаражатын қайтару мәселесі көтеріледі.',
           en: 'Scientific internship: the final report is due within a month of your return. Miss it and the question of repaying budget money comes up.',
         },
-        source: 'pp791',
+        source: 'ns_rules422',
         appliesTo: { track: ['science_internship'] },
       },
     ],
@@ -238,7 +238,7 @@ export const ABROAD_STAGES: Stage[] = [
         en: 'Staying abroad "just a couple more months" after graduating. The return deadline is written into your contract.',
       },
     ],
-    sources: ['stipendiat_master', 'stipendiat_internship', 'otrabotka', 'pp791', 'obrazcy'],
+    sources: ['stipendiat_master', 'stipendiat_internship', 'otrabotka', 'ns_rules422', 'obrazcy'],
     estimateWeeks: [2, 8],
   },
 

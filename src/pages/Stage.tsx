@@ -84,6 +84,9 @@ function LanguageTable() {
   const group = LANGUAGE_GROUP_BY_CATEGORY[profile.category]
   if (group === 'none') return null
   const science = group === 'science'
+  // For applicants admitted on their own and for doctoral/residency applicants the Rules
+  // (pp573 п. 9 пп. 3, пп. 11–12) set no language condition: Order 318 is shown for reference.
+  const advisory = group === 'self'
   // Only the preferential table has three levels; everywhere else one threshold decides.
   const oneLevel = group !== 'preferential'
   const rows = ENGLISH_THRESHOLDS[group]
@@ -111,14 +114,16 @@ function LanguageTable() {
           <Pill tone="accent">
             {t('stage.yourScore')}: {t(`exams.${profile.foreignCert.exam}`)} {profile.foreignCert.score}
           </Pill>
-          {th && (
+          {th && !advisory && (
             <Pill tone={meets ? 'success' : 'warn'}>
               {meets ? t('stage.meets') : t('stage.below')}: {t('stage.threshold')} {th.need}
             </Pill>
           )}
+          {th && advisory && <Pill>{t('stage.advisoryLevel', { need: th.need })}</Pill>}
         </div>
       )}
-      {row && (
+      {advisory && <p className={s.body} style={{ margin: '10px 0 0' }}>{t('stage.advisoryNote')}</p>}
+      {row && !advisory && (
         <div className={s.gaugeWrap}>
           <ScoreGauge
             label={row.label}
@@ -182,7 +187,7 @@ function LanguageTable() {
       )}
       {science && <ScienceLanguages />}
       <div style={{ marginTop: 10 }}>
-        <SourceLink id={science ? 'ns_minscore' : 'prikaz318'} />
+        <SourceLink id={science ? 'ns_rules422' : 'prikaz318'} />
       </div>
     </Card>
   )
@@ -591,10 +596,12 @@ export function StagePage() {
                 ] as const
               ).map(([icon, key, value]) => (
                 <div key={key} className={s.shortRow}>
-                  <span className={s.shortIcon}>
-                    <StageIcon name={icon} size={18} />
-                  </span>
-                  <dt className={s.shortLabel}>{t(key)}</dt>
+                  <dt className={s.shortLabel}>
+                    <span className={s.shortIcon} aria-hidden="true">
+                      <StageIcon name={icon} size={18} />
+                    </span>
+                    {t(key)}
+                  </dt>
                   <dd className={s.shortValue}>{c(value)}</dd>
                 </div>
               ))}
@@ -635,7 +642,7 @@ export function StagePage() {
       )}
       {stage.id === 'workback' && (
         <>
-          <Callout tone="info" source={profile.track === 'science_internship' ? 'pp791' : 'pp573'}>
+          <Callout tone="info" source={profile.track === 'science_internship' ? 'ns_rules422' : 'pp573'}>
             <strong>{t('stage.workBackTitle')}</strong>
             <br />
             {c(getCategory(profile.category).workBack)}
@@ -700,18 +707,22 @@ export function StagePage() {
           {sp.items.map(({ item, done, auto }) => {
             const text = cf(item.text)
             return (
-              <button
-                key={item.id}
-                className={[s.checkItem, done ? s.checkItemDone : ''].join(' ')}
-                onClick={() => !auto && !locked && toggleCheck(stage.id, item.id)}
-                disabled={auto || locked}
-                aria-pressed={done}
-              >
-                <span className={[s.box, done ? (auto ? s.boxAuto : s.boxDone) : ''].join(' ')}>
-                  <Check size={15} strokeWidth={3} aria-hidden="true" />
+              <div key={item.id} className={[s.checkItem, done ? s.checkItemDone : '', auto || locked ? s.checkItemOff : ''].join(' ')}>
+                {/* The whole row is the checkbox; the source link sits above it as its own control. */}
+                <button
+                  type="button"
+                  className={s.hit}
+                  role="checkbox"
+                  aria-checked={done}
+                  aria-disabled={auto || locked}
+                  aria-label={text.text}
+                  onClick={() => !auto && !locked && toggleCheck(stage.id, item.id)}
+                />
+                <span className={[s.box, done ? (auto ? s.boxAuto : s.boxDone) : ''].join(' ')} aria-hidden="true">
+                  <Check size={15} strokeWidth={3} />
                 </span>
                 <span>
-                  <span className={s.checkText}>
+                  <span className={s.checkText} aria-hidden="true">
                     {text.text}
                     {text.fallback && <FallbackBadge />}
                   </span>
@@ -719,20 +730,14 @@ export function StagePage() {
                     {item.required === false && <span className={s.tag}>{t('common.optional')}</span>}
                     {auto && <span className={s.tag}>{t('roadmap.autoDone')}</span>}
                     {item.link && (
-                      <a
-                        href={getSource(item.link).url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        onClick={(e) => e.stopPropagation()}
-                        style={{ fontSize: 12.5, display: 'inline-flex', alignItems: 'center', gap: 5 }}
-                      >
-                        <ExternalLink size={12} aria-hidden="true" />
+                      <a href={getSource(item.link).url} target="_blank" rel="noopener noreferrer" className={s.above}>
+                        <ExternalLink size={13} aria-hidden="true" />
                         {getSource(item.link).org}
                       </a>
                     )}
                   </span>
                 </span>
-              </button>
+              </div>
             )
           })}
         </div>
@@ -750,7 +755,8 @@ export function StagePage() {
                   key={d.id}
                   className={[s.docRow, done ? s.docRowDone : ''].join(' ')}
                   onClick={() => !auto && toggleDocument(d.id)}
-                  aria-pressed={done}
+                  role="checkbox"
+                  aria-checked={done}
                   disabled={auto}
                 >
                   <span className={[s.box, done ? s.boxDone : ''].join(' ')}>
@@ -770,28 +776,6 @@ export function StagePage() {
           </div>
         </Card>
       )}
-
-      <DeadlinePanel stage={stage.id} />
-
-      {deadlines.length > 0 && (
-        <Card>
-          <div className={s.section}>
-            <span className={s.sectionTitle}>{t('stage.deadlines')}</span>
-            {/* Deadlines are facts, not warnings — amber stays reserved for mistakes and locks. */}
-            {deadlines.map((d, i) => (
-              <Callout key={i} tone="info" source={d.source}>
-                {c(d.text)}
-              </Callout>
-            ))}
-          </div>
-        </Card>
-      )}
-
-      <Excerpts stage={stage.id} />
-
-      <StageFormsCard stage={stage.id} />
-
-      <StageVideos stage={stage.id} />
 
       {stage.mistakes.length > 0 && (
         <Card>
@@ -813,18 +797,51 @@ export function StagePage() {
         </Card>
       )}
 
-      {faq.length > 0 && (
+      <DeadlinePanel stage={stage.id} />
+
+      {deadlines.length > 0 && (
         <Card>
           <div className={s.section}>
-            <span className={s.sectionTitle}>{t('stage.faq')}</span>
-            <div>
-              {faq.map((f) => (
-                <FaqRow key={f.id} item={f} />
-              ))}
-            </div>
+            <span className={s.sectionTitle}>{t('stage.deadlines')}</span>
+            {/* Deadlines are facts, not warnings — amber stays reserved for mistakes and locks. */}
+            {deadlines.map((d, i) => (
+              <Callout key={i} tone="info" source={d.source}>
+                {c(d.text)}
+              </Callout>
+            ))}
           </div>
         </Card>
       )}
+
+      {/* Reference material stays one tap away, so "what to do" is not pushed down the page. */}
+      <details className={s.more}>
+        <summary className={s.moreHead}>
+          <span>
+            <b>{t('stage.moreTitle')}</b>
+            <span>{t('stage.moreText')}</span>
+          </span>
+          <ChevronDown size={18} className={s.moreChevron} aria-hidden="true" />
+        </summary>
+        <div className={s.moreBody}>
+        <Excerpts stage={stage.id} />
+
+        <StageFormsCard stage={stage.id} />
+
+        <StageVideos stage={stage.id} />
+        {faq.length > 0 && (
+          <Card>
+            <div className={s.section}>
+              <span className={s.sectionTitle}>{t('stage.faq')}</span>
+              <div>
+                {faq.map((f) => (
+                  <FaqRow key={f.id} item={f} />
+                ))}
+              </div>
+            </div>
+          </Card>
+        )}
+        </div>
+      </details>
 
       <Card>
         <div className={s.section}>

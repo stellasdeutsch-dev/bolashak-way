@@ -87,41 +87,38 @@ export function Documents() {
                 const auto = isDocAuto(d, profile)
                 const done = isDone(d.id, auto)
                 return (
-                  <button
-                    key={d.id}
-                    className={[s.row, done ? s.rowDone : ''].join(' ')}
-                    onClick={() => !auto && toggleDocument(d.id)}
-                    aria-pressed={done}
-                    disabled={auto}
-                  >
-                    <span className={[s.box, done ? s.boxDone : ''].join(' ')}>
-                      <Check size={15} strokeWidth={3} aria-hidden="true" />
+                  <div key={d.id} className={[s.row, done ? s.rowDone : '', auto ? s.rowOff : ''].join(' ')}>
+                    <button
+                      type="button"
+                      className={s.hit}
+                      role="checkbox"
+                      aria-checked={done}
+                      aria-disabled={auto}
+                      aria-label={c(d.title)}
+                      onClick={() => !auto && toggleDocument(d.id)}
+                    />
+                    <span className={[s.box, done ? s.boxDone : ''].join(' ')} aria-hidden="true">
+                      <Check size={15} strokeWidth={3} />
                     </span>
                     <span>
-                      <span className={s.docTitle}>{c(d.title)}</span>
+                      <span className={s.docTitle} aria-hidden="true">{c(d.title)}</span>
                       {d.note && <span className={s.docNote}>{c(d.note)}</span>}
                       {auto && <span className={s.docNote}>{t('roadmap.autoDone')}</span>}
                       <span className={s.docLinks}>
                         {d.form && (
-                          <a
-                            href={getSource(d.form).url}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            onClick={(e) => e.stopPropagation()}
-                            style={{ display: 'inline-flex', alignItems: 'center', gap: 5 }}
-                          >
-                            <Download size={12} aria-hidden="true" />
+                          <a href={getSource(d.form).url} target="_blank" rel="noopener noreferrer" className={s.above}>
+                            <Download size={13} aria-hidden="true" />
                             {t('documents.form')}
                           </a>
                         )}
                         {d.source && (
-                          <a href={getSource(d.source).url} target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()}>
+                          <a href={getSource(d.source).url} target="_blank" rel="noopener noreferrer" className={s.above}>
                             {getSource(d.source).org}
                           </a>
                         )}
                       </span>
                     </span>
-                  </button>
+                  </div>
                 )
               })}
             </div>

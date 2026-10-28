@@ -4,8 +4,9 @@ import { ACADEMIC_COVERAGE, ACADEMIC_WORKBACK_MISTAKES, FREE_TUITION_NOTE } from
 /**
  * Doctorate platform: PhD, professional doctorate and residency. All three are
  * self-admission (ПП 573 п. 4 пп. 1, п. 11–12): the unconditional offer is needed at
- * application, PhD and professional doctorate add an individual study plan, and
- * nuclear-industry workers add experience and an employer request (п. 4 пп. 8).
+ * application, all three add an individual study plan (п. 12 пп. 8), and nuclear-industry
+ * workers add experience and an employer request (п. 4 пп. 8). Neither the conditions
+ * (п. 11) nor the package (п. 12) include a foreign-language certificate.
  */
 
 export const DOCTORATE_STAGES: StagePatches = {
@@ -37,9 +38,9 @@ export const DOCTORATE_STAGES: StagePatches = {
       en: 'Three formats, all through getting into a listed university on your own.',
     },
     why: {
-      ru: 'PhD, доктор по профилю и резидентура — это самостоятельное поступление: безусловное приглашение из вуза Списка нужно уже при подаче. Для PhD и доктора по профилю вуз согласует с вами индивидуальный учебный план. Работникам атомной отрасли дополнительно нужны стаж — 3 года, из них последние 6 месяцев по своей области — и заявка работодателя.',
-      kk: 'PhD, бейіні бойынша доктор және резидентура — өз бетінше түсу: Тізімдегі ЖОО-ның сөзсіз шақыруы тапсыру кезінде-ақ керек. PhD мен бейіні бойынша докторға ЖОО сізбен жеке оқу жоспарын келіседі. Атом саласының қызметкерлеріне қосымша өтіл — 3 жыл, оның соңғы 6 айы өз саласында — және жұмыс беруші өтінімі керек.',
-      en: "PhD, the professional doctorate and residency are all self-admission: you need the unconditional offer from a listed university when you apply. For a PhD or professional doctorate the university agrees an individual study plan with you. Nuclear-industry workers also need experience — 3 years, the last 6 months in their own field — and their employer's request.",
+      ru: 'PhD, доктор по профилю и резидентура — это самостоятельное поступление: безусловное приглашение из вуза Списка нужно уже при подаче. Во всех трёх форматах к пакету прикладывают индивидуальный учебный план, согласованный с вузом. Работникам атомной отрасли дополнительно нужны общий стаж не меньше 3 лет, из них последние 6 месяцев — фактическая работа в выбранной области, и заявка работодателя.',
+      kk: 'PhD, бейіні бойынша доктор және резидентура — өз бетінше түсу: Тізімдегі ЖОО-ның сөзсіз шақыруы тапсыру кезінде-ақ керек. Үш форматтың бәрінде топтамаға ЖОО-мен келісілген жеке оқу жоспары қоса беріледі. Атом саласының қызметкерлеріне қосымша кемінде 3 жыл жалпы өтіл, оның соңғы 6 айы — таңдаған салада нақты жұмыс, және жұмыс беруші өтінімі керек.',
+      en: "PhD, the professional doctorate and residency are all self-admission: you need the unconditional offer from a listed university when you apply. All three formats add an individual study plan agreed with the university. Nuclear-industry workers also need at least 3 years of total experience, the last 6 months actually working in their chosen field, and their employer's request.",
     },
     inShort: {
       what: { ru: 'Выбор формата: PhD, доктор по профилю или резидентура.', kk: 'Форматты таңдау: PhD, бейіні бойынша доктор не резидентура.', en: 'Choosing the format: PhD, professional doctorate or residency.' },
@@ -48,9 +49,9 @@ export const DOCTORATE_STAGES: StagePatches = {
     },
     mistakes: [
       {
-        ru: 'Подавать на PhD без индивидуального учебного плана: он входит в пакет вместе с нотариальным переводом.',
-        kk: 'PhD-ге жеке оқу жоспарынсыз тапсыру: ол нотариалды аудармасымен бірге топтамаға кіреді.',
-        en: 'Applying for a PhD without the individual study plan: it is part of the package, with a notarised translation.',
+        ru: 'Подавать без индивидуального учебного плана — на PhD, доктора по профилю или в резидентуру: он входит в пакет вместе с нотариальным переводом.',
+        kk: 'Жеке оқу жоспарынсыз тапсыру — PhD-ге, бейіні бойынша докторға не резидентураға: ол нотариалды аудармасымен бірге топтамаға кіреді.',
+        en: 'Applying without the individual study plan — for a PhD, professional doctorate or residency: it is part of the package, with a notarised translation.',
       },
       {
         ru: 'Закладывать в план больше времени, чем даёт вуз. Индивидуальный план не может быть длиннее сроков, которые установил вуз.',
@@ -70,27 +71,34 @@ export const DOCTORATE_STAGES: StagePatches = {
 
   foreign: {
     summary: {
-      ru: 'Нужен третий порог приказа № 318 — уровень прямого зачисления на учёбу.',
-      kk: '№ 318 бұйрықтың үшінші шегі керек — оқуға тікелей қабылдау деңгейі.',
-      en: 'You need level III of Order No. 318 — the level for direct admission.',
+      ru: 'Правила не делают иностранный язык условием участия: язык проверяет вуз при безусловном зачислении.',
+      kk: 'Қағида шет тілін қатысу шарты етпейді: тілді ЖОО сөзсіз қабылдау кезінде тексереді.',
+      en: 'The Rules do not make a foreign language a condition of taking part: the university checks it when it admits you unconditionally.',
     },
     why: {
-      ru: 'Для вашей категории в таблице приказа № 318 стоит только третий порог — например, IELTS 6.0: язык нужен сразу, подтягивать его после конкурса не предусмотрено. Для PhD и доктора по профилю сертификат входит в пакет документов; в резидентуре язык подтверждает вуз своим безусловным зачислением.',
-      kk: '№ 318 бұйрық кестесінде санатыңызға тек үшінші шек көрсетілген — мысалы, IELTS 6.0: тіл бірден керек, конкурстан кейін жетілдіру көзделмеген. PhD мен бейіні бойынша докторға сертификат құжаттар топтамасына кіреді; резидентурада тілді ЖОО сөзсіз қабылдауымен растайды.',
-      en: 'Order No. 318 sets only level III for your category — IELTS 6.0, for example: the language is needed straight away, with no catching up after the competition. For a PhD or professional doctorate the certificate goes in the package; for residency the university vouches for your language with its unconditional admission.',
+      ru: 'В условиях участия для PhD, доктора по профилю и резидентуры (ПП № 573, п. 11) иностранного языка нет, и в списке документов (п. 12) сертификата тоже нет — язык подтверждает вуз своим безусловным зачислением. При этом в таблице приказа № 318 для «самостоятельно поступивших» указан третий порог — например, IELTS 6.0. Нужен ли он вам, уточните в Центре; на сам вуз ориентируйтесь в первую очередь.',
+      kk: 'PhD, бейіні бойынша доктор және резидентураға қатысу шарттарында (№ 573 ҮҚ, 11-тармақ) шет тілі жоқ, құжаттар тізімінде (12-тармақ) сертификат та жоқ — тілді ЖОО сөзсіз қабылдауымен растайды. Алайда № 318 бұйрық кестесінде «өз бетінше түскендерге» үшінші шек көрсетілген — мысалы, IELTS 6.0. Оның сізге керегін Орталықтан нақтылаңыз; ең алдымен ЖОО талабына қараңыз.',
+      en: 'The conditions for a PhD, professional doctorate or residency (Decree No. 573, п. 11) include no foreign language, and the document list (п. 12) has no certificate — the university vouches for your language with its unconditional admission. Order No. 318 does list level III for "self-admitted" applicants — IELTS 6.0, for example. Ask the Center whether it applies to you; go by the university first.',
     },
     inShort: {
-      what: { ru: 'Проверка языка по третьему порогу — уровню прямого зачисления.', kk: 'Тілді үшінші шек — тікелей қабылдау деңгейі бойынша тексеру.', en: 'A language check against level III — the level for direct admission.' },
-      you: { ru: 'Сравнить свой балл с порогом в таблице и с требованием вуза.', kk: 'Балыңызды кестедегі шекпен және ЖОО талабымен салыстыру.', en: "Compare your score with the threshold in the table and with the university's requirement." },
-      result: { ru: 'Понимание, проходит ли ваш балл.', kk: 'Балыңыз өте ме, соны түсіну.', en: 'You know whether your score passes.' },
+      what: { ru: 'Язык, на котором вы будете учиться, — по требованию вуза.', kk: 'Оқитын тіліңіз — ЖОО талабы бойынша.', en: "The language you will study in — as the university requires." },
+      you: { ru: 'Сдать экзамен на балл, который требует вуз, и уточнить в Центре, нужен ли порог приказа № 318.', kk: 'Емтиханды ЖОО талап ететін балға тапсырып, № 318 бұйрық шегі керек пе, Орталықтан нақтылау.', en: 'Sit the exam at the score the university asks for and check with the Center whether the Order No. 318 threshold applies.' },
+      result: { ru: 'Безусловное зачисление без языкового условия.', kk: 'Тілдік шартсыз сөзсіз қабылдану.', en: 'Unconditional admission with no language condition.' },
+    },
+    checklist: {
+      know_threshold: {
+        ru: 'Знаете, какой экзамен и балл требует ваш вуз; порог приказа № 318 — в таблице ниже, для сведения.',
+        kk: 'ЖОО-ңыз қандай емтихан мен балл талап ететінін білесіз; № 318 бұйрық шегі — төмендегі кестеде, мәлімет үшін.',
+        en: 'You know which exam and score your university requires; the Order No. 318 threshold is in the table below, for reference.',
+      },
     },
   },
 
   admission: {
     why: {
-      ru: 'Приглашение должно быть безусловным — без учебных условий; оговорка про оплату допустима, её берёт на себя стипендия. В документе — ваши данные, специальность, сроки и стоимость. Для PhD и доктора по профилю к нему добавляется индивидуальный учебный план, согласованный с вузом и не длиннее его сроков, — тоже с нотариальным переводом.',
-      kk: 'Шақыру сөзсіз болуы керек — оқу шарттарынсыз; төлем туралы ескертпеге болады, оны стипендия өтейді. Құжатта — деректеріңіз, мамандық, мерзім және құн. PhD мен бейіні бойынша докторға оған ЖОО-мен келісілген, оның мерзімінен ұзақ емес жеке оқу жоспары қосылады — ол да нотариалды аудармамен.',
-      en: 'The offer has to be unconditional — no study conditions; a payment condition is fine, the scholarship pays. It shows your details, specialty, dates and cost. For a PhD or professional doctorate it comes with an individual study plan agreed with the university and no longer than its terms — also with a notarised translation.',
+      ru: 'Приглашение должно быть безусловным — без учебных условий; оговорка про оплату допустима, её берёт на себя стипендия. В документе — ваши данные, специальность, сроки и стоимость. К нему добавляется индивидуальный учебный план, согласованный с вузом и не длиннее его сроков, — для PhD, доктора по профилю и резидентуры, тоже с нотариальным переводом.',
+      kk: 'Шақыру сөзсіз болуы керек — оқу шарттарынсыз; төлем туралы ескертпеге болады, оны стипендия өтейді. Құжатта — деректеріңіз, мамандық, мерзім және құн. Оған ЖОО-мен келісілген, оның мерзімінен ұзақ емес жеке оқу жоспары қосылады — PhD, бейіні бойынша доктор және резидентура үшін, ол да нотариалды аудармамен.',
+      en: 'The offer has to be unconditional — no study conditions; a payment condition is fine, the scholarship pays. It shows your details, specialty, dates and cost. It comes with an individual study plan agreed with the university and no longer than its terms — for a PhD, professional doctorate and residency alike, also with a notarised translation.',
     },
   },
 
@@ -113,26 +121,26 @@ export const DOCTORATE_STAGES: StagePatches = {
 
 export const DOCTORATE_HOME: PlatformHome = {
   intro: {
-    ru: 'PhD, доктор по профилю или резидентура за рубежом за счёт государства. Путь один — самостоятельное поступление: безусловное приглашение из вуза Списка нужно уже при подаче, а для PhD и доктора по профилю — ещё и индивидуальный учебный план, согласованный с вузом. Язык нужен сразу — на уровне прямого зачисления.',
-    kk: 'Шетелде мемлекет есебінен PhD, бейіні бойынша доктор не резидентура. Жол біреу — өз бетінше түсу: Тізімдегі ЖОО-ның сөзсіз шақыруы тапсыру кезінде-ақ керек, ал PhD мен бейіні бойынша докторға — ЖОО-мен келісілген жеке оқу жоспары да. Тіл бірден — тікелей қабылдау деңгейінде керек.',
-    en: 'A PhD, professional doctorate or residency abroad paid by the state. There is one road — getting in on your own: the unconditional offer from a listed university is needed when you apply, and for a PhD or professional doctorate an individual study plan agreed with the university as well. The language is needed from day one, at the direct-admission level.',
+    ru: 'PhD, доктор по профилю или резидентура за рубежом за счёт государства. Путь один — самостоятельное поступление: безусловное приглашение из вуза Списка нужно уже при подаче, а к нему — индивидуальный учебный план, согласованный с вузом. Иностранный язык проверяет вуз при зачислении: сертификата в пакете нет.',
+    kk: 'Шетелде мемлекет есебінен PhD, бейіні бойынша доктор не резидентура. Жол біреу — өз бетінше түсу: Тізімдегі ЖОО-ның сөзсіз шақыруы тапсыру кезінде-ақ керек, оған қоса — ЖОО-мен келісілген жеке оқу жоспары. Шет тілін ЖОО қабылдау кезінде тексереді: топтамада сертификат жоқ.',
+    en: 'A PhD, professional doctorate or residency abroad paid by the state. There is one road — getting in on your own: the unconditional offer from a listed university is needed when you apply, together with an individual study plan agreed with the university. The university checks your foreign language at admission: there is no certificate in the package.',
   },
   facts: [
     { value: '3', caption: { ru: 'формата: PhD, доктор по профилю, резидентура', kk: 'формат: PhD, бейіні бойынша доктор, резидентура', en: 'formats: PhD, professional doctorate, residency' }, source: 'pp573' },
-    { value: 'III', caption: { ru: 'порог иностранного языка — уровень прямого зачисления', kk: 'шет тілі шегі — тікелей қабылдау деңгейі', en: 'foreign-language threshold — the direct-admission level' }, source: 'prikaz318' },
+    { value: '90', caption: { ru: 'календарных дней на договор после решения комиссии', kk: 'күнтізбелік күн комиссия шешімінен кейін шартқа', en: 'calendar days to sign the contract after the commission decides' }, source: 'pp573' },
     { value: 'B1', caption: { ru: 'казахский язык', kk: 'қазақ тілі', en: 'Kazakh' }, source: 'pravila' },
-    { value: '5 / 3', caption: { ru: 'лет отработки в больших городах / в регионах', kk: 'жыл өтеу: ірі қалаларда / өңірлерде', en: 'years of work-back in the big cities / in the regions' }, source: 'pp573' },
+    { value: '5 / 3', caption: { ru: 'лет отработки в столице и городах республиканского значения / в регионах — кроме работников атомной отрасли: им 3 года', kk: 'жыл өтеу: астанада және республикалық маңызы бар қалаларда / өңірлерде — атом саласы қызметкерлерінен басқа: оларға 3 жыл', en: 'years of work-back in the capital and cities of national status / in the regions — except nuclear-industry workers, who owe 3' }, source: 'pp573' },
   ],
   fitYes: [
     { ru: 'Вы поступили или поступаете на PhD, доктора по профилю или в резидентуру вуза из Списка — без условий.', kk: 'Тізімдегі ЖОО-ның PhD, бейіні бойынша доктор не резидентурасына шартсыз түстіңіз не түсіп жатырсыз.', en: 'You have got or are getting an unconditional place for a PhD, professional doctorate or residency at a listed university.' },
-    { ru: 'Ваш иностранный язык уже на уровне прямого зачисления.', kk: 'Шет тіліңіз тікелей қабылдау деңгейінде.', en: 'Your foreign language is already at the direct-admission level.' },
-    { ru: 'Работники атомной отрасли: у вас 3 года стажа в отрасли и заявка работодателя.', kk: 'Атом саласының қызметкерлері: сізде саладағы 3 жылдық өтіл және жұмыс беруші өтінімі бар.', en: 'Nuclear-industry workers: you have 3 years in the industry and an employer request.' },
+    { ru: 'Вуз согласовал с вами индивидуальный учебный план, не длиннее своих сроков.', kk: 'ЖОО сізбен өз мерзімінен ұзақ емес жеке оқу жоспарын келісті.', en: 'The university has agreed an individual study plan with you, no longer than its own terms.' },
+    { ru: 'Работники атомной отрасли: у вас общий стаж не меньше 3 лет, из них последние 6 месяцев — в выбранной области, и заявка работодателя.', kk: 'Атом саласының қызметкерлері: сізде кемінде 3 жыл жалпы өтіл, оның соңғы 6 айы — таңдаған салада, және жұмыс беруші өтінімі бар.', en: 'Nuclear-industry workers: you have at least 3 years of total experience, the last 6 months in your chosen field, and an employer request.' },
   ],
   fitNo: [
     { text: { ru: 'Вам нужна исследовательская стажировка на 3–12 месяцев, а не степень.', kk: 'Сізге дәреже емес, 3–12 айлық зерттеу тағылымдамасы керек.', en: 'You want a 3–12 month research placement, not a degree.' }, go: 'science' },
     { text: { ru: 'Вы хотите получить степень магистра.', kk: 'Магистр дәрежесін алғыңыз келеді.', en: "You want a master's degree." }, go: 'master' },
   ],
-  fitSources: ['pp573', 'pravila', 'prikaz318'],
+  fitSources: ['pp573', 'pravila'],
   coverage: ACADEMIC_COVERAGE,
   coverageSource: 'pp573',
   coverageNote: FREE_TUITION_NOTE,

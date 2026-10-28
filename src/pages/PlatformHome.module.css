@@ -63,7 +63,6 @@
   letter-spacing: -0.04em;
   line-height: 1;
   color: var(--accent);
-  opacity: 0.55;
   font-variant-numeric: tabular-nums;
   padding-top: 2px;
 }
@@ -75,7 +74,7 @@
 }
 .sectionText {
   margin-top: 6px;
-  font-size: 14.5px;
+  font-size: 15.5px;
   line-height: 1.6;
   color: var(--text-2);
   max-width: 68ch;
@@ -83,7 +82,7 @@
 .sub {
   display: block;
   margin: 22px 0 10px;
-  font-size: 12px;
+  font-size: 13.5px;
   font-weight: 700;
   letter-spacing: 0.06em;
   text-transform: uppercase;
@@ -129,13 +128,13 @@
 }
 .ctaText {
   margin-top: 6px;
-  font-size: 14.5px;
+  font-size: 15.5px;
   line-height: 1.6;
   color: var(--on-navy-muted);
   max-width: 56ch;
 }
 .footnote {
-  font-size: 12.5px;
+  font-size: 13.5px;
   line-height: 1.6;
   color: var(--text-3);
   padding: 0 4px;
@@ -154,7 +153,7 @@
   padding: 0 4px;
 }
 .detailsText {
-  font-size: 14px;
+  font-size: 15px;
   line-height: 1.55;
   color: var(--text-2);
   padding: 0 4px;
@@ -164,4 +163,20 @@
   display: flex;
   flex-direction: column;
   gap: 10px;
+}
+
+.footnote p {
+  margin: 0 0 8px;
+}
+.footLinks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 20px;
+}
+.footLinks a {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 44px;
+  font-weight: 600;
 }

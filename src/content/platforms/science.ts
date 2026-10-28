@@ -1,14 +1,16 @@
 import type { PlatformHome, StagePatches } from '../types'
 
 /**
- * Scientific internship platform. A separate programme with its own act (ПП 791), its own
- * list of hosts and research directions, paper submission at the Center, a 60-day contract
- * secured by two guarantors, and a final report within a month of coming back.
+ * Scientific internship platform. A separate programme with its own act — the Rules approved
+ * by приказ и.о. Министра науки и высшего образования РК от 18.08.2023 № 422 (source
+ * ns_rules422; ПП 791 is repealed) — its own list of hosts and research directions,
+ * submission through egov.kz and/or on paper, a 90-day contract secured by two guarantors,
+ * and a final report within a month of coming back.
  */
 
 export const SCIENCE_STAGES: StagePatches = {
   eligibility: {
-    links: { citizen: 'pp791', education: 'pp791', no_debt: 'pp791', pension_age: 'ns_requirements' },
+    links: { citizen: 'ns_rules422', education: 'ns_rules422', no_debt: 'ns_rules422', pension_age: 'ns_requirements' },
     summary: {
       ru: 'Гражданство, учёная степень, незакрытая отработка и запас времени до пенсии.',
       kk: 'Азаматтық, ғылыми дәреже, жабылмаған өтеу және зейнетке дейінгі уақыт.',
@@ -43,7 +45,7 @@ export const SCIENCE_STAGES: StagePatches = {
         en: 'Treating the work-back as something far off. Its length is checked when you apply.',
       },
     ],
-    sources: ['pp791', 'ns_requirements'],
+    sources: ['ns_rules422', 'ns_requirements'],
   },
 
   category: {
@@ -56,9 +58,9 @@ export const SCIENCE_STAGES: StagePatches = {
       en: 'An academic degree, 12 months in research, publications and an employer request.',
     },
     why: {
-      ru: 'Научная стажировка — отдельная программа со своими правилами (ПП № 791). Нужны учёная степень — от магистра до доктора наук; 12 месяцев непрерывной работы в выбранной области исследований в аккредитованной научной организации; хотя бы одна статья или обзор в Web of Science или Scopus, статья в издании из Списка 1 или 2 либо международная патентная заявка PCT; заявка работодателя с сохранением места.',
-      kk: 'Ғылыми тағылымдама — өз қағидасы бар бөлек бағдарлама (№ 791 ҮҚ). Керегі: ғылыми дәреже — магистрден ғылым докторына дейін; аккредиттелген ғылыми ұйымда таңдаған зерттеу саласында 12 ай үздіксіз жұмыс; Web of Science не Scopus-та кемінде бір мақала не шолу, 1 не 2 Тізімдегі басылымда мақала не PCT халықаралық патенттік өтінімі; орынды сақтайтын жұмыс беруші өтінімі.',
-      en: 'The scientific internship is a separate programme with its own rules (Decree No. 791). You need an academic degree — from master to Doctor of Sciences; 12 continuous months in your chosen research area at an accredited research organisation; at least one article or review in Web of Science or Scopus, an article in a List 1 or 2 journal, or an international PCT patent application; and an employer request that keeps your job.',
+      ru: 'Научная стажировка — отдельная программа со своими правилами (приказ МНВО № 422). Претендент — научный работник, у которого есть учёная степень — от магистра до доктора наук; 12 месяцев непрерывной работы в выбранной области исследований в аккредитованной научной организации, подтверждённых пенсионными отчислениями; хотя бы одна статья или обзор в Web of Science или Scopus, статья в издании из Списка 1 или 2 и (или) международная заявка в Derwent Innovations Index; заявка работодателя с сохранением места.',
+      kk: 'Ғылыми тағылымдама — өз қағидасы бар бөлек бағдарлама (ҒЖБМ № 422 бұйрығы). Үміткер — ғылыми қызметкер, оның ғылыми дәрежесі — магистрден ғылым докторына дейін; аккредиттелген ғылыми ұйымда таңдаған зерттеу саласында зейнетақы аударымдарымен расталған 12 ай үздіксіз жұмысы; Web of Science не Scopus-та кемінде бір мақаласы не шолуы, 1 не 2 Тізімдегі басылымда мақаласы және (немесе) Derwent Innovations Index-те халықаралық өтінімі; орынды сақтайтын жұмыс беруші өтінімі болуы керек.',
+      en: 'The scientific internship is a separate programme with its own rules (Order No. 422 of the Ministry of Science and Higher Education). The applicant is a research worker with an academic degree — from master to Doctor of Sciences; 12 continuous months in the chosen research area at an accredited research organisation, backed by pension contributions; at least one article or review in Web of Science or Scopus, an article in a List 1 or 2 journal, and/or an international application in the Derwent Innovations Index; and an employer request that keeps the job.',
     },
     inShort: {
       what: { ru: 'Проверка требований к учёному.', kk: 'Ғалымға қойылатын талаптарды тексеру.', en: 'A check of the researcher requirements.' },
@@ -82,7 +84,7 @@ export const SCIENCE_STAGES: StagePatches = {
         en: 'Relying on an article in a journal dropped from Scopus or Web of Science for violations — such articles do not count.',
       },
     ],
-    sources: ['ns_requirements', 'pp791', 'ns_documents'],
+    sources: ['ns_requirements', 'ns_rules422', 'ns_documents'],
   },
 
   specialty: {
@@ -94,9 +96,9 @@ export const SCIENCE_STAGES: StagePatches = {
       en: 'The internship serves your research — within the list of priority directions.',
     },
     why: {
-      ru: 'Научную стажировку дают в рамках проводимого исследования и только по приоритетным направлениям, которые утверждает рабочий орган на основе решений Высшей научно-технической комиссии. Каждая организация из списка принимает по своим направлениям — поэтому код направления понадобится и при выборе организации.',
-      kk: 'Ғылыми тағылымдама жүргізіліп жатқан зерттеу аясында және тек Жоғары ғылыми-техникалық комиссия шешімі негізінде жұмыс органы бекіткен басым бағыттар бойынша беріледі. Тізімдегі әр ұйым өз бағыттары бойынша қабылдайды — сондықтан бағыт коды ұйым таңдағанда да керек.',
-      en: 'A scientific internship is granted within ongoing research and only in priority directions approved by the working body on the basis of the Higher Science and Technology Commission. Each listed host takes its own directions — so you will need the direction code when choosing the host too.',
+      ru: 'Научную стажировку дают в рамках проводимого исследования и только по перечню приоритетных направлений — он приложен к Правилам и сформирован по приоритетам развития науки, которые определяет Высшая научно-техническая комиссия. Не меньше 60% стажировок идёт на естественно-технический блок, не больше 40% — на общественно-гуманитарный. Каждая организация из списка принимает по своим направлениям — поэтому код направления понадобится и при выборе организации.',
+      kk: 'Ғылыми тағылымдама жүргізіліп жатқан зерттеу аясында және тек басым бағыттар тізбесі бойынша беріледі — ол Қағидаларға қоса берілген және Жоғары ғылыми-техникалық комиссия айқындайтын ғылымды дамыту басымдықтары бойынша жасалған. Тағылымдамалардың кемінде 60%-ы жаратылыстану-техникалық блокқа, 40%-дан аспайтыны қоғамдық-гуманитарлық блокқа беріледі. Тізімдегі әр ұйым өз бағыттары бойынша қабылдайды — сондықтан бағыт коды ұйым таңдағанда да керек.',
+      en: 'A scientific internship is granted within ongoing research and only in the priority directions listed in an appendix to the Rules, built on the science priorities set by the Higher Science and Technology Commission. At least 60% of internships go to the natural-science and engineering block and no more than 40% to the social sciences and humanities. Each listed host takes its own directions — so you will need the direction code when choosing the host too.',
     },
     inShort: {
       what: { ru: 'Проверка, что ваше исследование попадает в приоритетное направление.', kk: 'Зерттеуіңіз басым бағытқа кіретінін тексеру.', en: 'A check that your research falls within a priority direction.' },
@@ -115,11 +117,11 @@ export const SCIENCE_STAGES: StagePatches = {
         en: "Looking at last year's list — it is re-approved.",
       },
     ],
-    sources: ['ns_priorities', 'ns_orgs_pdf', 'pp791'],
+    sources: ['ns_priorities', 'ns_orgs_pdf', 'ns_rules422'],
   },
 
   university: {
-    links: { programme: 'pp791', duration_internship: 'pp791' },
+    links: { programme: 'ns_rules422', duration_internship: 'ns_rules422' },
     icon: 'FlaskConical',
     title: { ru: 'Организация из списка научных стажировок', kk: 'Ғылыми тағылымдама тізіміндегі ұйым', en: 'A host from the scientific-internship list' },
     summary: {
@@ -128,9 +130,9 @@ export const SCIENCE_STAGES: StagePatches = {
       en: 'Universities and research centres from a separate list. 3 to 12 months.',
     },
     why: {
-      ru: 'Стажировка длится от 3 до 12 месяцев в организации из списка, который утверждает рабочий орган. У вузов в списке указаны направления, по которым они принимают; научные центры и иные организации принимают по всем направлениям. Если вашей организации в списке нет, допуск рабочий орган решает в индивидуальном порядке — за 10 рабочих дней после приёма документов.',
-      kk: 'Тағылымдама жұмыс органы бекітетін тізімдегі ұйымда 3-тен 12 айға дейін созылады. Тізімдегі ЖОО-ларда қабылдайтын бағыттары көрсетілген; ғылыми орталықтар мен өзге ұйымдар барлық бағыт бойынша қабылдайды. Ұйымыңыз тізімде болмаса, рұқсатты жұмыс органы жеке тәртіппен — құжат қабылданғаннан кейін 10 жұмыс күнінде шешеді.',
-      en: 'The internship runs 3 to 12 months at a host on the list approved by the working body. Universities on it list the directions they take; research centres and other organisations take every direction. If your host is not on the list, the working body decides admission individually — within 10 working days of your documents being accepted.',
+      ru: 'Стажировка длится от 3 до 12 месяцев в организации из списка, который рабочий орган утверждает на год. Безусловное приглашение должно быть именно от организации из этого списка — порядка индивидуального допуска организаций вне списка в действующих правилах нет. У вузов в списке указаны направления, по которым они принимают; научные центры и иные организации принимают по всем направлениям.',
+      kk: 'Тағылымдама жұмыс органы бір жылға бекітетін тізімдегі ұйымда 3-тен 12 айға дейін созылады. Сөзсіз шақыру дәл осы тізімдегі ұйымнан болуы керек — тізімнен тыс ұйымдарды жеке тәртіппен жіберу тәртібі қолданыстағы қағидаларда жоқ. Тізімдегі ЖОО-ларда қабылдайтын бағыттары көрсетілген; ғылыми орталықтар мен өзге ұйымдар барлық бағыт бойынша қабылдайды.',
+      en: 'The internship runs 3 to 12 months at a host on the list the working body approves for one year. The unconditional invitation has to come from a host on that list — the current rules have no procedure for admitting hosts off the list individually. Universities on it list the directions they take; research centres and other organisations take every direction.',
     },
     inShort: {
       what: { ru: 'Выбор принимающей организации.', kk: 'Қабылдаушы ұйымды таңдау.', en: 'Choosing the host.' },
@@ -151,9 +153,9 @@ export const SCIENCE_STAGES: StagePatches = {
     },
     mistakes: [
       {
-        ru: 'Считать, что организация вне списка — это сразу отказ. Её рассмотрят индивидуально, но решение за рабочим органом.',
-        kk: 'Тізімнен тыс ұйым — бірден бас тарту деп ойлау. Оны жеке қарайды, бірақ шешім жұмыс органында.',
-        en: 'Assuming a host off the list means refusal. It is considered individually, but the working body decides.',
+        ru: 'Договориться с организацией не из списка этого года: приглашение от неё не подойдёт.',
+        kk: 'Биылғы тізімде жоқ ұйыммен келісу: оның шақыруы жарамайды.',
+        en: "Arranging a host that is not on this year's list: its invitation will not count.",
       },
       {
         ru: 'Планировать меньше 3 или больше 12 месяцев.',
@@ -161,25 +163,25 @@ export const SCIENCE_STAGES: StagePatches = {
         en: 'Planning fewer than 3 or more than 12 months.',
       },
     ],
-    sources: ['ns_orgs', 'ns_orgs_pdf', 'pp791'],
+    sources: ['ns_orgs', 'ns_orgs_pdf', 'ns_rules422'],
   },
 
   kazakh: {
     links: { passed: 'ns_minscore' },
-    sources: ['ns_minscore', 'pp791', 'qrt', 'kaztest'],
+    sources: ['ns_minscore', 'ns_rules422', 'qrt', 'kaztest'],
   },
 
   foreign: {
-    links: { know_threshold: 'ns_minscore', meets: 'ns_minscore', validity: null },
+    links: { know_threshold: 'ns_rules422', meets: 'ns_rules422', validity: null },
     summary: {
       ru: 'Своя таблица минимальных баллов: английский — IELTS 5.0, для русского языка порога нет.',
       kk: 'Ең төменгі балдардың өз кестесі: ағылшын — IELTS 5.0, орыс тіліне шек жоқ.',
       en: 'A table of its own: English — IELTS 5.0; Russian needs no certificate.',
     },
     why: {
-      ru: 'Для научных стажировок минимальный уровень утверждает рабочий орган с учётом требований принимающей организации — это отдельный файл, не приказ № 318. Порог зависит от языка стажировки: английский — IELTS 5.0 или эквивалент, немецкий — B1, китайский — HSK 3. Если языка нет в таблице — международный сертификат не ниже B1 по CEFR.',
-      kk: 'Ғылыми тағылымдамаға ең төменгі деңгейді жұмыс органы қабылдаушы ұйым талабын ескеріп бекітеді — бұл № 318 бұйрық емес, бөлек файл. Шек тағылымдама тіліне байланысты: ағылшын — IELTS 5.0 не баламасы, неміс — B1, қытай — HSK 3. Тіл кестеде болмаса — CEFR бойынша B1-ден төмен емес халықаралық сертификат.',
-      en: "For scientific internships the minimum level is approved by the working body with the host's requirements in mind — a separate file, not Order No. 318. It depends on the language of the internship: English — IELTS 5.0 or equivalent, German — B1, Chinese — HSK 3. A language not in the table needs an international certificate of at least CEFR B1.",
+      ru: 'Минимальный уровень для научных стажировок установлен приложением 4 к Правилам, а не приказом № 318, и учитывает требования принимающей организации. Порог зависит от языка стажировки: английский — IELTS 5.0 или эквивалент, немецкий — B1, китайский — HSK 3. Если языка нет в таблице — международный сертификат не ниже B1 по CEFR. На русском стажироваться можно только в странах, где русский — государственный или официальный язык.',
+      kk: 'Ғылыми тағылымдамаға ең төменгі деңгей № 318 бұйрықпен емес, Қағидалардың 4-қосымшасымен белгіленген және қабылдаушы ұйым талабын ескереді. Шек тағылымдама тіліне байланысты: ағылшын — IELTS 5.0 не баламасы, неміс — B1, қытай — HSK 3. Тіл кестеде болмаса — CEFR бойынша B1-ден төмен емес халықаралық сертификат. Орыс тілінде тек орыс тілі мемлекеттік не ресми тіл болып табылатын елдерде тағылымдамадан өтуге болады.',
+      en: "For scientific internships the minimum is set in Appendix 4 to the Rules, not in Order No. 318, and it takes the host's requirements into account. It depends on the language of the internship: English — IELTS 5.0 or equivalent, German — B1, Chinese — HSK 3. A language not in the table needs an international certificate of at least CEFR B1. An internship in Russian is allowed only in countries where Russian is a state or official language.",
     },
     inShort: {
       what: { ru: 'Проверка языка стажировки по таблице для научных стажировок.', kk: 'Тағылымдама тілін ғылыми тағылымдама кестесі бойынша тексеру.', en: 'Checking the internship language against the scientific-internship table.' },
@@ -200,9 +202,9 @@ export const SCIENCE_STAGES: StagePatches = {
     },
     mistakes: [
       {
-        ru: 'Сверяться с таблицей приказа № 318: у научных стажировок своя.',
-        kk: '№ 318 бұйрық кестесімен салыстыру: ғылыми тағылымдаманың өз кестесі бар.',
-        en: 'Checking against Order No. 318: scientific internships have their own table.',
+        ru: 'Сверяться с таблицей приказа № 318: у научных стажировок своя — в приложении 4 к Правилам.',
+        kk: '№ 318 бұйрық кестесімен салыстыру: ғылыми тағылымдаманың өз кестесі бар — Қағидалардың 4-қосымшасында.',
+        en: 'Checking against Order No. 318: scientific internships have their own table, in Appendix 4 to the Rules.',
       },
       {
         ru: 'Принести только копию: на сверку нужен оригинал.',
@@ -210,11 +212,11 @@ export const SCIENCE_STAGES: StagePatches = {
         en: 'Bringing only a copy: the original is needed for checking.',
       },
     ],
-    sources: ['ns_minscore', 'pp791'],
+    sources: ['ns_rules422', 'ns_minscore'],
   },
 
   admission: {
-    links: { offer: 'pp791', offer_content: 'pp791', translation: 'pp791' },
+    links: { offer: 'ns_rules422', offer_content: 'ns_rules422', translation: 'ns_rules422' },
     kicker: { ru: 'Приглашение', kk: 'Шақыру', en: 'The invitation' },
     title: { ru: 'Приглашение и программа научной стажировки', kk: 'Шақыру және ғылыми тағылымдама бағдарламасы', en: 'The invitation and the research programme' },
     summary: {
@@ -223,9 +225,9 @@ export const SCIENCE_STAGES: StagePatches = {
       en: "The host's unconditional invitation and a programme your employer approves.",
     },
     why: {
-      ru: 'В приглашении указывают проводимое научное исследование, сроки и стоимость стажировки с расшифровкой расчётов — с нотариальным переводом на казахский или русский. Программу научной стажировки составляют по требованиям рабочего органа: её утверждает ваш работодатель и согласует принимающая организация.',
-      kk: 'Шақыруда жүргізіліп жатқан ғылыми зерттеу, тағылымдама мерзімі мен құнының есеп-қисабы көрсетіледі — қазақ не орыс тіліне нотариалды аудармасымен. Ғылыми тағылымдама бағдарламасын жұмыс органының талабы бойынша жасайды: оны жұмыс берушіңіз бекітіп, қабылдаушы ұйым келіседі.',
-      en: "The invitation names your ongoing research, the dates and the cost with a breakdown — with a notarised Kazakh or Russian translation. The programme is drawn up to the working body's requirements: your employer approves it and the host agrees it.",
+      ru: 'В приглашении указывают направления научных исследований, сроки и стоимость стажировки с расшифровкой расчётов — с нотариальным переводом на казахский или русский. Программу научной стажировки составляют по приложению 5 к Правилам: её утверждает ваш работодатель и согласует принимающая организация из списка, тоже с нотариальным переводом.',
+      kk: 'Шақыруда ғылыми зерттеу бағыттары, тағылымдама мерзімі мен құнының есеп-қисабы көрсетіледі — қазақ не орыс тіліне нотариалды аудармасымен. Ғылыми тағылымдама бағдарламасын Қағидалардың 5-қосымшасы бойынша жасайды: оны жұмыс берушіңіз бекітіп, тізімдегі қабылдаушы ұйым келіседі, ол да нотариалды аудармасымен.',
+      en: 'The invitation names the research directions, the dates and the cost with a breakdown — with a notarised Kazakh or Russian translation. The programme follows Appendix 5 to the Rules: your employer approves it and the listed host agrees it, also with a notarised translation.',
     },
     inShort: {
       what: { ru: 'Два ключевых документа: приглашение и программа научной стажировки.', kk: 'Екі негізгі құжат: шақыру және ғылыми тағылымдама бағдарламасы.', en: 'Two key documents: the invitation and the research programme.' },
@@ -266,11 +268,11 @@ export const SCIENCE_STAGES: StagePatches = {
         en: 'Forgetting the notarised translation.',
       },
     ],
-    sources: ['pp791', 'ns_documents', 'ns_program'],
+    sources: ['ns_rules422', 'ns_documents', 'ns_program'],
   },
 
   documents: {
-    links: { anketa: 'ns_anketa', employer_request: 'ns_employer_form', lang_certs: 'ns_minscore', medical: 'pp791' },
+    links: { anketa: 'ns_anketa', employer_request: 'ns_employer_form', lang_certs: 'ns_rules422', medical: 'ns_rules422' },
     title: { ru: 'Пакет на научную стажировку', kk: 'Ғылыми тағылымдамаға топтама', en: 'The scientific-internship package' },
     summary: {
       ru: 'Оригиналы и копии, анкета, заявка работодателя, программа, список научных результатов, аккредитация.',
@@ -278,12 +280,12 @@ export const SCIENCE_STAGES: StagePatches = {
       en: 'Originals and copies, the form, the employer request, the programme, a list of results, accreditation.',
     },
     why: {
-      ru: 'Пакет подают на бумаге вместе со сканами, поэтому почти всё — оригинал плюс копия; оригиналы вернут после сверки. Список научных результатов утверждает работодатель, а свидетельство об аккредитации организации прикладывают копией.',
-      kk: 'Топтама сканерлермен бірге қағаз түрінде тапсырылады, сондықтан бәрі дерлік — түпнұсқа мен көшірме; түпнұсқалар салыстырылған соң қайтарылады. Ғылыми нәтижелер тізімін жұмыс беруші бекітеді, ал ұйымның аккредиттеу куәлігі көшірмесімен қоса беріледі.',
-      en: 'The package goes in on paper with scans, so almost everything is an original plus a copy; originals come back after checking. Your employer approves the list of research results, and a copy of the organisation\'s accreditation certificate goes in.',
+      ru: 'Правила перечисляют почти всё как оригинал плюс копия — оригиналы вернут после сверки. Список научных результатов утверждает работодатель, свидетельство об аккредитации прикладывают копией, медицинская справка — по форме 072/у.',
+      kk: 'Қағидада бәрі дерлік түпнұсқа мен көшірме ретінде көрсетілген — түпнұсқалар салыстырылған соң қайтарылады. Ғылыми нәтижелер тізімін жұмыс беруші бекітеді, аккредиттеу куәлігі көшірмесімен қоса беріледі, медициналық анықтама — 072/у нысаны бойынша.',
+      en: 'The Rules list almost everything as an original plus a copy — originals come back after checking. Your employer approves the list of research results, a copy of the accreditation certificate goes in, and the medical certificate is on form 072/u.',
     },
     inShort: {
-      what: { ru: 'Сбор бумажного пакета для Центра.', kk: 'Орталыққа қағаз топтаманы жинау.', en: 'Assembling the paper package for the Center.' },
+      what: { ru: 'Сбор пакета документов для Центра.', kk: 'Орталыққа құжаттар топтамасын жинау.', en: 'Assembling the document package for the Center.' },
       you: { ru: 'Собрать оригиналы и копии по списку ниже и сделать сканы на носитель.', kk: 'Төмендегі тізім бойынша түпнұсқа мен көшірмелерді жинап, сканерлерді тасығышқа жазу.', en: 'Gather the originals and copies on the list below and put the scans on a drive.' },
       result: { ru: 'Пакет, с которым можно идти в Центр.', kk: 'Орталыққа баруға болатын топтама.', en: 'A package ready to take to the Center.' },
     },
@@ -336,25 +338,25 @@ export const SCIENCE_STAGES: StagePatches = {
         en: "Forgetting the copy of your organisation's accreditation certificate.",
       },
     ],
-    sources: ['ns_documents', 'pp791', 'ns_anketa', 'ns_employer_form', 'ns_program'],
+    sources: ['ns_documents', 'ns_rules422', 'ns_anketa', 'ns_employer_form', 'ns_program'],
   },
 
   apply: {
-    links: { dates: 'pp791', fix: 'pp791' },
-    title: { ru: 'Сдайте документы в Центр', kk: 'Құжатты Орталыққа тапсырыңыз', en: 'Hand your documents to the Center' },
+    links: { dates: 'ns_rules422', fix: 'ns_rules422' },
+    title: { ru: 'Подайте документы в Центр', kk: 'Құжатты Орталыққа тапсырыңыз', en: 'Submit your documents to the Center' },
     summary: {
-      ru: 'Документы принимает Центр в Астане: на сайте описан приём нарочно, правила допускают и egov.kz. Ответ — за 3 рабочих дня.',
-      kk: 'Құжатты Астанадағы Орталық қабылдайды: сайтта қолма-қол қабылдау сипатталған, қағида egov.kz-ті де рұқсат етеді. Жауап — 3 жұмыс күнінде.',
-      en: 'The Center in Astana takes the documents: its site describes in-person delivery, and the rules also allow egov.kz. An answer within 3 working days.',
+      ru: 'Документы принимает Центр: правила допускают egov.kz и (или) бумагу, на сайте описан приём нарочно в Астане. Ответ — за 2 рабочих дня.',
+      kk: 'Құжатты Орталық қабылдайды: қағида egov.kz-ті және (немесе) қағазды рұқсат етеді, сайтта Астанада қолма-қол қабылдау сипатталған. Жауап — 2 жұмыс күнінде.',
+      en: 'The Center takes the documents: the rules allow egov.kz and/or paper, and its site describes in-person delivery in Astana. An answer within 2 working days.',
     },
     why: {
-      ru: 'Сроки приёма объявляют на официальном сайте не позднее чем за 10 календарных дней. Центр описывает приём нарочно — бумажный пакет и сканы на флешке или диске; правила допускают и egov.kz. Неполный пакет — основание для отказа, но пока приём идёт, документы можно подать снова.',
-      kk: 'Қабылдау мерзімі ресми сайтта 10 күнтізбелік күн бұрын жарияланады. Орталық қолма-қол қабылдауды сипаттайды — қағаз топтама және флешкадағы не дискідегі сканерлер; қағида egov.kz-ті де рұқсат етеді. Толық емес топтама — бас тарту негізі, бірақ қабылдау жүріп жатқанда құжатты қайта тапсыруға болады.',
-      en: 'The intake dates are posted on the official site at least 10 calendar days ahead. The Center describes in-person delivery — the paper package plus scans on a flash drive or disc; the rules also allow egov.kz. An incomplete package is grounds for refusal, but while the intake is open you can submit again.',
+      ru: 'Сроки приёма рабочий орган публикует на своём сайте не позднее чем за 10 календарных дней до начала. Подать можно через egov.kz и (или) на бумаге; Центр описывает приём нарочно — бумажный пакет и сканы на флешке или диске. Документы рассматривают 2 рабочих дня. Неполный пакет — основание для отказа, но пока приём идёт, документы можно подать снова.',
+      kk: 'Қабылдау мерзімін жұмыс органы өз сайтында басталуына кемінде 10 күнтізбелік күн қалғанда жариялайды. egov.kz арқылы және (немесе) қағаз түрінде тапсыруға болады; Орталық қолма-қол қабылдауды сипаттайды — қағаз топтама және флешкадағы не дискідегі сканерлер. Құжатты 2 жұмыс күні қарайды. Толық емес топтама — бас тарту негізі, бірақ қабылдау жүріп жатқанда құжатты қайта тапсыруға болады.',
+      en: 'The working body posts the intake dates on its site at least 10 calendar days before it opens. You can apply through egov.kz and/or on paper; the Center describes in-person delivery — the paper package plus scans on a flash drive or disc. Documents are reviewed within 2 working days. An incomplete package is grounds for refusal, but while the intake is open you can submit again.',
     },
     inShort: {
       what: { ru: 'Подача пакета в Центр международных программ.', kk: 'Топтаманы Халықаралық бағдарламалар орталығына тапсыру.', en: 'Submitting the package to the Center for International Programs.' },
-      you: { ru: 'Узнать сроки и принести пакет лично — или через представителя по нотариальной доверенности.', kk: 'Мерзімді біліп, топтаманы өзіңіз — не нотариалды сенімхатпен өкіл арқылы — апару.', en: 'Find the dates and bring the package yourself — or through a representative with a notarised power of attorney.' },
+      you: { ru: 'Узнать сроки и подать пакет — через egov.kz или на бумаге, лично или через представителя по нотариальной доверенности.', kk: 'Мерзімді біліп, топтаманы тапсыру — egov.kz арқылы не қағаз түрінде, өзіңіз не нотариалды сенімхатпен өкіл арқылы.', en: 'Find the dates and submit the package — through egov.kz or on paper, yourself or through a representative with a notarised power of attorney.' },
       result: { ru: 'Письменное уведомление: документы приняты и вы допущены — или обоснованный отказ.', kk: 'Жазбаша хабарлама: құжат қабылданып, жіберілдіңіз — не негізделген бас тарту.', en: 'A written notice: documents accepted and you are admitted — or a reasoned refusal.' },
     },
     checklist: {
@@ -381,34 +383,36 @@ export const SCIENCE_STAGES: StagePatches = {
         en: 'Giving knowingly false information: you are barred from this year\'s competition.',
       },
     ],
-    sources: ['ns_documents', 'pp791', 'egov_ns', 'booking'],
+    sources: ['ns_documents', 'ns_rules422', 'egov_ns', 'booking'],
   },
 
   testing: {
     links: { credentials: null, rules: 'ns_contest', tech: 'ns_contest' },
+    sources: ['ns_contest', 'ns_rules422', 'test_numeric', 'test_verbal', 'test_personality', 'cabinet'],
     summary: {
       ru: 'Тесты на анализ вербальной и числовой информации и личностный опросник — онлайн.',
       kk: 'Вербалды және сандық ақпаратты талдау тесттері және тұлғалық сауалнама — онлайн.',
       en: 'Verbal and numerical reasoning tests and a personality questionnaire — online.',
     },
     why: {
-      ru: 'Первый тур отсеивает: не набрали пороговый балл — второго тура не будет, пересдача не предусмотрена. Все этапы конкурса проходят онлайн, тестирование — с аудио- и видеозаписью.',
-      kk: 'Бірінші тур іріктейді: шекті балды жинамасаңыз — екінші тур болмайды, қайта тапсыру көзделмеген. Конкурстың барлық кезеңі онлайн өтеді, тестілеу — аудио және бейнежазбамен.',
-      en: 'Round one filters: miss the cut-off and there is no round two, and no retake. Every stage of the competition is online; the testing is audio- and video-recorded.',
+      ru: 'Первый тур отсеивает: не набрали пороговый балл из таблицы ранжирования (приложение 9 к Правилам) — второго тура не будет, пересдача не предусмотрена. В итоговом балле тестирование весит 30 из 100, собеседование — 70. Все этапы конкурса проходят онлайн, тестирование — с аудио- и видеозаписью.',
+      kk: 'Бірінші тур іріктейді: ранжирлеу кестесіндегі (Қағидалардың 9-қосымшасы) шекті балды жинамасаңыз — екінші тур болмайды, қайта тапсыру көзделмеген. Қорытынды балда тестілеу 100-дің 30-ы, әңгімелесу — 70-і. Конкурстың барлық кезеңі онлайн өтеді, тестілеу — аудио және бейнежазбамен.',
+      en: 'Round one filters: miss the cut-off in the ranking table (Appendix 9 to the Rules) and there is no round two, and no retake. In the final score testing weighs 30 out of 100 and the interview 70. Every stage of the competition is online; the testing is audio- and video-recorded.',
     },
   },
 
   interview: {
-    links: { prepare_uni: 'ns_contest' },
+    links: { prepare_uni: 'ns_contest', slot: 'ns_rules422' },
+    title: { ru: 'Персональное собеседование', kk: 'Жеке әңгімелесу', en: 'Personal interview' },
     summary: {
-      ru: 'Анонимное собеседование с экспертной комиссией о вашем исследовании.',
-      kk: 'Сараптама комиссиясымен зерттеуіңіз туралы анонимді әңгімелесу.',
-      en: 'An anonymous interview with the expert commission about your research.',
+      ru: 'Персональное собеседование с экспертной комиссией о вашем исследовании.',
+      kk: 'Сараптама комиссиясымен зерттеуіңіз туралы жеке әңгімелесу.',
+      en: 'A personal interview with the expert commission about your research.',
     },
     why: {
-      ru: 'Комиссия определяет уровень научно-исследовательской подготовки, теоретических знаний и насколько осознанно и аргументированно вы выбрали исследование и организацию. Вопросы задают на казахском, русском или языке стажировки — четырьмя блоками.',
-      kk: 'Комиссия ғылыми-зерттеу дайындығын, теориялық білімді және зерттеу мен ұйымды қаншалық саналы әрі дәлелді таңдағаныңызды анықтайды. Сұрақтар қазақ, орыс не тағылымдама тілінде — төрт блокпен қойылады.',
-      en: 'The commission assesses your research background, theory and how deliberately and convincingly you chose the research and the host. Questions come in Kazakh, Russian or the internship language — in four blocks.',
+      ru: 'Комиссия определяет уровень профессиональной подготовки, теоретических знаний и профессиональных компетенций в выбранной области специализации и даёт рекомендацию по каждому претенденту. Вопросы задают на казахском, русском или языке стажировки — четырьмя блоками.',
+      kk: 'Комиссия таңдалған мамандану саласындағы кәсіби дайындық, теориялық білім және кәсіби құзырет деңгейін анықтап, әр үміткер бойынша ұсыным береді. Сұрақтар қазақ, орыс не тағылымдама тілінде — төрт блокпен қойылады.',
+      en: 'The commission assesses your professional training, theory and professional competencies in your chosen field and issues a recommendation on each applicant. Questions come in Kazakh, Russian or the internship language — in four blocks.',
     },
     inShort: {
       what: { ru: 'Второй тур — собеседование с экспертной комиссией о вашем исследовании.', kk: 'Екінші тур — сараптама комиссиясымен зерттеуіңіз туралы әңгімелесу.', en: 'Round two — an interview with the expert commission about your research.' },
@@ -417,9 +421,9 @@ export const SCIENCE_STAGES: StagePatches = {
     },
     checklist: {
       slot: {
-        ru: 'Получили извещение о месте и времени собеседования — его присылают не позднее чем за 5 дней.',
-        kk: 'Әңгімелесу орны мен уақыты туралы хабарлама алдыңыз — оны 5 күн бұрын жібереді.',
-        en: 'You received the time and place of the interview — it is sent at least 5 days ahead.',
+        ru: 'Получили извещение о месте, дате и времени собеседования — его присылают по почте или телефону не позднее чем за 10 календарных дней.',
+        kk: 'Әңгімелесу орны, күні мен уақыты туралы хабарлама алдыңыз — оны пошта не телефон арқылы 10 күнтізбелік күн бұрын жібереді.',
+        en: 'You received the place, date and time of the interview — it is sent by email or phone at least 10 calendar days ahead.',
       },
       prepare_uni: {
         ru: 'Изучили принимающую организацию: её исследования, лаборатории, проекты и ведущих учёных.',
@@ -439,25 +443,25 @@ export const SCIENCE_STAGES: StagePatches = {
         en: 'Not being able to explain why your research needs this particular internship.',
       },
     ],
-    sources: ['ns_contest', 'pp791'],
+    sources: ['ns_contest', 'ns_rules422'],
   },
 
   commission: {
-    links: { wait: 'pp791' },
+    links: { wait: 'ns_rules422' },
     summary: {
       ru: 'Республиканская комиссия решает, присудить ли научную стажировку.',
       kk: 'Республикалық комиссия ғылыми тағылымдаманы тағайындау-тағайындамауды шешеді.',
       en: 'The Republican Commission decides whether to award the internship.',
     },
     why: {
-      ru: 'Рабочий орган вносит материалы с результатами тестирования и рекомендациями экспертной комиссии. Республиканская комиссия принимает окончательное решение — о нём сообщают на официальном сайте администратора.',
-      kk: 'Жұмыс органы тестілеу нәтижелері мен сараптама комиссиясының ұсынымдары бар материалдарды енгізеді. Республикалық комиссия түпкілікті шешім қабылдайды — ол туралы әкімшінің ресми сайтында хабарлайды.',
-      en: "The working body submits the file with your test results and the expert commission's recommendations. The Republican Commission takes the final decision — it is announced on the administrator's official site.",
+      ru: 'Рабочий орган вносит материалы с результатами тестирования, рекомендациями экспертной комиссии и ранжированием. Республиканская комиссия принимает окончательное решение — о нём сообщают на официальном сайте администратора. Если отказали, в этом же году можно подать снова, пока идёт приём, — с выездом на стажировку в следующем календарном году.',
+      kk: 'Жұмыс органы тестілеу нәтижелері, сараптама комиссиясының ұсынымдары және ранжирлеу бар материалдарды енгізеді. Республикалық комиссия түпкілікті шешім қабылдайды — ол туралы әкімшінің ресми сайтында хабарлайды. Бас тартылса, сол жылы қабылдау жүріп жатқанда қайта тапсыруға болады — тағылымдамаға келесі күнтізбелік жылы шығу шартымен.',
+      en: "The working body submits the file with your test results, the expert commission's recommendations and the ranking. The Republican Commission takes the final decision — it is announced on the administrator's official site. If refused, you may apply again the same year while the intake is open — to leave for the internship in the next calendar year.",
     },
     inShort: {
       what: { ru: 'Третий тур — решение Республиканской комиссии.', kk: 'Үшінші тур — Республикалық комиссия шешімі.', en: 'Round three — the Republican Commission decides.' },
       you: { ru: 'Ничего — вы ждёте публикации на официальном сайте.', kk: 'Ештеңе — ресми сайттағы жарияланымды күтесіз.', en: 'Nothing — you wait for the announcement on the official site.' },
-      result: { ru: 'Ваша фамилия в списке — или отказ; в этом году повторно участвовать нельзя.', kk: 'Тегіңіз тізімде — не бас тарту; биыл қайта қатысуға болмайды.', en: 'Your name on the list — or a refusal; you cannot try again this year.' },
+      result: { ru: 'Ваша фамилия в списке — или отказ, после которого можно подать снова в этом же приёме.', kk: 'Тегіңіз тізімде — не бас тарту, одан кейін осы қабылдауда қайта тапсыруға болады.', en: 'Your name on the list — or a refusal, after which you may apply again in the same intake.' },
     },
     checklist: {
       awarded: {
@@ -466,24 +470,36 @@ export const SCIENCE_STAGES: StagePatches = {
         en: 'The internship is awarded — you are on the winners list.',
       },
     },
-    sources: ['pp791', 'ns_contest'],
+    mistakes: [
+      {
+        ru: 'Ждать персонального письма: о решении извещают публикацией на официальном сайте администратора.',
+        kk: 'Жеке хат күту: шешім туралы әкімшінің ресми сайтындағы жарияланыммен хабарлайды.',
+        en: "Waiting for a personal letter: the decision is announced on the administrator's official site.",
+      },
+      {
+        ru: 'Считать отказ концом пути до следующего года. Пока приём этого года идёт, документы можно подать снова — но выезжать тогда в следующем календарном году.',
+        kk: 'Бас тартуды келесі жылға дейінгі жолдың соңы деп санау. Биылғы қабылдау жүріп жатқанда құжатты қайта тапсыруға болады — бірақ онда келесі күнтізбелік жылы шығасыз.',
+        en: "Treating a refusal as the end until next year. While this year's intake is open you can apply again — but then you leave in the next calendar year.",
+      },
+    ],
+    sources: ['ns_rules422', 'ns_contest'],
   },
 
   contract: {
-    links: { legal_dept: 'ns_winner', main_contract: 'ns_winner', security: 'ns_about' },
+    links: { legal_dept: 'ns_winner', main_contract: 'ns_rules422', security: 'ns_rules422' },
     summary: {
-      ru: '60 календарных дней на договор, обеспечение — гарантия двух гарантов.',
-      kk: 'Шартқа 60 күнтізбелік күн, қамтамасыз ету — екі кепілгердің кепілдігі.',
-      en: '60 calendar days for the contract, secured by two guarantors.',
+      ru: '90 календарных дней на договор, обеспечение — гарантия двух гарантов.',
+      kk: 'Шартқа 90 күнтізбелік күн, қамтамасыз ету — екі кепілгердің кепілдігі.',
+      en: '90 calendar days for the contract, secured by two guarantors.',
     },
     why: {
-      ru: 'Договор о прохождении научной стажировки заключают в течение 60 календарных дней со дня решения Республиканской комиссии. Обеспечение — гарантия: два гаранта, граждане Казахстана до 50 лет с постоянным заработком последние 12 месяцев. Не уложились в срок — это основание поднять вопрос о возмещении расходов.',
-      kk: 'Ғылыми тағылымдамадан өту туралы шарт Республикалық комиссия шешімінен бастап 60 күнтізбелік күн ішінде жасалады. Қамтамасыз ету — кепілдік: екі кепілгер, соңғы 12 айда тұрақты табысы бар 50 жасқа дейінгі Қазақстан азаматтары. Мерзімге үлгермесеңіз — шығынды өтеу мәселесін көтеруге негіз.',
-      en: 'The scientific-internship contract is signed within 60 calendar days of the Republican Commission\'s decision. It is secured by a guarantee: two guarantors, Kazakhstan citizens under 50 with a steady income for the last 12 months. Miss the deadline and it is grounds to raise repayment of costs.',
+      ru: 'Договор о прохождении научной стажировки заключают в течение 90 календарных дней со дня решения Республиканской комиссии. Мешают болезнь, командировка или другие обстоятельства — до истечения срока обратитесь в Комиссию с подтверждающими документами: продление до 90 дней дают один раз. Обеспечение — гарантия: два гаранта, граждане Казахстана до 50 лет с постоянным заработком последние 12 месяцев. Не уложились в срок — это основание поднять вопрос о лишении стажировки с возмещением расходов.',
+      kk: 'Ғылыми тағылымдамадан өту туралы шарт Республикалық комиссия шешімінен бастап 90 күнтізбелік күн ішінде жасалады. Ауру, іссапар не басқа жағдай кедергі болса — мерзім өткенге дейін растайтын құжаттармен Комиссияға жүгініңіз: 90 күнге дейін ұзарту бір рет беріледі. Қамтамасыз ету — кепілдік: екі кепілгер, соңғы 12 айда тұрақты табысы бар 50 жасқа дейінгі Қазақстан азаматтары. Мерзімге үлгермесеңіз — шығынды өтей отырып тағылымдамадан айыру мәселесін көтеруге негіз.',
+      en: 'The scientific-internship contract is signed within 90 calendar days of the Republican Commission\'s decision. If illness, a work trip or other circumstances get in the way, apply to the Commission with supporting documents before the term runs out: an extension of up to 90 days is granted once. It is secured by a guarantee: two guarantors, Kazakhstan citizens under 50 with a steady income for the last 12 months. Miss the deadline and it is grounds to raise withdrawal of the internship with repayment of costs.',
     },
     inShort: {
       what: { ru: 'Оформление победы: договор с Центром и гарантия двух гарантов.', kk: 'Жеңісті рәсімдеу: Орталықпен шарт және екі кепілгердің кепілдігі.', en: 'Making the win official: a contract with the Center and two guarantors.' },
-      you: { ru: 'Уложиться в 60 дней, найти двух гарантов и собрать документы — свои, гарантов и работодателя.', kk: '60 күнге сыйып, екі кепілгер тауып, құжат жинау — өзіңіздің, кепілгерлердің және жұмыс берушінің.', en: 'Fit into 60 days, find two guarantors and gather the papers — yours, theirs and your employer\'s.' },
+      you: { ru: 'Уложиться в 90 дней, найти двух гарантов и собрать документы — свои, гарантов и работодателя.', kk: '90 күнге сыйып, екі кепілгер тауып, құжат жинау — өзіңіздің, кепілгерлердің және жұмыс берушінің.', en: 'Fit into 90 days, find two guarantors and gather the papers — yours, theirs and your employer\'s.' },
       result: { ru: 'Подписанный договор — основание для финансирования стажировки.', kk: 'Қол қойылған шарт — тағылымдаманы қаржыландыру негізі.', en: 'A signed contract — the basis for funding the internship.' },
     },
     checklist: {
@@ -515,7 +531,7 @@ export const SCIENCE_STAGES: StagePatches = {
         en: "Forgetting your employer's documents: the contract cannot be signed without them.",
       },
     ],
-    sources: ['pp791', 'ns_winner', 'ns_about'],
+    sources: ['ns_rules422', 'ns_winner', 'ns_about'],
   },
 
   departure: {
@@ -555,11 +571,11 @@ export const SCIENCE_STAGES: StagePatches = {
         en: "Putting off the visa: embassy timelines do not depend on the Center.",
       },
     ],
-    sources: ['ns_finance', 'pp791'],
+    sources: ['ns_finance', 'ns_rules422'],
   },
 
   studying: {
-    links: { police: 'ns_finance', insurance: 'pp791', contact: null, interim_report: 'pp791', no_changes: 'pp791' },
+    links: { police: 'ns_finance', insurance: 'ns_rules422', contact: null, interim_report: 'ns_rules422', no_changes: 'ns_rules422' },
     title: { ru: 'Научная стажировка и отчёты', kk: 'Ғылыми тағылымдама және есептер', en: 'The internship and reports' },
     summary: {
       ru: 'Работа строго по программе; промежуточный отчёт через 6 месяцев, если стажировка длиннее.',
@@ -567,9 +583,9 @@ export const SCIENCE_STAGES: StagePatches = {
       en: 'Work strictly to the programme; an interim report at 6 months if it runs longer.',
     },
     why: {
-      ru: 'Стажировку проходят по программе научной стажировки. Если она длится больше 6 месяцев, по их истечении сдают промежуточный отчёт по форме рабочего органа. Невыполнение программы — основание для вопроса о возмещении расходов.',
-      kk: 'Тағылымдамадан ғылыми тағылымдама бағдарламасы бойынша өтеді. Ол 6 айдан ұзақ болса, 6 ай өткен соң жұмыс органының нысаны бойынша аралық есеп тапсырылады. Бағдарламаны орындамау — шығынды өтеу мәселесінің негізі.',
-      en: 'You follow the research programme. If it runs longer than 6 months, an interim report on the working body\'s form is due when they pass. Not completing the programme is grounds to raise repayment.',
+      ru: 'Стажировку проходят по программе научной стажировки. Если она длится больше 6 месяцев, по их истечении сдают администратору промежуточный отчёт по форме приложения 8 к Правилам. Сменить организацию, страну или направление можно только через Комиссию; перенос сроков не больше чем на год и без дополнительных расходов оформляют заявлением администратору. Невыполнение программы — основание для вопроса о возмещении расходов.',
+      kk: 'Тағылымдамадан ғылыми тағылымдама бағдарламасы бойынша өтеді. Ол 6 айдан ұзақ болса, 6 ай өткен соң әкімшіге Қағидалардың 8-қосымшасындағы нысан бойынша аралық есеп тапсырылады. Ұйымды, елді не бағытты ауыстыру тек Комиссия арқылы мүмкін; мерзімді бір жылдан аспайтын және қосымша шығынсыз шегеру әкімшіге өтінішпен рәсімделеді. Бағдарламаны орындамау — шығынды өтеу мәселесінің негізі.',
+      en: 'You follow the research programme. If it runs longer than 6 months, an interim report on the form in Appendix 8 to the Rules is due to the administrator when they pass. Changing the host, country or direction goes through the Commission; moving the dates by up to a year with no extra cost takes an application to the administrator. Not completing the programme is grounds to raise repayment.',
     },
     inShort: {
       what: { ru: 'Сама научная стажировка за рубежом.', kk: 'Шетелдегі ғылыми тағылымдаманың өзі.', en: 'The research placement abroad itself.' },
@@ -588,9 +604,9 @@ export const SCIENCE_STAGES: StagePatches = {
         en: 'You arranged medical insurance — the programme covers it.',
       },
       interim_report: {
-        ru: 'Если стажировка длиннее 6 месяцев — сдали промежуточный отчёт по форме рабочего органа.',
-        kk: 'Тағылымдама 6 айдан ұзақ болса — жұмыс органының нысаны бойынша аралық есеп тапсырдыңыз.',
-        en: "If the internship runs past 6 months — you filed the interim report on the working body's form.",
+        ru: 'Если стажировка длиннее 6 месяцев — сдали промежуточный отчёт по форме приложения 8 к Правилам.',
+        kk: 'Тағылымдама 6 айдан ұзақ болса — Қағидалардың 8-қосымшасындағы нысан бойынша аралық есеп тапсырдыңыз.',
+        en: 'If the internship runs past 6 months — you filed the interim report on the form in Appendix 8 to the Rules.',
       },
       no_changes: {
         ru: 'Выполняете программу научной стажировки без изменений.',
@@ -615,20 +631,20 @@ export const SCIENCE_STAGES: StagePatches = {
         en: 'Missing the interim report.',
       },
     ],
-    sources: ['pp791', 'ns_finance'],
+    sources: ['ns_rules422', 'ns_finance'],
   },
 
   return: {
-    links: { application: 'ns_alumni', stamp: 'ns_alumni' },
+    links: { application: 'ns_alumni', stamp: 'ns_rules422' },
     summary: {
-      ru: 'Итоговый отчёт — в течение месяца после возвращения; его утверждает работодатель и публикуют.',
-      kk: 'Қорытынды есеп — оралған соң бір ай ішінде; оны жұмыс беруші бекітеді және жарияланады.',
-      en: 'The final report within a month of returning; your employer approves it and it is published.',
+      ru: 'Вернуться за 30 дней, итоговый отчёт — в течение месяца; его утверждает работодатель и размещает на своём сайте.',
+      kk: '30 күнде оралу, қорытынды есеп — бір ай ішінде; оны жұмыс беруші бекітіп, өз сайтында орналастырады.',
+      en: 'Back within 30 days, the final report within a month; your employer approves it and posts it on its website.',
     },
     why: {
-      ru: 'По возвращении в течение одного месяца сдают итоговый отчёт по форме рабочего органа. Его утверждает работодатель, а потом отчёт размещают в открытом доступе. Не сдали — поднимут вопрос о возмещении потраченных средств.',
-      kk: 'Оралған соң бір ай ішінде жұмыс органының нысаны бойынша қорытынды есеп тапсырылады. Оны жұмыс беруші бекітеді, содан кейін есеп ашық жарияланады. Тапсырмасаңыз — жұмсалған қаражатты өтеу мәселесі көтеріледі.',
-      en: "Within one month of coming back you file the final report on the working body's form. Your employer approves it, and then it is published openly. Miss it and repayment of the money spent is raised.",
+      ru: 'Вернуться в Казахстан нужно в течение 30 календарных дней после окончания стажировки: администратору сдают копию паспорта с отметкой о въезде, заявление о завершении и нотариальные переводы документа об окончании. В течение месяца после возвращения сдают итоговый отчёт по форме приложения 8 к Правилам — его утверждает работодатель и размещает на своём сайте. Не сдали — поднимут вопрос о возмещении потраченных средств.',
+      kk: 'Тағылымдама аяқталғаннан кейін 30 күнтізбелік күн ішінде Қазақстанға оралу керек: әкімшіге кіру белгісі бар паспорт көшірмесі, аяқтау туралы өтініш және аяқталу құжатының нотариалды аудармалары тапсырылады. Оралғаннан кейін бір ай ішінде Қағидалардың 8-қосымшасындағы нысан бойынша қорытынды есеп тапсырылады — оны жұмыс беруші бекітіп, өз сайтында орналастырады. Тапсырмасаңыз — жұмсалған қаражатты өтеу мәселесі көтеріледі.',
+      en: 'You return to Kazakhstan within 30 calendar days of the internship ending and give the administrator a passport copy with the entry stamp, a completion application and notarised translations of the completion document. Within a month of coming back you file the final report on the form in Appendix 8 to the Rules — your employer approves it and posts it on its website. Miss it and repayment of the money spent is raised.',
     },
     inShort: {
       what: { ru: 'Возвращение и итоговый отчёт.', kk: 'Оралу және қорытынды есеп.', en: 'Coming back and the final report.' },
@@ -654,11 +670,11 @@ export const SCIENCE_STAGES: StagePatches = {
         en: 'Filing the report without your employer\'s approval.',
       },
     ],
-    sources: ['pp791', 'ns_alumni'],
+    sources: ['ns_rules422', 'ns_alumni'],
   },
 
   workback: {
-    links: { employment: 'ns_alumni', reports: 'ns_alumni', attributes: 'ns_alumni', closing: 'ns_alumni', employer_workback: 'pp791' },
+    links: { employment: 'ns_alumni', reports: 'ns_alumni', attributes: 'ns_alumni', closing: 'ns_alumni', employer_workback: 'ns_rules422' },
     title: { ru: 'Трудовая отработка', kk: 'Еңбек өтеу', en: 'The work-back' },
     summary: {
       ru: 'Не меньше 3 лет подряд у работодателя, который вас направил. Справки каждые 6 месяцев.',
@@ -666,9 +682,9 @@ export const SCIENCE_STAGES: StagePatches = {
       en: 'At least 3 years in a row with the employer who sent you. Certificates every 6 months.',
     },
     why: {
-      ru: 'После стажировки — непрерывная трудовая деятельность не меньше 3 лет по выбранному направлению исследования у работодателя, по заявке которого вы ездили. Сменить работодателя можно только при его ликвидации или реорганизации. Справки с места работы — каждые 6 месяцев на почту кураторов.',
-      kk: 'Тағылымдамадан кейін — өтінімі бойынша барған жұмыс берушіде таңдаған зерттеу бағыты бойынша кемінде 3 жыл үздіксіз еңбек. Жұмыс берушіні тек ол таратылса не қайта ұйымдастырылса ауыстыруға болады. Жұмыс орнынан анықтама — әр 6 айда кураторлардың поштасына.',
-      en: 'After the internship: at least 3 continuous years in your research direction with the employer whose request sent you. You can change employer only if it is liquidated or reorganised. Employment certificates go to the curators every 6 months.',
+      ru: 'После стажировки — непрерывная трудовая деятельность не меньше 3 лет по выбранному направлению исследования у работодателя, по заявке которого вы ездили. Сменить работодателя можно при его ликвидации или реорганизации — либо по вашему обращению в другую аккредитованную научную организацию, с сохранением направления, с согласия работодателя и по решению Комиссии. Справки с места работы — каждые 6 месяцев на почту кураторов.',
+      kk: 'Тағылымдамадан кейін — өтінімі бойынша барған жұмыс берушіде таңдаған зерттеу бағыты бойынша кемінде 3 жыл үздіксіз еңбек. Жұмыс берушіні ол таратылса не қайта ұйымдастырылса — не өз өтінішіңізбен басқа аккредиттелген ғылыми ұйымға, бағытты сақтап, жұмыс берушінің келісімімен және Комиссия шешімімен ауыстыруға болады. Жұмыс орнынан анықтама — әр 6 айда кураторлардың поштасына.',
+      en: 'After the internship: at least 3 continuous years in your research direction with the employer whose request sent you. You can change employer if it is liquidated or reorganised — or at your request, to another accredited research organisation, keeping your direction, with your employer\'s consent and by the Commission\'s decision. Employment certificates go to the curators every 6 months.',
     },
     inShort: {
       what: { ru: 'Три года работы в своей организации по направлению исследования.', kk: 'Зерттеу бағыты бойынша өз ұйымыңызда үш жыл жұмыс.', en: 'Three years in your own organisation, in your research direction.' },
@@ -676,6 +692,11 @@ export const SCIENCE_STAGES: StagePatches = {
       result: { ru: 'Исполненные обязательства — договор закрыт.', kk: 'Орындалған міндеттеме — шарт жабылды.', en: 'Obligations discharged — the contract is closed.' },
     },
     checklist: {
+      employer_workback: {
+        ru: 'Работаете в организации, по заявке которой вас направили на стажировку.',
+        kk: 'Өтінімі бойынша тағылымдамаға жіберген ұйымда жұмыс істейсіз.',
+        en: 'You work at the organisation whose request sent you on the internship.',
+      },
       employment: {
         ru: 'Работаете по выбранному направлению исследования у работодателя, который вас направил.',
         kk: 'Сізді жіберген жұмыс берушіде таңдаған зерттеу бағыты бойынша жұмыс істейсіз.',
@@ -689,9 +710,9 @@ export const SCIENCE_STAGES: StagePatches = {
     },
     mistakes: [
       {
-        ru: 'Перейти к другому работодателю: это возможно только при ликвидации или реорганизации.',
-        kk: 'Басқа жұмыс берушіге ауысу: бұл тек тарату не қайта ұйымдастыру кезінде мүмкін.',
-        en: 'Moving to another employer: possible only on liquidation or reorganisation.',
+        ru: 'Перейти к другому работодателю самовольно: кроме ликвидации или реорганизации, это возможно только с согласия работодателя и по решению Комиссии.',
+        kk: 'Басқа жұмыс берушіге өз бетіңізше ауысу: таратудан не қайта ұйымдастырудан басқа жағдайда бұл тек жұмыс берушінің келісімімен және Комиссия шешімімен мүмкін.',
+        en: 'Moving to another employer on your own: apart from liquidation or reorganisation it takes your employer\'s consent and the Commission\'s decision.',
       },
       {
         ru: 'Прерывать работу: отработка должна быть непрерывной.',
@@ -699,39 +720,40 @@ export const SCIENCE_STAGES: StagePatches = {
         en: 'Breaking off work: the work-back has to be continuous.',
       },
     ],
-    sources: ['pp791', 'ns_alumni'],
+    sources: ['ns_rules422', 'ns_alumni'],
   },
 }
 
 export const SCIENCE_HOME: PlatformHome = {
   intro: {
-    ru: 'Научные стажировки — отдельная программа для учёных со своими правилами (ПП № 791), своим списком организаций и своей подачей: документы принимает сам Центр. От 3 до 12 месяцев в зарубежном вузе или научном центре по вашему исследованию, затем не меньше 3 лет работы у своего работодателя.',
-    kk: 'Ғылыми тағылымдамалар — ғалымдарға арналған бөлек бағдарлама: өз қағидасы (№ 791 ҮҚ), өз ұйымдар тізімі және өз тапсыру тәртібі: құжатты Орталықтың өзі қабылдайды. Зерттеуіңіз бойынша шетелдік ЖОО-да не ғылыми орталықта 3-тен 12 айға дейін, содан кейін өз жұмыс берушіңізде кемінде 3 жыл жұмыс.',
-    en: 'Scientific internships are a separate programme for researchers with their own rules (Decree No. 791), their own host list and their own submission: the Center itself takes the documents. Three to twelve months at a foreign university or research centre for your research, then at least three years with your employer.',
+    ru: 'Научные стажировки — отдельная программа для учёных со своими правилами (приказ МНВО № 422), своим списком организаций и своей подачей: через egov.kz и (или) на бумаге в Центр. От 3 до 12 месяцев в зарубежном вузе или научном центре по вашему исследованию, затем не меньше 3 лет работы у своего работодателя.',
+    kk: 'Ғылыми тағылымдамалар — ғалымдарға арналған бөлек бағдарлама: өз қағидасы (ҒЖБМ № 422 бұйрығы), өз ұйымдар тізімі және өз тапсыру тәртібі: egov.kz арқылы және (немесе) қағаз түрінде Орталыққа. Зерттеуіңіз бойынша шетелдік ЖОО-да не ғылыми орталықта 3-тен 12 айға дейін, содан кейін өз жұмыс берушіңізде кемінде 3 жыл жұмыс.',
+    en: 'Scientific internships are a separate programme for researchers with their own rules (Ministry Order No. 422), their own host list and their own submission: through egov.kz and/or on paper to the Center. Three to twelve months at a foreign university or research centre for your research, then at least three years with your employer.',
   },
   facts: [
-    { value: '3–12', caption: { ru: 'месяцев — срок стажировки', kk: 'ай — тағылымдама мерзімі', en: 'months — the length of the internship' }, source: 'pp791' },
+    { value: '3–12', caption: { ru: 'месяцев — срок стажировки', kk: 'ай — тағылымдама мерзімі', en: 'months — the length of the internship' }, source: 'ns_rules422' },
     { value: '500', caption: { ru: 'учёных в год — поручение из Послания Президента', kk: 'ғалым жылына — Президент Жолдауындағы тапсырма', en: "researchers a year — the target set in the President's Address" }, source: 'ns_about' },
-    { value: '60', caption: { ru: 'дней на договор после решения комиссии', kk: 'күн комиссия шешімінен кейін шартқа', en: 'days to sign after the commission decides' }, source: 'pp791' },
-    { value: '2', caption: { ru: 'гаранта — так обеспечивают обязательства', kk: 'кепілгер — міндеттеме осылай қамтамасыз етіледі', en: 'guarantors secure the obligations' }, source: 'ns_about' },
+    { value: '90', caption: { ru: 'дней на договор после решения комиссии', kk: 'күн комиссия шешімінен кейін шартқа', en: 'days to sign after the commission decides' }, source: 'ns_rules422' },
+    { value: '2', caption: { ru: 'гаранта — так обеспечивают обязательства', kk: 'кепілгер — міндеттеме осылай қамтамасыз етіледі', en: 'guarantors secure the obligations' }, source: 'ns_rules422' },
   ],
   fitYes: [
     { ru: 'У вас степень магистра, PhD, доктора по профилю, кандидата или доктора наук.', kk: 'Сізде магистр, PhD, бейіні бойынша доктор, ғылым кандидаты не докторы дәрежесі бар.', en: "You hold a master's, PhD, professional doctorate, Candidate or Doctor of Sciences degree." },
     { ru: 'Последние 12 месяцев вы непрерывно работаете в аккредитованной научной организации по своему направлению.', kk: 'Соңғы 12 ай бойы аккредиттелген ғылыми ұйымда өз бағытыңыз бойынша үздіксіз жұмыс істейсіз.', en: 'For the last 12 months you have worked continuously at an accredited research organisation in your area.' },
-    { ru: 'У вас есть статья или обзор в Web of Science или Scopus, статья в издании из Списка 1 или 2 — или международная патентная заявка PCT.', kk: 'Сізде Web of Science не Scopus-та мақала не шолу, 1 не 2 Тізімдегі басылымда мақала — не PCT халықаралық патенттік өтінімі бар.', en: 'You have an article or review in Web of Science or Scopus, an article in a List 1 or 2 journal — or an international PCT patent application.' },
+    { ru: 'У вас есть статья или обзор в Web of Science или Scopus, статья в издании из Списка 1 или 2 — и (или) международная заявка в Derwent Innovations Index.', kk: 'Сізде Web of Science не Scopus-та мақала не шолу, 1 не 2 Тізімдегі басылымда мақала — және (немесе) Derwent Innovations Index-те халықаралық өтінім бар.', en: 'You have an article or review in Web of Science or Scopus, an article in a List 1 or 2 journal — and/or an international application in the Derwent Innovations Index.' },
+    { ru: 'Организация, которая вас приглашает, есть в списке организаций для научных стажировок этого года.', kk: 'Сізді шақыратын ұйым биылғы ғылыми тағылымдама ұйымдарының тізімінде бар.', en: "The host inviting you is on this year's list of scientific-internship organisations." },
   ],
   fitNo: [
     { text: { ru: 'Учёной степени и публикаций нет, но вы работаете в одной из девяти категорий — инженер, педагог, медик, госслужащий и другие.', kk: 'Ғылыми дәреже мен жарияланым жоқ, бірақ тоғыз санаттың бірінде жұмыс істейсіз — инженер, педагог, медик, мемқызметші және басқалар.', en: 'You have no academic degree or publications but work in one of nine categories — engineer, teacher, medic, civil servant and others.' }, go: 'internship' },
     { text: { ru: 'Вам нужна сама степень PhD, а не стажировка.', kk: 'Сізге тағылымдама емес, PhD дәрежесінің өзі керек.', en: 'You want the PhD degree itself, not a placement.' }, go: 'doctorate' },
   ],
-  fitSources: ['pp791', 'ns_requirements'],
+  fitSources: ['ns_rules422', 'ns_requirements'],
   coverage: [
     { ru: 'Стоимость научной стажировки', kk: 'Ғылыми тағылымдама құны', en: 'The internship fee' },
-    { ru: 'Проживание, питание и научная литература — по нормам рабочего органа', kk: 'Тұру, тамақ және ғылыми әдебиет — жұмыс органының нормасы бойынша', en: "Accommodation, meals and research literature — at the working body's rates" },
+    { ru: 'Проживание, питание и научная литература — по нормам приложения 3 к Правилам', kk: 'Тұру, тамақ және ғылыми әдебиет — Қағидалардың 3-қосымшасындағы норма бойынша', en: 'Accommodation, meals and research literature — at the rates in Appendix 3 to the Rules' },
     { ru: 'Виза и её продление (консульский сбор)', kk: 'Виза және оны ұзарту (консулдық алым)', en: 'The visa and its renewal (consular fee)' },
     { ru: 'Проезд от дома до места стажировки и обратно', kk: 'Үйден тағылымдама орнына дейін барып-қайту', en: 'Travel from home to the host and back' },
     { ru: 'Медицинская страховка и обязательное медобследование', kk: 'Медициналық сақтандыру және міндетті медициналық тексеру', en: 'Medical insurance and mandatory medical checks' },
     { ru: 'Обязательные услуги по требованию страны и принимающей организации', kk: 'Ел мен қабылдаушы ұйым талап ететін міндетті қызметтер', en: 'Mandatory services the country or host requires' },
   ],
-  coverageSource: 'pp791',
+  coverageSource: 'ns_rules422',
 }

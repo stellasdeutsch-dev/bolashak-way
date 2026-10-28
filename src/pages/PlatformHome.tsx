@@ -15,7 +15,9 @@ import { VideoList } from '@/components/Videos'
 import { AwardTimeline, ContestFlow, DepartureChain, PathLanes, WorkbackTable } from '@/components/Explain'
 import { InternshipSpecialtySearch, ScienceSearch, SpecialtySearch, UniversitySearch, type SpecialtyLevel } from '@/components/ListSearch'
 import { Deal, Facts, Fit, More, PathOverview, Requirements } from '@/components/platform/PlatformBlocks'
-import { IconArrowRight as ArrowRight } from '@/components/icons'
+import { IconArrowRight as ArrowRight, IconExternal as ExternalLink } from '@/components/icons'
+import { Glossary } from '@/components/Glossary'
+import { REPORT_URL } from './Landing'
 import s from './PlatformHome.module.css'
 
 const LEVEL: Partial<Record<Track, SpecialtyLevel>> = {
@@ -148,6 +150,9 @@ export function PlatformHome() {
           <More title={t('platform.workbackTitle')} hint={t('platform.workbackText')}>
             <WorkbackTable track={track} />
           </More>
+          <More title={t('landing.glossaryTitle')} hint={t('landing.glossaryText')}>
+            <Glossary />
+          </More>
           {videos.length > 0 && (
             <More title={t('video.aboutTitle')} hint={t('video.aboutBody')}>
               <VideoList items={videos} />
@@ -156,9 +161,20 @@ export function PlatformHome() {
         </div>
       </section>
 
-      <p className={s.footnote}>
-        {t('common.verifiedOn')}: {CONTENT_META.lastVerified}. {c(CONTENT_META.disclaimer)}
-      </p>
+      <footer className={s.footnote}>
+        <p>{t('landing.unofficial')}</p>
+        <p>
+          {t('common.verifiedOn')}: {CONTENT_META.lastVerified}. {c(CONTENT_META.disclaimer)}
+        </p>
+        <p className={s.footLinks}>
+          <a href="https://bolashak.gov.kz/ru" target="_blank" rel="noopener noreferrer">
+            <ExternalLink size={13} aria-hidden="true" /> {t('landing.official')}
+          </a>
+          <a href={REPORT_URL} target="_blank" rel="noopener noreferrer">
+            <ExternalLink size={13} aria-hidden="true" /> {t('landing.report')}
+          </a>
+        </p>
+      </footer>
     </div>
   )
 }

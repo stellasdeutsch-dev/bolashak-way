@@ -23,6 +23,9 @@ export interface RoadmapProgress {
   byId: Map<StageId, StageProgress>
   /** 0..1 across every required checklist item of applicable stages. */
   ratio: number
+  /** Required checklist steps done and in total — what `ratio` is made of. */
+  stepsDone: number
+  stepsTotal: number
   doneStages: number
   totalStages: number
   current: StageProgress | null
@@ -109,7 +112,8 @@ export function computeProgress({ profile, checked, stagesDone }: ProgressInput)
   })
 
   const requiredTotal = result.reduce((a, s) => a + s.requiredTotal, 0)
-  const requiredDone = result.reduce((a, s) => a + s.requiredDone, 0)
+  // A stage marked done by hand counts all its steps, so "all stages done" is also 100%.
+  const requiredDone = result.reduce((a, s) => a + (s.status === 'done' ? s.requiredTotal : s.requiredDone), 0)
   const doneStages = result.filter((s) => s.status === 'done').length
   const current = result.find((s) => s.status !== 'done' && s.status !== 'locked') ?? result.find((s) => s.status !== 'done') ?? null
   const nextEntry = current ? (current.items.find((i) => !i.done && i.item.required !== false) ?? current.items.find((i) => !i.done) ?? null) : null
@@ -130,6 +134,8 @@ export function computeProgress({ profile, checked, stagesDone }: ProgressInput)
     stages: result,
     byId: new Map(result.map((s) => [s.stage.id, s])),
     ratio: requiredTotal === 0 ? 0 : requiredDone / requiredTotal,
+    stepsDone: requiredDone,
+    stepsTotal: requiredTotal,
     doneStages,
     totalStages: result.length,
     current,

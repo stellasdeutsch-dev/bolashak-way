@@ -52,7 +52,7 @@
   min-width: 140px;
   display: flex;
   flex-direction: column;
-  font-size: 13px;
+  font-size: 14px;
   color: var(--on-navy-muted);
 }
 .continueText b {
@@ -68,7 +68,7 @@
 }
 .sectionText {
   margin-top: 8px;
-  font-size: 15px;
+  font-size: 15.5px;
   line-height: 1.6;
   color: var(--text-2);
   max-width: 66ch;
@@ -149,7 +149,7 @@
   box-shadow: 0 8px 18px rgba(var(--p-rgb), 0.35);
 }
 .cardBadge {
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 700;
   letter-spacing: 0.02em;
   padding: 4px 9px;
@@ -166,7 +166,7 @@
   line-height: 1.2;
 }
 .cardTagline {
-  font-size: 13.5px;
+  font-size: 14.5px;
   line-height: 1.5;
   color: var(--text-2);
   flex: 1;
@@ -191,7 +191,7 @@
   padding: 8px 10px;
   border-radius: 12px;
   background: var(--surface-2);
-  font-size: 11.5px;
+  font-size: 12.5px;
   line-height: 1.35;
   color: var(--text-3);
 }
@@ -205,7 +205,7 @@
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 650;
   color: var(--p);
 }
@@ -240,12 +240,12 @@
   border-radius: var(--r-md);
   background: var(--surface-2);
   text-align: left;
-  font-size: 12.5px;
+  font-size: 13.5px;
   color: var(--text-3);
   cursor: pointer;
 }
 .finderDone b {
-  font-size: 14.5px;
+  font-size: 15.5px;
   color: var(--text);
 }
 .finderDone:hover {
@@ -288,11 +288,11 @@
     transform 0.18s var(--ease-spring);
 }
 .finderOption b {
-  font-size: 15px;
+  font-size: 15.5px;
   color: var(--text);
 }
 .finderOption span {
-  font-size: 13px;
+  font-size: 14px;
   color: var(--text-3);
 }
 .finderOption:hover {
@@ -334,7 +334,7 @@
   display: flex;
   flex-direction: column;
   gap: 2px;
-  font-size: 13px;
+  font-size: 14px;
   color: var(--text-3);
 }
 .finderResultBody b {
@@ -357,7 +357,7 @@
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  font-size: 13.5px;
+  font-size: 14.5px;
   font-weight: 600;
   color: var(--text-2);
   cursor: pointer;
@@ -389,7 +389,7 @@
   border-radius: var(--r-pill);
   background: var(--navy);
   color: #fff;
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 650;
 }
 .treeRoot::after {
@@ -427,7 +427,7 @@
 }
 .treeNode {
   align-self: center;
-  font-size: 12.5px;
+  font-size: 13.5px;
   font-weight: 700;
   letter-spacing: 0.04em;
   text-transform: uppercase;
@@ -448,7 +448,7 @@
   background: var(--surface);
   border: 1.5px solid rgba(var(--p-rgb), 0.35);
   color: var(--text);
-  font-size: 12.5px;
+  font-size: 13.5px;
   font-weight: 600;
   transition:
     opacity 0.3s var(--ease-out),
@@ -494,7 +494,7 @@
   border-radius: var(--r-pill);
   background: var(--navy);
   color: #fff;
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 650;
   text-align: center;
 }
@@ -544,7 +544,7 @@
   font-size: 16px;
 }
 .mapGroupHead span {
-  font-size: 13.5px;
+  font-size: 14.5px;
   line-height: 1.5;
   color: var(--text-2);
 }
@@ -562,7 +562,7 @@
   background: var(--surface);
   border: 1.5px solid rgba(var(--p-rgb), 0.4);
   color: var(--text);
-  font-size: 13.5px;
+  font-size: 14.5px;
   font-weight: 600;
   text-decoration: none;
   opacity: 0;
@@ -608,7 +608,7 @@
   min-width: 880px;
   border-collapse: separate;
   border-spacing: 0;
-  font-size: 13.5px;
+  font-size: 14.5px;
   line-height: 1.45;
 }
 .compareTable th,
@@ -638,7 +638,7 @@
 .compareLabel {
   font-weight: 650;
   color: var(--text);
-  font-size: 13px;
+  font-size: 14px;
 }
 .compareHead {
   background: rgba(var(--p-rgb), 0.08);
@@ -650,7 +650,7 @@
   gap: 8px;
   color: var(--text);
   font-weight: 700;
-  font-size: 13.5px;
+  font-size: 14.5px;
   text-decoration: none;
 }
 .compareHead a:hover {
@@ -674,7 +674,7 @@
   gap: 8px;
 }
 .pairHint {
-  font-size: 12.5px;
+  font-size: 13.5px;
   color: var(--text-3);
 }
 .pairChips {
@@ -691,7 +691,7 @@
   border: 1.5px solid rgba(var(--p-rgb), 0.35);
   background: var(--surface);
   color: var(--text);
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 600;
   cursor: pointer;
 }
@@ -723,7 +723,7 @@
 .pairTable th,
 .pairTable td {
   padding: 10px;
-  font-size: 13px;
+  font-size: 14px;
   overflow-wrap: break-word;
   -webkit-hyphens: auto;
   hyphens: auto;
@@ -747,7 +747,7 @@
 }
 
 .footnote {
-  font-size: 12.5px;
+  font-size: 13.5px;
   line-height: 1.6;
   color: var(--text-3);
   padding: 0 4px;
@@ -766,4 +766,107 @@
   .finderResult {
     animation: none;
   }
+}
+
+/* ── first steps for a newcomer ── */
+.heroActions {
+  margin-top: 22px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.sectionTitle:focus {
+  outline: none;
+}
+.what,
+.glossary {
+  padding: clamp(20px, 3vw, 30px);
+  display: grid;
+  gap: 14px;
+}
+.what .sectionText,
+.glossary .sectionText {
+  margin-top: 0;
+}
+/* The three steps are a real sequence: apply, study at the state's expense, come back. */
+.whatSteps {
+  list-style: none;
+  margin: 4px 0 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+@media (max-width: 720px) {
+  .whatSteps {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+.whatStep {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  padding: 16px;
+  border-radius: var(--r-md);
+  background: var(--surface-2);
+  font-size: 16px;
+  line-height: 1.45;
+  font-weight: 550;
+  color: var(--text);
+}
+.whatNum {
+  flex: none;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-weight: 700;
+  font-size: 15px;
+  color: #fff;
+  background: linear-gradient(135deg, var(--accent-btn) 0%, var(--accent-deep) 100%);
+}
+.whatSources {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 16px;
+}
+
+/* Plain answers on each programme card instead of specialist figures. */
+.cardRows {
+  display: grid;
+  gap: 6px;
+  margin-top: 4px;
+}
+.cardRow {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+  padding: 9px 12px;
+  border-radius: 12px;
+  background: var(--surface-2);
+  font-size: 13.5px;
+  line-height: 1.4;
+  color: var(--text-3);
+}
+.cardRow b {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.footnote p {
+  margin: 0 0 8px;
+}
+.footLinks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 20px;
+}
+.footLinks a {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 44px;
+  font-weight: 600;
 }

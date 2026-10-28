@@ -63,7 +63,7 @@
   padding: 9px 16px;
   border-radius: var(--r-pill);
   color: var(--text-2);
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 500;
   text-decoration: none;
 }
@@ -85,12 +85,19 @@
   background: var(--surface-3);
 }
 .langBtn {
-  padding: 6px 11px;
+  position: relative;
+  padding: 8px 11px;
   border-radius: var(--r-pill);
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 600;
-  color: var(--text-3);
+  color: var(--text-2);
   letter-spacing: 0.03em;
+}
+/* The pills stay compact, but a finger gets a 44px tall target. */
+.langBtn::after {
+  content: '';
+  position: absolute;
+  inset: -7px 0;
 }
 .langBtnActive {
   background: var(--surface);
@@ -129,10 +136,11 @@
   gap: 3px;
   padding: 7px 2px;
   border-radius: var(--r-md);
-  color: var(--text-3);
-  font-size: 11px;
+  color: var(--text-2);
+  /* Five tabs share a 320–375px phone: «Документы» must fit, so the label scales with the screen. */
+  font-size: clamp(10.5px, 3vw, 12px);
   font-weight: 500;
-  letter-spacing: -0.01em;
+  letter-spacing: -0.015em;
   text-decoration: none;
 }
 /* Five tabs leave ~68px each on a 375px phone. The tab bar uses its own short labels
@@ -167,6 +175,7 @@
 }
 
 .iconBtn {
+  position: relative;
   flex: none;
   text-decoration: none;
   border: 1px solid var(--line);
@@ -179,9 +188,14 @@
   align-items: center;
 }
 
+.iconBtn::after {
+  content: '';
+  position: absolute;
+  inset: -5px;
+}
 .iconBtn:hover {
   background: var(--surface-2);
-  color: var(--text-1);
+  color: var(--text);
 }
 
 /* At 320px the brand, search and three language chips must still fit on one row. */
@@ -192,7 +206,7 @@
   }
 
   .brand {
-    font-size: 15px;
+    font-size: 15.5px;
     gap: 8px;
     min-width: 0;
   }
@@ -205,7 +219,7 @@
 
   .langBtn {
     padding: 6px 7px;
-    font-size: 11.5px;
+    font-size: 12.5px;
   }
 }
 
@@ -248,4 +262,28 @@
   .brandText {
     display: none;
   }
+}
+
+/* Visible only when reached with the keyboard: jumps past the header to the page. */
+.skip {
+  position: fixed;
+  top: 8px;
+  left: 8px;
+  z-index: 100;
+  padding: 12px 18px;
+  border-radius: var(--r-pill);
+  background: var(--navy);
+  color: #fff;
+  font-weight: 600;
+  font-size: 15.5px;
+  transform: translateY(-150%);
+}
+.skip:focus-visible {
+  transform: none;
+}
+.main:focus {
+  outline: none;
+}
+.main h1[tabindex='-1']:focus {
+  outline: none;
 }

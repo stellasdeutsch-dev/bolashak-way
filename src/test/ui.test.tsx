@@ -58,7 +58,7 @@ describe('onboarding flow', () => {
     fireEvent.click(screen.getByRole('button', { name: /^Далее/ }))
 
     fireEvent.click(screen.getByRole('button', { name: /Есть стаж/ }))
-    fireEvent.click(screen.getByRole('button', { name: /Собрать роадмап/ }))
+    fireEvent.click(screen.getByRole('button', { name: /Собрать мой план/ }))
 
     const stored = useAppStore.getState().profile
     expect(stored).not.toBeNull()
@@ -86,7 +86,27 @@ describe('onboarding flow', () => {
   it('warns before replacing a roadmap from another programme', () => {
     useAppStore.setState({ profile: medic, onboardedAt: new Date().toISOString() })
     startAt('science')
-    expect(screen.getByText(/ответы анкеты заменятся/)).toBeInTheDocument()
+    expect(screen.getByText(/вернутся, если переключитесь обратно/)).toBeInTheDocument()
+  })
+
+  it('asks about work experience only when the category sets a requirement', () => {
+    startAt('master')
+    fireEvent.click(screen.getByRole('button', { name: /Начать/i }))
+    fireEvent.click(screen.getByRole('button', { name: /^Самостоятельно поступаю/ }))
+    expect(screen.getByText(/Вопрос 1 из 3/)).toBeInTheDocument()
+    fireEvent.click(screen.getByRole('button', { name: /^Медицинский работник$/ }))
+    expect(screen.getByText(/Вопрос 1 из 4/)).toBeInTheDocument()
+  })
+})
+
+describe('progress per programme', () => {
+  it('files the current programme away and brings it back on return', () => {
+    const internship = { ...medic, track: 'internship' as const, category: 'internship' as const, workerGroup: 'medical' as const }
+    useAppStore.setState({ profile: medic, onboardedAt: '2026-09-01T00:00:00.000Z', checked: ['eligibility:citizen'], stagesDone: [], archive: {} })
+    useAppStore.getState().setProfile(internship)
+    expect(useAppStore.getState().checked).toEqual([])
+    useAppStore.getState().setProfile(medic)
+    expect(useAppStore.getState().checked).toEqual(['eligibility:citizen'])
   })
 })
 

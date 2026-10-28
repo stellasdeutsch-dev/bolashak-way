@@ -19,6 +19,7 @@ import { useI18n, formatRange } from '@/i18n'
 import { usePageChrome } from '@/i18n/usePageChrome'
 import { Button, Callout, Card, Pill, ProgressRing } from '@/components/ui'
 import { StageIcon } from '@/components/StageIcon'
+import { EligibilityBanner } from '@/components/Eligibility'
 import s from './Roadmap.module.css'
 
 type Row =
@@ -55,7 +56,7 @@ function RoadmapTrack({ rows, currentId, continueLabel }: { rows: Row[]; current
                   {row.done === row.total && <Check size={13} strokeWidth={3} aria-hidden="true" />}
                   {t('roadmap.chapterProgress', { done: row.done, total: row.total })}
                 </span>
-                <StepBar done={row.done} total={row.total} dark />
+                <StepBar done={row.done} total={row.total} />
               </span>
             </div>
           )
@@ -197,6 +198,8 @@ export function Roadmap() {
         </Callout>
       )}
 
+      <EligibilityBanner />
+
       <Card className={s.intro}>
         <div className={s.introText}>
           <Pill tone="accent">
@@ -230,6 +233,7 @@ export function Roadmap() {
         <div className={s.introRing}>
           <ProgressRing value={progress.ratio} size={104} stroke={10} />
           <span className={s.introRingLabel}>{t('roadmap.progress')}</span>
+          <span className={s.introRingSub}>{t('roadmap.stepsDoneOf', { done: progress.stepsDone, total: progress.stepsTotal })}</span>
         </div>
       </Card>
 

@@ -1,38 +1,37 @@
-import { useEffect } from 'react'
+import { lazy, Suspense, useEffect } from 'react'
 import { HashRouter, Navigate, Route, Routes, useLocation, useParams } from 'react-router'
 import { Layout } from '@/components/Layout'
-import { Onboarding } from '@/pages/Onboarding/Onboarding'
-import { Roadmap } from '@/pages/Roadmap'
-import { StagePage } from '@/pages/Stage'
-import { Documents } from '@/pages/Documents'
-import { Settings } from '@/pages/Settings'
 import { Landing } from '@/pages/Landing'
 import { PlatformHome } from '@/pages/PlatformHome'
 import { PlatformRoute } from '@/components/platform/PlatformRoute'
 import { pathsForTrack, type PlatformPaths } from '@/domain/paths'
 import type { StageId } from '@/content/types'
-import { Calendar } from '@/pages/Calendar'
 import { NotFound } from '@/pages/NotFound'
 import { useAppStore } from '@/store/useAppStore'
+
+const Calendar = lazy(() => import('@/pages/Calendar').then((m) => ({ default: m.Calendar })))
+const Settings = lazy(() => import('@/pages/Settings').then((m) => ({ default: m.Settings })))
+const Documents = lazy(() => import('@/pages/Documents').then((m) => ({ default: m.Documents })))
+const StagePage = lazy(() => import('@/pages/Stage').then((m) => ({ default: m.StagePage })))
+const Roadmap = lazy(() => import('@/pages/Roadmap').then((m) => ({ default: m.Roadmap })))
+const Onboarding = lazy(() => import('@/pages/Onboarding/Onboarding').then((m) => ({ default: m.Onboarding })))
 
 /** Applies the stored theme preference to the document element. */
 function useTheme() {
   const theme = useAppStore((s) => s.theme)
-  useEffect(() => {
-    const root = document.documentElement
-    if (theme === 'system') root.removeAttribute('data-theme')
-    else root.setAttribute('data-theme', theme)
-  }, [theme])
-
+  // The dark palette lives under [data-theme='dark'], so "system" has to resolve to a
+  // concrete value — and follow the OS when it switches at sunset.
   useEffect(() => {
     const mq = window.matchMedia('(prefers-color-scheme: dark)')
     const apply = () => {
-      if (useAppStore.getState().theme !== 'system') return
-      document.documentElement.removeAttribute('data-theme')
+      const pref = useAppStore.getState().theme
+      const resolved = pref === 'system' ? (mq.matches ? 'dark' : 'light') : pref
+      document.documentElement.setAttribute('data-theme', resolved)
     }
+    apply()
     mq.addEventListener('change', apply)
     return () => mq.removeEventListener('change', apply)
-  }, [])
+  }, [theme])
 }
 
 function ScrollToTop() {
@@ -62,6 +61,8 @@ export default function App() {
     <HashRouter>
       <ScrollToTop />
       <Layout>
+        {/* Pages past the first screen load on demand; the worker has them cached for offline use. */}
+        <Suspense fallback={<div aria-busy="true" style={{ minHeight: '60vh' }} />}>
         <Routes>
           <Route path="/" element={<Landing />} />
           <Route path="/settings" element={<Settings />} />
@@ -82,6 +83,7 @@ export default function App() {
 
           <Route path="*" element={<NotFound />} />
         </Routes>
+        </Suspense>
       </Layout>
     </HashRouter>
   )

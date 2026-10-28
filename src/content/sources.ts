@@ -25,11 +25,15 @@ export const SOURCES: Record<SourceId, Source> = {
     url: 'https://adilet.zan.kz/rus/docs/V1500011258',
     title: { ru: 'Приказ № 318: минимальный уровень знания языков, формы анкеты и заявки работодателя (ред. 18.04.2025)', kk: '№ 318 бұйрық: тілдерді білудің ең төменгі деңгейі (18.04.2025 ред.)', en: 'Order No. 318: minimum language levels, application forms (as amended 18.04.2025)' },
   },
-  pp791: {
-    id: 'pp791',
+  ns_rules422: {
+    id: 'ns_rules422',
     org: 'adilet.zan.kz',
-    url: 'https://adilet.zan.kz/rus/docs/P2200000791',
-    title: { ru: 'Правила отбора претендентов и прохождения научных стажировок (ПП РК от 05.10.2022 № 791)', kk: 'Ғылыми тағылымдамадан өту қағидалары (ҚР ҮҚ 05.10.2022 № 791)', en: 'Rules for scientific internships (Gov. Decree No. 791 of 05.10.2022)' },
+    url: 'https://adilet.zan.kz/rus/docs/V2300033308',
+    title: {
+      ru: 'Правила отбора претендентов и прохождения научных стажировок (приказ и.о. Министра науки и высшего образования РК от 18.08.2023 № 422, ред. 04.07.2025)',
+      kk: 'Үміткерлерді іріктеу және ғылыми тағылымдамалардан өту қағидалары (ҚР Ғылым және жоғары білім министрінің м.а. 18.08.2023 № 422 бұйрығы, 04.07.2025 ред.)',
+      en: 'Rules for selecting applicants and completing scientific internships (Order of the Acting Minister of Science and Higher Education No. 422 of 18.08.2023, as amended 04.07.2025)',
+    },
   },
   ns_about: {
     id: 'ns_about',
@@ -154,8 +158,10 @@ export const SOURCES: Record<SourceId, Source> = {
   egov_bolashak: {
     id: 'egov_bolashak',
     org: 'egov.kz',
-    url: 'https://egov.kz/cms/ru/services/higher_education/184pass_mon',
-    title: { ru: 'Госуслуга: приём документов на конкурс «Болашак» (egov.kz)', kk: 'Мемлекеттік қызмет: «Болашақ» конкурсына құжат қабылдау (egov.kz)', en: 'Public service: Bolashak application intake (egov.kz)' },
+    // The link behind the «Прием «Болашак»» button on bolashak.gov.kz; the older
+    // /cms/ru/services/higher_education/184pass_mon address now redirects to the egov home page.
+    url: 'https://egov.kz/ru/services/presale/P5003',
+    title: { ru: 'Госуслуга «Приём «Болашак»» на egov.kz', kk: 'egov.kz-тегі «Болашақ» қабылдау» мемлекеттік қызметі', en: 'The "Bolashak intake" public service on egov.kz' },
   },
   egov_ns: {
     id: 'egov_ns',
@@ -359,8 +365,8 @@ export const SOURCE_TRACKS: Partial<Record<SourceId, Track[]>> = {
   pps_internship2026: ['internship'],
   pps_internship_pdf: ['internship'],
   internship_program: ['internship'],
-  // scientific internships (ПП 791)
-  pp791: SCIENCE,
+  // scientific internships (приказ МНВО № 422; ПП 791 repealed)
+  ns_rules422: SCIENCE,
   ns_about: SCIENCE,
   ns_finance: SCIENCE,
   ns_orgs: SCIENCE,

@@ -71,8 +71,20 @@ export const PREPARE_STAGES: Stage[] = [
         },
         required: false,
         link: 'pp573',
-        // ПП 573 п. 7. Scientific internships run under ПП 791, which has no such clause.
+        // ПП 573 п. 7. Scientific internships have their own once-only rule — see once_ns.
         appliesTo: { not: { track: ['science_internship'] } },
+      },
+      {
+        id: 'once_ns',
+        text: {
+          ru: 'Вы знаете, что научную стажировку проходят один раз. Повторно участвовать можно, только если ранее присуждённой стажировкой не воспользовались, к ней не приступили и долгов перед администратором нет. Тех, кто на момент подачи учится по программе «Болашак», к конкурсу не допускают.',
+          kk: 'Ғылыми тағылымдамадан бір рет өтетінін білесіз. Қайта қатысуға тек бұрын тағайындалған тағылымдаманы пайдаланбаған, оған кіріспеген және әкімші алдында берешек болмаған жағдайда болады. Тапсыру сәтінде «Болашақ» бағдарламасы бойынша оқып жүргендер конкурсқа жіберілмейді.',
+          en: 'You know a scientific internship is granted once. You can take part again only if you never used an earlier award, never started it and owe the administrator nothing. Anyone studying under the Bolashak programme when applying is not admitted.',
+        },
+        required: false,
+        link: 'ns_rules422',
+        // Приказ МНВО № 422 п. 8 (closing paragraphs).
+        appliesTo: { track: ['science_internship'] },
       },
     ],
     mistakes: [
@@ -166,12 +178,12 @@ export const PREPARE_STAGES: Stage[] = [
       {
         id: 'publications',
         text: {
-          ru: 'У вас есть хотя бы одна статья или обзор в Web of Science или Scopus — либо статья в издании из Списка 1 или 2 Перечня. Её утверждает работодатель.',
-          kk: 'Сізде Web of Science не Scopus-та кемінде бір мақала не шолу бар — не Тізбенің 1 не 2 тізіміндегі басылымда мақала. Оны жұмыс беруші бекітеді.',
-          en: 'You have at least one article or review in Web of Science or Scopus — or an article in a List 1 or List 2 journal. Your employer approves it.',
+          ru: 'У вас есть хотя бы одна статья или обзор в Web of Science или Scopus — либо статья в издании из Списка 1 или 2 Перечня, и (или) международная заявка в Derwent Innovations Index. Список результатов утверждает работодатель.',
+          kk: 'Сізде Web of Science не Scopus-та кемінде бір мақала не шолу бар — не Тізбенің 1 не 2 тізіміндегі басылымда мақала және (немесе) Derwent Innovations Index-тегі халықаралық өтінім. Нәтижелер тізімін жұмыс беруші бекітеді.',
+          en: 'You have at least one article or review in Web of Science or Scopus — or an article in a List 1 or List 2 journal, and/or an international application in the Derwent Innovations Index. Your employer approves the list of results.',
         },
         appliesTo: { category: ['science_internship'] },
-        link: 'ns_requirements',
+        link: 'ns_rules422',
       },
       {
         id: 'accreditation',
@@ -545,6 +557,9 @@ export const PREPARE_STAGES: Stage[] = [
           en: 'You took the exam and hold a valid certificate.',
         },
         autoCompleteWhen: { hasForeignCert: true },
+        // Self-admitted master's and doctoral applicants: the Rules ask no certificate of them
+        // (ПП 573 п. 9 пп. 3, п. 11–12) — they get the optional items below instead.
+        appliesTo: { not: { category: ['master_self', 'phd_self', 'phd_nuclear', 'residency'] } },
       },
       {
         id: 'meets',
@@ -555,6 +570,30 @@ export const PREPARE_STAGES: Stage[] = [
         },
         autoCompleteWhen: { foreignMeets: true },
         link: 'prikaz318',
+        appliesTo: { not: { category: ['master_self', 'phd_self', 'phd_nuclear', 'residency'] } },
+      },
+      {
+        id: 'uni_cert',
+        text: {
+          ru: 'Если вуз требует языковой сертификат для зачисления — сдали экзамен на его балл. Для конкурса правила сертификат от вас не требуют.',
+          kk: 'ЖОО қабылдау үшін тіл сертификатын талап етсе — емтиханды соның балына тапсырдыңыз. Конкурс үшін қағида сізден сертификат талап етпейді.',
+          en: 'If the university wants a language certificate for admission — you sat the exam at its score. For the competition the Rules do not ask you for one.',
+        },
+        required: false,
+        autoCompleteWhen: { hasForeignCert: true },
+        link: 'pp573',
+        appliesTo: { category: ['master_self', 'phd_self', 'phd_nuclear', 'residency'] },
+      },
+      {
+        id: 'check_318',
+        text: {
+          ru: 'Уточнили в Центре, нужен ли вам порог из таблицы приказа № 318 — для «самостоятельно поступивших» там указан третий порог.',
+          kk: '№ 318 бұйрық кестесіндегі шектің сізге керек-керек еместігін Орталықтан нақтыладыңыз — онда «өз бетінше түскендерге» үшінші шек көрсетілген.',
+          en: 'You checked with the Center whether the Order No. 318 threshold applies to you — its table lists level III for "self-admitted" applicants.',
+        },
+        required: false,
+        link: 'prikaz318',
+        appliesTo: { category: ['master_self', 'phd_self', 'phd_nuclear', 'residency'] },
       },
       {
         id: 'validity',
@@ -580,24 +619,36 @@ export const PREPARE_STAGES: Stage[] = [
     ],
     notes: [
       {
-        appliesTo: { category: ['master_self', 'phd_self', 'residency'] },
+        // ПП 573 п. 9 пп. 3: the foreign-language condition is for п. 4 пп. 2)–5), 7) only.
+        appliesTo: { category: ['master_self'] },
         tone: 'info',
         text: {
-          ru: 'Если вы поступаете сами, сертификат иностранного языка в список документов на портале не входит: язык за вас подтверждает вуз своим безусловным приглашением. Но в таблице приказа № 318 для этой категории стоит третий порог — IELTS 6.0 или эквивалент. Так что сертификат лучше иметь под рукой.',
-          kk: 'Өз бетінше түссеңіз, шет тілі сертификаты порталдағы құжаттар тізіміне кірмейді: тілді сіздің орныңызға ЖОО сөзсіз шақыруымен растайды. Бірақ № 318 бұйрық кестесінде бұл санатқа үшінші шек — IELTS 6.0 не баламасы — көрсетілген. Сондықтан сертификат қолда болғаны жөн.',
-          en: 'If you get in on your own, the foreign-language certificate is not on the portal\'s document list: the university vouches for your language with its unconditional offer. But Order No. 318 still puts this category at level III — IELTS 6.0 or equivalent. Keep the certificate at hand.',
+          ru: 'Для вас иностранный язык не условие участия: по ПП № 573 (п. 9 пп. 3) его требуют только у категорий из села, ИТР, медиков, госслужащих и работников атомной отрасли, а в вашем списке документов сертификата нет. Язык проверяет вуз, когда зачисляет вас без условий. При этом в таблице приказа № 318 есть строка «самостоятельно поступившие» с третьим порогом — IELTS 6.0 или эквивалент. Применяют ли её к вам, уточните в Центре.',
+          kk: 'Сіз үшін шет тілі қатысу шарты емес: № 573 ҮҚ бойынша (9-тармақтың 3-тармақшасы) ол тек ауылдан, ИТҚ, медиктер, мемқызметшілер және атом саласы қызметкерлері санаттарынан талап етіледі, ал сіздің құжаттар тізіміңізде сертификат жоқ. Тілді ЖОО сізді шартсыз қабылдағанда тексереді. Алайда № 318 бұйрық кестесінде «өз бетінше түскендер» жолы үшінші шекпен — IELTS 6.0 не баламасы — бар. Оның сізге қолданылатынын Орталықтан нақтылаңыз.',
+          en: 'For you a foreign language is not a condition of taking part: under Decree No. 573 (п. 9 пп. 3) it is asked only of the rural, engineering, medical, civil-service and nuclear-industry categories, and your document list has no certificate. The university checks your language when it admits you unconditionally. Order No. 318 does, however, have a "self-admitted" row at level III — IELTS 6.0 or equivalent. Ask the Center whether it applies to you.',
         },
-        source: 'prikaz318',
+        source: 'pp573',
+      },
+      {
+        // ПП 573 п. 11–12: no foreign-language condition and no certificate in the package.
+        appliesTo: { category: ['phd_self', 'phd_nuclear', 'residency'] },
+        tone: 'info',
+        text: {
+          ru: 'Для вас иностранный язык не условие участия: в условиях и списке документов ПП № 573 (п. 11–12) его нет. Язык проверяет вуз, когда зачисляет вас без условий. При этом в таблице приказа № 318 есть строка «самостоятельно поступившие» с третьим порогом — IELTS 6.0 или эквивалент. Применяют ли её к вам, уточните в Центре.',
+          kk: 'Сіз үшін шет тілі қатысу шарты емес: № 573 ҮҚ шарттары мен құжаттар тізімінде (11–12-тармақтар) ол жоқ. Тілді ЖОО сізді шартсыз қабылдағанда тексереді. Алайда № 318 бұйрық кестесінде «өз бетінше түскендер» жолы үшінші шекпен — IELTS 6.0 не баламасы — бар. Оның сізге қолданылатынын Орталықтан нақтылаңыз.',
+          en: 'For you a foreign language is not a condition of taking part: Decree No. 573 (п. 11–12) has none among the conditions or documents. The university checks your language when it admits you unconditionally. Order No. 318 does, however, have a "self-admitted" row at level III — IELTS 6.0 or equivalent. Ask the Center whether it applies to you.',
+        },
+        source: 'pp573',
       },
       {
         appliesTo: { category: ['science_internship'] },
         tone: 'info',
         text: {
-          ru: 'Для научных стажировок минимальные баллы рабочий орган утверждает отдельным файлом — он лежит на странице требований. Сверяйтесь с ним, а не с общей таблицей.',
-          kk: 'Ғылыми тағылымдамаға ең төменгі балдарды жұмыс органы жеке файлмен бекітеді — ол талаптар бетінде тұр. Жалпы кестемен емес, сонымен салыстырыңыз.',
-          en: 'For scientific internships the working body approves the minimum scores in a separate file on the requirements page. Check that one, not the general table.',
+          ru: 'Для научных стажировок минимальные баллы установлены приложением 4 к Правилам научных стажировок (приказ МНВО № 422) и зависят от языка стажировки. Сверяйтесь с этой таблицей, а не с приказом № 318.',
+          kk: 'Ғылыми тағылымдамаға ең төменгі балдар Ғылыми тағылымдама қағидаларының 4-қосымшасында (ҒЖБМ № 422 бұйрығы) белгіленген және тағылымдама тіліне байланысты. № 318 бұйрықпен емес, осы кестемен салыстырыңыз.',
+          en: 'For scientific internships the minimum scores are set in Appendix 4 to the scientific-internship Rules (Order No. 422) and depend on the internship language. Check that table, not Order No. 318.',
         },
-        source: 'ns_minscore',
+        source: 'ns_rules422',
       },
     ],
     mistakes: [
@@ -706,9 +757,9 @@ export const PREPARE_STAGES: Stage[] = [
       {
         id: 'programme_science',
         text: {
-          ru: 'Составили программу научной стажировки по требованиям рабочего органа: её утверждает работодатель, а согласовывает зарубежная организация.',
-          kk: 'Жұмыс органының талаптарына сай ғылыми тағылымдама бағдарламасын жасадыңыз: оны жұмыс беруші бекітеді, шетелдік ұйым келіседі.',
-          en: 'You drew up the scientific internship programme to the working body\'s requirements: your employer approves it and the host organisation agrees it.',
+          ru: 'Составили программу научной стажировки по приложению 5 к Правилам: её утверждает работодатель, а согласовывает зарубежная организация из списка; к ней — нотариальный перевод на казахский или русский.',
+          kk: 'Ғылыми тағылымдама бағдарламасын Қағидалардың 5-қосымшасы бойынша жасадыңыз: оны жұмыс беруші бекітеді, тізімдегі шетелдік ұйым келіседі; оған қазақ не орыс тіліне нотариалды аударма қоса беріледі.',
+          en: 'You drew up the scientific internship programme on Appendix 5 to the Rules: your employer approves it and the listed host agrees it; it comes with a notarised Kazakh or Russian translation.',
         },
         appliesTo: { track: ['science_internship'] },
         link: 'ns_program',

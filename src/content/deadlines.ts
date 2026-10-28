@@ -22,14 +22,14 @@ export const DEADLINE_RULES: DeadlineRule[] = [
     id: 'contract_ns',
     stage: 'contract',
     anchor: 'award_date',
-    days: 60,
+    days: 90,
     appliesTo: { track: ['science_internship'] },
     label: {
       ru: 'Заключить договор о прохождении научной стажировки',
       kk: 'Ғылыми тағылымдамадан өту туралы шарт жасау',
       en: 'Sign the scientific internship contract',
     },
-    source: 'pp791',
+    source: 'ns_rules422',
   },
   {
     id: 'study_plan',
@@ -55,7 +55,7 @@ export const DEADLINE_RULES: DeadlineRule[] = [
       kk: 'Тағылымдама 6 айдан ұзақ болса — әкімшіге аралық есеп тапсыру',
       en: 'If the internship runs longer than 6 months, submit an interim report to the administrator',
     },
-    source: 'pp791',
+    source: 'ns_rules422',
   },
   {
     id: 'interim_report_internship',
@@ -84,6 +84,19 @@ export const DEADLINE_RULES: DeadlineRule[] = [
     source: 'stipendiat_master',
   },
   {
+    id: 'ns_return_home',
+    stage: 'return',
+    anchor: 'study_end',
+    days: 30,
+    appliesTo: { track: ['science_internship'] },
+    label: {
+      ru: 'Вернуться в Казахстан и сдать администратору копию паспорта с отметкой о въезде, заявление о завершении и переводы документа об окончании стажировки',
+      kk: 'Қазақстанға оралып, әкімшіге кіру белгісі бар паспорт көшірмесін, аяқтау туралы өтінішті және тағылымдаманы аяқтау құжатының аудармаларын тапсыру',
+      en: 'Return to Kazakhstan and give the administrator a passport copy with the entry stamp, the completion application and translations of the completion document',
+    },
+    source: 'ns_rules422',
+  },
+  {
     id: 'ns_final_report',
     stage: 'return',
     anchor: 'return_date',
@@ -94,7 +107,7 @@ export const DEADLINE_RULES: DeadlineRule[] = [
       kk: 'Әкімшіге жұмыс беруші бекіткен ғылыми тағылымдама туралы қорытынды есепті тапсыру',
       en: 'Submit the employer-approved final internship report to the administrator',
     },
-    source: 'pp791',
+    source: 'ns_rules422',
   },
   {
     id: 'workback_cert',
@@ -103,8 +116,9 @@ export const DEADLINE_RULES: DeadlineRule[] = [
     months: 6,
     recurring: true,
     // The duty to report every six months is stated on the scholarship-holder pages for
-    // academic study and Bolashak internships. ПП 791 puts monitoring of scientific
-    // internships on the administrator instead, so that track is excluded here.
+    // academic study and Bolashak internships. For scientific internships приказ МНВО № 422
+    // (п. 36) leaves monitoring to the contract terms and sets no six-monthly duty, so that
+    // track is excluded here.
     appliesTo: { track: ['bachelor', 'master', 'phd_residency'] },
     label: {
       ru: 'Предоставить сведения о трудоустройстве в Управление по работе с выпускниками — каждые 6 месяцев',

@@ -25,9 +25,11 @@ export const DOCUMENTS: DocItem[] = [
     title: { ru: 'Сертификат по иностранному языку', kk: 'Шет тілі сертификаты', en: 'Foreign language certificate' },
     note: { ru: 'Результат не ниже порогового уровня вашей категории', kk: 'Нәтиже санатыңыздың шекті деңгейінен төмен емес', en: 'A score at or above your category threshold' },
     source: 'prikaz318',
-    appliesTo: { category: ['master_rural', 'master_engineer', 'master_medical', 'master_civil', 'master_nuclear', 'phd_self', 'phd_nuclear', 'internship', 'science_internship'] },
+    // ПП 573 п. 10 пп. 5 and п. 14 пп. 5; приказ МНВО № 422 п. 9 пп. 8. The doctoral package
+    // (п. 12) and the self-admitted master's one list no foreign certificate.
+    appliesTo: { category: ['master_rural', 'master_engineer', 'master_medical', 'master_civil', 'master_nuclear', 'internship', 'science_internship'] },
     autoCompleteWhen: { hasForeignCert: true },
-    sourceFor: { science_internship: 'ns_minscore' },
+    sourceFor: { science_internship: 'ns_rules422' },
   },
   {
     id: 'offer_letter',
@@ -37,7 +39,7 @@ export const DOCUMENTS: DocItem[] = [
     source: 'pravila',
     appliesTo: { not: { category: [...PREFERENTIAL] } },
     autoCompleteWhen: { invitation: ['unconditional'] },
-    sourceFor: { internship: 'pp573', science_internship: 'pp791' },
+    sourceFor: { internship: 'pp573', science_internship: 'ns_rules422' },
   },
   {
     id: 'free_tuition_docs',
@@ -132,7 +134,7 @@ export const DOCUMENTS: DocItem[] = [
     stage: 'documents',
     title: { ru: 'Медицинская справка формы 072/у для выезжающего за границу', kk: 'Шетелге шығушыға 072/у нысанындағы медициналық анықтама', en: 'Medical certificate form 072/u for travel abroad' },
     source: 'pravila',
-    sourceFor: { science_internship: 'pp791' },
+    sourceFor: { science_internship: 'ns_rules422' },
   },
   {
     id: 'motivation_letter',
@@ -140,7 +142,8 @@ export const DOCUMENTS: DocItem[] = [
     title: { ru: 'Мотивационное письмо (эссе до 500 слов)', kk: 'Мотивациялық хат (500 сөзге дейінгі эссе)', en: 'Motivation letter (essay up to 500 words)' },
     note: { ru: 'На казахском или русском, с датой и подписью в конце', kk: 'Қазақ не орыс тілінде, соңында күні мен қолы', en: 'In Kazakh or Russian, dated and signed at the end' },
     source: 'pravila',
-    appliesTo: { not: { category: ['residency', 'phd_self', 'science_internship'] } },
+    // ПП 573 п. 12 has no motivation letter for any doctoral or residency applicant.
+    appliesTo: { not: { category: ['residency', 'phd_self', 'phd_nuclear', 'science_internship'] } },
   },
   {
     id: 'employment_docs',
@@ -148,7 +151,7 @@ export const DOCUMENTS: DocItem[] = [
     title: { ru: 'Документы о трудовой деятельности', kk: 'Еңбек қызметі туралы құжаттар', en: 'Employment documents' },
     source: 'pravila',
     appliesTo: { category: [...WITH_EXPERIENCE] },
-    sourceFor: { science_internship: 'pp791' },
+    sourceFor: { science_internship: 'ns_rules422' },
   },
   {
     id: 'pension_statement',
@@ -157,7 +160,7 @@ export const DOCUMENTS: DocItem[] = [
     note: { ru: 'За требуемый период стажа, включая оплачиваемый трудовой отпуск', kk: 'Талап етілетін өтіл кезеңіне, ақылы демалысты қоса', en: 'For the required experience period, paid leave included' },
     source: 'pp573',
     appliesTo: { category: [...WITH_EXPERIENCE] },
-    sourceFor: { science_internship: 'pp791' },
+    sourceFor: { science_internship: 'ns_rules422' },
   },
   {
     id: 'employer_request_doc',
@@ -173,9 +176,10 @@ export const DOCUMENTS: DocItem[] = [
     id: 'study_plan_doc',
     stage: 'documents',
     title: { ru: 'Индивидуальный учебный план, согласованный с вузом', kk: 'ЖОО-мен келісілген жеке оқу жоспары', en: 'Individual study plan agreed with the university' },
-    note: { ru: 'С нотариальным переводом', kk: 'Нотариалды аудармасымен', en: 'Notarially translated' },
-    source: 'pravila',
-    appliesTo: { category: ['phd_self', 'phd_nuclear'] },
+    note: { ru: 'Не длиннее сроков вуза, с нотариальным переводом', kk: 'ЖОО мерзімінен ұзақ емес, нотариалды аудармасымен', en: "No longer than the university's terms, notarially translated" },
+    source: 'pp573',
+    // ПП 573 п. 12 пп. 8: PhD, professional doctorate and residency alike.
+    appliesTo: { category: ['phd_self', 'phd_nuclear', 'residency'] },
   },
   {
     id: 'parent_consent_doc',
@@ -188,8 +192,12 @@ export const DOCUMENTS: DocItem[] = [
     id: 'publications_doc',
     stage: 'documents',
     title: { ru: 'Список научных результатов, утверждённый работодателем', kk: 'Жұмыс беруші бекіткен ғылыми нәтижелер тізімі', en: 'List of research results approved by the employer' },
-    note: { ru: 'Не менее одной статьи в Web of Science или Scopus либо в изданиях из Перечня', kk: 'Web of Science не Scopus-та кемінде бір мақала', en: 'At least one Web of Science or Scopus article' },
-    source: 'ns_requirements',
+    note: {
+      ru: 'Не менее одной статьи или обзора в Web of Science или Scopus, либо статьи в издании из Списка 1 или 2, и (или) международная заявка Derwent Innovations Index',
+      kk: 'Web of Science не Scopus-та кемінде бір мақала не шолу, не 1 не 2 Тізімдегі басылымда мақала және (немесе) Derwent Innovations Index халықаралық өтінімі',
+      en: 'At least one article or review in Web of Science or Scopus, or an article in a List 1 or 2 journal, and/or a Derwent Innovations Index international application',
+    },
+    source: 'ns_rules422',
     appliesTo: { track: ['science_internship'] },
   },
   {
@@ -205,7 +213,7 @@ export const DOCUMENTS: DocItem[] = [
     title: { ru: 'Документ об успеваемости от зарубежного вуза', kk: 'Шетелдік ЖОО-дан үлгерім туралы құжат', en: 'Academic performance document from the foreign university' },
     note: { ru: 'Если вы уже учитесь за рубежом, с нотариальным переводом', kk: 'Шетелде оқып жүрсеңіз, нотариалды аудармасымен', en: 'If you already study abroad, notarially translated' },
     source: 'pravila',
-    appliesTo: { category: ['master_self', 'phd_self', 'residency'] },
+    appliesTo: { category: ['master_self', 'phd_self', 'phd_nuclear', 'residency'] },
   },
   {
     id: 'power_of_attorney',
@@ -227,7 +235,7 @@ export const DOCUMENTS: DocItem[] = [
   {
     id: 'guarantor_docs',
     stage: 'contract',
-    title: { ru: 'Документы гаранта: копия удостоверения, справка о доходах и пенсионных отчислениях за 12 месяцев', kk: 'Кепілгер құжаттары: куәлік көшірмесі, 12 айлық табыс және зейнетақы аударымдары анықтамасы', en: 'Guarantor documents: ID copy, 12-month income and pension statements' },
+    title: { ru: 'Документы гаранта: нотариально заверенная копия удостоверения, справка о доходах и пенсионных отчислениях за 12 месяцев', kk: 'Кепілгер құжаттары: куәліктің нотариалды куәландырылған көшірмесі, 12 айлық табыс және зейнетақы аударымдары анықтамасы', en: 'Guarantor documents: notarised ID copy, 12-month income and pension statements' },
     source: 'ns_winner',
     appliesTo: { track: ['science_internship'] },
   },
@@ -306,7 +314,7 @@ export const DOCUMENTS: DocItem[] = [
     id: 'ns_final_report',
     stage: 'return',
     title: { ru: 'Итоговый отчёт о научной стажировке — в течение месяца после возвращения, утверждённый работодателем', kk: 'Ғылыми тағылымдама туралы қорытынды есеп — оралғаннан кейін бір ай ішінде, жұмыс беруші бекіткен', en: 'Final report on the scientific internship — within a month of coming back, approved by your employer' },
-    source: 'pp791',
+    source: 'ns_rules422',
     appliesTo: { track: ['science_internship'] },
   },
   {
