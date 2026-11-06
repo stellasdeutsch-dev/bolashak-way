@@ -13,26 +13,18 @@ import { useAppStore } from '@/store/useAppStore'
 import { useI18n } from '@/i18n'
 import { SourceLink } from '@/components/ui'
 import { StageIcon } from '@/components/StageIcon'
-import { useCountUp, useInView } from '@/components/Reveal'
 import { IconCheck as Check, IconArrowRight as ArrowRight, IconClose as Cross, IconChevronDown as ChevronDown } from '@/components/icons'
 import s from './Platform.module.css'
 
 /* ── the figures ── */
 
-function FactValue({ value, on }: { value: string; on: boolean }) {
-  const numeric = /^\d+$/.test(value) ? Number(value) : null
-  const shown = useCountUp(numeric ?? 0, on)
-  return <span className={s.factValue}>{numeric === null ? value : shown}</span>
-}
-
 export function Facts({ home }: { home: PlatformHome }) {
   const { c } = useI18n()
-  const [ref, seen] = useInView<HTMLDivElement>()
   return (
-    <div className={s.facts} ref={ref}>
+    <div className={s.facts}>
       {home.facts.map((f, i) => (
-        <div key={f.value + i} className={[s.fact, seen ? s.factOn : ''].join(' ')} style={{ transitionDelay: `${i * 80}ms` }}>
-          <FactValue value={f.value} on={seen} />
+        <div key={f.value + i} className={s.fact}>
+          <span className={s.factValue}>{f.value}</span>
           <span className={s.factCaption}>{c(f.caption)}</span>
         </div>
       ))}
@@ -195,11 +187,10 @@ function Matrix({ track }: { track: Track }) {
 /** One category: its requirements as numbered cards, each with its own source. */
 function Conditions({ category }: { category: Category }) {
   const { c } = useI18n()
-  const [ref, seen] = useInView<HTMLOListElement>()
   return (
-    <ol className={s.conditions} ref={ref}>
+    <ol className={s.conditions}>
       {category.requirements.map((r, i) => (
-        <li key={i} className={[s.condition, seen ? s.conditionOn : ''].join(' ')} style={{ transitionDelay: `${i * 90}ms` }}>
+        <li key={i} className={s.condition}>
           <span className={s.conditionNum}>{i + 1}</span>
           <span className={s.conditionText}>{c(r.text)}</span>
           <SourceLink id={r.source} />
@@ -212,16 +203,15 @@ function Conditions({ category }: { category: Category }) {
 /** Three years in total, the last twelve months unbroken — drawn, because prose kept losing it. */
 function ExperienceBar() {
   const { t } = useI18n()
-  const [ref, seen] = useInView<HTMLDivElement>()
   return (
-    <div className={s.exp} ref={ref}>
+    <div className={s.exp}>
       <div className={s.expRail}>
         {[0, 1, 2].map((y) => (
-          <span key={y} className={[s.expYear, seen ? s.expYearOn : '', y === 2 ? s.expYearLast : ''].join(' ')} style={{ transitionDelay: `${y * 220}ms` }}>
+          <span key={y} className={[s.expYear, y === 2 ? s.expYearLast : ''].join(' ')}>
             {t('platform.expYear', { n: y + 1 })}
           </span>
         ))}
-        <span className={[s.expBrace, seen ? s.expBraceOn : ''].join(' ')}>{t('platform.expContinuous')}</span>
+        <span className={s.expBrace}>{t('platform.expContinuous')}</span>
       </div>
       <div className={s.expLegend}>
         <span>
@@ -291,7 +281,6 @@ export function Journey({ platform }: { platform: PlatformMeta }) {
       : [{ id: 'one', category: CATEGORIES_BY_TRACK[platform.track][0], label: { ru: '', en: '' } }]
   const initial = mine && profile ? (CATEGORIES[profile.category].preferential ? 'pref' : 'self') : lanes[0].id
   const [lane, setLane] = useState(lanes.some((l) => l.id === initial) ? initial : lanes[0].id)
-  const [ref, seen] = useInView<HTMLDivElement>()
 
   const p = mine && profile ? profile : sample(platform.track, lanes.find((l) => l.id === lane)!.category)
   const byChapter = useMemo(
@@ -306,7 +295,7 @@ export function Journey({ platform }: { platform: PlatformMeta }) {
   let n = 0
 
   return (
-    <div className={s.journey} ref={ref}>
+    <div className={s.journey}>
       {lanes.length > 1 && !mine && (
         <div className={s.laneSwitch} role="group">
           {lanes.map((l) => (
@@ -318,7 +307,7 @@ export function Journey({ platform }: { platform: PlatformMeta }) {
       )}
       <ol className={s.chapters}>
         {byChapter.map(({ chapter, stages }, ci) => (
-          <li key={chapter.id} className={[s.chapter, seen ? s.chapterOn : ''].join(' ')} style={{ transitionDelay: `${ci * 110}ms` }}>
+          <li key={chapter.id} className={s.chapter}>
             <div className={s.chapterHead}>
               <span className={s.chapterNum}>{String(ci + 1).padStart(2, '0')}</span>
               <span className={s.chapterTitle}>{c(chapter.title)}</span>
@@ -365,12 +354,11 @@ export function Journey({ platform }: { platform: PlatformMeta }) {
 
 export function Coverage({ home }: { home: PlatformHome }) {
   const { c } = useI18n()
-  const [ref, seen] = useInView<HTMLUListElement>()
   return (
     <>
-      <ul className={s.coverage} ref={ref}>
+      <ul className={s.coverage}>
         {home.coverage.map((item, i) => (
-          <li key={i} className={[s.cover, seen ? s.coverOn : ''].join(' ')} style={{ transitionDelay: `${i * 60}ms` }}>
+          <li key={i} className={s.cover}>
             <span className={s.coverMark}>
               <Check size={14} aria-hidden="true" />
             </span>
@@ -398,7 +386,6 @@ export type { PlatformSlug }
 export function PathOverview({ platform }: { platform: PlatformMeta }) {
   const { t, c } = useI18n()
   const [open, setOpen] = useState(false)
-  const [ref, seen] = useInView<HTMLOListElement>()
   const profile = useAppStore((st) => st.profile)
   const p = profile?.track === platform.track ? profile : sample(platform.track, CATEGORIES_BY_TRACK[platform.track][0])
   const stages = STAGES.filter((st) => evaluate(st.appliesTo, p))
@@ -408,9 +395,9 @@ export function PathOverview({ platform }: { platform: PlatformMeta }) {
 
   return (
     <div className={s.overview}>
-      <ol className={s.five} ref={ref}>
+      <ol className={s.five}>
         {chapters.map(({ ch }, i) => (
-          <li key={ch.id} className={[s.fiveItem, seen ? s.fiveItemOn : ''].join(' ')} style={{ transitionDelay: `${i * 110}ms` }}>
+          <li key={ch.id} className={s.fiveItem}>
             <span className={s.fiveNum}>{i + 1}</span>
             <span className={s.fiveBody}>
               <b>{c(ch.title)}</b>

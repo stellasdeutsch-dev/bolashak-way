@@ -569,7 +569,7 @@ export const UI = {
     kicker: { ru: 'Сводный чеклист', kk: 'Жиынтық тізім', en: 'Combined checklist' },
     remaining: { ru: 'Осталось собрать', kk: 'Жинау қалды', en: 'Still to collect' },
     collected: { ru: 'собрано', kk: 'жиналды', en: 'collected' },
-    empty: { ru: 'Все документы собраны 🎉', kk: 'Барлық құжаттар жиналды 🎉', en: 'All documents collected 🎉' },
+    empty: { ru: 'Все документы собраны', kk: 'Барлық құжаттар жиналды', en: 'All documents collected' },
     form: { ru: 'Скачать форму', kk: 'Нысанды жүктеу', en: 'Download form' },
     perStage: { ru: 'Этап', kk: 'Кезең', en: 'Stage' },
   },

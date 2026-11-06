@@ -1,4 +1,4 @@
-import { useEffect, useState, type ReactNode, useRef } from 'react'
+import { useEffect, type ReactNode, useRef } from 'react'
 import { Link } from 'react-router'
 import { IconInfo as Info, IconAlertTriangle as TriangleAlert, IconExternal as ExternalLink } from '@/components/icons'
 import { getSource } from '@/content/sources'
@@ -72,21 +72,9 @@ export function ProgressRing({
   const r = (size - stroke) / 2
   const c = 2 * Math.PI * r
   const clamped = Math.max(0, Math.min(1, value))
-  // Start empty and fill on mount, so the ring reads as progress rather than a static dial.
-  const [shown, setShown] = useState(0)
-  useEffect(() => {
-    const id = requestAnimationFrame(() => setShown(clamped))
-    return () => cancelAnimationFrame(id)
-  }, [clamped])
   return (
     <div className={[s.ring, dark ? s.ringDark : ''].join(' ')} style={{ width: size, height: size }}>
       <svg className={s.ringSvg} width={size} height={size} aria-hidden="true">
-        <defs>
-          <linearGradient id="ringGradient" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0%" stopColor="var(--accent)" />
-            <stop offset="100%" stopColor="var(--accent-2)" />
-          </linearGradient>
-        </defs>
         <circle className={s.ringTrack} cx={size / 2} cy={size / 2} r={r} fill="none" strokeWidth={stroke} />
         <circle
           className={s.ringValue}
@@ -96,7 +84,7 @@ export function ProgressRing({
           fill="none"
           strokeWidth={stroke}
           strokeDasharray={c}
-          strokeDashoffset={c * (1 - shown)}
+          strokeDashoffset={c * (1 - clamped)}
         />
       </svg>
       <span className={s.ringLabel} style={{ fontSize: size / 3.6 }}>

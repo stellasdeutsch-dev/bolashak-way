@@ -1,5 +1,5 @@
-/* Design tokens — light first, dark overrides. Visual language follows the reference:
-   soft grey canvas, white 28–32px cards, deep navy sections, glossy blue pill CTAs. */
+/* Design tokens — light first, dark overrides. Soft grey canvas, white cards,
+   solid navy sections, flat pill buttons. */
 :root {
   color-scheme: light;
 
@@ -49,27 +49,16 @@
   --danger-tint: rgba(229, 72, 77, 0.1);
   --locked: #c3cad6;
 
-  --shadow-card: 0 1px 2px rgba(11, 18, 32, 0.04), 0 16px 40px rgba(11, 18, 32, 0.07);
-  /* Specular top edge that makes pills and bubbles read as glossy, like the reference CTAs. */
-  --gloss: inset 0 1px 0 rgba(255, 255, 255, 0.38);
-  --gloss-soft: inset 0 1px 0 rgba(255, 255, 255, 0.22);
-  /* Light that keeps large navy blocks from looking flat. */
-  --navy-sheen: radial-gradient(120% 90% at 12% -10%, rgba(var(--accent-2-rgb), 0.22) 0%, rgba(var(--accent-2-rgb), 0) 55%);
-  /* Faint dot grid so large navy panels have texture instead of reading as flat ink. */
-  --navy-grid: radial-gradient(rgba(255, 255, 255, 0.055) 1px, transparent 1px);
-  --navy-grid-size: 22px 22px;
-  --card-hairline: 1px solid rgba(17, 24, 39, 0.05);
-  --shadow-card-lift: 0 2px 4px rgba(11, 18, 32, 0.05), 0 28px 60px rgba(11, 18, 32, 0.12);
-  --shadow-navy: 0 20px 60px rgba(11, 18, 32, 0.3);
-  --glow: 0 12px 32px rgba(var(--accent-rgb), 0.42);
-  --glow-strong: 0 16px 44px rgba(var(--accent-rgb), 0.55);
+  --shadow-card: 0 1px 2px rgba(11, 18, 32, 0.05);
+  --card-hairline: 1px solid rgba(17, 24, 39, 0.07);
+  /* Menus and dialogs that float over the page. */
+  --shadow-card-lift: 0 8px 24px rgba(11, 18, 32, 0.12);
   --focus: 0 0 0 4px rgba(var(--accent-rgb), 0.32);
-  --accent-shadow: rgba(var(--accent-rgb), 0.35);
 
-  --r-xl: 32px;
-  --r-lg: 24px;
-  --r-md: 16px;
-  --r-sm: 12px;
+  --r-xl: 20px;
+  --r-lg: 16px;
+  --r-md: 12px;
+  --r-sm: 8px;
   --r-pill: 999px;
 
   --font: 'Inter Variable', 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
@@ -111,12 +100,9 @@
   --warn-tint: rgba(245, 158, 11, 0.18);
   --danger-tint: rgba(229, 72, 77, 0.16);
   --locked: #3a4660;
-  --card-hairline: 1px solid rgba(255, 255, 255, 0.06);
-  --navy-sheen: radial-gradient(120% 90% at 12% -10%, rgba(var(--accent-2-rgb), 0.16) 0%, rgba(var(--accent-2-rgb), 0) 55%);
-  --navy-grid: radial-gradient(rgba(255, 255, 255, 0.045) 1px, transparent 1px);
-  --shadow-card: 0 1px 2px rgba(0, 0, 0, 0.3), 0 16px 40px rgba(0, 0, 0, 0.35);
-  --shadow-card-lift: 0 2px 4px rgba(0, 0, 0, 0.35), 0 28px 60px rgba(0, 0, 0, 0.5);
-  --glow: 0 12px 32px rgba(var(--accent-rgb), 0.4);
+  --card-hairline: 1px solid rgba(255, 255, 255, 0.07);
+  --shadow-card: 0 1px 2px rgba(0, 0, 0, 0.3);
+  --shadow-card-lift: 0 8px 24px rgba(0, 0, 0, 0.45);
 }
 
 /* ── platform colours ──

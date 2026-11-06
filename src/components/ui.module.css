@@ -8,10 +8,10 @@
   border-radius: var(--r-pill);
   font-weight: 600;
   white-space: nowrap;
-  transition: transform 0.18s var(--ease-spring), box-shadow 0.18s var(--ease-out), background 0.18s var(--ease-out);
+  transition: background-color 0.15s var(--ease-out), border-color 0.15s var(--ease-out);
 }
 .btn:active {
-  transform: translateY(1px) scale(0.99);
+  transform: translateY(1px);
 }
 .btn:disabled {
   opacity: 0.45;
@@ -34,17 +34,11 @@
 }
 
 .primary {
-  background: linear-gradient(135deg, var(--accent-btn) 0%, var(--accent-deep) 100%);
+  background: var(--accent-btn);
   color: #fff;
-  box-shadow: var(--glow), var(--gloss);
 }
 .primary:hover:not(:disabled) {
-  box-shadow: var(--glow-strong), var(--gloss);
-  transform: translateY(-1px);
-}
-.secondary,
-.ghost {
-  box-shadow: var(--shadow-card), var(--gloss-soft);
+  background: var(--accent-deep);
 }
 .secondary {
   background: var(--steel);
@@ -56,11 +50,10 @@
 .ghost {
   background: var(--surface);
   color: var(--text);
-  border: 1px solid var(--line);
-  box-shadow: var(--shadow-card);
+  border: 1px solid var(--line-strong);
 }
 .ghost:hover:not(:disabled) {
-  border-color: var(--line-strong);
+  background: var(--surface-2);
 }
 .quiet {
   background: transparent;
@@ -86,13 +79,10 @@
   padding: 24px;
 }
 .cardDark {
-  /* Dot grid over the sheen over the gradient — order matters, the grid must sit on top. */
-  background-image: var(--navy-grid), var(--navy-sheen), linear-gradient(160deg, var(--navy) 0%, var(--navy-3) 100%);
-  background-size: var(--navy-grid-size), auto, auto;
+  background: var(--navy);
   color: var(--on-navy);
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.07);
   border-radius: var(--r-xl);
-  box-shadow: var(--shadow-navy);
   padding: 24px;
 }
 .cardPad0 {
@@ -144,7 +134,7 @@
   stroke: rgba(255, 255, 255, 0.14);
 }
 .ringValue {
-  stroke: url(#ringGradient);
+  stroke: var(--accent);
   stroke-linecap: round;
   transition: stroke-dashoffset 0.6s var(--ease-spring);
 }
@@ -212,9 +202,6 @@
   place-items: center;
   padding: 20px;
   background: rgba(11, 18, 32, 0.55);
-  -webkit-backdrop-filter: blur(6px);
-  backdrop-filter: blur(6px);
-  animation: fade 0.2s var(--ease-out);
 }
 .dialog {
   width: min(440px, 100%);
@@ -242,12 +229,6 @@
   flex-wrap: wrap;
 }
 
-@keyframes fade {
-  from {
-    opacity: 0;
-  }
-}
-
 .fallbackBadge {
   display: inline-block;
   margin-left: 8px;
@@ -258,21 +239,6 @@
   font-size: 12px;
   font-weight: 500;
   vertical-align: middle;
-}
-
-/* The ring fills over a beat; long enough to notice, short enough not to wait for. */
-.ringValue {
-  transition: stroke-dashoffset 0.9s var(--ease-spring);
-}
-
-/* A tick that draws itself when an item is checked. */
-@keyframes drawCheck {
-  from {
-    stroke-dashoffset: 26;
-  }
-  to {
-    stroke-dashoffset: 0;
-  }
 }
 
 @media (prefers-reduced-motion: reduce) {

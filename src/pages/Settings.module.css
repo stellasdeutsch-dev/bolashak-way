@@ -11,25 +11,13 @@
   flex-direction: column;
   gap: 12px;
 }
+/* Same section heading as the stage screen, so sections read alike app-wide. */
 .sectionTitle {
-  display: flex;
-  align-items: center;
-  gap: 9px;
-  font-size: 13.5px;
+  display: block;
+  font-size: 17px;
   font-weight: 700;
-  letter-spacing: 0.09em;
-  text-transform: uppercase;
-  color: var(--text-3);
-}
-
-/* Same accent tick as the stage screen, so section labels read alike app-wide. */
-.sectionTitle::before {
-  content: '';
-  flex: none;
-  width: 14px;
-  height: 3px;
-  border-radius: 2px;
-  background: linear-gradient(90deg, var(--accent), var(--accent-2));
+  letter-spacing: -0.01em;
+  color: var(--text);
 }
 .row {
   display: flex;

@@ -85,30 +85,24 @@
   width: 100%;
   text-align: left;
   padding: 14px 16px;
-  border-radius: var(--r-lg);
+  border-radius: var(--r-md);
   background: var(--surface-2);
   border: 1.5px solid transparent;
-  transition: background 0.16s var(--ease-out), border-color 0.16s var(--ease-out), box-shadow 0.16s var(--ease-out),
-    transform 0.16s var(--ease-spring);
+  transition: border-color 0.15s var(--ease-out);
 }
 .row:hover:not(.rowOff) {
-  border-color: var(--accent);
-  background: var(--surface);
-  box-shadow: var(--shadow-card);
-  transform: translateY(-1px);
+  border-color: var(--line-strong);
 }
 .rowDone,
 .rowDone:hover:not(.rowOff) {
   background: var(--success-tint);
   border-color: transparent;
-  box-shadow: none;
-  transform: none;
 }
 .box {
   flex: none;
   width: 24px;
   height: 24px;
-  border-radius: 8px;
+  border-radius: 6px;
   border: 2px solid var(--line-strong);
   display: grid;
   place-items: center;
@@ -116,10 +110,9 @@
   margin-top: 1px;
 }
 .boxDone {
-  background: linear-gradient(135deg, var(--success) 0%, #35c982 100%);
+  background: var(--success);
   border-color: transparent;
   color: #fff;
-  box-shadow: 0 4px 10px rgba(29, 181, 106, 0.35), var(--gloss);
 }
 .docTitle {
   display: block;

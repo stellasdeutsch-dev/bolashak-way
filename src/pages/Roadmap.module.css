@@ -25,21 +25,17 @@
   gap: 16px;
   padding: 14px 16px;
   border-radius: var(--r-lg);
-  /* Dot grid over the sheen over the gradient — order matters, the grid must sit on top. */
-  background-image: var(--navy-grid), var(--navy-sheen), linear-gradient(160deg, var(--navy) 0%, var(--navy-3) 100%);
-  background-size: var(--navy-grid-size), auto, auto;
+  background: var(--navy);
   color: var(--on-navy);
   border: 1px solid rgba(255, 255, 255, 0.07);
-  box-shadow: var(--shadow-navy);
+  box-shadow: var(--shadow-card-lift);
 }
 .hudText {
   flex: 1;
   min-width: 0;
 }
 .hudKicker {
-  font-size: 12.5px;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
+  font-size: 13.5px;
   color: var(--on-navy-muted);
 }
 .hudTitle {
@@ -100,28 +96,13 @@
 
 /* — intro card — */
 .intro {
-  position: relative;
-  overflow: hidden;
   display: flex;
   align-items: center;
   gap: 24px;
   flex-wrap: wrap;
   padding: 28px;
 }
-/* Soft accent wash in the corner, echoing the reference's gradient hero. */
-.intro::before {
-  content: '';
-  position: absolute;
-  top: -40%;
-  right: -12%;
-  width: 420px;
-  height: 420px;
-  border-radius: 50%;
-  background: radial-gradient(circle, var(--accent-tint-2) 0%, transparent 68%);
-  pointer-events: none;
-}
 .introText {
-  position: relative;
   flex: 1;
   min-width: 220px;
 }
@@ -137,7 +118,6 @@
   max-width: 62ch;
 }
 
-/* Stat pills — the reference's "5 лет опыта" / "04 дня на разработку" motif. */
 .stats {
   display: flex;
   flex-wrap: wrap;
@@ -171,16 +151,13 @@
 }
 
 .introRing {
-  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 10px;
 }
 .introRingLabel {
-  font-size: 12.5px;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
+  font-size: 13.5px;
   color: var(--text-3);
 }
 .introRingSub {
@@ -236,14 +213,12 @@
   gap: 14px;
   padding: 20px 22px;
   margin: 30px 0 16px;
-  border-radius: 24px;
-  /* Chapters are signposts, not alarms: light with an accent edge, so the one dark block
-     on the page — what to do now — keeps all the weight. */
+  border-radius: var(--r-lg);
+  /* Chapters are signposts, not alarms: light, so the one dark block on the page —
+     what to do now — keeps all the weight. */
   background: var(--surface);
   color: var(--text);
   border: 1px solid var(--line);
-  border-left: 4px solid var(--accent);
-  box-shadow: var(--shadow-card);
 }
 .track > .banner:first-child {
   margin-top: 6px;
@@ -294,57 +269,9 @@
   color: var(--success-ink);
 }
 
-/* On a dark canvas a navy banner would vanish, so it gains an accent-lit edge instead. */
+/* On a dark canvas the banner needs a slightly stronger edge to separate from the page. */
 :global(:root[data-theme='dark']) .banner {
-  background: linear-gradient(135deg, var(--surface-2) 0%, var(--surface) 100%);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-left: 3px solid var(--accent);
-  box-shadow: 0 18px 44px rgba(0, 0, 0, 0.45);
-}
-:global(:root[data-theme='dark']) .chapterNum {
-  color: var(--accent);
-  opacity: 0.75;
-}
-
-/* — "continue" cloud above the current node — */
-.cloud {
-  z-index: 4;
-  position: absolute;
-  bottom: calc(100% - 2px);
-  left: 50%;
-  transform: translateX(-50%);
-  white-space: nowrap;
-  background: var(--accent);
-  color: #fff;
-  font-size: 12.5px;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  padding: 7px 13px;
-  border-radius: 999px;
-  box-shadow: 0 8px 20px rgba(var(--accent-rgb), 0.4);
-  animation: cloudBob 2.4s ease-in-out infinite;
-}
-
-.cloud::after {
-  content: '';
-  position: absolute;
-  top: 100%;
-  left: 50%;
-  transform: translateX(-50%);
-  border: 6px solid transparent;
-  border-top-color: var(--accent);
-}
-
-@keyframes cloudBob {
-  0%, 100% { transform: translate(-50%, 0); }
-  50% { transform: translate(-50%, -4px); }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .cloud {
-    animation: none;
-  }
+  border-color: rgba(255, 255, 255, 0.1);
 }
 
 /* — straight vertical path — */
@@ -377,7 +304,7 @@
   opacity: 0.8;
 }
 .railDone::before {
-  background: linear-gradient(180deg, var(--success), var(--success));
+  background: var(--success);
   opacity: 0.45;
 }
 /* The path starts at the first node and ends at the last one. */
@@ -406,7 +333,6 @@
 }
 .row:hover .rowChevron {
   color: var(--accent);
-  transform: translateX(2px);
 }
 .rowCurrent {
   background: var(--surface);
@@ -431,11 +357,6 @@
   background: var(--surface);
   color: var(--text-2);
   border: 2px solid var(--line-strong);
-  box-shadow: var(--gloss-soft);
-  transition: transform 0.2s var(--ease-spring), box-shadow 0.2s var(--ease-out);
-}
-.row:hover .bubble {
-  transform: scale(1.06);
 }
 .bubbleLocked {
   background: var(--surface-3);
@@ -451,16 +372,14 @@
   color: var(--accent);
 }
 .bubbleDone {
-  background: linear-gradient(135deg, var(--success) 0%, #35c982 100%);
+  background: var(--success);
   border-color: transparent;
   color: #fff;
-  box-shadow: 0 6px 16px rgba(29, 181, 106, 0.32), var(--gloss);
 }
 .bubbleCurrent {
-  background: linear-gradient(135deg, var(--accent) 0%, var(--accent-2) 100%);
+  background: var(--accent-btn);
   border-color: transparent;
   color: #fff;
-  box-shadow: var(--glow), var(--gloss);
 }
 
 .badge {
@@ -523,15 +442,12 @@
   font-variant-numeric: tabular-nums;
 }
 .nowTag {
-  padding: 3px 9px;
+  padding: 2px 9px;
   border-radius: var(--r-pill);
-  background: linear-gradient(135deg, var(--accent) 0%, var(--accent-2) 100%);
-  color: #fff;
-  font-size: 11.5px;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  box-shadow: 0 4px 12px rgba(var(--accent-rgb), 0.35);
+  background: var(--accent-tint);
+  color: var(--accent-ink);
+  font-size: 12.5px;
+  font-weight: 600;
 }
 .rowChevron {
   flex: none;
@@ -604,7 +520,7 @@
   gap: 2px;
   margin: 8px 0 2px;
   padding: 8px 12px;
-  border-radius: 14px;
+  border-radius: var(--r-sm);
   background: rgba(255, 255, 255, 0.08);
   border: 1px solid rgba(255, 255, 255, 0.12);
   text-decoration: none;
@@ -616,9 +532,7 @@
 }
 
 .hudNextLabel {
-  font-size: 12px;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  font-size: 13px;
   color: rgba(255, 255, 255, 0.62);
 }
 
@@ -678,47 +592,6 @@
 
   .chapterSub {
     font-size: 13.5px;
-  }
-}
-
-/* Rows fade up in sequence, so the path reads as one line being drawn rather than
-   a list appearing at once. Capped at ten steps — beyond that the wait is felt. */
-@keyframes rowIn {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: none;
-  }
-}
-
-.row,
-.banner {
-  animation: rowIn 0.42s var(--ease-spring) both;
-  animation-delay: calc(var(--i, 0) * 45ms);
-}
-
-/* The current node breathes to catch the eye without demanding it. */
-@keyframes nodePulse {
-  0%, 100% {
-    box-shadow: var(--glow), var(--gloss);
-  }
-  50% {
-    box-shadow: var(--glow-strong), var(--gloss);
-  }
-}
-
-.bubbleCurrent {
-  animation: nodePulse 2.6s var(--ease-out) infinite;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .row,
-  .banner,
-  .bubbleCurrent {
-    animation: none;
   }
 }
 

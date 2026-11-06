@@ -55,14 +55,7 @@
   top: 0;
   bottom: 0;
   border-radius: 5px;
-  background: var(--success);
-  background: linear-gradient(90deg, color-mix(in srgb, var(--success) 45%, transparent), var(--success));
-  transform: scaleX(0);
-  transform-origin: left center;
-  transition: transform 700ms var(--ease-out);
-}
-.passOn {
-  transform: scaleX(1);
+  background: color-mix(in srgb, var(--success) 55%, transparent);
 }
 .mark {
   position: absolute;
@@ -92,14 +85,6 @@
   border-radius: 50%;
   background: var(--surface);
   border: 3px solid var(--accent);
-  opacity: 0;
-  transform: scale(0.4);
-  transition: opacity 300ms var(--ease-out), transform 320ms var(--ease-spring);
-  transition-delay: 420ms;
-}
-.youOn {
-  opacity: 1;
-  transform: none;
 }
 .you_pass {
   border-color: var(--success);
@@ -167,13 +152,10 @@
   height: 100%;
   border-radius: 4px;
   background: var(--warn);
-  background: linear-gradient(90deg, var(--warn), color-mix(in srgb, var(--warn) 70%, var(--accent)));
-  width: 0;
-  transition: width 700ms var(--ease-out);
+  transition: width 200ms var(--ease-out);
 }
 .meterFillOk {
   background: var(--success);
-  background: linear-gradient(90deg, color-mix(in srgb, var(--success) 60%, transparent), var(--success));
 }
 
 /* ── segmented step bar ── */

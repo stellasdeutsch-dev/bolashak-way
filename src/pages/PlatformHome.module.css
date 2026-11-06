@@ -6,28 +6,12 @@
 
 .hero {
   padding: clamp(24px, 4vw, 40px) clamp(20px, 4vw, 40px);
-  /* the platform's own light in the corner of the navy card, under the dot grid */
-  background-image:
-    var(--navy-grid),
-    radial-gradient(90% 120% at 100% 0%, rgba(var(--accent-rgb), 0.38) 0%, rgba(var(--accent-rgb), 0) 60%),
-    linear-gradient(160deg, var(--navy) 0%, var(--navy-3) 100%);
-  background-size: var(--navy-grid-size), auto, auto;
 }
 .heroTop {
   display: flex;
   align-items: center;
   flex-wrap: wrap;
   gap: 12px;
-}
-.heroIcon {
-  width: 52px;
-  height: 52px;
-  border-radius: 16px;
-  display: grid;
-  place-items: center;
-  color: #fff;
-  background: var(--accent);
-  box-shadow: 0 12px 28px rgba(var(--accent-rgb), 0.5);
 }
 .heroTitle {
   margin-top: 16px;
@@ -82,11 +66,9 @@
 .sub {
   display: block;
   margin: 22px 0 10px;
-  font-size: 13.5px;
-  font-weight: 700;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--text-3);
+  font-size: 14.5px;
+  font-weight: 600;
+  color: var(--text-2);
 }
 .sectionHead + .sub,
 .sectionHead + * .sub:first-child {
@@ -114,11 +96,6 @@
   align-items: center;
   justify-content: space-between;
   gap: 18px;
-  background-image:
-    var(--navy-grid),
-    radial-gradient(80% 140% at 0% 100%, rgba(var(--accent-rgb), 0.32) 0%, rgba(var(--accent-rgb), 0) 60%),
-    linear-gradient(160deg, var(--navy) 0%, var(--navy-3) 100%);
-  background-size: var(--navy-grid-size), auto, auto;
 }
 .ctaTitle {
   font-size: clamp(19px, 2.6vw, 24px);

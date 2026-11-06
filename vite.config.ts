@@ -67,5 +67,7 @@ export default defineConfig({
     environment: 'jsdom',
     globals: true,
     setupFiles: ['./src/test/setup.ts'],
+    // the site/ folder is a separate project with its own Playwright tests
+    include: ['src/**/*.test.{ts,tsx}'],
   },
 })

@@ -1,10 +1,10 @@
-import { useEffect, useMemo, type CSSProperties } from 'react'
+import { useEffect, useMemo } from 'react'
 import { useMyPaths } from '@/components/platform/usePlatform'
 import { platformPaths } from '@/domain/paths'
 import { useHideOnScroll } from '@/components/useHideOnScroll'
 import { StepBar } from '@/components/Meter'
 import { Link, useNavigate } from 'react-router'
-import { IconArrowDown as ArrowDown, IconCheck as Check, IconChevronRight as ChevronRight, IconLock as Lock, IconSparkles as Sparkles } from '@/components/icons'
+import { IconArrowDown as ArrowDown, IconCheck as Check, IconChevronRight as ChevronRight, IconLock as Lock } from '@/components/icons'
 import { CHAPTERS } from '@/content/stages'
 import { chaptersFor } from '@/content/platforms/chapters'
 import { CATEGORIES } from '@/content/categories'
@@ -40,12 +40,10 @@ function RoadmapTrack({ rows, currentId, continueLabel }: { rows: Row[]; current
 
   return (
     <div className={s.track}>
-      {rows.map((row, i) => {
-        // The cascade should settle quickly even on a 19-stage path.
-        const index = Math.min(i, 10)
+      {rows.map((row) => {
         if (row.kind === 'chapter') {
           return (
-            <div key={row.id} className={s.banner} style={{ '--i': index } as CSSProperties}>
+            <div key={row.id} className={s.banner}>
               <span className={s.chapterNum}>{String(row.number).padStart(2, '0')}</span>
               <div className={s.chapterText}>
                 <h2 className={s.chapterTitle}>{c(row.chapter.title)}</h2>
@@ -79,7 +77,6 @@ function RoadmapTrack({ rows, currentId, continueLabel }: { rows: Row[]; current
             id={`node-${item.stage.id}`}
             to={paths.stage(item.stage.id)}
             className={[s.row, item.status === 'locked' ? s.rowLocked : '', isCurrent ? s.rowCurrent : ''].join(' ')}
-            style={{ '--i': index } as CSSProperties}
             aria-label={`${c(item.stage.title)} — ${statusLabel}`}
           >
             <span
@@ -202,10 +199,7 @@ export function Roadmap() {
 
       <Card className={s.intro}>
         <div className={s.introText}>
-          <Pill tone="accent">
-            <Sparkles size={13} aria-hidden="true" />
-            {t('roadmap.forCategory')}
-          </Pill>
+          <Pill tone="accent">{t('roadmap.forCategory')}</Pill>
           <h1 className={`display ${s.introTitle}`}>
             {t('roadmap.yourPath')}
             <b>{c(category.short)}</b>

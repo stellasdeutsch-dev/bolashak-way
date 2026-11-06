@@ -7,7 +7,6 @@ import type { Profile, StageId, Track } from '@/content/types'
 import { evaluate } from '@/domain/applicability'
 import { useI18n } from '@/i18n'
 import { SourceLink } from '@/components/ui'
-import { useInView } from '@/components/Reveal'
 import s from './Explain.module.css'
 
 /** A comparison table. Rows scroll sideways rather than squeezing the page. */
@@ -60,15 +59,14 @@ export function WorkbackTable({ track }: { track: Track }) {
  */
 export function PathLanes() {
   const { c } = useI18n()
-  const [ref, seen] = useInView<HTMLDivElement>()
 
   return (
-    <div className={s.block} ref={ref}>
+    <div className={s.block}>
       <div className={s.lanesScroll}>
         <div className={s.lanes}>
           <div className={s.laneHead} aria-hidden="true" />
           {CHAPTERS.map((ch, i) => (
-            <div key={ch.id} className={s.chapterHead} style={{ transitionDelay: `${i * 55}ms` }}>
+            <div key={ch.id} className={s.chapterHead}>
               <span className={s.chapterNum}>{String(i + 1).padStart(2, '0')}</span>
               <span className={s.chapterName}>{c(ch.title)}</span>
             </div>
@@ -80,20 +78,15 @@ export function PathLanes() {
                 <b>{c(lane.title)}</b>
                 <span>{c(lane.note)}</span>
               </div>
-              {CHAPTERS.map((ch, i) => {
+              {CHAPTERS.map((ch) => {
                 const here = lane.admissionAt === ch.id
                 return (
                   <div key={ch.id} className={s.cell}>
-                    <span
-                      className={[s.track, seen ? s.trackOn : ''].join(' ')}
-                      style={{ transitionDelay: `${i * 90}ms` }}
-                    />
+                    <span className={s.track} />
                     {here ? (
-                      <span className={[s.marker, seen ? s.markerOn : ''].join(' ')} style={{ transitionDelay: `${i * 90 + 260}ms` }}>
-                        {c(lane.admissionLabel)}
-                      </span>
+                      <span className={s.marker}>{c(lane.admissionLabel)}</span>
                     ) : (
-                      <span className={[s.dot, seen ? s.dotOn : ''].join(' ')} style={{ transitionDelay: `${i * 90 + 160}ms` }} />
+                      <span className={s.dot} />
                     )}
                   </div>
                 )
@@ -112,19 +105,18 @@ export function PathLanes() {
 /** The run after the award: 0 → 90 days under ПП 573 and under Order 422 for scientific internships. */
 export function AwardTimeline({ track }: { track: Track }) {
   const { c } = useI18n()
-  const [ref, seen] = useInView<HTMLDivElement>()
   const { total, marks, note } = awardTimeline(track)
 
   return (
-    <div className={s.block} ref={ref}>
+    <div className={s.block}>
       <div className={s.timeline}>
         <div className={s.rail}>
-          <span className={[s.railFill, seen ? s.railFillOn : ''].join(' ')} />
+          <span className={s.railFill} />
           {marks.map((m) => (
             <span
               key={m.day}
-              className={[s.tick, s[`tick_${m.tone}`], seen ? s.tickOn : ''].join(' ')}
-              style={{ left: `${(m.day / total) * 100}%`, transitionDelay: `${300 + (m.day / total) * 500}ms` }}
+              className={[s.tick, s[`tick_${m.tone}`]].join(' ')}
+              style={{ left: `${(m.day / total) * 100}%` }}
             >
               <span className={s.tickDay}>{m.day}</span>
             </span>
@@ -156,20 +148,19 @@ export function AwardTimeline({ track }: { track: Track }) {
 
 /* ── the competition as a flowchart ── */
 
-function FlowChart({ steps, hereStage, seen }: { steps: FlowStep[]; hereStage?: StageId; seen: boolean }) {
+function FlowChart({ steps, hereStage }: { steps: FlowStep[]; hereStage?: StageId }) {
   const { c, t } = useI18n()
   return (
     <ol className={s.flow}>
-      {steps.map((step, i) => {
+      {steps.map((step) => {
         const here = hereStage !== undefined && step.stage === hereStage
         return (
           <li
             key={step.id}
-            className={[s.flowRow, s[`flow_${step.kind}`], here ? s.flowHere : '', seen ? s.flowRowOn : ''].join(' ')}
-            style={{ transitionDelay: `${i * 80}ms` }}
+            className={[s.flowRow, s[`flow_${step.kind}`], here ? s.flowHere : ''].join(' ')}
           >
             <span className={s.flowSpine} aria-hidden="true">
-              <span className={[s.flowLine, seen ? s.flowLineOn : ''].join(' ')} style={{ transitionDelay: `${i * 80 + 60}ms` }} />
+              <span className={s.flowLine} />
               <span className={s.flowNode} />
             </span>
             <div className={s.flowBody}>
@@ -181,7 +172,7 @@ function FlowChart({ steps, hereStage, seen }: { steps: FlowStep[]; hereStage?: 
               {step.clause && <span className={s.clause}>{step.clause}</span>}
             </div>
             {step.exit && (
-              <div className={[s.flowExit, seen ? s.flowExitOn : ''].join(' ')} style={{ transitionDelay: `${i * 80 + 220}ms` }}>
+              <div className={s.flowExit}>
                 <span className={s.exitArrow} aria-hidden="true" />
                 <div className={s.exitCard}>
                   <span className={s.exitLabel}>{c(step.exit.label)}</span>
@@ -198,12 +189,11 @@ function FlowChart({ steps, hereStage, seen }: { steps: FlowStep[]; hereStage?: 
 
 /** The three rounds of this programme, with the exits drawn in and this stage marked. */
 export function ContestFlow({ track, hereStage }: { track: Track; hereStage?: StageId }) {
-  const [ref, seen] = useInView<HTMLDivElement>()
   const steps = CONTEST_FLOW.filter((step) => evaluate(step.appliesTo, { track } as Profile))
 
   return (
-    <div className={s.block} ref={ref}>
-      <FlowChart steps={steps} hereStage={hereStage} seen={seen} />
+    <div className={s.block}>
+      <FlowChart steps={steps} hereStage={hereStage} />
       <div className={s.sources}>
         {[...new Set(steps.flatMap((step) => [...(step.source ? [step.source] : []), ...(step.exit ? [step.exit.source] : [])]))].map((src) => (
           <SourceLink key={src} id={src} />
@@ -218,13 +208,12 @@ export function ContestFlow({ track, hereStage }: { track: Track; hereStage?: St
 /** A chain, because the order is the fact worth showing. */
 export function DepartureChain({ track }: { track: Track }) {
   const { c } = useI18n()
-  const [ref, seen] = useInView<HTMLDivElement>()
   const DEPARTURE_CHAIN = departureChain(track)
   return (
-    <div className={s.block} ref={ref}>
+    <div className={s.block}>
       <ol className={s.chain}>
         {DEPARTURE_CHAIN.steps.map((step, i) => (
-          <li key={i} className={[s.chainItem, seen ? s.chainItemOn : ''].join(' ')} style={{ transitionDelay: `${i * 90}ms` }}>
+          <li key={i} className={s.chainItem}>
             <span className={s.chainNum}>{i + 1}</span>
             <span className={s.chainLabel}>{c(step)}</span>
           </li>

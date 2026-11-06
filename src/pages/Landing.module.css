@@ -24,8 +24,6 @@
   --accent-2: var(--p);
   --accent-rgb: var(--p-rgb);
   --accent-2-rgb: var(--p-rgb);
-  --glow: 0 12px 32px rgba(var(--p-rgb), 0.42);
-  --glow-strong: 0 16px 44px rgba(var(--p-rgb), 0.55);
   margin-top: 22px;
   display: flex;
   align-items: center;
@@ -40,7 +38,7 @@
 .continueIcon {
   width: 38px;
   height: 38px;
-  border-radius: 12px;
+  border-radius: 8px;
   display: grid;
   place-items: center;
   color: #fff;
@@ -93,40 +91,11 @@
   box-shadow: var(--shadow-card);
   color: var(--text);
   text-decoration: none;
-  overflow: hidden;
-  opacity: 0;
-  transform: translateY(14px);
-  transition:
-    opacity 0.5s var(--ease-spring),
-    transform 0.5s var(--ease-spring),
-    box-shadow 0.25s var(--ease-out);
-}
-.card::before {
-  content: '';
-  position: absolute;
-  inset: 0 0 auto;
-  height: 4px;
-  background: var(--p);
-}
-.card::after {
-  content: '';
-  position: absolute;
-  right: -40px;
-  top: -40px;
-  width: 140px;
-  height: 140px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(var(--p-rgb), 0.16), rgba(var(--p-rgb), 0) 70%);
-  pointer-events: none;
-}
-.cardOn {
-  opacity: 1;
-  transform: none;
+  transition: border-color 0.15s var(--ease-out);
 }
 .card:hover {
   text-decoration: none;
-  box-shadow: var(--shadow-card-lift);
-  transform: translateY(-3px);
+  border-color: rgba(var(--p-rgb), 0.6);
 }
 .card:focus-visible {
   outline: none;
@@ -139,19 +108,17 @@
   gap: 8px;
 }
 .cardIcon {
-  width: 44px;
-  height: 44px;
-  border-radius: 14px;
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
   display: grid;
   place-items: center;
   color: #fff;
   background: var(--p);
-  box-shadow: 0 8px 18px rgba(var(--p-rgb), 0.35);
 }
 .cardBadge {
   font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 0.02em;
+  font-weight: 600;
   padding: 4px 9px;
   border-radius: var(--r-pill);
   color: var(--p);
@@ -170,35 +137,6 @@
   line-height: 1.5;
   color: var(--text-2);
   flex: 1;
-}
-.cardFacts {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 6px;
-  margin-top: 4px;
-}
-/* Two side by side only where the card is wide: phones in one column, tablets in two. */
-@media (max-width: 560px), (min-width: 700px) and (max-width: 1000px) {
-  .cardFacts {
-    grid-template-columns: 1fr 1fr;
-  }
-}
-.cardFact {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  min-width: 0;
-  padding: 8px 10px;
-  border-radius: 12px;
-  background: var(--surface-2);
-  font-size: 12.5px;
-  line-height: 1.35;
-  color: var(--text-3);
-}
-.cardFact b {
-  font-size: 17px;
-  color: var(--p);
-  letter-spacing: -0.02em;
 }
 .cardGo {
   margin-top: 6px;
@@ -251,15 +189,6 @@
 .finderDone:hover {
   background: var(--surface-3);
 }
-.finderQ {
-  animation: rise 0.36s var(--ease-spring) both;
-}
-@keyframes rise {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-}
 .finderQText {
   display: block;
   font-size: 17px;
@@ -283,9 +212,7 @@
   background: var(--surface);
   text-align: left;
   cursor: pointer;
-  transition:
-    border-color 0.18s var(--ease-out),
-    transform 0.18s var(--ease-spring);
+  transition: border-color 0.15s var(--ease-out);
 }
 .finderOption b {
   font-size: 15.5px;
@@ -297,7 +224,6 @@
 }
 .finderOption:hover {
   border-color: var(--accent);
-  transform: translateX(2px);
 }
 .finderResult {
   /* the button inside takes the chosen platform's colour, not the page's */
@@ -305,8 +231,6 @@
   --accent-2: var(--p);
   --accent-rgb: var(--p-rgb);
   --accent-2-rgb: var(--p-rgb);
-  --glow: 0 12px 32px rgba(var(--p-rgb), 0.42);
-  --glow-strong: 0 16px 44px rgba(var(--p-rgb), 0.55);
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -315,17 +239,15 @@
   border-radius: var(--r-lg);
   background: rgba(var(--p-rgb), 0.08);
   border: 1.5px solid rgba(var(--p-rgb), 0.35);
-  animation: rise 0.42s var(--ease-spring) both;
 }
 .finderResultIcon {
-  width: 52px;
-  height: 52px;
-  border-radius: 16px;
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
   display: grid;
   place-items: center;
   color: #fff;
   background: var(--p);
-  box-shadow: 0 10px 24px rgba(var(--p-rgb), 0.4);
   flex: none;
 }
 .finderResultBody {
@@ -373,15 +295,6 @@
   padding: 18px 14px;
   border-radius: var(--r-lg);
   background: var(--surface-2);
-  opacity: 0;
-  transform: translateY(8px);
-  transition:
-    opacity 0.5s var(--ease-spring),
-    transform 0.5s var(--ease-spring);
-}
-.treeOn {
-  opacity: 1;
-  transform: none;
 }
 .treeRoot {
   position: relative;
@@ -428,9 +341,7 @@
 .treeNode {
   align-self: center;
   font-size: 13.5px;
-  font-weight: 700;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
+  font-weight: 600;
   color: var(--text-2);
 }
 .treeLeaves {
@@ -451,9 +362,8 @@
   font-size: 13.5px;
   font-weight: 600;
   transition:
-    opacity 0.3s var(--ease-out),
-    background 0.3s var(--ease-out),
-    transform 0.3s var(--ease-spring);
+    opacity 0.2s var(--ease-out),
+    background 0.2s var(--ease-out);
 }
 .treeLeaf svg {
   color: var(--p);
@@ -470,118 +380,9 @@
   background: var(--p);
   border-color: var(--p);
   color: #fff;
-  transform: scale(1.06);
-  box-shadow: 0 8px 18px rgba(var(--p-rgb), 0.4);
 }
 .treeLeafOn svg {
   color: #fff;
-}
-
-/* ── the two programmes ── */
-.map {
-  padding: clamp(20px, 3vw, 30px);
-}
-.mapTree {
-  margin-top: 18px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 20px;
-}
-.mapRoot {
-  position: relative;
-  padding: 10px 18px;
-  border-radius: var(--r-pill);
-  background: var(--navy);
-  color: #fff;
-  font-size: 15px;
-  font-weight: 650;
-  text-align: center;
-}
-.mapRoot::after {
-  content: '';
-  position: absolute;
-  left: 50%;
-  top: 100%;
-  width: 2px;
-  height: 20px;
-  background: var(--line-strong);
-}
-.mapGroups {
-  width: 100%;
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 12px;
-}
-@media (min-width: 720px) {
-  .mapGroups {
-    grid-template-columns: 2fr 1fr;
-  }
-}
-.mapGroup {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  padding: 16px;
-  border-radius: var(--r-lg);
-  background: var(--surface-2);
-  opacity: 0;
-  transform: translateY(10px);
-  transition:
-    opacity 0.5s var(--ease-spring),
-    transform 0.5s var(--ease-spring);
-}
-.mapOn .mapGroup {
-  opacity: 1;
-  transform: none;
-}
-.mapGroupHead {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-.mapGroupHead b {
-  font-size: 16px;
-}
-.mapGroupHead span {
-  font-size: 14.5px;
-  line-height: 1.5;
-  color: var(--text-2);
-}
-.mapChips {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-}
-.mapChip {
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  padding: 8px 12px;
-  border-radius: var(--r-pill);
-  background: var(--surface);
-  border: 1.5px solid rgba(var(--p-rgb), 0.4);
-  color: var(--text);
-  font-size: 14.5px;
-  font-weight: 600;
-  text-decoration: none;
-  opacity: 0;
-  transform: scale(0.94);
-  transition:
-    opacity 0.4s var(--ease-spring),
-    transform 0.4s var(--ease-spring),
-    background 0.2s var(--ease-out);
-}
-.mapOn .mapChip {
-  opacity: 1;
-  transform: none;
-}
-.mapChip svg {
-  color: var(--p);
-}
-.mapChip:hover {
-  text-decoration: none;
-  background: rgba(var(--p-rgb), 0.1);
 }
 
 /* ── comparison ── */
@@ -641,7 +442,6 @@
   font-size: 14px;
 }
 .compareHead {
-  background: rgba(var(--p-rgb), 0.08);
   border-bottom: 2px solid var(--p) !important;
 }
 .compareHead a {
@@ -753,21 +553,6 @@
   padding: 0 4px;
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .card,
-  .tree,
-  .mapGroup,
-  .mapChip {
-    opacity: 1;
-    transform: none;
-    transition: none;
-  }
-  .finderQ,
-  .finderResult {
-    animation: none;
-  }
-}
-
 /* ── first steps for a newcomer ── */
 .heroActions {
   margin-top: 22px;
@@ -804,11 +589,8 @@
 }
 .whatStep {
   display: flex;
-  gap: 14px;
+  gap: 12px;
   align-items: flex-start;
-  padding: 16px;
-  border-radius: var(--r-md);
-  background: var(--surface-2);
   font-size: 16px;
   line-height: 1.45;
   font-weight: 550;
@@ -824,7 +606,7 @@
   font-weight: 700;
   font-size: 15px;
   color: #fff;
-  background: linear-gradient(135deg, var(--accent-btn) 0%, var(--accent-deep) 100%);
+  background: var(--accent-btn);
 }
 .whatSources {
   display: flex;
@@ -842,9 +624,8 @@
   display: grid;
   gap: 2px;
   min-width: 0;
-  padding: 9px 12px;
-  border-radius: 12px;
-  background: var(--surface-2);
+  padding-top: 8px;
+  border-top: 1px solid var(--line);
   font-size: 13.5px;
   line-height: 1.4;
   color: var(--text-3);

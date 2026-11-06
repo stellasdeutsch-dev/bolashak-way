@@ -1,5 +1,4 @@
 import type { ReactNode } from 'react'
-import { useInView } from '@/components/Reveal'
 import s from './Meter.module.css'
 
 /**
@@ -22,12 +21,11 @@ export function ScoreGauge({
   passLabel: ReactNode
   status: 'pass' | 'partial' | 'below' | 'unknown'
 }) {
-  const [ref, seen] = useInView<HTMLDivElement>()
   const pct = (v: number) => Math.max(0, Math.min(100, (v / max) * 100))
   const need = marks.length > 0 ? marks[marks.length - 1].at : null
 
   return (
-    <div className={s.gauge} ref={ref}>
+    <div className={s.gauge}>
       <div className={s.gaugeHead}>
         {/* The axis under the track already carries the ceiling, so the label stays
             the exam name alone — the content's own scale string is Russian only. */}
@@ -39,7 +37,7 @@ export function ScoreGauge({
         {/* The band that clears the top threshold, so "enough" is a region, not a number. */}
         {need !== null && (
           <span
-            className={[s.pass, seen ? s.passOn : ''].join(' ')}
+            className={s.pass}
             style={{ left: `${pct(need)}%`, right: 0 }}
           />
         )}
@@ -50,7 +48,7 @@ export function ScoreGauge({
         ))}
         {score !== null && (
           <span
-            className={[s.you, seen ? s.youOn : '', s[`you_${status}`]].join(' ')}
+            className={[s.you, s[`you_${status}`]].join(' ')}
             style={{ left: `${pct(score)}%` }}
           >
             <span className={s.youValue}>{score}</span>
@@ -83,12 +81,11 @@ export function Meter({
   have: number
   need: number
 }) {
-  const [ref, seen] = useInView<HTMLDivElement>()
   const ratio = need <= 0 ? 1 : Math.min(1, have / need)
   const ok = have >= need
 
   return (
-    <div className={s.meter} ref={ref}>
+    <div className={s.meter}>
       <div className={s.meterHead}>
         <span className={s.meterLabel}>{label}</span>
         <span className={[s.meterValue, ok ? s.meterOk : s.meterShort].join(' ')}>
@@ -98,7 +95,7 @@ export function Meter({
       <div className={s.meterTrack}>
         <span
           className={[s.meterFill, ok ? s.meterFillOk : ''].join(' ')}
-          style={{ width: seen ? `${ratio * 100}%` : '0%' }}
+          style={{ width: `${ratio * 100}%` }}
         />
       </div>
     </div>

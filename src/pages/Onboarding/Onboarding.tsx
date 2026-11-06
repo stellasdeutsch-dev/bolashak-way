@@ -3,7 +3,7 @@ import { useNavigate, useParams, useSearchParams } from 'react-router'
 import {
   IconArrowLeft as ArrowLeft, IconArrowRight as ArrowRight,
   IconMailCheck as MailCheck, IconMailQuestion as MailQuestion, IconMailX as MailX, IconLanguages as Languages,
-  IconBadgeCheck as BadgeCheck, IconBan as Ban, IconClock as Clock, IconSparkles as Sparkles,
+  IconBadgeCheck as BadgeCheck, IconBan as Ban, IconClock as Clock,
   IconFingerprint as Fingerprint,
 } from '@/components/icons'
 import { CATEGORIES, CATEGORIES_BY_TRACK, WORKER_GROUPS } from '@/content/categories'
@@ -129,13 +129,7 @@ export function Onboarding() {
       <div className={s.wrap}>
         <Card dark className={s.welcome}>
           <div className={s.welcomeTop}>
-            <span className={s.welcomeIcon}>
-              <StageIcon name={platform.icon} size={22} />
-            </span>
-            <Pill tone="dark">
-              <Sparkles size={13} aria-hidden="true" />
-              {t('onboarding.welcomeKicker')}
-            </Pill>
+            <Pill tone="dark">{t('onboarding.welcomeKicker')}</Pill>
           </div>
           <h1 className={`display ${s.welcomeTitle}`}>
             {c(platform.name)}

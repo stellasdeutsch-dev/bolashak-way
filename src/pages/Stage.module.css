@@ -17,16 +17,6 @@
   align-items: flex-start;
   flex-wrap: wrap;
 }
-.heroIcon {
-  width: 62px;
-  height: 62px;
-  border-radius: 20px;
-  display: grid;
-  place-items: center;
-  background: rgba(255, 255, 255, 0.1);
-  color: #fff;
-  flex: none;
-}
 .heroBody {
   flex: 1;
   min-width: 220px;
@@ -55,23 +45,11 @@
   gap: 14px;
 }
 .sectionTitle {
-  display: flex;
-  align-items: center;
-  gap: 9px;
-  font-size: 13.5px;
+  display: block;
+  font-size: 17px;
   font-weight: 700;
-  letter-spacing: 0.09em;
-  text-transform: uppercase;
-  color: var(--text-3);
-}
-/* Short accent tick before every section label — a quiet anchor for the eye. */
-.sectionTitle::before {
-  content: '';
-  flex: none;
-  width: 14px;
-  height: 3px;
-  border-radius: 2px;
-  background: linear-gradient(90deg, var(--accent), var(--accent-2));
+  letter-spacing: -0.01em;
+  color: var(--text);
 }
 
 /* One source for a whole block instead of repeating the same link under every line. */
@@ -81,11 +59,6 @@
   border-top: 1px solid var(--line);
 }
 
-/* The "why" card carries the reasoning, so it reads as a quote rather than another white box. */
-.whyCard {
-  background: linear-gradient(135deg, var(--accent-tint) 0%, var(--surface) 62%);
-  border-left: 3px solid var(--accent);
-}
 .whyCard .body {
   color: var(--text);
   font-size: 16px;
@@ -104,24 +77,18 @@
   width: 100%;
   text-align: left;
   padding: 14px 16px;
-  border-radius: var(--r-lg);
+  border-radius: var(--r-md);
   background: var(--surface-2);
   border: 1.5px solid transparent;
-  transition: background 0.16s var(--ease-out), border-color 0.16s var(--ease-out), box-shadow 0.16s var(--ease-out),
-    transform 0.16s var(--ease-spring);
+  transition: border-color 0.15s var(--ease-out);
 }
 .checkItem:hover:not(.checkItemOff) {
-  border-color: var(--accent);
-  background: var(--surface);
-  box-shadow: var(--shadow-card);
-  transform: translateY(-1px);
+  border-color: var(--line-strong);
 }
 .checkItemDone,
 .checkItemDone:hover:not(.checkItemOff) {
   background: var(--success-tint);
   border-color: transparent;
-  box-shadow: none;
-  transform: none;
 }
 .checkItemDone .checkText {
   color: var(--text-2);
@@ -160,7 +127,7 @@
   flex: none;
   width: 24px;
   height: 24px;
-  border-radius: 8px;
+  border-radius: 6px;
   border: 2px solid var(--line-strong);
   display: grid;
   place-items: center;
@@ -169,16 +136,14 @@
   transition: background 0.16s var(--ease-out), border-color 0.16s var(--ease-out);
 }
 .boxDone {
-  background: linear-gradient(135deg, var(--success) 0%, #35c982 100%);
+  background: var(--success);
   border-color: transparent;
   color: #fff;
-  box-shadow: 0 4px 10px rgba(29, 181, 106, 0.35), var(--gloss);
 }
 .boxAuto {
-  background: linear-gradient(135deg, var(--accent) 0%, var(--accent-2) 100%);
+  background: var(--accent-btn);
   border-color: transparent;
   color: #fff;
-  box-shadow: 0 4px 10px rgba(var(--accent-rgb), 0.35), var(--gloss);
 }
 .checkText {
   display: block;
@@ -206,7 +171,7 @@
   gap: 12px;
   align-items: flex-start;
   padding: 13px 15px;
-  border-radius: var(--r-lg);
+  border-radius: var(--r-md);
   background: var(--surface-2);
   width: 100%;
   text-align: left;
@@ -238,7 +203,6 @@
   padding: 13px 15px;
   border-radius: var(--r-md);
   background: var(--warn-tint);
-  border-left: 3px solid var(--warn);
 }
 .mistakeIcon {
   flex: none;
@@ -273,13 +237,12 @@
 .faqOpen .faqChevron {
   transform: rotate(180deg);
 }
-/* The answer sits in a tinted bubble — the reference's chat-bubble motif, and it
-   also makes clear where the question ends and the administration's answer begins. */
+/* The answer sits on a tint so it is clear where the question ends and the
+   administration's answer begins. */
 .faqAnswer {
   margin: 0 0 16px 0;
   padding: 14px 16px;
   border-radius: var(--r-md);
-  border-top-left-radius: 6px;
   background: var(--surface-2);
   font-size: 15.5px;
   line-height: 1.62;
@@ -300,9 +263,9 @@
   min-height: 110px;
   resize: vertical;
   padding: 15px 16px;
-  border-radius: var(--r-lg);
-  border: 1.5px solid var(--line);
-  background: var(--surface-2);
+  border-radius: var(--r-md);
+  border: 1.5px solid var(--line-strong);
+  background: var(--surface);
   font-size: 15.5px;
   line-height: 1.55;
   font-family: inherit;
@@ -330,11 +293,9 @@
   white-space: nowrap;
 }
 .table th {
-  font-size: 12.5px;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
+  font-size: 13.5px;
   color: var(--text-3);
-  font-weight: 700;
+  font-weight: 600;
 }
 .rowActive {
   background: var(--accent-tint);
@@ -402,7 +363,7 @@
   font: inherit;
   font-size: 15.5px;
   padding: 10px 14px;
-  border-radius: 12px;
+  border-radius: var(--r-sm);
   border: 1px solid var(--line-strong);
   background: var(--surface-2);
   color: var(--text);
@@ -411,7 +372,7 @@
 
 .dateInput:focus-visible {
   outline: none;
-  box-shadow: var(--focus-ring);
+  box-shadow: var(--focus);
   border-color: var(--accent);
 }
 
@@ -472,8 +433,7 @@
 .quote {
   margin: 0 0 16px;
   padding: 14px 16px;
-  border-left: 3px solid var(--steel);
-  border-radius: 0 var(--r-md) var(--r-md) 0;
+  border-left: 2px solid var(--line-strong);
   background: var(--surface-2);
   font-size: 15px;
   line-height: 1.7;
@@ -503,78 +463,29 @@
   }
 }
 
-/* Answers and quotes unfold rather than jump. */
-@keyframes revealBlock {
-  from {
-    opacity: 0;
-    transform: translateY(-4px);
-  }
-  to {
-    opacity: 1;
-    transform: none;
-  }
-}
-
-.faqAnswer,
-.quote {
-  animation: revealBlock 0.26s var(--ease-out) both;
-}
-
-.faqOpen .faqChevron {
-  transform: rotate(180deg);
-}
-
-.faqChevron {
-  transition: transform 0.22s var(--ease-spring);
-}
-
 @media (prefers-reduced-motion: reduce) {
   .boxDone svg path,
-  .boxAuto svg path,
-  .faqAnswer,
-  .quote {
+  .boxAuto svg path {
     animation: none;
   }
 }
 
 /* — "in short": the first thing on a stage, three plain answers — */
-.shortCard {
-  border-left: 3px solid var(--steel);
-}
 .shortList {
   margin: 0;
   display: grid;
-  gap: 12px;
+  gap: 16px 28px;
   grid-template-columns: repeat(auto-fit, minmax(min(100%, 196px), 1fr));
 }
 .shortRow {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 8px;
-  padding: 16px 17px;
-  border: 1px solid var(--line);
-  border-radius: var(--r-lg);
-  background: var(--surface-2);
-}
-.shortIcon {
-  display: grid;
-  place-items: center;
-  width: 34px;
-  height: 34px;
-  border-radius: var(--r-md);
-  color: var(--accent-ink);
-  background: var(--accent-tint);
+  gap: 6px;
 }
 .shortLabel {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 8px;
-  font-size: 12.5px;
-  font-weight: 700;
-  letter-spacing: 0.07em;
-  text-transform: uppercase;
+  font-size: 14px;
+  font-weight: 600;
   color: var(--text-3);
 }
 .shortValue {
@@ -582,12 +493,6 @@
   font-size: 15.5px;
   line-height: 1.55;
   color: var(--text);
-}
-
-@media (max-width: 560px) {
-  .shortRow {
-    padding: 14px 15px;
-  }
 }
 
 .gaugeWrap {

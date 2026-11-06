@@ -10,7 +10,6 @@ import { useAppStore } from '@/store/useAppStore'
 import { useI18n } from '@/i18n'
 import { usePageChrome } from '@/i18n/usePageChrome'
 import { ButtonLink, Card, Pill } from '@/components/ui'
-import { StageIcon } from '@/components/StageIcon'
 import { VideoList } from '@/components/Videos'
 import { AwardTimeline, ContestFlow, DepartureChain, PathLanes, WorkbackTable } from '@/components/Explain'
 import { InternshipSpecialtySearch, ScienceSearch, SpecialtySearch, UniversitySearch, type SpecialtyLevel } from '@/components/ListSearch'
@@ -59,9 +58,6 @@ export function PlatformHome() {
     <div className={s.page}>
       <Card dark className={s.hero}>
         <div className={s.heroTop}>
-          <span className={s.heroIcon}>
-            <StageIcon name={platform.icon} size={26} />
-          </span>
           <Pill tone="dark">{t(platform.programme === 'science' ? 'platform.scienceProgramme' : 'platform.bolashak')}</Pill>
         </div>
         <h1 className={`display ${s.heroTitle}`}>

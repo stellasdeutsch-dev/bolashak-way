@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { useMyPaths } from '@/components/platform/usePlatform'
 import { dateLabelKey, platformPaths } from '@/domain/paths'
 import { Link, useNavigate, useParams } from 'react-router'
-import { IconArrowLeft as ArrowLeft, IconArrowRight as ArrowRight, IconCheck as Check, IconChevronDown as ChevronDown, IconAlertCircle as CircleAlert, IconExternal as ExternalLink, IconLock as Lock, IconSparkles as Sparkles, IconAlertTriangle as TriangleAlert } from '@/components/icons'
+import { IconArrowLeft as ArrowLeft, IconArrowRight as ArrowRight, IconCheck as Check, IconChevronDown as ChevronDown, IconAlertCircle as CircleAlert, IconExternal as ExternalLink, IconLock as Lock, IconAlertTriangle as TriangleAlert } from '@/components/icons'
 import { chaptersFor } from '@/content/platforms/chapters'
 import { getStageFor } from '@/domain/resolve'
 import { DOCUMENTS, docForTrack } from '@/content/documents'
@@ -23,7 +23,6 @@ import { useAppStore } from '@/store/useAppStore'
 import { useI18n, pick, formatMonths, formatYears } from '@/i18n'
 import { usePageChrome } from '@/i18n/usePageChrome'
 import { Button, Callout, Card, FallbackBadge, Pill, SourceLink } from '@/components/ui'
-import { StageIcon } from '@/components/StageIcon'
 import { VideoList } from '@/components/Videos'
 import { AwardTimeline, ContestFlow, WorkbackTable } from '@/components/Explain'
 import { InternshipSpecialtySearch, ScienceSearch, SpecialtySearch, UniversitySearch, type SpecialtyLevel } from '@/components/ListSearch'
@@ -38,7 +37,6 @@ const LIST_TITLE: Record<Track, Record<'specialty' | 'university', string>> = {
 }
 import { StageForms } from '@/components/Forms'
 import { formsForStage } from '@/content/forms'
-import { Reveal } from '@/components/Reveal'
 import { Meter, ScoreGauge } from '@/components/Meter'
 import s from './Stage.module.css'
 
@@ -532,9 +530,6 @@ export function StagePage() {
       </div>
 
       <Card dark className={s.hero}>
-        <span className={s.heroIcon}>
-          <StageIcon name={stage.icon} size={26} />
-        </span>
         <div className={s.heroBody}>
           <Pill tone="dark">{c(stage.kicker)}</Pill>
           <h1 className={`display ${s.heroTitle}`}>
@@ -557,10 +552,7 @@ export function StagePage() {
               </Pill>
             )}
             {sp.autoDone && (
-              <Pill tone="dark">
-                <Sparkles size={12} aria-hidden="true" />
-                {t('roadmap.autoDone')}
-              </Pill>
+              <Pill tone="dark">{t('roadmap.autoDone')}</Pill>
             )}
           </div>
         </div>
@@ -583,25 +575,20 @@ export function StagePage() {
       )}
 
       {stage.inShort && (
-        <Card className={s.shortCard}>
+        <Card>
           <div className={s.section}>
             <span className={s.sectionTitle}>{t('stage.inShort')}</span>
-            {/* Three cards rather than three paragraphs: the whole stage in one glance. */}
+            {/* Three short answers side by side: the whole stage in one glance. */}
             <dl className={s.shortList}>
               {(
                 [
-                  ['Compass', 'stage.inShortWhat', stage.inShort.what],
-                  ['ListChecks', 'stage.inShortYou', stage.inShort.you],
-                  ['BadgeCheck', 'stage.inShortResult', stage.inShort.result],
+                  ['stage.inShortWhat', stage.inShort.what],
+                  ['stage.inShortYou', stage.inShort.you],
+                  ['stage.inShortResult', stage.inShort.result],
                 ] as const
-              ).map(([icon, key, value]) => (
+              ).map(([key, value]) => (
                 <div key={key} className={s.shortRow}>
-                  <dt className={s.shortLabel}>
-                    <span className={s.shortIcon} aria-hidden="true">
-                      <StageIcon name={icon} size={18} />
-                    </span>
-                    {t(key)}
-                  </dt>
+                  <dt className={s.shortLabel}>{t(key)}</dt>
                   <dd className={s.shortValue}>{c(value)}</dd>
                 </div>
               ))}
@@ -650,9 +637,7 @@ export function StagePage() {
           <Card>
             <div className={s.section}>
               <span className={s.sectionTitle}>{t('stage.workBackTable')}</span>
-              <Reveal>
-                <WorkbackTable track={profile.track} />
-              </Reveal>
+            <WorkbackTable track={profile.track} />
             </div>
           </Card>
         </>
@@ -662,10 +647,8 @@ export function StagePage() {
         <Card>
           <div className={s.section}>
             <span className={s.sectionTitle}>{t('flow.contestTitle')}</span>
-            <Reveal>
-              {/* The three rounds with the exits drawn in, and this stage marked on them. */}
-              <ContestFlow track={profile.track} hereStage={stage.id} />
-            </Reveal>
+            {/* The three rounds with the exits drawn in, and this stage marked on them. */}
+            <ContestFlow track={profile.track} hereStage={stage.id} />
           </div>
         </Card>
       )}
@@ -674,10 +657,8 @@ export function StagePage() {
         <Card>
           <div className={s.section}>
             <span className={s.sectionTitle}>{t('stage.awardClock')}</span>
-            <Reveal>
-              {/* Dim the term that is not yours, so nobody counts the wrong deadline. */}
-              <AwardTimeline track={profile.track} />
-            </Reveal>
+            {/* Dim the term that is not yours, so nobody counts the wrong deadline. */}
+            <AwardTimeline track={profile.track} />
           </div>
         </Card>
       )}

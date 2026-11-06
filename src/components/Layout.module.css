@@ -11,9 +11,6 @@
   top: 0;
   z-index: 40;
   background: var(--bg);
-  background: color-mix(in srgb, var(--bg) 88%, transparent);
-  -webkit-backdrop-filter: saturate(180%) blur(14px);
-  backdrop-filter: saturate(180%) blur(14px);
   border-bottom: 1px solid var(--line);
 }
 .headerInner {
@@ -40,12 +37,16 @@
 .mark {
   width: 30px;
   height: 30px;
-  border-radius: 10px;
-  background: linear-gradient(135deg, var(--navy) 0%, var(--navy-3) 100%);
+  border-radius: 8px;
+  background: var(--navy);
   display: grid;
   place-items: center;
   color: #fff;
   flex: none;
+}
+/* On the dark canvas a navy mark would disappear into the page. */
+:global(:root[data-theme='dark']) .mark {
+  background: var(--surface-3);
 }
 .spacer {
   flex: 1;
@@ -75,7 +76,7 @@
 .deskLinkActive {
   background: var(--surface);
   color: var(--text);
-  box-shadow: var(--shadow-card);
+  box-shadow: inset 0 0 0 1px var(--line-strong);
 }
 
 .langSwitch {
@@ -121,9 +122,6 @@
   z-index: 40;
   display: flex;
   background: var(--surface);
-  background: color-mix(in srgb, var(--surface) 92%, transparent);
-  -webkit-backdrop-filter: saturate(180%) blur(14px);
-  backdrop-filter: saturate(180%) blur(14px);
   border-top: 1px solid var(--line);
   padding: 8px 8px calc(8px + env(safe-area-inset-bottom));
 }
@@ -220,27 +218,6 @@
   .langBtn {
     padding: 6px 7px;
     font-size: 12.5px;
-  }
-}
-
-@keyframes contentIn {
-  from {
-    opacity: 0;
-    transform: translateY(8px);
-  }
-  to {
-    opacity: 1;
-    transform: none;
-  }
-}
-
-.main {
-  animation: contentIn 0.32s var(--ease-spring) both;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .main {
-    animation: none;
   }
 }
 

@@ -11,8 +11,7 @@ import { usePageChrome } from '@/i18n/usePageChrome'
 import { Button, ButtonLink, Card, Pill, SourceLink } from '@/components/ui'
 import { Glossary } from '@/components/Glossary'
 import { StageIcon } from '@/components/StageIcon'
-import { useInView } from '@/components/Reveal'
-import { IconArrowRight as ArrowRight, IconSparkles as Sparkles, IconReset as Reset, IconExternal as ExternalLink } from '@/components/icons'
+import { IconArrowRight as ArrowRight, IconReset as Reset, IconExternal as ExternalLink } from '@/components/icons'
 import s from './Landing.module.css'
 
 /**
@@ -29,10 +28,7 @@ export function Landing() {
   return (
     <div className={s.page}>
       <Card dark className={s.hero}>
-        <Pill tone="dark">
-          <Sparkles size={13} aria-hidden="true" />
-          {t('landing.kicker', { year: CONTENT_META.competitionYear })}
-        </Pill>
+        <Pill tone="dark">{t('landing.kicker', { year: CONTENT_META.competitionYear })}</Pill>
         <h1 className={`display ${s.heroTitle}`}>
           {t('landing.heroLead')}
           <b>{t('landing.heroTitle')}</b>
@@ -143,21 +139,19 @@ const CARD_ROWS = COMPARE.filter((r) => r.id === 'length' || r.id === 'workback'
 
 function PlatformCards() {
   const { t, c } = useI18n()
-  const [ref, seen] = useInView<HTMLDivElement>()
   return (
     <section aria-labelledby="choose">
       <h2 id="choose" className={s.sectionTitle}>
         {t('landing.chooseTitle')}
       </h2>
-      <div className={s.cards} ref={ref}>
-        {PLATFORMS.map((p, i) => {
+      <div className={s.cards}>
+        {PLATFORMS.map((p) => {
           return (
             <Link
               key={p.slug}
               to={platformPaths(p.slug).home}
-              className={[s.card, seen ? s.cardOn : ''].join(' ')}
+              className={s.card}
               data-p={p.slug}
-              style={{ transitionDelay: `${i * 70}ms` }}
             >
               <span className={s.cardTop}>
                 <span className={s.cardIcon}>
@@ -192,7 +186,6 @@ function PlatformCards() {
 function Finder() {
   const { t, c } = useI18n()
   const [answers, setAnswers] = useState<Record<string, string>>({})
-  const [ref, seen] = useInView<HTMLDivElement>()
 
   // Walk the questions along the answers given so far.
   const { path, current, result } = useMemo(() => {
@@ -275,7 +268,7 @@ function Finder() {
 
         {/* The whole tree at once, with the reader's branch lit — so the answer is seen
             as one of five, not as a verdict out of nowhere. */}
-        <div className={[s.tree, seen ? s.treeOn : ''].join(' ')} ref={ref} aria-hidden="true">
+        <div className={s.tree} aria-hidden="true">
           <span className={s.treeRoot}>{t('landing.treeRoot')}</span>
           <div className={s.treeBranches}>
             {(['degree', 'placement'] as const).map((b) => {

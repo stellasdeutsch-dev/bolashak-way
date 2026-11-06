@@ -351,14 +351,6 @@ export const IconUserCog = (p: IconProps) => (
   </Svg>
 )
 
-export const IconSparkles = (p: IconProps) => (
-  <Svg {...p}>
-    <F d="M11.4 3.2 13 8.4l5.2 1.6-5.2 1.6-1.6 5.2-1.6-5.2L4.6 10l5.2-1.6Z" o={0.2} />
-    <path d="M11.4 3.2 13 8.4l5.2 1.6-5.2 1.6-1.6 5.2-1.6-5.2L4.6 10l5.2-1.6Z" />
-    <path d="m18.4 15.4.8 2.2 2.2.8-2.2.8-.8 2.2-.8-2.2-2.2-.8 2.2-.8Z" />
-  </Svg>
-)
-
 export const IconCompass = (p: IconProps) => (
   <Svg {...p}>
     <F d="M12 3.2a8.8 8.8 0 1 1 0 17.6 8.8 8.8 0 0 1 0-17.6Z" o={0.13} />
