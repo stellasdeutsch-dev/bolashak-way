@@ -70,7 +70,7 @@ const btn = (primary: boolean) => ({
   padding: '0 22px',
   borderRadius: 999,
   border: primary ? 0 : '1px solid var(--line-strong, rgba(17,24,39,.16))',
-  background: primary ? 'var(--accent-deep, #2b397b)' : 'var(--surface, #fff)',
+  background: primary ? 'var(--accent-deep, #1f5fd6)' : 'var(--surface, #fff)',
   color: primary ? '#fff' : 'var(--text, #111827)',
   font: '600 16px/1 var(--font, system-ui)',
   cursor: 'pointer',
