@@ -5,14 +5,14 @@ import type { CategoryId, ExamId, LanguageThreshold, L, SourceId, Track } from '
  * Minister of Science and Higher Education of 18.04.2025 No. 193). Source id: prikaz318.
  *
  * Threshold levels (per the appendix notes):
- *  I   — referral to language courses in Kazakhstan or abroad (except English);
- *  II  — referral to language courses abroad;
- *  III — referral straight to academic study / internship.
+ *  I   – referral to language courses in Kazakhstan or abroad (except English);
+ *  II  – referral to language courses abroad;
+ *  III – referral straight to academic study / internship.
  *
  * The 'self' row is Order 318's own "самостоятельно поступившие" line. It is shown for
  * reference only: ПП 573 asks a foreign-language level only of п. 4 пп. 2)–5), 7) (п. 9
  * пп. 3) and none of doctoral or residency applicants (п. 11–12), and neither package lists
- * a foreign certificate — so it must never be presented as a condition to apply.
+ * a foreign certificate – so it must never be presented as a condition to apply.
  */
 export type LanguageGroup = 'preferential' | 'self' | 'internship' | 'science' | 'none'
 
@@ -35,7 +35,7 @@ export const ENGLISH_THRESHOLDS: Record<Exclude<LanguageGroup, 'none'>, Language
     { exam: 'toefl_pbt', label: 'TOEFL PBT / ITP', first: null, second: null, third: 417, scale: 'из 677', max: 677 },
     { exam: 'det', label: 'Duolingo English Test', first: null, second: null, third: 80, scale: 'из 160', max: 160 },
   ],
-  // Scientific internships have their own minimums — Appendix 4 to the Rules approved by
+  // Scientific internships have their own minimums – Appendix 4 to the Rules approved by
   // приказ МНВО № 422 (ns_rules422), not Order No. 318. One level only: meet it or not.
   science: [
     { exam: 'ielts', label: 'IELTS', first: null, second: null, third: 5.0, scale: 'из 9.0', max: 9 },
@@ -47,7 +47,7 @@ export const ENGLISH_THRESHOLDS: Record<Exclude<LanguageGroup, 'none'>, Language
 
 /**
  * Minimum foreign-language level for a scientific internship, by the language the
- * internship runs in — Appendix 4 to the Rules (приказ МНВО № 422, ред. 04.07.2025).
+ * internship runs in – Appendix 4 to the Rules (приказ МНВО № 422, ред. 04.07.2025).
  * Exam names are left as the appendix prints them. Russian needs no certificate, but an
  * internship in Russian is allowed only where Russian is a state or official language.
  */
@@ -61,7 +61,7 @@ export const SCIENCE_LANGUAGES: { lang: L; level: string }[] = [
   { lang: { ru: 'Французский', kk: 'Француз', en: 'French' }, level: 'TCF 300–399 · DELF B1' },
   { lang: { ru: 'Японский', kk: 'Жапон', en: 'Japanese' }, level: 'JLPT N3' },
   { lang: { ru: 'Турецкий', kk: 'Түрік', en: 'Turkish' }, level: 'Tömer B1 · TYS B1' },
-  { lang: { ru: 'Русский', kk: 'Орыс', en: 'Russian' }, level: '—' },
+  { lang: { ru: 'Русский', kk: 'Орыс', en: 'Russian' }, level: '–' },
 ]
 
 export const LANGUAGE_GROUP_BY_CATEGORY: Record<CategoryId, LanguageGroup> = {
@@ -90,8 +90,8 @@ export function requiredScore(group: LanguageGroup, exam: ExamId): number | null
 
 export const KAZAKH_REQUIREMENT: { text: L; source: SourceId } = {
   text: {
-    ru: 'Минимальный уровень государственного языка — B1: сертификат КАЗТЕСТ Национального центра тестирования либо Qazaq Resmi Test (с ID-номером и QR-кодом для проверки на qrt.kz).',
-    kk: 'Мемлекеттік тілдің ең төменгі деңгейі — B1: Ұлттық тестілеу орталығының ҚАЗТЕСТ сертификаты немесе Qazaq Resmi Test (ID нөмірі және QR-коды бар).',
+    ru: 'Минимальный уровень государственного языка – B1: сертификат КАЗТЕСТ Национального центра тестирования либо Qazaq Resmi Test (с ID-номером и QR-кодом для проверки на qrt.kz).',
+    kk: 'Мемлекеттік тілдің ең төменгі деңгейі – B1: Ұлттық тестілеу орталығының ҚАЗТЕСТ сертификаты немесе Qazaq Resmi Test (ID нөмірі және QR-коды бар).',
     en: 'The minimum state-language level is B1: a KAZTEST certificate from the National Testing Center or a Qazaq Resmi Test certificate (with an ID number and QR code verifiable at qrt.kz).',
   },
   source: 'prikaz318',
@@ -128,8 +128,8 @@ export const LANGUAGE_NOTES: { text: L; source: SourceId; tracks: Track[] }[] = 
   },
   {
     text: {
-      ru: 'Немецкий: Goethe-Zertifikat B1-B2, TestDaF TDN 3, DSH-1 — первый порог; Goethe C1, TestDaF TDN 4, DSH-2 (по медицинским направлениям — DSH-3) — третий. Претенденты в вузы Германии проходят собеседование с комиссией DAAD за свой счёт.',
-      kk: 'Неміс тілі: Goethe-Zertifikat B1-B2, TestDaF TDN 3, DSH-1 — бірінші шек; Goethe C1, TestDaF TDN 4, DSH-2 (медицина бағыттары бойынша — DSH-3) — үшінші. Германия ЖОО-ларына үміткерлер DAAD комиссиясымен әңгімелесуден өз есебінен өтеді.',
+      ru: 'Немецкий: Goethe-Zertifikat B1-B2, TestDaF TDN 3, DSH-1 – первый порог; Goethe C1, TestDaF TDN 4, DSH-2 (по медицинским направлениям – DSH-3) – третий. Претенденты в вузы Германии проходят собеседование с комиссией DAAD за свой счёт.',
+      kk: 'Неміс тілі: Goethe-Zertifikat B1-B2, TestDaF TDN 3, DSH-1 – бірінші шек; Goethe C1, TestDaF TDN 4, DSH-2 (медицина бағыттары бойынша – DSH-3) – үшінші. Германия ЖОО-ларына үміткерлер DAAD комиссиясымен әңгімелесуден өз есебінен өтеді.',
       en: 'German: Goethe-Zertifikat B1-B2, TestDaF TDN 3, DSH-1 for level I; Goethe C1, TestDaF TDN 4, DSH-2 (DSH-3 for medical fields) for level III. Applicants to German universities attend a DAAD interview at their own expense.',
     },
     source: 'prikaz318',
@@ -137,9 +137,9 @@ export const LANGUAGE_NOTES: { text: L; source: SourceId; tracks: Track[] }[] = 
   },
   {
     text: {
-      ru: 'Другие языки (третий порог): французский — TCF 500 / DALF C1; испанский — DELE C1; итальянский — CILS C1 / CELI 4; чешский — CCE C1; корейский — TOPIK 5; китайский — HSK 5; японский — JLPT N2; финский — YKI 5; норвежский — Bergentest C1; шведский — TISUS; датский — Studieprøven; голландский — CNaVT PTHO (B2).',
-      kk: 'Басқа тілдер (үшінші шек): француз — TCF 500 / DALF C1; испан — DELE C1; итальян — CILS C1 / CELI 4; чех — CCE C1; корей — TOPIK 5; қытай — HSK 5; жапон — JLPT N2; фин — YKI 5; норвег — Bergentest C1; швед — TISUS; дат — Studieprøven; голланд — CNaVT PTHO (B2).',
-      en: 'Other languages (level III): French — TCF 500 / DALF C1; Spanish — DELE C1; Italian — CILS C1 / CELI 4; Czech — CCE C1; Korean — TOPIK 5; Chinese — HSK 5; Japanese — JLPT N2; Finnish — YKI 5; Norwegian — Bergentest C1; Swedish — TISUS; Danish — Studieprøven; Dutch — CNaVT PTHO (B2).',
+      ru: 'Другие языки (третий порог): французский – TCF 500 / DALF C1; испанский – DELE C1; итальянский – CILS C1 / CELI 4; чешский – CCE C1; корейский – TOPIK 5; китайский – HSK 5; японский – JLPT N2; финский – YKI 5; норвежский – Bergentest C1; шведский – TISUS; датский – Studieprøven; голландский – CNaVT PTHO (B2).',
+      kk: 'Басқа тілдер (үшінші шек): француз – TCF 500 / DALF C1; испан – DELE C1; итальян – CILS C1 / CELI 4; чех – CCE C1; корей – TOPIK 5; қытай – HSK 5; жапон – JLPT N2; фин – YKI 5; норвег – Bergentest C1; швед – TISUS; дат – Studieprøven; голланд – CNaVT PTHO (B2).',
+      en: 'Other languages (level III): French – TCF 500 / DALF C1; Spanish – DELE C1; Italian – CILS C1 / CELI 4; Czech – CCE C1; Korean – TOPIK 5; Chinese – HSK 5; Japanese – JLPT N2; Finnish – YKI 5; Norwegian – Bergentest C1; Swedish – TISUS; Danish – Studieprøven; Dutch – CNaVT PTHO (B2).',
     },
     source: 'prikaz318',
     tracks: ['master', 'phd_residency', 'internship'],

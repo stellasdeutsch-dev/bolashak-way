@@ -5,7 +5,7 @@ import { sourceFits } from '@/content/sources'
 
 /**
  * A stage as one platform tells it: the shared skeleton with that platform's wording laid
- * over it. Everything downstream — the roadmap, the stage page, search, the calendar —
+ * over it. Everything downstream – the roadmap, the stage page, search, the calendar –
  * reads stages through here, so no screen can show another programme's text by accident.
  */
 export function resolveStage(stage: Stage, track: Track): Stage {

@@ -23,13 +23,13 @@ export interface RoadmapProgress {
   byId: Map<StageId, StageProgress>
   /** 0..1 across every required checklist item of applicable stages. */
   ratio: number
-  /** Required checklist steps done and in total — what `ratio` is made of. */
+  /** Required checklist steps done and in total – what `ratio` is made of. */
   stepsDone: number
   stepsTotal: number
   doneStages: number
   totalStages: number
   current: StageProgress | null
-  /** First unfinished required step of the current stage — the one concrete thing to do next. */
+  /** First unfinished required step of the current stage – the one concrete thing to do next. */
   nextItem: { stage: StageProgress; item: ChecklistItem } | null
   /** Months left until the application is submitted, app estimate. */
   estimateMonths: [number, number] | null

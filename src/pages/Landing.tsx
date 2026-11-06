@@ -16,7 +16,7 @@ import s from './Landing.module.css'
 
 /**
  * The way in: five programmes, each its own platform. Nothing here describes how to apply
- * — that lives on each platform, in that programme's words. This page only helps you find
+ * – that lives on each platform, in that programme's words. This page only helps you find
  * yours, and puts the five side by side for the one moment you need to compare them.
  */
 export function Landing() {
@@ -28,12 +28,12 @@ export function Landing() {
   return (
     <div className={s.page}>
       <Card dark className={s.hero}>
-        <Pill tone="dark">{t('landing.kicker', { year: CONTENT_META.competitionYear })}</Pill>
         <h1 className={`display ${s.heroTitle}`}>
           {t('landing.heroLead')}
           <b>{t('landing.heroTitle')}</b>
         </h1>
         <p className={s.heroText}>{t('landing.heroText')}</p>
+        <div><Pill tone="dark">{t('common.year')}: {CONTENT_META.competitionYear}</Pill></div>
         {!mine && (
           <div className={s.heroActions}>
             <Button size="lg" onClick={() => scrollToId('finder')}>
@@ -133,7 +133,7 @@ function WhatIs() {
 
 /* ── five doors ── */
 
-// Plain answers a newcomer can compare — how long abroad, what is owed back — taken from
+// Plain answers a newcomer can compare – how long abroad, what is owed back – taken from
 // the same sourced rows as the comparison table, not the specialist facts of each platform.
 const CARD_ROWS = COMPARE.filter((r) => r.id === 'length' || r.id === 'workback')
 
@@ -266,7 +266,7 @@ function Finder() {
           )}
         </div>
 
-        {/* The whole tree at once, with the reader's branch lit — so the answer is seen
+        {/* The whole tree at once, with the reader's branch lit – so the answer is seen
             as one of five, not as a verdict out of nowhere. */}
         <div className={s.tree} aria-hidden="true">
           <span className={s.treeRoot}>{t('landing.treeRoot')}</span>
@@ -278,7 +278,7 @@ function Finder() {
               const dim = branch !== undefined && !lit
               return (
                 <div key={b} className={[s.treeBranch, lit ? s.treeLit : '', dim ? s.treeDim : ''].join(' ')}>
-                  <span className={s.treeNode}>{c(label).split(' — ')[0]}</span>
+                  <span className={s.treeNode}>{c(label).split(' – ')[0]}</span>
                   <div className={s.treeLeaves}>
                     {q.options.map((o) => {
                       const leaf = getPlatform(o.result!)

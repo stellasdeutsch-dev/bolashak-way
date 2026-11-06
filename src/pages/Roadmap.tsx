@@ -29,7 +29,7 @@ type Row =
 /**
  * A straight vertical path: one spine on the left, every stage a row on it, the
  * content read left-to-right. Chosen over a winding trail because 17–19 stages
- * have to be scannable — the same shape Coursera and Khan Academy use for a syllabus.
+ * have to be scannable – the same shape Coursera and Khan Academy use for a syllabus.
  */
 function RoadmapTrack({ rows, currentId, continueLabel }: { rows: Row[]; currentId?: string; continueLabel: string }) {
   const { t, c } = useI18n()
@@ -77,7 +77,7 @@ function RoadmapTrack({ rows, currentId, continueLabel }: { rows: Row[]; current
             id={`node-${item.stage.id}`}
             to={paths.stage(item.stage.id)}
             className={[s.row, item.status === 'locked' ? s.rowLocked : '', isCurrent ? s.rowCurrent : ''].join(' ')}
-            aria-label={`${c(item.stage.title)} — ${statusLabel}`}
+            aria-label={`${c(item.stage.title)} – ${statusLabel}`}
           >
             <span
               className={[
@@ -199,7 +199,6 @@ export function Roadmap() {
 
       <Card className={s.intro}>
         <div className={s.introText}>
-          <Pill tone="accent">{t('roadmap.forCategory')}</Pill>
           <h1 className={`display ${s.introTitle}`}>
             {t('roadmap.yourPath')}
             <b>{c(category.short)}</b>

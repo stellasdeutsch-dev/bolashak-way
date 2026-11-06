@@ -12,7 +12,7 @@ export const CONTENT_META = {
   } satisfies L,
   estimateNote: {
     ru: 'Это наша оценка, а не официальный срок.',
-    kk: 'Бұл — біздің болжамымыз, ресми мерзім емес.',
+    kk: 'Бұл – біздің болжамымыз, ресми мерзім емес.',
     en: 'Rough app estimate, not an official term.',
   } satisfies L,
   contacts: {

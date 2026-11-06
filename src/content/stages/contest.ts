@@ -13,14 +13,14 @@ export const CONTEST_STAGES: Stage[] = [
       en: 'Numerical and verbal tests plus a personality questionnaire. A qualifying round with a cut-off score.',
     },
     why: {
-      ru: 'Первый тур отсеивает. Не набрали пороговый балл — во второй тур не попадаете, пересдачи не будет. Половина проблем здесь техническая, поэтому компьютер и интернет проверьте заранее.',
-      kk: 'Бірінші тур іріктейді. Шекті балды жинамасаңыз — екінші турға өтпейсіз, қайта тапсыру болмайды. Мұндағы қиындықтың жартысы техникалық, сондықтан компьютер мен интернетті алдын ала тексеріңіз.',
+      ru: 'Первый тур отсеивает. Не набрали пороговый балл – во второй тур не попадаете, пересдачи не будет. Половина проблем здесь техническая, поэтому компьютер и интернет проверьте заранее.',
+      kk: 'Бірінші тур іріктейді. Шекті балды жинамасаңыз – екінші турға өтпейсіз, қайта тапсыру болмайды. Мұндағы қиындықтың жартысы техникалық, сондықтан компьютер мен интернетті алдын ала тексеріңіз.',
       en: 'Round one filters people out. Miss the cut-off and you do not reach round two, and there is no retake. Half the trouble here is technical, so check your computer and connection in advance.',
     },
     inShort: {
-      what: { ru: 'Первый тур конкурса — компьютерное тестирование с проктором. Числовой и вербальный тесты плюс личностный опросник.', kk: 'Конкурстың бірінші туры — прокторы бар компьютерлік тестілеу. Сандық және вербалды тест, тұлғалық сауалнама.', en: 'Round one of the competition — proctored computer testing. Numerical and verbal tests plus a personality questionnaire.' },
+      what: { ru: 'Первый тур конкурса – компьютерное тестирование с проктором. Числовой и вербальный тесты плюс личностный опросник.', kk: 'Конкурстың бірінші туры – прокторы бар компьютерлік тестілеу. Сандық және вербалды тест, тұлғалық сауалнама.', en: 'Round one of the competition – proctored computer testing. Numerical and verbal tests plus a personality questionnaire.' },
       you: { ru: 'Подготовить технику и связь, прорешать образцы и пройти все три компонента до конца.', kk: 'Техника мен байланысты дайындап, үлгілерді шығарып, үш компоненттің бәрін соңына дейін өту.', en: 'Get your setup and connection ready, work through the samples and finish all three parts.' },
-      result: { ru: 'Балл в личном кабинете. Ниже порога — второго тура не будет, пересдачи не предусмотрены.', kk: 'Жеке кабинеттегі балл. Шектен төмен болса — екінші тур болмайды, қайта тапсыру көзделмеген.', en: 'A score in your account. Below the cut-off there is no second round, and no retakes.' },
+      result: { ru: 'Балл в личном кабинете. Ниже порога – второго тура не будет, пересдачи не предусмотрены.', kk: 'Жеке кабинеттегі балл. Шектен төмен болса – екінші тур болмайды, қайта тапсыру көзделмеген.', en: 'A score in your account. Below the cut-off there is no second round, and no retakes.' },
     },
     checklist: [
       {
@@ -70,9 +70,9 @@ export const CONTEST_STAGES: Stage[] = [
       {
         id: 'result',
         text: {
-          ru: 'Увидели результаты в личном кабинете — итоговый файл открывается там по кнопке.',
-          kk: 'Нәтижені жеке кабинеттен көрдіңіз — қорытынды файл сонда батырмамен ашылады.',
-          en: 'You saw the results in your account — the summary file opens there with a button.',
+          ru: 'Увидели результаты в личном кабинете – итоговый файл открывается там по кнопке.',
+          kk: 'Нәтижені жеке кабинеттен көрдіңіз – қорытынды файл сонда батырмамен ашылады.',
+          en: 'You saw the results in your account – the summary file opens there with a button.',
         },
         link: 'cabinet',
       },
@@ -80,8 +80,8 @@ export const CONTEST_STAGES: Stage[] = [
     deadlines: [
       {
         text: {
-          ru: 'О месте и времени первого и второго туров сообщают на портале, а также по почте и телефону — не позднее чем за 10 календарных дней.',
-          kk: 'Бірінші және екінші тур орны мен уақытын порталда, сондай-ақ пошта мен телефон арқылы хабарлайды — 10 күнтізбелік күннен кешіктірмей.',
+          ru: 'О месте и времени первого и второго туров сообщают на портале, а также по почте и телефону – не позднее чем за 10 календарных дней.',
+          kk: 'Бірінші және екінші тур орны мен уақытын порталда, сондай-ақ пошта мен телефон арқылы хабарлайды – 10 күнтізбелік күннен кешіктірмей.',
           en: 'You are told the time and place of rounds one and two on the portal, and by email and phone, at least 10 calendar days ahead.',
         },
         source: 'pp573',
@@ -89,8 +89,8 @@ export const CONTEST_STAGES: Stage[] = [
       },
       {
         text: {
-          ru: 'О месте, дате и времени первого и второго туров сообщают по электронной почте или телефону — не позднее чем за 10 календарных дней.',
-          kk: 'Бірінші және екінші турдың орны, күні мен уақытын электрондық пошта не телефон арқылы хабарлайды — 10 күнтізбелік күннен кешіктірмей.',
+          ru: 'О месте, дате и времени первого и второго туров сообщают по электронной почте или телефону – не позднее чем за 10 календарных дней.',
+          kk: 'Бірінші және екінші турдың орны, күні мен уақытын электрондық пошта не телефон арқылы хабарлайды – 10 күнтізбелік күннен кешіктірмей.',
           en: 'You are told the place, date and time of rounds one and two by email or phone at least 10 calendar days ahead.',
         },
         source: 'ns_rules422',
@@ -140,7 +140,7 @@ export const CONTEST_STAGES: Stage[] = [
       en: 'The commission looks at how well you know your field, what you know in theory and how deliberately you chose the university and country. Your motivation letter feeds into this. You can prepare for these questions.',
     },
     inShort: {
-      what: { ru: 'Второй тур — анонимное собеседование с экспертной комиссией. Разговор о вашей профессии и о том, почему вы выбрали именно эту программу.', kk: 'Екінші тур — сараптама комиссиясымен анонимді әңгімелесу. Кәсібіңіз және неге дәл осы бағдарламаны таңдағаныңыз туралы әңгіме.', en: 'Round two — an anonymous interview with the expert commission. A conversation about your profession and why you chose this programme.' },
+      what: { ru: 'Второй тур – анонимное собеседование с экспертной комиссией. Разговор о вашей профессии и о том, почему вы выбрали именно эту программу.', kk: 'Екінші тур – сараптама комиссиясымен анонимді әңгімелесу. Кәсібіңіз және неге дәл осы бағдарламаны таңдағаныңыз туралы әңгіме.', en: 'Round two – an anonymous interview with the expert commission. A conversation about your profession and why you chose this programme.' },
       you: { ru: 'Записаться на слот в личном кабинете и разобраться в своей программе, вузе и стране.', kk: 'Жеке кабинетте слотқа жазылып, бағдарламаңызды, ЖОО мен елді түсіну.', en: 'Book a slot in your account and know your programme, university and country.' },
       result: { ru: 'Рекомендация комиссии, которая уйдёт вместе с вашим баллом на третий тур.', kk: 'Балыңызбен бірге үшінші турға баратын комиссия ұсынымы.', en: 'The commission\'s recommendation, which goes to round three together with your score.' },
     },
@@ -148,9 +148,9 @@ export const CONTEST_STAGES: Stage[] = [
       {
         id: 'slot',
         text: {
-          ru: 'Записались на слот в личном кабинете — они открываются после тестирования.',
-          kk: 'Жеке кабинетте слотқа жазылдыңыз — олар тестілеуден кейін ашылады.',
-          en: 'You booked a slot in your account — they open after the testing.',
+          ru: 'Записались на слот в личном кабинете – они открываются после тестирования.',
+          kk: 'Жеке кабинетте слотқа жазылдыңыз – олар тестілеуден кейін ашылады.',
+          en: 'You booked a slot in your account – they open after the testing.',
         },
         link: 'cabinet',
       },
@@ -206,9 +206,9 @@ export const CONTEST_STAGES: Stage[] = [
     ],
     mistakes: [
       {
-        ru: 'Ждать, что слот назначат за вас. Записываться нужно самому, а даты появляются волнами — обновляйте страницу через CTRL + SHIFT + R.',
-        kk: 'Слотты сізге тағайындайды деп күту. Өзіңіз жазылуыңыз керек, ал күндер толқынмен шығады — бетті CTRL + SHIFT + R арқылы жаңартыңыз.',
-        en: 'Waiting for someone to assign you a slot. You book it yourself, and dates appear in waves — refresh the page with CTRL + SHIFT + R.',
+        ru: 'Ждать, что слот назначат за вас. Записываться нужно самому, а даты появляются волнами – обновляйте страницу через CTRL + SHIFT + R.',
+        kk: 'Слотты сізге тағайындайды деп күту. Өзіңіз жазылуыңыз керек, ал күндер толқынмен шығады – бетті CTRL + SHIFT + R арқылы жаңартыңыз.',
+        en: 'Waiting for someone to assign you a slot. You book it yourself, and dates appear in waves – refresh the page with CTRL + SHIFT + R.',
       },
       {
         ru: 'Готовиться только по своей специальности. Про программу, вуз и страну спрашивают всех.',
@@ -243,8 +243,8 @@ export const CONTEST_STAGES: Stage[] = [
     },
     inShort: {
       what: { ru: 'Третий тур. Республиканская комиссия смотрит итоги двух туров и ранжирование и решает, кому дать стипендию.', kk: 'Үшінші тур. Республикалық комиссия екі тур қорытындысы мен рейтингті қарап, стипендияны кімге беруді шешеді.', en: 'Round three. The Republican Commission looks at both rounds and the ranking and decides who gets the scholarship.' },
-      you: { ru: 'Ничего — вы ждёте. Решение публикуют на официальном сайте, персонального письма не будет.', kk: 'Ештеңе — күтесіз. Шешім ресми сайтта жарияланады, жеке хат келмейді.', en: 'Nothing — you wait. The decision is published on the official site; there will be no personal letter.' },
-      result: { ru: 'Ваша фамилия в списке победителей — или отказ, и тогда следующая попытка только в новом конкурсном году.', kk: 'Жеңімпаздар тізіміндегі тегіңіз — не бас тарту, ондайда келесі мүмкіндік жаңа конкурс жылында ғана.', en: 'Your name on the winners list — or a refusal, in which case the next attempt is a new competition year.' },
+      you: { ru: 'Ничего – вы ждёте. Решение публикуют на официальном сайте, персонального письма не будет.', kk: 'Ештеңе – күтесіз. Шешім ресми сайтта жарияланады, жеке хат келмейді.', en: 'Nothing – you wait. The decision is published on the official site; there will be no personal letter.' },
+      result: { ru: 'Ваша фамилия в списке победителей – или отказ, и тогда следующая попытка только в новом конкурсном году.', kk: 'Жеңімпаздар тізіміндегі тегіңіз – не бас тарту, ондайда келесі мүмкіндік жаңа конкурс жылында ғана.', en: 'Your name on the winners list – or a refusal, in which case the next attempt is a new competition year.' },
     },
     checklist: [
       {
@@ -259,9 +259,9 @@ export const CONTEST_STAGES: Stage[] = [
       {
         id: 'awarded',
         text: {
-          ru: 'Стипендия присуждена — вы в списке победителей конкурсного отбора.',
-          kk: 'Стипендия тағайындалды — сіз конкурс жеңімпаздары тізіміндесіз.',
-          en: 'The scholarship is awarded — you are on the winners list.',
+          ru: 'Стипендия присуждена – вы в списке победителей конкурсного отбора.',
+          kk: 'Стипендия тағайындалды – сіз конкурс жеңімпаздары тізіміндесіз.',
+          en: 'The scholarship is awarded – you are on the winners list.',
         },
       },
     ],

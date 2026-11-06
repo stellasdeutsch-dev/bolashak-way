@@ -51,8 +51,8 @@ export const DEADLINE_RULES: DeadlineRule[] = [
     months: 6,
     appliesTo: { track: ['science_internship'] },
     label: {
-      ru: 'Если стажировка дольше 6 месяцев — сдать администратору промежуточный отчёт',
-      kk: 'Тағылымдама 6 айдан ұзақ болса — әкімшіге аралық есеп тапсыру',
+      ru: 'Если стажировка дольше 6 месяцев – сдать администратору промежуточный отчёт',
+      kk: 'Тағылымдама 6 айдан ұзақ болса – әкімшіге аралық есеп тапсыру',
       en: 'If the internship runs longer than 6 months, submit an interim report to the administrator',
     },
     source: 'ns_rules422',
@@ -64,8 +64,8 @@ export const DEADLINE_RULES: DeadlineRule[] = [
     months: 6,
     appliesTo: { track: ['internship'] },
     label: {
-      ru: 'Если стажировка дольше 6 месяцев — представить промежуточный отчёт и отзыв руководителя',
-      kk: 'Тағылымдама 6 айдан ұзақ болса — аралық есеп пен жетекшінің пікірін ұсыну',
+      ru: 'Если стажировка дольше 6 месяцев – представить промежуточный отчёт и отзыв руководителя',
+      kk: 'Тағылымдама 6 айдан ұзақ болса – аралық есеп пен жетекшінің пікірін ұсыну',
       en: 'If the internship runs longer than 6 months, submit an interim report and your supervisor’s feedback',
     },
     source: 'stipendiat_internship',
@@ -121,9 +121,9 @@ export const DEADLINE_RULES: DeadlineRule[] = [
     // track is excluded here.
     appliesTo: { track: ['bachelor', 'master', 'phd_residency'] },
     label: {
-      ru: 'Предоставить сведения о трудоустройстве в Управление по работе с выпускниками — каждые 6 месяцев',
-      kk: 'Түлектермен жұмыс басқармасына жұмысқа орналасу туралы мәліметтерді ұсыну — әр 6 ай сайын',
-      en: 'Report your employment to the alumni department — every 6 months',
+      ru: 'Предоставить сведения о трудоустройстве в Управление по работе с выпускниками – каждые 6 месяцев',
+      kk: 'Түлектермен жұмыс басқармасына жұмысқа орналасу туралы мәліметтерді ұсыну – әр 6 ай сайын',
+      en: 'Report your employment to the alumni department – every 6 months',
     },
     source: 'stipendiat_master',
   },
@@ -135,9 +135,9 @@ export const DEADLINE_RULES: DeadlineRule[] = [
     recurring: true,
     appliesTo: { track: ['internship'] },
     label: {
-      ru: 'Представить справку от работодателя в Департамент по работе с выпускниками — каждые полгода',
-      kk: 'Жұмыс берушінің анықтамасын Түлектермен жұмыс департаментіне ұсыну — әр жарты жыл сайын',
-      en: 'Submit an employer certificate to the alumni department — every six months',
+      ru: 'Представить справку от работодателя в Департамент по работе с выпускниками – каждые полгода',
+      kk: 'Жұмыс берушінің анықтамасын Түлектермен жұмыс департаментіне ұсыну – әр жарты жыл сайын',
+      en: 'Submit an employer certificate to the alumni department – every six months',
     },
     source: 'stipendiat_internship',
   },

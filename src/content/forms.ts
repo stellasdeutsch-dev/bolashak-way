@@ -4,7 +4,7 @@ import type { DocId, L, Rule, SourceId, StageId } from './types'
  * Real files published by the Center for International Programmes. Every entry was
  * fetched before being listed: the URL, byte size and publication date below come from
  * the server's own response, not from the page that links to them. Titles are the
- * labels the official pages use — nothing here is described from memory.
+ * labels the official pages use – nothing here is described from memory.
  *
  * `form` means a blank you fill in; `sample` means something to look at. PDFs open in a
  * viewer inside the app (bolashak.gov.kz sends no frame-blocking headers); Word files
@@ -48,9 +48,9 @@ export const FORMS: OfficialForm[] = [
       en: 'List of international olympiads and competitions',
     },
     note: {
-      ru: 'Бакалавриат открыт победителям из этого перечня — проверьте, есть ли в нём ваша олимпиада.',
-      kk: 'Бакалавриат осы тізбедегі жеңімпаздарға ашық — өз олимпиадаңызды тексеріңіз.',
-      en: 'The bachelor track is open to winners from this list — check whether your olympiad is on it.',
+      ru: 'Бакалавриат открыт победителям из этого перечня – проверьте, есть ли в нём ваша олимпиада.',
+      kk: 'Бакалавриат осы тізбедегі жеңімпаздарға ашық – өз олимпиадаңызды тексеріңіз.',
+      en: 'The bachelor track is open to winners from this list – check whether your olympiad is on it.',
     },
     url: `${B}/pretendentu--pravila/%D0%9F%D1%80%D0%B8%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D0%B5_%D1%80%D1%83%D1%81.docx`,
     bytes: 20324,
@@ -72,8 +72,8 @@ export const FORMS: OfficialForm[] = [
       en: 'Employer request to train a specialist',
     },
     note: {
-      ru: 'С условием сохранения места работы. Заполняет работодатель — отдайте бланк заранее.',
-      kk: 'Жұмыс орнын сақтау шартымен. Жұмыс беруші толтырады — бланкіні алдын ала беріңіз.',
+      ru: 'С условием сохранения места работы. Заполняет работодатель – отдайте бланк заранее.',
+      kk: 'Жұмыс орнын сақтау шартымен. Жұмыс беруші толтырады – бланкіні алдын ала беріңіз.',
       en: 'With your job kept open. The employer fills it in, so hand over the blank early.',
     },
     url: `${B}/2026/utverzhdenie/utverzhdennaya-12.docx`,
@@ -169,7 +169,7 @@ export const FORMS: OfficialForm[] = [
     stage: 'testing',
     kind: 'sample',
     fileType: 'pdf',
-    title: { ru: 'Числовой тест — примеры заданий', kk: 'Сандық тест — тапсырма үлгілері', en: 'Numerical test — sample questions' },
+    title: { ru: 'Числовой тест – примеры заданий', kk: 'Сандық тест – тапсырма үлгілері', en: 'Numerical test – sample questions' },
     note: {
       ru: 'Официальный образец первого тура. Прорешайте до тестирования, а не в день его.',
       kk: 'Бірінші турдың ресми үлгісі. Тестілеу күні емес, оған дейін шығарып көріңіз.',
@@ -185,7 +185,7 @@ export const FORMS: OfficialForm[] = [
     stage: 'testing',
     kind: 'sample',
     fileType: 'pdf',
-    title: { ru: 'Вербальный тест — примеры заданий', kk: 'Вербалды тест — тапсырма үлгілері', en: 'Verbal test — sample questions' },
+    title: { ru: 'Вербальный тест – примеры заданий', kk: 'Вербалды тест – тапсырма үлгілері', en: 'Verbal test – sample questions' },
     url: `${B}/blog/pravila-uchastiya/2.%20%D0%92%D0%B5%D1%80%D0%B1%D0%B0%D0%BB%D1%8C%D0%BD%D1%8B%D0%B9_%D1%80%D1%83%D1%81_.pdf`,
     bytes: 469199,
     published: '2025-04-11',
@@ -196,7 +196,7 @@ export const FORMS: OfficialForm[] = [
     stage: 'testing',
     kind: 'sample',
     fileType: 'pdf',
-    title: { ru: 'Личностный опросник — образец', kk: 'Тұлғалық сауалнама — үлгі', en: 'Personality questionnaire — sample' },
+    title: { ru: 'Личностный опросник – образец', kk: 'Тұлғалық сауалнама – үлгі', en: 'Personality questionnaire – sample' },
     url: `${B}/blog/pravila-uchastiya/3.%20%D0%9B%D0%B8%D1%87%D0%BD.%20%D0%BE%D0%BF%D1%80%D0%BE%D1%81%D0%BD%D0%B8%D0%BA_%D1%80%D1%83%D1%81_.pdf`,
     bytes: 79856,
     published: '2025-04-11',
@@ -283,9 +283,9 @@ export const FORMS: OfficialForm[] = [
       en: 'Request for the financial guarantee letter',
     },
     note: {
-      ru: 'Письмо отправляют в вуз или принимающую организацию — с него начинается визовый пакет.',
-      kk: 'Хат ЖОО-ға не қабылдаушы ұйымға жіберіледі — виза топтамасы содан басталады.',
-      en: 'The letter goes to the university or host — the visa package starts with it.',
+      ru: 'Письмо отправляют в вуз или принимающую организацию – с него начинается визовый пакет.',
+      kk: 'Хат ЖОО-ға не қабылдаушы ұйымға жіберіледі – виза топтамасы содан басталады.',
+      en: 'The letter goes to the university or host – the visa package starts with it.',
     },
     url: `${B}/obrazcy-dokumentov/ru/2%20Zayav%20na%20gar.pismo.docx`,
     bytes: 17858,
@@ -318,9 +318,9 @@ export const FORMS: OfficialForm[] = [
       en: 'Card account details form',
     },
     note: {
-      ru: 'Данные карт-счёта уходят в Управление финансового обеспечения — без них деньги не переведут.',
-      kk: 'Карт-шот деректері Қаржымен қамтамасыз ету басқармасына жіберіледі — онсыз ақша аударылмайды.',
-      en: 'The card details go to the finance department — no money moves without them.',
+      ru: 'Данные карт-счёта уходят в Управление финансового обеспечения – без них деньги не переведут.',
+      kk: 'Карт-шот деректері Қаржымен қамтамасыз ету басқармасына жіберіледі – онсыз ақша аударылмайды.',
+      en: 'The card details go to the finance department – no money moves without them.',
     },
     url: `${B}/finzayavlenie1.pdf`,
     bytes: 1001447,

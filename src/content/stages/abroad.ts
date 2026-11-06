@@ -13,14 +13,14 @@ export const ABROAD_STAGES: Stage[] = [
       en: 'Registration, insurance, consular registration, the study plan and regular reports to your curator.',
     },
     why: {
-      ru: 'Обязательства не заканчиваются вылетом. По договору нужно держать успеваемость, вовремя присылать транскрипты и оставаться на связи с куратором. Нарушите условия — финансирование могут приостановить.',
-      kk: 'Міндеттемелер ұшумен бітпейді. Шарт бойынша үлгерімді ұстау, транскриптті уақытында жіберу және куратормен байланыста болу керек. Шартты бұзсаңыз — қаржыландыруды тоқтатуы мүмкін.',
+      ru: 'Обязательства не заканчиваются вылетом. По договору нужно держать успеваемость, вовремя присылать транскрипты и оставаться на связи с куратором. Нарушите условия – финансирование могут приостановить.',
+      kk: 'Міндеттемелер ұшумен бітпейді. Шарт бойынша үлгерімді ұстау, транскриптті уақытында жіберу және куратормен байланыста болу керек. Шартты бұзсаңыз – қаржыландыруды тоқтатуы мүмкін.',
       en: 'Your obligations do not end when the plane takes off. The contract asks you to keep your grades up, send transcripts on time and stay in touch with your curator. Break the terms and funding can be suspended.',
     },
     inShort: {
       what: { ru: 'Сама учёба за границей. Обязательства при этом не заканчиваются: договор требует отчётности.', kk: 'Шетелдегі оқудың өзі. Міндеттеме бітпейді: шарт есептілікті талап етеді.', en: 'Your studies abroad. Your obligations do not stop: the contract requires reporting.' },
       you: { ru: 'Встать на учёт, оформить страховку, сдать куратору учебный план и присылать транскрипты после каждого семестра.', kk: 'Есепке тұру, сақтандыру рәсімдеу, кураторға оқу жоспарын тапсыру және әр семестрден кейін транскрипт жіберу.', en: 'Register locally, arrange insurance, give your curator the study plan and send transcripts after each semester.' },
-      result: { ru: 'Завершённая программа и диплом — без нарушений договора и приостановки финансирования.', kk: 'Аяқталған бағдарлама және диплом — шартты бұзбай, қаржыландыру тоқтамай.', en: 'A completed programme and a diploma — with no contract breaches and no funding suspension.' },
+      result: { ru: 'Завершённая программа и диплом – без нарушений договора и приостановки финансирования.', kk: 'Аяқталған бағдарлама және диплом – шартты бұзбай, қаржыландыру тоқтамай.', en: 'A completed programme and a diploma – with no contract breaches and no funding suspension.' },
     },
     checklist: [
       {
@@ -54,8 +54,8 @@ export const ABROAD_STAGES: Stage[] = [
       {
         id: 'plan',
         text: {
-          ru: 'В первые 60 дней учёбы отправили куратору учебный план — он строится по академическому календарю вуза.',
-          kk: 'Оқудың алғашқы 60 күнінде кураторға оқу жоспарын жібердіңіз — ол ЖОО академиялық күнтізбесі бойынша жасалады.',
+          ru: 'В первые 60 дней учёбы отправили куратору учебный план – он строится по академическому календарю вуза.',
+          kk: 'Оқудың алғашқы 60 күнінде кураторға оқу жоспарын жібердіңіз – ол ЖОО академиялық күнтізбесі бойынша жасалады.',
           en: 'In the first 60 days of study you sent your curator the study plan, built on the university\'s academic calendar.',
         },
         appliesTo: { not: { track: ['internship', 'science_internship'] } },
@@ -74,8 +74,8 @@ export const ABROAD_STAGES: Stage[] = [
       {
         id: 'interim_report',
         text: {
-          ru: 'Если стажировка длиннее 6 месяцев — сдали промежуточный отчёт и отзыв руководителя.',
-          kk: 'Тағылымдама 6 айдан ұзақ болса — аралық есеп пен жетекшінің пікірін тапсырдыңыз.',
+          ru: 'Если стажировка длиннее 6 месяцев – сдали промежуточный отчёт и отзыв руководителя.',
+          kk: 'Тағылымдама 6 айдан ұзақ болса – аралық есеп пен жетекшінің пікірін тапсырдыңыз.',
           en: 'If the internship runs longer than 6 months, you handed in the interim report and your supervisor\'s feedback.',
         },
         appliesTo: { track: ['internship', 'science_internship'] },
@@ -109,7 +109,7 @@ export const ABROAD_STAGES: Stage[] = [
         en: 'Changing university, specialty or dates without asking anyone. There are ready application forms and a commission decision for that.',
       },
       {
-        ru: 'Забивать на отчётность. Невыполнение договора — повод приостановить финансирование.',
+        ru: 'Забивать на отчётность. Невыполнение договора – повод приостановить финансирование.',
         kk: 'Есептілікке салғырт қарау. Шартты орындамау қаржыландыруды тоқтатуға себеп.',
         en: 'Letting the reporting slide. Not meeting the contract is a reason to suspend funding.',
       },
@@ -137,7 +137,7 @@ export const ABROAD_STAGES: Stage[] = [
     inShort: {
       what: { ru: 'Возвращение домой и закрытие учебной части. С этого момента начинается отсчёт отработки.', kk: 'Үйге оралу және оқу бөлігін жабу. Осы сәттен өтеу есептеле бастайды.', en: 'Coming home and closing out the study part. From this point the work-back clock starts.' },
       you: { ru: 'Вернуться в течение 30 дней, подать заявление о завершении и сдать нотариальные переводы диплома и транскрипта.', kk: '30 күн ішінде оралу, аяқтау туралы өтініш беру және диплом мен транскрипттің нотариалды аудармасын тапсыру.', en: 'Return within 30 days, file the completion application and hand in notarised translations of the diploma and transcript.' },
-      result: { ru: 'Ваше дело переходит в Управление по работе с выпускниками — начинается отработка.', kk: 'Ісіңіз Түлектермен жұмыс басқармасына өтеді — өтеу басталады.', en: 'Your file moves to the alumni department — the work-back begins.' },
+      result: { ru: 'Ваше дело переходит в Управление по работе с выпускниками – начинается отработка.', kk: 'Ісіңіз Түлектермен жұмыс басқармасына өтеді – өтеу басталады.', en: 'Your file moves to the alumni department – the work-back begins.' },
     },
     checklist: [
       {
@@ -153,7 +153,7 @@ export const ABROAD_STAGES: Stage[] = [
       {
         id: 'application',
         text: {
-          ru: 'Отправили куратору заявление о завершении учёбы или стажировки — по установленной форме.',
+          ru: 'Отправили куратору заявление о завершении учёбы или стажировки – по установленной форме.',
           kk: 'Кураторға оқуды не тағылымдаманы аяқтау туралы өтінішті белгіленген нысанда жібердіңіз.',
           en: 'You sent your curator the completion application on the standard form.',
         },
@@ -162,8 +162,8 @@ export const ABROAD_STAGES: Stage[] = [
       {
         id: 'translations',
         text: {
-          ru: 'Отдали нотариальные переводы диплома и транскрипта за весь период учёбы — на казахском или русском.',
-          kk: 'Диплом мен бүкіл оқу кезеңіндегі транскрипттің нотариалды аудармасын бердіңіз — қазақ не орыс тілінде.',
+          ru: 'Отдали нотариальные переводы диплома и транскрипта за весь период учёбы – на казахском или русском.',
+          kk: 'Диплом мен бүкіл оқу кезеңіндегі транскрипттің нотариалды аудармасын бердіңіз – қазақ не орыс тілінде.',
           en: 'You handed over notarised translations of the diploma and the full transcript, in Kazakh or Russian.',
         },
         appliesTo: { not: { track: ['internship', 'science_internship'] } },
@@ -211,9 +211,9 @@ export const ABROAD_STAGES: Stage[] = [
       {
         id: 'no_diploma',
         text: {
-          ru: 'Если диплом ещё не выдали — принесли официальное подтверждение вуза: когда его вручат и какую степень присвоили.',
-          kk: 'Диплом әлі берілмесе — ЖОО-дан ресми растама әкелдіңіз: оны қашан тапсыратыны және қандай дәреже берілгені.',
-          en: 'If the diploma has not been issued yet — you brought the university\'s official confirmation: when it will be handed over and what degree was awarded.',
+          ru: 'Если диплом ещё не выдали – принесли официальное подтверждение вуза: когда его вручат и какую степень присвоили.',
+          kk: 'Диплом әлі берілмесе – ЖОО-дан ресми растама әкелдіңіз: оны қашан тапсыратыны және қандай дәреже берілгені.',
+          en: 'If the diploma has not been issued yet – you brought the university\'s official confirmation: when it will be handed over and what degree was awarded.',
         },
         required: false,
         link: 'otrabotka',
@@ -223,8 +223,8 @@ export const ABROAD_STAGES: Stage[] = [
     deadlines: [
       {
         text: {
-          ru: 'Научная стажировка: итоговый отчёт сдают в течение месяца после возвращения. Не сдали — поднимут вопрос о возврате бюджетных денег.',
-          kk: 'Ғылыми тағылымдама: қорытынды есепті оралғаннан кейін бір ай ішінде тапсырады. Тапсырмасаңыз — бюджет қаражатын қайтару мәселесі көтеріледі.',
+          ru: 'Научная стажировка: итоговый отчёт сдают в течение месяца после возвращения. Не сдали – поднимут вопрос о возврате бюджетных денег.',
+          kk: 'Ғылыми тағылымдама: қорытынды есепті оралғаннан кейін бір ай ішінде тапсырады. Тапсырмасаңыз – бюджет қаражатын қайтару мәселесі көтеріледі.',
           en: 'Scientific internship: the final report is due within a month of your return. Miss it and the question of repaying budget money comes up.',
         },
         source: 'ns_rules422',
@@ -254,8 +254,8 @@ export const ABROAD_STAGES: Stage[] = [
       en: 'Three to five years in Kazakhstan, certificates every 6 months, then closing out the contract.',
     },
     why: {
-      ru: 'Ради отработки стипендия и даётся. Сколько лет работать — зависит от категории и региона, а подтверждать это нужно документами каждые полгода. Пока обязательства не закрыты, залог остаётся под обременением.',
-      kk: 'Стипендия өтеу үшін беріледі. Қанша жыл жұмыс істеу — санат пен өңірге байланысты, ал мұны әр жарты жылда құжатпен растау керек. Міндеттеме жабылмайынша, кепіл ауыртпалықта қалады.',
+      ru: 'Ради отработки стипендия и даётся. Сколько лет работать – зависит от категории и региона, а подтверждать это нужно документами каждые полгода. Пока обязательства не закрыты, залог остаётся под обременением.',
+      kk: 'Стипендия өтеу үшін беріледі. Қанша жыл жұмыс істеу – санат пен өңірге байланысты, ал мұны әр жарты жылда құжатпен растау керек. Міндеттеме жабылмайынша, кепіл ауыртпалықта қалады.',
       en: 'The work-back is why the scholarship exists. How many years you owe depends on your category and region, and you confirm it with documents every six months. Until it is closed, the pledged property stays encumbered.',
     },
     inShort: {
@@ -267,7 +267,7 @@ export const ABROAD_STAGES: Stage[] = [
       {
         id: 'employment',
         text: {
-          ru: 'Устроились на работу по полученной специальности — как записано в договоре.',
+          ru: 'Устроились на работу по полученной специальности – как записано в договоре.',
           kk: 'Шартта жазылғандай, алған мамандығыңыз бойынша жұмысқа орналастыңыз.',
           en: 'You took a job in the specialty you earned, as your contract requires.',
         },
@@ -276,9 +276,9 @@ export const ABROAD_STAGES: Stage[] = [
       {
         id: 'employer_workback',
         text: {
-          ru: 'Работаете в организации, которая давала на вас заявку, — или в её филиале либо представительстве.',
-          kk: 'Сізге өтінім берген ұйымда — не оның филиалында, өкілдігінде жұмыс істейсіз.',
-          en: 'You work at the organisation that requested your training — or at its branch or representative office.',
+          ru: 'Работаете в организации, которая давала на вас заявку, – или в её филиале либо представительстве.',
+          kk: 'Сізге өтінім берген ұйымда – не оның филиалында, өкілдігінде жұмыс істейсіз.',
+          en: 'You work at the organisation that requested your training – or at its branch or representative office.',
         },
         appliesTo: { category: ['master_civil', 'master_nuclear', 'phd_nuclear', 'internship', 'science_internship'] },
         link: 'pp573',
@@ -344,7 +344,7 @@ export const ABROAD_STAGES: Stage[] = [
       {
         text: {
           ru: 'Отработка засчитывается с даты присуждения степени или, если трудоустройство позже, с момента трудоустройства. Непрерывная отработка засчитывается отдельно по каждому региону при отсутствии параллельных пенсионных отчислений.',
-          kk: 'Өтеу дәреже берілген күннен, кейінірек жұмысқа тұрса — жұмысқа тұрған сәттен есептеледі.',
+          kk: 'Өтеу дәреже берілген күннен, кейінірек жұмысқа тұрса – жұмысқа тұрған сәттен есептеледі.',
           en: 'The work-back counts from the degree award date or, if employment starts later, from the employment date. Continuous service is counted per region when there are no parallel pension contributions.',
         },
         source: 'otrabotka',
@@ -356,9 +356,9 @@ export const ABROAD_STAGES: Stage[] = [
         tone: 'info',
         appliesTo: { not: { track: ['science_internship'] } },
         text: {
-          ru: 'Отсрочку исполнения обязательств можно запросить: лечение заболевания, препятствующего работе; беременность или ребёнок до трёх лет; сопровождение супруга-госслужащего или обучающегося за рубежом; продолжение обучения в докторантуре; производственная стажировка в компаниях из рейтингов Fortune Global 500, Forbes Global 2000 или Forbes Top 100 Digital Companies — не более 12 месяцев.',
-          kk: 'Міндеттемелерді орындауды кейінге қалдыруды сұрауға болады: емделу; жүктілік не үш жасқа дейінгі бала; жұбайын алып жүру; докторантурада оқуды жалғастыру; рейтингтегі компанияларда өндірістік тағылымдама — 12 айдан аспайды.',
-          en: 'A deferral can be requested: treatment of an illness preventing work; pregnancy or a child under three; accompanying a spouse in public service or studying abroad; continuing doctoral studies; an industrial placement at a Fortune Global 500, Forbes Global 2000 or Forbes Top 100 Digital company — up to 12 months.',
+          ru: 'Отсрочку исполнения обязательств можно запросить: лечение заболевания, препятствующего работе; беременность или ребёнок до трёх лет; сопровождение супруга-госслужащего или обучающегося за рубежом; продолжение обучения в докторантуре; производственная стажировка в компаниях из рейтингов Fortune Global 500, Forbes Global 2000 или Forbes Top 100 Digital Companies – не более 12 месяцев.',
+          kk: 'Міндеттемелерді орындауды кейінге қалдыруды сұрауға болады: емделу; жүктілік не үш жасқа дейінгі бала; жұбайын алып жүру; докторантурада оқуды жалғастыру; рейтингтегі компанияларда өндірістік тағылымдама – 12 айдан аспайды.',
+          en: 'A deferral can be requested: treatment of an illness preventing work; pregnancy or a child under three; accompanying a spouse in public service or studying abroad; continuing doctoral studies; an industrial placement at a Fortune Global 500, Forbes Global 2000 or Forbes Top 100 Digital company – up to 12 months.',
         },
         source: 'otrabotka',
       },

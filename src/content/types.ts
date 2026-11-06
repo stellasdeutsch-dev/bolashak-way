@@ -178,8 +178,8 @@ export interface VideoClip {
 }
 
 /**
- * An official video. The same recording is often published twice — once in Russian,
- * once in Kazakh — so one item holds every language variant of it.
+ * An official video. The same recording is often published twice – once in Russian,
+ * once in Kazakh – so one item holds every language variant of it.
  */
 export interface VideoItem {
   id: string
@@ -300,7 +300,7 @@ export interface PlatformHome {
   facts: PlatformFact[]
   /** "This is your programme if …" */
   fitYes: L[]
-  /** "… and it is not if" — each pointing at the platform that fits instead. */
+  /** "… and it is not if" – each pointing at the platform that fits instead. */
   fitNo: { text: L; go: PlatformSlug }[]
   fitSources: SourceId[]
   /** What the programme pays for, in plain words. */

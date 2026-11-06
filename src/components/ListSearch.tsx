@@ -12,7 +12,7 @@ import s from './ListSearch.module.css'
 const LIMIT = 25
 
 /**
- * Each list is a snapshot of an official PDF — hundreds of kilobytes nobody needs until
+ * Each list is a snapshot of an official PDF – hundreds of kilobytes nobody needs until
  * they search. They load the first time somebody types, never with the page.
  */
 function useLazy<T>(active: boolean, load: () => Promise<T>): T | null {
@@ -266,7 +266,7 @@ export function ScienceSearch() {
     if (!active(query)) return []
     return lists.SCIENCE_ORGS.filter((o) => matches(`${o.name} ${o.country}`, query))
   }, [lists, query, picked])
-  // Countries of what is on screen, most hosts first — a direction can bring back hundreds.
+  // Countries of what is on screen, most hosts first – a direction can bring back hundreds.
   const countries = useMemo(() => {
     const n = new Map<string, number>()
     for (const o of allOrgs) n.set(o.country, (n.get(o.country) ?? 0) + 1)

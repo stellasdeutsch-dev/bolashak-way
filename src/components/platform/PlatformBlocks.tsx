@@ -108,7 +108,7 @@ function CellView({ cell }: { cell: MatrixCell }) {
   if (cell.kind === 'no')
     return (
       <span className={s.matrixNo} aria-label={t('common.no')}>
-        —
+        –
       </span>
     )
   return <span className={s.matrixText}>{c(cell.text)}</span>
@@ -200,7 +200,7 @@ function Conditions({ category }: { category: Category }) {
   )
 }
 
-/** Three years in total, the last twelve months unbroken — drawn, because prose kept losing it. */
+/** Three years in total, the last twelve months unbroken – drawn, because prose kept losing it. */
 function ExperienceBar() {
   const { t } = useI18n()
   return (

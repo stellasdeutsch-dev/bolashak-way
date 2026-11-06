@@ -2,7 +2,7 @@ import type { ChapterId, L, Rule, SourceId, StageId, Track } from './types'
 
 /**
  * Content for the explanatory visuals: a table, a two-lane path diagram and a timeline.
- * Nothing new is asserted here — every row and marker restates a fact that already
+ * Nothing new is asserted here – every row and marker restates a fact that already
  * lives in the stage content and carries the same source.
  */
 
@@ -51,7 +51,7 @@ export const WORKBACK_ROWS: WorkbackRow[] = [
     cells: [
       { ru: 'Госслужащий', kk: 'Мемлекеттік қызметші', en: 'Civil servant' },
       { ru: '3 года', kk: '3 жыл', en: '3 years' },
-      { ru: 'Госслужба; первый год — в органе, который вас направил', kk: 'Мемлекеттік қызмет; бірінші жыл — жіберген органда', en: 'Public service; the first year at the body that sent you' },
+      { ru: 'Госслужба; первый год – в органе, который вас направил', kk: 'Мемлекеттік қызмет; бірінші жыл – жіберген органда', en: 'Public service; the first year at the body that sent you' },
     ],
   },
   {
@@ -67,7 +67,7 @@ export const WORKBACK_ROWS: WorkbackRow[] = [
     cells: [
       { ru: 'Стажёр', kk: 'Тағылымдамашы', en: 'Intern' },
       { ru: '3 года', kk: '3 жыл', en: '3 years' },
-      { ru: 'В организации, которая направила; в другой — с согласия работодателя', kk: 'Жіберген ұйымда; басқасында — жұмыс беруші келісімімен', en: 'At the organisation that sent you; elsewhere with its consent' },
+      { ru: 'В организации, которая направила; в другой – с согласия работодателя', kk: 'Жіберген ұйымда; басқасында – жұмыс беруші келісімімен', en: 'At the organisation that sent you; elsewhere with its consent' },
     ],
   },
   {
@@ -75,7 +75,7 @@ export const WORKBACK_ROWS: WorkbackRow[] = [
     cells: [
       { ru: 'Учёный после научной стажировки', kk: 'Ғылыми тағылымдамадан кейінгі ғалым', en: 'Researcher after the internship' },
       { ru: '3 года подряд', kk: 'Қатарынан 3 жыл', en: '3 years in a row' },
-      { ru: 'У работодателя, который направил; сменить — при его ликвидации или реорганизации либо по решению Комиссии с согласия работодателя, сохранив направление исследования', kk: 'Жіберген жұмыс берушіде; ауыстыру — ол таратылса не қайта ұйымдастырылса, не жұмыс берушінің келісімімен Комиссия шешімі бойынша, зерттеу бағытын сақтап', en: 'With the employer who sent you; a change on its liquidation or reorganisation, or by the Commission\'s decision with the employer\'s consent, keeping your research direction' },
+      { ru: 'У работодателя, который направил; сменить – при его ликвидации или реорганизации либо по решению Комиссии с согласия работодателя, сохранив направление исследования', kk: 'Жіберген жұмыс берушіде; ауыстыру – ол таратылса не қайта ұйымдастырылса, не жұмыс берушінің келісімімен Комиссия шешімі бойынша, зерттеу бағытын сақтап', en: 'With the employer who sent you; a change on its liquidation or reorganisation, or by the Commission\'s decision with the employer\'s consent, keeping your research direction' },
     ],
   },
   {
@@ -148,7 +148,7 @@ export interface TimelineMark {
 }
 
 /**
- * The clock after the award: 90 calendar days for both programmes — ПП 573 п. 24 for the
+ * The clock after the award: 90 calendar days for both programmes – ПП 573 п. 24 for the
  * scholarship, приказ МНВО № 422 п. 21 for scientific internships.
  */
 export function awardTimeline(track: Track): { total: number; marks: TimelineMark[]; note: L } {
@@ -157,8 +157,8 @@ export function awardTimeline(track: Track): { total: number; marks: TimelineMar
     total: 90,
     note: science
       ? {
-          ru: 'Отсчёт идёт в календарных днях и начинается в день решения комиссии, а не в день, когда вы о нём узнали. Если не успеваете из-за болезни, командировки или других обстоятельств, до истечения срока можно один раз попросить продление — до 90 дней с решения Комиссии по рассмотрению обращений.',
-          kk: 'Санақ күнтізбелік күнмен жүреді және сіз білген күннен емес, комиссия шешім қабылдаған күннен басталады. Ауру, іссапар не басқа жағдай себебінен үлгермесеңіз, мерзім өткенге дейін бір рет ұзартуды сұрауға болады — Өтініштерді қарау комиссиясының шешімінен бастап 90 күнге дейін.',
+          ru: 'Отсчёт идёт в календарных днях и начинается в день решения комиссии, а не в день, когда вы о нём узнали. Если не успеваете из-за болезни, командировки или других обстоятельств, до истечения срока можно один раз попросить продление – до 90 дней с решения Комиссии по рассмотрению обращений.',
+          kk: 'Санақ күнтізбелік күнмен жүреді және сіз білген күннен емес, комиссия шешім қабылдаған күннен басталады. Ауру, іссапар не басқа жағдай себебінен үлгермесеңіз, мерзім өткенге дейін бір рет ұзартуды сұрауға болады – Өтініштерді қарау комиссиясының шешімінен бастап 90 күнге дейін.',
           en: 'The count runs in calendar days from the day of the decision, not the day you found out about it. If illness, a work trip or other circumstances get in the way, you can ask once, before the term runs out, for an extension of up to 90 days from the appeals commission\'s decision.',
         }
       : {
@@ -169,8 +169,8 @@ export function awardTimeline(track: Track): { total: number; marks: TimelineMar
     marks: [
       { day: 0, tone: 'start', label: { ru: 'Решение комиссии', kk: 'Комиссия шешімі', en: 'Commission decision' }, source: science ? 'ns_rules422' : 'pp573' },
       science
-        ? { day: 90, tone: 'ns', label: { ru: '90 дней — договор и два гаранта', kk: '90 күн — шарт және екі кепілгер', en: '90 days — the contract and two guarantors' }, source: 'ns_rules422' }
-        : { day: 90, tone: 'main', label: { ru: '90 дней — договор и залог или гарантия', kk: '90 күн — шарт және кепіл не кепілдік', en: '90 days — contract and pledge or guarantee' }, source: 'pp573' },
+        ? { day: 90, tone: 'ns', label: { ru: '90 дней – договор и два гаранта', kk: '90 күн – шарт және екі кепілгер', en: '90 days – the contract and two guarantors' }, source: 'ns_rules422' }
+        : { day: 90, tone: 'main', label: { ru: '90 дней – договор и залог или гарантия', kk: '90 күн – шарт және кепіл не кепілдік', en: '90 days – contract and pledge or guarantee' }, source: 'pp573' },
     ],
   }
 }
@@ -189,7 +189,7 @@ export interface FlowStep {
   source?: SourceId
   /** Clause the node restates, shown next to it so nothing here is taken on trust. */
   clause?: string
-  /** A branch that leaves the main line here — the way out of the competition. */
+  /** A branch that leaves the main line here – the way out of the competition. */
   exit?: { label: L; source: SourceId; clause: string }
   /** Stage this node corresponds to, used to mark "you are here". */
   stage?: StageId
@@ -198,7 +198,7 @@ export interface FlowStep {
 
 /**
  * Three rounds with the exits drawn in. Prose could say "three rounds" but never made
- * plain where you fall out and what happens then — which is the only part that scares
+ * plain where you fall out and what happens then – which is the only part that scares
  * people. Both tracks are here; the rules genuinely differ, so each node cites its own
  * clause: ПП 573 for the scholarship, приказ МНВО № 422 for scientific internships.
  */
@@ -248,8 +248,8 @@ export const CONTEST_FLOW: FlowStep[] = [
     clause: 'ПП 573, пункт 18',
     exit: {
       label: {
-        ru: 'Не набрали пороговый балл — ко второму туру не допускают',
-        kk: 'Шекті балды жинамасаңыз — екінші турға жібермейді',
+        ru: 'Не набрали пороговый балл – ко второму туру не допускают',
+        kk: 'Шекті балды жинамасаңыз – екінші турға жібермейді',
         en: 'Below the cut-off score you are not admitted to the second round',
       },
       source: 'pp573',
@@ -271,8 +271,8 @@ export const CONTEST_FLOW: FlowStep[] = [
     clause: 'Приказ № 422, пункт 15',
     exit: {
       label: {
-        ru: 'Не набрали пороговый балл — ко второму туру не допускают',
-        kk: 'Шекті балды жинамасаңыз — екінші турға жібермейді',
+        ru: 'Не набрали пороговый балл – ко второму туру не допускают',
+        kk: 'Шекті балды жинамасаңыз – екінші турға жібермейді',
         en: 'Below the cut-off score you are not admitted to the second round',
       },
       source: 'ns_rules422',
@@ -397,9 +397,9 @@ export const CONTEST_FLOW: FlowStep[] = [
     clause: 'Приказ № 422, пункт 19',
     exit: {
       label: {
-        ru: 'Отказ. Подать снова можно в этом же году, пока идёт приём, — с выездом в следующем календарном году',
-        kk: 'Бас тарту. Сол жылы қабылдау жүріп жатқанда қайта тапсыруға болады — келесі күнтізбелік жылы шығу шартымен',
-        en: 'Refused. You may apply again this year while the intake is open — to leave in the next calendar year',
+        ru: 'Отказ. Подать снова можно в этом же году, пока идёт приём, – с выездом в следующем календарном году',
+        kk: 'Бас тарту. Сол жылы қабылдау жүріп жатқанда қайта тапсыруға болады – келесі күнтізбелік жылы шығу шартымен',
+        en: 'Refused. You may apply again this year while the intake is open – to leave in the next calendar year',
       },
       source: 'ns_rules422',
       clause: 'Приказ № 422, пункт 20',
@@ -453,7 +453,7 @@ export const CONTEST_FLOW: FlowStep[] = [
 
 /* ─────────────  the run-up to departure  ───────────── */
 
-/** Steps in a fixed order — the order is the whole point, so it is drawn as a chain. */
+/** Steps in a fixed order – the order is the whole point, so it is drawn as a chain. */
 export interface DepartureChain {
   steps: L[]
   note: L
@@ -467,7 +467,7 @@ export function departureChain(track: Track): DepartureChain {
         { ru: 'Договор', kk: 'Шарт', en: 'Contract' },
         { ru: 'Куратор', kk: 'Куратор', en: 'Curator' },
         { ru: 'Письмо о финансовой гарантии', kk: 'Қаржылық кепілдік хаты', en: 'Financial guarantee letter' },
-        { ru: 'Скан письма — в принимающую организацию', kk: 'Хат сканы — қабылдаушы ұйымға', en: 'Letter scan to the host' },
+        { ru: 'Скан письма – в принимающую организацию', kk: 'Хат сканы – қабылдаушы ұйымға', en: 'Letter scan to the host' },
         { ru: 'Банковская карта', kk: 'Банк картасы', en: 'Bank card' },
         { ru: 'Консульский сбор и виза', kk: 'Консулдық алым және виза', en: 'Consular fee and visa' },
         { ru: 'Скан визы куратору', kk: 'Виза сканы кураторға', en: 'Visa scan to the curator' },
@@ -490,8 +490,8 @@ export function departureChain(track: Track): DepartureChain {
         { ru: 'Выезд на стажировку', kk: 'Тағылымдамаға шығу', en: 'Departure' },
       ],
       note: {
-        ru: 'Договор — основание для оплаты расходов: деньги перечисляют после того, как он заключён.',
-        kk: 'Шарт — шығысты төлеу негізі: ақша ол жасалғаннан кейін аударылады.',
+        ru: 'Договор – основание для оплаты расходов: деньги перечисляют после того, как он заключён.',
+        kk: 'Шарт – шығысты төлеу негізі: ақша ол жасалғаннан кейін аударылады.',
         en: 'The contract is the basis for paying costs: money is transferred once it is signed.',
       },
       sources: ['ns_finance', 'ns_rules422'],

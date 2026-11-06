@@ -9,7 +9,7 @@ export function localIso(date: Date): string {
   return `${y}-${m}-${d}`
 }
 
-/** A real calendar date in yyyy-mm-dd form — 2026-02-31 is rejected, not rolled over. */
+/** A real calendar date in yyyy-mm-dd form – 2026-02-31 is rejected, not rolled over. */
 export function isIsoDate(value: unknown): value is string {
   if (typeof value !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(value)) return false
   const [y, m, d] = value.split('-').map(Number)

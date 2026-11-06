@@ -42,7 +42,7 @@
   letter-spacing: -0.02em;
   min-width: 0;
 }
-/* Only the month name gets a capital — `capitalize` would also shout the "г." after the year. */
+/* Only the month name gets a capital – `capitalize` would also shout the "г." after the year. */
 .title::first-letter {
   text-transform: uppercase;
 }
@@ -401,7 +401,7 @@
 
 @media (max-width: 560px) {
   /* The whole week has to fit the screen. A calendar you scroll sideways to see
-     Saturday is not a calendar, so the cells shrink and the chips become dots —
+     Saturday is not a calendar, so the cells shrink and the chips become dots –
      the titles are one tap away in the day card. */
   .grid {
     min-width: 0;

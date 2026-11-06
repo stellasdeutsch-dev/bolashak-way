@@ -7,7 +7,7 @@ import { useI18n, formatMonths, formatYears } from '@/i18n'
 import { Callout } from './ui'
 
 /**
- * Says plainly when the answers show the reader does not meet a hard condition yet —
+ * Says plainly when the answers show the reader does not meet a hard condition yet –
  * before they spend months collecting documents for an application that cannot pass.
  */
 export function EligibilityBanner() {

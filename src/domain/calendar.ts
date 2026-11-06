@@ -18,7 +18,7 @@ export interface MonthCell {
 }
 
 /**
- * Six weeks from a Monday — 42 cells, always. A grid that changes height between months
+ * Six weeks from a Monday – 42 cells, always. A grid that changes height between months
  * makes the whole page jump every time the reader presses an arrow.
  */
 export function monthMatrix(year: number, month: number): MonthCell[] {

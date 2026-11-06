@@ -4,7 +4,7 @@
   gap: 18px;
 }
 
-/* — sticky progress header — */
+/* – sticky progress header – */
 .sticky {
   position: sticky;
   top: calc(var(--header-h) - 8px);
@@ -12,7 +12,7 @@
   margin: 0 -4px;
   transition: transform 260ms var(--ease-out), opacity 200ms var(--ease-out);
 }
-/* Out of the way while reading down the path, back on the first upward flick —
+/* Out of the way while reading down the path, back on the first upward flick –
    on a phone the bar is four rows tall and otherwise covers the roadmap itself. */
 .stickyHidden {
   transform: translateY(calc(-100% - var(--header-h)));
@@ -94,7 +94,7 @@
   }
 }
 
-/* — intro card — */
+/* – intro card – */
 .intro {
   display: flex;
   align-items: center;
@@ -204,7 +204,7 @@
   }
 }
 
-/* — chapter banners, sitting on the continuous track — */
+/* – chapter banners, sitting on the continuous track – */
 .banner {
   position: relative;
   z-index: 2;
@@ -214,8 +214,8 @@
   padding: 20px 22px;
   margin: 30px 0 16px;
   border-radius: var(--r-lg);
-  /* Chapters are signposts, not alarms: light, so the one dark block on the page —
-     what to do now — keeps all the weight. */
+  /* Chapters are signposts, not alarms: light, so the one dark block on the page –
+     what to do now – keeps all the weight. */
   background: var(--surface);
   color: var(--text);
   border: 1px solid var(--line);
@@ -274,7 +274,7 @@
   border-color: rgba(255, 255, 255, 0.1);
 }
 
-/* — straight vertical path — */
+/* – straight vertical path – */
 .track {
   position: relative;
   display: flex;

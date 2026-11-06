@@ -3,7 +3,7 @@ import type { StageId, VideoItem } from './types'
 /**
  * Official videos from the Center for International Programmes' own YouTube channel
  * (https://www.youtube.com/@bolashaqpresidentialschola8029). Titles, dates and durations
- * are copied verbatim from the channel — we never summarise what a video says, because
+ * are copied verbatim from the channel – we never summarise what a video says, because
  * a video from an earlier competition year can describe rules that have since changed.
  * The upload date is always shown next to the title for exactly that reason.
  */

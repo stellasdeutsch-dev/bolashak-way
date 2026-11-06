@@ -262,7 +262,7 @@ export function Calendar() {
                             ].join(' ')}
                             title={e.title}
                             // The label is the only accessible name once the chip
-                            // collapses to a dot on a narrow screen — and the status is
+                            // collapses to a dot on a narrow screen – and the status is
                             // spelled out, not left to the colour.
                             aria-label={`${e.title}, ${statusLabel(e)}`}
                             draggable={e.kind === 'anchor'}

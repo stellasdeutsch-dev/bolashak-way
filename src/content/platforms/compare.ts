@@ -1,7 +1,7 @@
 import type { L, PlatformSlug, SourceId } from '../types'
 
 /**
- * The one place where all five programmes stand side by side — the chooser, for someone
+ * The one place where all five programmes stand side by side – the chooser, for someone
  * who does not yet know which one is theirs. Every row restates facts the platforms carry
  * themselves, with the same sources.
  */
@@ -38,7 +38,7 @@ export const COMPARE: CompareRow[] = [
     label: { ru: 'Что нужно иметь', kk: 'Не болуы керек', en: 'What you need to have' },
     cells: {
       bachelor: { ru: 'Аттестат и диплом международной олимпиады или конкурса за 3 года', kk: 'Аттестат және соңғы 3 жылдағы халықаралық олимпиада не конкурс дипломы', en: 'A school certificate and an international olympiad or contest diploma from the last 3 years' },
-      master: { ru: 'Диплом бакалавра или специалиста; льготным — ещё стаж и GPA 3.00', kk: 'Бакалавр не маман дипломы; жеңілдіктілерге — өтіл және GPA 3.00', en: "A bachelor's or specialist diploma; preferential categories also need experience and GPA 3.00" },
+      master: { ru: 'Диплом бакалавра или специалиста; льготным – ещё стаж и GPA 3.00', kk: 'Бакалавр не маман дипломы; жеңілдіктілерге – өтіл және GPA 3.00', en: "A bachelor's or specialist diploma; preferential categories also need experience and GPA 3.00" },
       doctorate: { ru: 'Высшее образование и приглашение из вуза Списка', kk: 'Жоғары білім және Тізімдегі ЖОО шақыруы', en: 'Higher education and an offer from a listed university' },
       internship: { ru: 'Высшее образование, 3 года стажа, из них 12 месяцев подряд по своей области', kk: 'Жоғары білім, 3 жыл өтіл, оның 12 айы өз саласында қатарынан', en: 'Higher education, 3 years of experience, the last 12 months in a row in your field' },
       science: { ru: 'Учёная степень от магистра, 12 месяцев в науке, публикации', kk: 'Магистрден бастап ғылыми дәреже, ғылымда 12 ай, жарияланымдар', en: "A degree from master's up, 12 months in research, publications" },
@@ -49,11 +49,11 @@ export const COMPARE: CompareRow[] = [
     id: 'invite',
     label: { ru: 'Приглашение при подаче', kk: 'Тапсыру кезіндегі шақыру', en: 'Offer needed to apply' },
     cells: same(
-      { ru: 'Да — безусловное, из вуза Списка', kk: 'Иә — сөзсіз, Тізімдегі ЖОО-дан', en: 'Yes — unconditional, from a listed university' },
+      { ru: 'Да – безусловное, из вуза Списка', kk: 'Иә – сөзсіз, Тізімдегі ЖОО-дан', en: 'Yes – unconditional, from a listed university' },
       {
-        master: { ru: 'Если поступаете сами — да; льготным — нет, вуз после конкурса', kk: 'Өз бетіңізше түссеңіз — иә; жеңілдіктілерге — жоқ, ЖОО конкурстан кейін', en: 'Yes if self-admitted; preferential categories — no, the university comes after the competition' },
-        internship: { ru: 'Да — от принимающей организации', kk: 'Иә — қабылдаушы ұйымнан', en: 'Yes — from the host organisation' },
-        science: { ru: 'Да — от организации из списка научных стажировок', kk: 'Иә — ғылыми тағылымдама тізіміндегі ұйымнан', en: 'Yes — from a host on the scientific-internship list' },
+        master: { ru: 'Если поступаете сами – да; льготным – нет, вуз после конкурса', kk: 'Өз бетіңізше түссеңіз – иә; жеңілдіктілерге – жоқ, ЖОО конкурстан кейін', en: 'Yes if self-admitted; preferential categories – no, the university comes after the competition' },
+        internship: { ru: 'Да – от принимающей организации', kk: 'Иә – қабылдаушы ұйымнан', en: 'Yes – from the host organisation' },
+        science: { ru: 'Да – от организации из списка научных стажировок', kk: 'Иә – ғылыми тағылымдама тізіміндегі ұйымнан', en: 'Yes – from a host on the scientific-internship list' },
       },
     ),
     sources: ['pp573', 'ns_rules422'],
@@ -74,11 +74,11 @@ export const COMPARE: CompareRow[] = [
     id: 'language',
     label: { ru: 'Иностранный язык', kk: 'Шет тілі', en: 'Foreign language' },
     cells: {
-      bachelor: { ru: 'По требованию вуза — сертификат в пакет не входит', kk: 'ЖОО талабы бойынша — сертификат топтамаға кірмейді', en: "As the university requires — no certificate in the package" },
-      master: { ru: 'Льготным — I порог и курсы; поступающим сами — по требованию вуза, сертификат в пакет не входит', kk: 'Жеңілдіктілерге — I шек және курстар; өз бетіншелерге — ЖОО талабы бойынша, сертификат топтамаға кірмейді', en: 'Preferential — level I plus courses; self-admitted — as the university requires, no certificate in the package' },
-      doctorate: { ru: 'По требованию вуза — сертификат в пакет не входит', kk: 'ЖОО талабы бойынша — сертификат топтамаға кірмейді', en: 'As the university requires — no certificate in the package' },
+      bachelor: { ru: 'По требованию вуза – сертификат в пакет не входит', kk: 'ЖОО талабы бойынша – сертификат топтамаға кірмейді', en: "As the university requires – no certificate in the package" },
+      master: { ru: 'Льготным – I порог и курсы; поступающим сами – по требованию вуза, сертификат в пакет не входит', kk: 'Жеңілдіктілерге – I шек және курстар; өз бетіншелерге – ЖОО талабы бойынша, сертификат топтамаға кірмейді', en: 'Preferential – level I plus courses; self-admitted – as the university requires, no certificate in the package' },
+      doctorate: { ru: 'По требованию вуза – сертификат в пакет не входит', kk: 'ЖОО талабы бойынша – сертификат топтамаға кірмейді', en: 'As the university requires – no certificate in the package' },
       internship: { ru: 'III порог, например IELTS 5.0', kk: 'III шек, мысалы IELTS 5.0', en: 'Level III, e.g. IELTS 5.0' },
-      science: { ru: 'Своя таблица: английский — IELTS 5.0', kk: 'Өз кестесі: ағылшын — IELTS 5.0', en: 'Its own table: English — IELTS 5.0' },
+      science: { ru: 'Своя таблица: английский – IELTS 5.0', kk: 'Өз кестесі: ағылшын – IELTS 5.0', en: 'Its own table: English – IELTS 5.0' },
     },
     sources: ['pp573', 'prikaz318', 'ns_rules422'],
   },
@@ -105,8 +105,8 @@ export const COMPARE: CompareRow[] = [
     label: { ru: 'Отработка', kk: 'Өтеу', en: 'Work-back' },
     cells: {
       bachelor: { ru: '5 лет в Астане, Алматы, Шымкенте или 3 года в регионах', kk: 'Астана, Алматы, Шымкентте 5 жыл не өңірлерде 3 жыл', en: '5 years in Astana, Almaty, Shymkent or 3 in the regions' },
-      master: { ru: '5 или 3 года; госслужащим и атомщикам — 3 года', kk: '5 не 3 жыл; мемқызметшілер мен атомшыларға — 3 жыл', en: '5 or 3 years; civil servants and nuclear workers — 3' },
-      doctorate: { ru: '5 или 3 года; атомщикам — 3 года у работодателя', kk: '5 не 3 жыл; атомшыларға — жұмыс берушіде 3 жыл', en: '5 or 3 years; nuclear workers — 3 with the employer' },
+      master: { ru: '5 или 3 года; госслужащим и атомщикам – 3 года', kk: '5 не 3 жыл; мемқызметшілер мен атомшыларға – 3 жыл', en: '5 or 3 years; civil servants and nuclear workers – 3' },
+      doctorate: { ru: '5 или 3 года; атомщикам – 3 года у работодателя', kk: '5 не 3 жыл; атомшыларға – жұмыс берушіде 3 жыл', en: '5 or 3 years; nuclear workers – 3 with the employer' },
       internship: { ru: '3 года у своего работодателя', kk: 'Өз жұмыс берушіде 3 жыл', en: '3 years with your employer' },
       science: { ru: '3 года подряд у своего работодателя', kk: 'Өз жұмыс берушіде қатарынан 3 жыл', en: '3 years in a row with your employer' },
     },
@@ -122,7 +122,7 @@ export const COMPARE: CompareRow[] = [
 
 /**
  * Two questions that settle which platform is yours. The answers lead to a slug, never to
- * a verdict on eligibility — that is each platform's own first stage.
+ * a verdict on eligibility – that is each platform's own first stage.
  */
 export interface FinderOption {
   id: string
@@ -143,8 +143,8 @@ export const FINDER: FinderQuestion[] = [
     id: 'goal',
     q: { ru: 'Что вам нужно за рубежом?', kk: 'Шетелде сізге не керек?', en: 'What do you want abroad?' },
     options: [
-      { id: 'degree', label: { ru: 'Степень — учиться в вузе', kk: 'Дәреже — ЖОО-да оқу', en: 'A degree — to study at a university' }, next: 'level' },
-      { id: 'placement', label: { ru: 'Опыт — стажировка на срок до года', kk: 'Тәжірибе — бір жылға дейінгі тағылымдама', en: 'Experience — a placement of up to a year' }, next: 'who' },
+      { id: 'degree', label: { ru: 'Степень – учиться в вузе', kk: 'Дәреже – ЖОО-да оқу', en: 'A degree – to study at a university' }, next: 'level' },
+      { id: 'placement', label: { ru: 'Опыт – стажировка на срок до года', kk: 'Тәжірибе – бір жылға дейінгі тағылымдама', en: 'Experience – a placement of up to a year' }, next: 'who' },
     ],
   },
   {

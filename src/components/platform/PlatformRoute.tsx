@@ -4,7 +4,7 @@ import { getPlatform, isPlatformSlug, platformForTrack } from '@/content/platfor
 import { platformPaths } from '@/domain/paths'
 import { useAppStore } from '@/store/useAppStore'
 import { useI18n } from '@/i18n'
-import { ButtonLink, Card, Pill } from '@/components/ui'
+import { ButtonLink, Card } from '@/components/ui'
 import { StageIcon } from '@/components/StageIcon'
 import { NotFound } from '@/pages/NotFound'
 import s from './Platform.module.css'
@@ -12,7 +12,7 @@ import s from './Platform.module.css'
 /**
  * Validates the platform in the address. With `gate`, the page is personal (roadmap,
  * stage, documents, calendar): it needs a profile, and that profile has to belong to
- * this platform — one roadmap, one programme.
+ * this platform – one roadmap, one programme.
  */
 export function PlatformRoute({ gate = false, children }: { gate?: boolean; children: ReactNode }) {
   const { platform } = useParams()
@@ -31,7 +31,6 @@ function PlatformMismatch({ slug }: { slug: Parameters<typeof getPlatform>[0] })
   const target = getPlatform(slug)
   return (
     <Card className={s.mismatch}>
-      <Pill tone="warn">{t('platform.mismatchKicker')}</Pill>
       <h1 className={s.mismatchTitle}>{t('platform.mismatchTitle', { name: c(mine.name) })}</h1>
       <p className={s.mismatchText}>{t('platform.mismatchText', { other: c(target.name) })}</p>
       <div className={s.mismatchActions}>

@@ -37,7 +37,7 @@ describe('matchingEquivalents', () => {
 
 /**
  * The two lists are generated from official PDFs by scripts/import-lists.mjs. These guard the
- * shape the search relies on — a parser regression must fail here, not in front of a user.
+ * shape the search relies on – a parser regression must fail here, not in front of a user.
  */
 describe('the generated lists', () => {
   it('carry enough rows to be the real lists', () => {

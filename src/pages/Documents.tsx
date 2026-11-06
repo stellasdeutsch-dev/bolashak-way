@@ -1,13 +1,13 @@
 import { useEffect, useMemo, useState } from 'react'
 import { useNavigate } from 'react-router'
-import { IconCheck as Check, IconDownload as Download, IconFileSignature as FileSignature, IconFileStack as FileStack } from '@/components/icons'
+import { IconCheck as Check, IconDownload as Download, IconFileSignature as FileSignature } from '@/components/icons'
 import { getStageFor } from '@/domain/resolve'
 import { getSource } from '@/content/sources'
 import { documentsFor, isDocAuto } from '@/domain/documents'
 import { useAppStore } from '@/store/useAppStore'
 import { useI18n } from '@/i18n'
 import { usePageChrome } from '@/i18n/usePageChrome'
-import { Card, Pill, ProgressRing } from '@/components/ui'
+import { Card, ProgressRing } from '@/components/ui'
 import { AllForms } from '@/components/Forms'
 import { StepBar } from '@/components/Meter'
 import s from './Documents.module.css'
@@ -39,10 +39,6 @@ export function Documents() {
     <div className={s.page}>
       <Card className={s.head}>
         <div className={s.headText}>
-          <Pill tone="accent">
-            <FileStack size={13} aria-hidden="true" />
-            {t('documents.kicker')}
-          </Pill>
           <h1 className={`display ${s.title}`}>
             {doneCount} / {all.length} {t('documents.collected')}
             <b>{t('documents.title')}</b>

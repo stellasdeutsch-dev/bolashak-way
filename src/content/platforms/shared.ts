@@ -1,7 +1,7 @@
 import type { L, StagePatches } from '../types'
 
 /**
- * Wording the three degree platforms share — bachelor, master and doctorate all study at a
+ * Wording the three degree platforms share – bachelor, master and doctorate all study at a
  * listed university, sign a study contract and come back with a diploma. Each of them
  * merges this under its own patches, so only what genuinely differs is written twice.
  */
@@ -31,7 +31,7 @@ export const ACADEMIC_STAGES: StagePatches = {
   return: {
     checklist: {
       application: {
-        ru: 'Отправили куратору заявление о завершении учёбы — по установленной форме.',
+        ru: 'Отправили куратору заявление о завершении учёбы – по установленной форме.',
         kk: 'Кураторға оқуды аяқтау туралы өтінішті белгіленген нысанда жібердіңіз.',
         en: 'You sent your curator the completion-of-study application on the standard form.',
       },
@@ -45,7 +45,7 @@ export const ACADEMIC_COVERAGE: L[] = [
   { ru: 'Проживание, питание и учебная литература', kk: 'Тұру, тамақ және оқу әдебиеті', en: 'Accommodation, meals and textbooks' },
   { ru: 'Подача до 5 анкет в зарубежные вузы', kk: 'Шетелдік ЖОО-ларға 5-ке дейін анкета беру', en: 'Up to 5 applications to foreign universities' },
   { ru: 'Виза и её продление (консульский сбор)', kk: 'Виза және оны ұзарту (консулдық алым)', en: 'The visa and its renewal (consular fee)' },
-  { ru: 'Проезд к месту учёбы и обратно, а при учёбе дольше года — к началу и после каждого учебного года', kk: 'Оқу орнына барып-қайту, бір жылдан ұзақ оқығанда — әр оқу жылының басында және соңында', en: 'Travel to the place of study and back — and, for programmes over a year, at the start and end of each year' },
+  { ru: 'Проезд к месту учёбы и обратно, а при учёбе дольше года – к началу и после каждого учебного года', kk: 'Оқу орнына барып-қайту, бір жылдан ұзақ оқығанда – әр оқу жылының басында және соңында', en: 'Travel to the place of study and back – and, for programmes over a year, at the start and end of each year' },
   { ru: 'Медицинская страховка и обязательное медобследование', kk: 'Медициналық сақтандыру және міндетті медициналық тексеру', en: 'Medical insurance and mandatory medical checks' },
   { ru: 'Регистрация в стране обучения, банковская карта, транскрипты от вуза', kk: 'Оқу елінде тіркелу, банк картасы, ЖОО транскрипттері', en: 'Registration in the host country, a bank card, transcripts from the university' },
 ]

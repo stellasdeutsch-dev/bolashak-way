@@ -19,7 +19,7 @@ export interface IcsEvent {
 
 /**
  * RFC 5545 §3.3.11: backslash, semicolon and comma separate fields, and a newline is
- * written as a literal \n. The backslash goes first — otherwise it escapes the
+ * written as a literal \n. The backslash goes first – otherwise it escapes the
  * backslashes this function has just added.
  */
 function escape(value: string): string {
@@ -32,7 +32,7 @@ function escape(value: string): string {
 
 /**
  * Line folding (RFC 5545 §3.1): at most 75 octets, continuations start with a space.
- * It has to count OCTETS, not characters, and must not split a multi-byte character —
+ * It has to count OCTETS, not characters, and must not split a multi-byte character –
  * Cyrillic is two bytes per letter, and a cut in the middle arrives as mojibake.
  */
 function fold(line: string): string {

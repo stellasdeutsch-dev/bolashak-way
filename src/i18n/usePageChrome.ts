@@ -13,6 +13,6 @@ export function usePageChrome(title?: string) {
   }, [locale])
 
   useEffect(() => {
-    document.title = title ? `${title} — Bolashak Way` : 'Bolashak Way'
+    document.title = title ? `${title} – Bolashak Way` : 'Bolashak Way'
   }, [title])
 }

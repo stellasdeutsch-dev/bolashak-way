@@ -8,14 +8,14 @@ export const APPLY_STAGES: Stage[] = [
     kicker: { ru: 'Пакет', kk: 'Топтама', en: 'The package' },
     title: { ru: 'Соберите пакет документов', kk: 'Құжаттар топтамасын жинаңыз', en: 'Assemble the document package' },
     summary: {
-      ru: 'Что именно нужно — зависит от категории. Если чего-то не хватит, донести можно, но только пока идёт приём.',
+      ru: 'Что именно нужно – зависит от категории. Если чего-то не хватит, донести можно, но только пока идёт приём.',
       kk: 'Не керегі санатқа байланысты. Бірдеңе жетпесе, толықтыруға болады, бірақ тек қабылдау жүріп жатқанда.',
       en: 'What exactly you need depends on your category. If something is missing you can bring it later, but only while the intake is open.',
     },
     why: {
       ru: 'Самый долгий этап. Нотариальные переводы, справки, выписки и мотивационное письмо занимают недели. Начинайте, как только объявили сроки приёма, а лучше раньше.',
-      kk: 'Ең ұзақ кезең. Нотариалды аударма, анықтама, үзінді көшірме және мотивациялық хат апталар алады. Қабылдау мерзімі жарияланған бойда бастаңыз, одан ерте болса — жақсы.',
-      en: 'The longest stage. Notarised translations, certificates, statements and the motivation letter take weeks. Start as soon as the dates are announced — earlier if you can.',
+      kk: 'Ең ұзақ кезең. Нотариалды аударма, анықтама, үзінді көшірме және мотивациялық хат апталар алады. Қабылдау мерзімі жарияланған бойда бастаңыз, одан ерте болса – жақсы.',
+      en: 'The longest stage. Notarised translations, certificates, statements and the motivation letter take weeks. Start as soon as the dates are announced – earlier if you can.',
     },
     inShort: {
       what: { ru: 'Сбор бумаг. Самый долгий и муторный этап: переводы, справки, выписки и мотивационное письмо.', kk: 'Қағаз жинау. Ең ұзақ әрі әуре кезең: аудармалар, анықтамалар, үзінді көшірмелер және мотивациялық хат.', en: 'Paperwork. The longest and most tedious stage: translations, certificates, statements and the motivation letter.' },
@@ -43,8 +43,8 @@ export const APPLY_STAGES: Stage[] = [
       {
         id: 'diploma',
         text: {
-          ru: 'Диплом с приложением. Если учились за границей — ещё удостоверение о признании или нострификации.',
-          kk: 'Диплом қосымшасымен. Шетелде оқыған болсаңыз — тану не нострификация куәлігі де керек.',
+          ru: 'Диплом с приложением. Если учились за границей – ещё удостоверение о признании или нострификации.',
+          kk: 'Диплом қосымшасымен. Шетелде оқыған болсаңыз – тану не нострификация куәлігі де керек.',
           en: 'Your diploma with the transcript. If you studied abroad, add a recognition or nostrification certificate.',
         },
         appliesTo: { not: { track: ['bachelor'] } },
@@ -99,8 +99,8 @@ export const APPLY_STAGES: Stage[] = [
       {
         id: 'employer_request',
         text: {
-          ru: 'Заявка от работодателя на вашу учёбу — по утверждённой форме, с сохранением места работы.',
-          kk: 'Жұмыс берушінің оқуыңызға өтінімі — бекітілген нысан бойынша, жұмыс орны сақталады.',
+          ru: 'Заявка от работодателя на вашу учёбу – по утверждённой форме, с сохранением места работы.',
+          kk: 'Жұмыс берушінің оқуыңызға өтінімі – бекітілген нысан бойынша, жұмыс орны сақталады.',
           en: 'Your employer\'s request to train you, on the approved form, with your job kept.',
         },
         appliesTo: { category: ['master_civil', 'master_nuclear', 'phd_nuclear', 'internship', 'science_internship'] },
@@ -109,9 +109,9 @@ export const APPLY_STAGES: Stage[] = [
       {
         id: 'lang_certs',
         text: {
-          ru: 'Сертификаты по казахскому и иностранному языкам — не ниже минимальных баллов.',
-          kk: 'Қазақ және шет тілі сертификаттары — ең төменгі балдардан төмен емес.',
-          en: 'Kazakh and foreign language certificates — at or above the minimum scores.',
+          ru: 'Сертификаты по казахскому и иностранному языкам – не ниже минимальных баллов.',
+          kk: 'Қазақ және шет тілі сертификаттары – ең төменгі балдардан төмен емес.',
+          en: 'Kazakh and foreign language certificates – at or above the minimum scores.',
         },
         link: 'prikaz318',
         // The packages that list a foreign certificate: ПП 573 п. 10 пп. 5 (preferential master's),
@@ -122,8 +122,8 @@ export const APPLY_STAGES: Stage[] = [
       {
         id: 'lang_kazakh',
         text: {
-          ru: 'Сертификат по казахскому языку — не ниже B1. Сертификата по иностранному в списке документов вашей категории нет: язык подтверждает зачисление в вуз.',
-          kk: 'Қазақ тілі сертификаты — B1-ден төмен емес. Сіздің санатыңыздың құжаттар тізімінде шет тілі сертификаты жоқ: тілді ЖОО-ға қабылдау растайды.',
+          ru: 'Сертификат по казахскому языку – не ниже B1. Сертификата по иностранному в списке документов вашей категории нет: язык подтверждает зачисление в вуз.',
+          kk: 'Қазақ тілі сертификаты – B1-ден төмен емес. Сіздің санатыңыздың құжаттар тізімінде шет тілі сертификаты жоқ: тілді ЖОО-ға қабылдау растайды.',
           en: 'A Kazakh certificate at B1 or above. Your category\'s document list has no foreign-language certificate: the university admission vouches for your language.',
         },
         link: 'pravila',
@@ -145,7 +145,7 @@ export const APPLY_STAGES: Stage[] = [
           kk: 'Шетелдік ЖОО-мен келісілген жеке оқу жоспары, нотариалды аудармасымен.',
           en: 'An individual study plan agreed with the foreign university, with a notarised translation.',
         },
-        // ПП 573 п. 12 пп. 8 — for PhD, professional doctorate and residency alike.
+        // ПП 573 п. 12 пп. 8 – for PhD, professional doctorate and residency alike.
         appliesTo: { category: ['phd_self', 'phd_nuclear', 'residency'] },
       },
       {
@@ -171,9 +171,9 @@ export const APPLY_STAGES: Stage[] = [
       {
         id: 'transcript_current',
         text: {
-          ru: 'Если вы уже учитесь за рубежом — официальная справка об успеваемости от вуза с нотариальным переводом.',
-          kk: 'Шетелде оқып жүрсеңіз — ЖОО-дан үлгерім туралы ресми анықтама, нотариалды аудармасымен.',
-          en: 'If you already study abroad — an official academic record from the university, notarially translated.',
+          ru: 'Если вы уже учитесь за рубежом – официальная справка об успеваемости от вуза с нотариальным переводом.',
+          kk: 'Шетелде оқып жүрсеңіз – ЖОО-дан үлгерім туралы ресми анықтама, нотариалды аудармасымен.',
+          en: 'If you already study abroad – an official academic record from the university, notarially translated.',
         },
         required: false,
         appliesTo: { category: ['master_self', 'phd_self', 'phd_nuclear', 'residency'] },
@@ -181,9 +181,9 @@ export const APPLY_STAGES: Stage[] = [
     ],
     mistakes: [
       {
-        ru: 'Оставить нотариальные переводы на последний день. Приглашение и остальное переводят заранее — это не делается за час.',
-        kk: 'Нотариалды аударманы соңғы күнге қалдыру. Шақыруды және қалғанын алдын ала аударады — бұл бір сағатта бітпейді.',
-        en: 'Leaving notarised translations to the last day. The offer and the rest are translated in advance — it is not an hour\'s work.',
+        ru: 'Оставить нотариальные переводы на последний день. Приглашение и остальное переводят заранее – это не делается за час.',
+        kk: 'Нотариалды аударманы соңғы күнге қалдыру. Шақыруды және қалғанын алдын ала аударады – бұл бір сағатта бітпейді.',
+        en: 'Leaving notarised translations to the last day. The offer and the rest are translated in advance – it is not an hour\'s work.',
       },
       {
         ru: 'Написать мотивационное письмо длиннее 500 слов или забыть поставить дату и подпись в конце.',
@@ -191,9 +191,9 @@ export const APPLY_STAGES: Stage[] = [
         en: 'Writing a motivation letter over 500 words, or forgetting the date and signature at the end.',
       },
       {
-        ru: 'Оформить справку 072/у слишком рано — к подаче она уже просрочена. Делайте её ближе к сроку.',
-        kk: '072/у анықтамасын тым ерте алу — тапсыруға оның мерзімі өтіп кетеді. Мерзімге жақын жасатыңыз.',
-        en: 'Getting form 072/u too early — by the time you apply it has expired. Do it close to the deadline.',
+        ru: 'Оформить справку 072/у слишком рано – к подаче она уже просрочена. Делайте её ближе к сроку.',
+        kk: '072/у анықтамасын тым ерте алу – тапсыруға оның мерзімі өтіп кетеді. Мерзімге жақын жасатыңыз.',
+        en: 'Getting form 072/u too early – by the time you apply it has expired. Do it close to the deadline.',
       },
     ],
     sources: ['pravila', 'pp573', 'ns_documents', 'obrazcy'],
@@ -212,14 +212,14 @@ export const APPLY_STAGES: Stage[] = [
       en: 'Through egov.kz, inside the intake window.',
     },
     why: {
-      ru: 'Сроки приёма объявляют каждый год и публикуют не позднее чем за 10 календарных дней до начала. Пропустили окно — ждать до следующего конкурсного года.',
-      kk: 'Қабылдау мерзімін жыл сайын жариялайды, басталуға 10 күнтізбелік күн қалғанда хабарлайды. Терезені өткізіп алсаңыз — келесі конкурс жылын күтесіз.',
+      ru: 'Сроки приёма объявляют каждый год и публикуют не позднее чем за 10 календарных дней до начала. Пропустили окно – ждать до следующего конкурсного года.',
+      kk: 'Қабылдау мерзімін жыл сайын жариялайды, басталуға 10 күнтізбелік күн қалғанда хабарлайды. Терезені өткізіп алсаңыз – келесі конкурс жылын күтесіз.',
       en: 'The intake dates are announced each year, at least 10 calendar days before they open. Miss the window and you wait for the next competition year.',
     },
     inShort: {
-      what: { ru: 'Собственно подача — через портал egov.kz.', kk: 'Тапсырудың өзі — egov.kz порталы арқылы.', en: 'The submission itself — through the egov.kz portal.' },
+      what: { ru: 'Собственно подача – через портал egov.kz.', kk: 'Тапсырудың өзі – egov.kz порталы арқылы.', en: 'The submission itself – through the egov.kz portal.' },
       you: { ru: 'Узнать сроки приёма и подать пакет внутри этого окна. Оно открывается раз в год.', kk: 'Қабылдау мерзімін біліп, топтаманы сол терезе ішінде тапсыру. Ол жылына бір рет ашылады.', en: 'Find the intake dates and submit inside that window. It opens once a year.' },
-      result: { ru: 'Уведомление в личном кабинете: документы приняли и допустили к конкурсу — или отказали с указанием причины.', kk: 'Жеке кабинеттегі хабарлама: құжат қабылданып, конкурсқа жіберілді — не себебі көрсетіліп, бас тартылды.', en: 'A notice in your account: your documents were accepted and admitted — or refused with the reason given.' },
+      result: { ru: 'Уведомление в личном кабинете: документы приняли и допустили к конкурсу – или отказали с указанием причины.', kk: 'Жеке кабинеттегі хабарлама: құжат қабылданып, конкурсқа жіберілді – не себебі көрсетіліп, бас тартылды.', en: 'A notice in your account: your documents were accepted and admitted – or refused with the reason given.' },
     },
     checklist: [
       {
@@ -244,9 +244,9 @@ export const APPLY_STAGES: Stage[] = [
       {
         id: 'in_person',
         text: {
-          ru: 'Подали документы: правила допускают egov.kz и (или) бумагу. Центр описывает приём нарочно — бумажный пакет плюс скан на флешке или диске: Астана, ул. Сыганак 70, БЦ «Сыганак», 5 этаж, каб. 508.',
-          kk: 'Құжатты тапсырдыңыз: қағида egov.kz-ті және (немесе) қағазды рұқсат етеді. Орталық қолма-қол қабылдауды сипаттайды — қағаз топтама және флешкадағы не дискідегі сканер көшірмесі: Астана, Сығанақ к-сі 70, «Сығанақ» БО, 5-қабат, 508-кабинет.',
-          en: 'You submitted the documents: the rules allow egov.kz and/or paper. The Center describes in-person delivery — the paper package plus a scan on a flash drive or disc: Astana, Syganak street 70, Syganak business centre, floor 5, room 508.',
+          ru: 'Подали документы: правила допускают egov.kz и (или) бумагу. Центр описывает приём нарочно – бумажный пакет плюс скан на флешке или диске: Астана, ул. Сыганак 70, БЦ «Сыганак», 5 этаж, каб. 508.',
+          kk: 'Құжатты тапсырдыңыз: қағида egov.kz-ті және (немесе) қағазды рұқсат етеді. Орталық қолма-қол қабылдауды сипаттайды – қағаз топтама және флешкадағы не дискідегі сканер көшірмесі: Астана, Сығанақ к-сі 70, «Сығанақ» БО, 5-қабат, 508-кабинет.',
+          en: 'You submitted the documents: the rules allow egov.kz and/or paper. The Center describes in-person delivery – the paper package plus a scan on a flash drive or disc: Astana, Syganak street 70, Syganak business centre, floor 5, room 508.',
         },
         appliesTo: { track: ['science_internship'] },
         link: 'ns_documents',
@@ -254,9 +254,9 @@ export const APPLY_STAGES: Stage[] = [
       {
         id: 'poa',
         text: {
-          ru: 'Если документы подаёт кто-то за вас — оформили нотариальную доверенность.',
-          kk: 'Құжатты сіздің орныңызға біреу тапсырса — нотариалды сенімхат рәсімдедіңіз.',
-          en: 'If someone submits on your behalf — you arranged a notarised power of attorney.',
+          ru: 'Если документы подаёт кто-то за вас – оформили нотариальную доверенность.',
+          kk: 'Құжатты сіздің орныңызға біреу тапсырса – нотариалды сенімхат рәсімдедіңіз.',
+          en: 'If someone submits on your behalf – you arranged a notarised power of attorney.',
         },
         required: false,
         appliesTo: { track: ['science_internship'] },
@@ -265,18 +265,18 @@ export const APPLY_STAGES: Stage[] = [
       {
         id: 'notice',
         text: {
-          ru: 'В личный кабинет пришло уведомление: документы приняли и допустили к конкурсу — либо отказали с объяснением причины.',
-          kk: 'Жеке кабинетке хабарлама келді: құжат қабылданып, конкурсқа жіберілді — не себебі көрсетіліп, бас тартылды.',
-          en: 'A notice arrived in your account: your documents were accepted and admitted — or refused with the reason stated.',
+          ru: 'В личный кабинет пришло уведомление: документы приняли и допустили к конкурсу – либо отказали с объяснением причины.',
+          kk: 'Жеке кабинетке хабарлама келді: құжат қабылданып, конкурсқа жіберілді – не себебі көрсетіліп, бас тартылды.',
+          en: 'A notice arrived in your account: your documents were accepted and admitted – or refused with the reason stated.',
         },
         link: 'cabinet',
       },
       {
         id: 'fix',
         text: {
-          ru: 'Если чего-то не хватало — исправили и подали заново, пока приём ещё идёт.',
-          kk: 'Бірдеңе жетпесе — түзетіп, қабылдау жүріп жатқанда қайта тапсырдыңыз.',
-          en: 'If something was missing — you fixed it and re-submitted while the intake was still open.',
+          ru: 'Если чего-то не хватало – исправили и подали заново, пока приём ещё идёт.',
+          kk: 'Бірдеңе жетпесе – түзетіп, қабылдау жүріп жатқанда қайта тапсырдыңыз.',
+          en: 'If something was missing – you fixed it and re-submitted while the intake was still open.',
         },
         required: false,
         link: 'pp573',
@@ -294,7 +294,7 @@ export const APPLY_STAGES: Stage[] = [
       },
       {
         text: {
-          ru: 'Научная стажировка: документы рассматривают и принимают — или отказывают — за 2 рабочих дня.',
+          ru: 'Научная стажировка: документы рассматривают и принимают – или отказывают – за 2 рабочих дня.',
           kk: 'Ғылыми тағылымдама: құжатты 2 жұмыс күнінде қарап, қабылдайды не бас тартады.',
           en: 'Scientific internship: documents are reviewed and either accepted or refused within 2 working days.',
         },
@@ -304,9 +304,9 @@ export const APPLY_STAGES: Stage[] = [
     ],
     mistakes: [
       {
-        ru: 'Указать почту, которой вы не пользуетесь. На неё придут логин и пароль для тестирования, а рассылают их партиями — письмо можно и не заметить.',
-        kk: 'Пайдаланбайтын поштаны көрсету. Тестілеу логині мен құпиясөзі соған келеді, әрі оларды топтап жібереді — хатты байқамай қалуыңыз мүмкін.',
-        en: 'Giving an email you do not check. The testing login and password go there, and they are sent out in batches — the letter is easy to miss.',
+        ru: 'Указать почту, которой вы не пользуетесь. На неё придут логин и пароль для тестирования, а рассылают их партиями – письмо можно и не заметить.',
+        kk: 'Пайдаланбайтын поштаны көрсету. Тестілеу логині мен құпиясөзі соған келеді, әрі оларды топтап жібереді – хатты байқамай қалуыңыз мүмкін.',
+        en: 'Giving an email you do not check. The testing login and password go there, and they are sent out in batches – the letter is easy to miss.',
       },
       {
         ru: 'Подавать недостоверные документы или сведения: претендент исключается из конкурса и не допускается к нему в текущем году.',

@@ -60,7 +60,7 @@ export function Layout({ children }: { children: ReactNode }) {
   const mainRef = useRef<HTMLElement>(null)
   const firstRender = useRef(true)
 
-  // A new page is announced by moving focus to its heading — otherwise keyboard and
+  // A new page is announced by moving focus to its heading – otherwise keyboard and
   // screen-reader users stay on the link they pressed, somewhere in the old page.
   useEffect(() => {
     if (firstRender.current) {

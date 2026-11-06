@@ -112,7 +112,7 @@ export const FAQ_TRANSLATIONS: Record<string, { q: Omit<L, 'ru'>; a: Omit<L, 'ru
       en: 'The camera does not start or spins forever.',
     },
     a: {
-      kk: 'Windows параметрлерінде: Құпиялылық және қорғаныс, Камера — рұқсат берілгенін тексеріңіз. Браузерде: сайт баптаулары, рұқсаттар, камера, рұқсат ету. Алғашқы авторизация кезіндегі қалқымалы терезені бөгемеңіз, бөгелген болса сайт рұқсаттарын қайта орнатыңыз. Камераны webcammictest.com сайтында тексеріңіз. Камераны пайдаланатын басқа бағдарламаларды жабыңыз, екінші мониторды өшіріңіз.',
+      kk: 'Windows параметрлерінде: Құпиялылық және қорғаныс, Камера – рұқсат берілгенін тексеріңіз. Браузерде: сайт баптаулары, рұқсаттар, камера, рұқсат ету. Алғашқы авторизация кезіндегі қалқымалы терезені бөгемеңіз, бөгелген болса сайт рұқсаттарын қайта орнатыңыз. Камераны webcammictest.com сайтында тексеріңіз. Камераны пайдаланатын басқа бағдарламаларды жабыңыз, екінші мониторды өшіріңіз.',
       en: 'In Windows settings check Privacy & security → Camera and allow access. In the browser: site settings → permissions → camera → allow. Do not dismiss the permission popup on first login; if you did, reset the site permissions. Test the camera at webcammictest.com. Close other apps using the camera and disconnect a second monitor.',
     },
   },
@@ -123,7 +123,7 @@ export const FAQ_TRANSLATIONS: Record<string, { q: Omit<L, 'ru'>; a: Omit<L, 'ru
     },
     a: {
       kk: 'Әдеттегі себеп: тексеру кезіндегі фото тіркелу кезіндегі фотомен сәйкес келмейді. Камераға тура қараңыз, бет толық кадрда әрі біркелкі жарықтандырылған болсын. Крестикті баспаңыз: терезе жабылғанда әрекеттер қалпына келеді. Көзілдірікке рұқсат етіледі, бірақ басты бұрғанда прокторинг бұзушылық деп тіркеуі мүмкін.',
-      en: 'The usual cause: the verification photo does not match the one from registration. Look straight into the camera, keep your whole face in frame and evenly lit. Do not click the close button — closing the window resets your attempts. Glasses are allowed, but turning your head may be logged as a violation by the proctoring system.',
+      en: 'The usual cause: the verification photo does not match the one from registration. Look straight into the camera, keep your whole face in frame and evenly lit. Do not click the close button – closing the window resets your attempts. Glasses are allowed, but turning your head may be logged as a violation by the proctoring system.',
     },
   },
   'faq-13': {
@@ -132,7 +132,7 @@ export const FAQ_TRANSLATIONS: Record<string, { q: Omit<L, 'ru'>; a: Omit<L, 'ru
       en: 'What are the technical requirements? Can I use a phone or Safari?',
     },
     a: {
-      kk: 'Кешенді тестілеу тек компьютерде тапсырылады. Ұсынылатын браузер — Chrome соңғы нұсқасы. Жұмыс істейтін веб-камера, тұрақты тікелей интернет, VPN болмауы, бір монитор және экран жазу бағдарламаларының жабық болуы қажет.',
+      kk: 'Кешенді тестілеу тек компьютерде тапсырылады. Ұсынылатын браузер – Chrome соңғы нұсқасы. Жұмыс істейтін веб-камера, тұрақты тікелей интернет, VPN болмауы, бір монитор және экран жазу бағдарламаларының жабық болуы қажет.',
       en: 'The aptitude testing is taken on a computer only. The recommended browser is the latest Chrome. You need a working webcam, a stable direct internet connection, no VPN, a single monitor and no screen-recording software running.',
     },
   },
@@ -163,7 +163,7 @@ export const FAQ_TRANSLATIONS: Record<string, { q: Omit<L, 'ru'>; a: Omit<L, 'ru
     },
     a: {
       kk: 'Сандық және вербалды тесттердің реті өз қалауыңызша таңдалады. Тұлғалық сауалнамада уақыт шектеуі жоқ. Сауалнаманың әр блогында төрт тұжырымның екеуін таңдау керек: біреуін «Көбірек», екіншісін «Азырақ»; барлық тармаққа жауап беріңіз, әйтпесе «Келесі» батырмасы блокты сақтамайды. Сандық және вербалды тесттердің нақты сұрақ саны мен уақыт шегі чаттарда аталмаған.',
-      en: 'You choose the order of the numerical and verbal tests yourself. The personality questionnaire has no time limit. In each block of the questionnaire you pick two of four statements — one as "Most", one as "Least" — and must answer every item, otherwise "Next" will not save the block. The exact number of questions and the time limit for the numerical and verbal tests were never stated in the chats.',
+      en: 'You choose the order of the numerical and verbal tests yourself. The personality questionnaire has no time limit. In each block of the questionnaire you pick two of four statements – one as "Most", one as "Least" – and must answer every item, otherwise "Next" will not save the block. The exact number of questions and the time limit for the numerical and verbal tests were never stated in the chats.',
     },
   },
   'faq-17': {
@@ -173,7 +173,7 @@ export const FAQ_TRANSLATIONS: Record<string, { q: Omit<L, 'ru'>; a: Omit<L, 'ru
     },
     a: {
       kk: 'Көзілдірікке, соның ішінде сәйкестендіру кезінде де, рұқсат етіледі. Толық тізім тестілеу нұсқаулығында, оны басталар алдында оқып шығыңыз. Прокторинг бастың бұрылуына, кадрдағы бөгде заттарға, екінші мониторға және бөгде бағдарламаларға назар аударады. Калькулятор, су және жобалау парағы туралы тармақтар ресми жауапты қажет етеді.',
-      en: 'Glasses are allowed, including during identification. The full list is in the testing instructions — read them before you start. Proctoring reacts to head turns, foreign objects in frame, a second monitor and third-party software. The points about a calculator, water and scratch paper need an official answer.',
+      en: 'Glasses are allowed, including during identification. The full list is in the testing instructions – read them before you start. Proctoring reacts to head turns, foreign objects in frame, a second monitor and third-party software. The points about a calculator, water and scratch paper need an official answer.',
     },
   },
   'faq-18': {
@@ -182,8 +182,8 @@ export const FAQ_TRANSLATIONS: Record<string, { q: Omit<L, 'ru'>; a: Omit<L, 'ru
       en: 'When are the results and scores available?',
     },
     a: {
-      kk: 'Әр тест бойынша нәтиже ол аяқталған соң жеке кабинетте шығады, қажет болса бетті жаңартыңыз. Қорытынды файл кабинеттегі қызыл батырмамен ашылады, бұл — нәтижелері бар PDF. Тағайындау қорытындысы Республикалық комиссия отырысынан кейін жарияланады, нақты күні аталмайды.',
-      en: 'The result of each test appears in the personal cabinet once you finish it; refresh the page if needed. The summary file opens via the red button in the cabinet — a PDF with your results. The award results are published after the Republican Commission meeting; no specific date is given.',
+      kk: 'Әр тест бойынша нәтиже ол аяқталған соң жеке кабинетте шығады, қажет болса бетті жаңартыңыз. Қорытынды файл кабинеттегі қызыл батырмамен ашылады, бұл – нәтижелері бар PDF. Тағайындау қорытындысы Республикалық комиссия отырысынан кейін жарияланады, нақты күні аталмайды.',
+      en: 'The result of each test appears in the personal cabinet once you finish it; refresh the page if needed. The summary file opens via the red button in the cabinet – a PDF with your results. The award results are published after the Republican Commission meeting; no specific date is given.',
     },
   },
   'faq-19': {

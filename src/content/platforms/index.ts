@@ -8,7 +8,7 @@ import { SCIENCE_HOME, SCIENCE_STAGES } from './science'
 
 /**
  * The five programmes, each a platform of its own: its own address, colour, front page and
- * wording. Two programmes administered by the same Center sit behind them — the Bolashak
+ * wording. Two programmes administered by the same Center sit behind them – the Bolashak
  * scholarship (ПП 573: the first four) and scientific internships (приказ МНВО № 422).
  */
 export interface PlatformMeta {
@@ -57,9 +57,9 @@ export const PLATFORMS: PlatformMeta[] = [
     programme: BOLASHAK,
     name: { ru: 'Докторантура и резидентура', kk: 'Докторантура және резидентура', en: 'Doctorate and residency' },
     tagline: {
-      ru: 'PhD, доктор по профилю или резидентура — с приглашением из вуза Списка',
-      kk: 'PhD, бейіні бойынша доктор не резидентура — Тізімдегі ЖОО шақыруымен',
-      en: 'PhD, professional doctorate or residency — with an offer from a listed university',
+      ru: 'PhD, доктор по профилю или резидентура – с приглашением из вуза Списка',
+      kk: 'PhD, бейіні бойынша доктор не резидентура – Тізімдегі ЖОО шақыруымен',
+      en: 'PhD, professional doctorate or residency – with an offer from a listed university',
     },
   },
   {
@@ -81,9 +81,9 @@ export const PLATFORMS: PlatformMeta[] = [
     programme: 'science',
     name: { ru: 'Научная стажировка', kk: 'Ғылыми тағылымдама', en: 'Scientific internship' },
     tagline: {
-      ru: 'От 3 до 12 месяцев в зарубежном научном центре или вузе — для учёных со степенью',
+      ru: 'От 3 до 12 месяцев в зарубежном научном центре или вузе – для учёных со степенью',
       kk: 'Дәрежесі бар ғалымдарға шетелдік ғылыми орталықта не ЖОО-да 3-тен 12 айға дейін',
-      en: 'Three to twelve months at a foreign research centre or university — for researchers with a degree',
+      en: 'Three to twelve months at a foreign research centre or university – for researchers with a degree',
     },
   },
 ]

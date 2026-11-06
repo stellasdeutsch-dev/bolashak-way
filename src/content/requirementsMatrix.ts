@@ -50,7 +50,7 @@ export const REQUIREMENT_MATRIX: MatrixRow[] = [
     source: 'pp573',
   },
   {
-    // ПП 573 п. 9 пп. 4: GPA 3.0 (of 4.0/4.33) for п. 4 пп. 2)–5), 7) — the preferential categories.
+    // ПП 573 п. 9 пп. 4: GPA 3.0 (of 4.0/4.33) for п. 4 пп. 2)–5), 7) – the preferential categories.
     id: 'gpa',
     label: { ru: 'GPA не ниже 3.00', kk: 'GPA 3.00-ден төмен емес', en: 'GPA of 3.00 or more' },
     cell: (c) => yes(c.preferential),
@@ -83,9 +83,9 @@ export const REQUIREMENT_MATRIX: MatrixRow[] = [
     label: { ru: 'Порог иностранного языка', kk: 'Шет тілі шегі', en: 'Foreign-language threshold' },
     cell: (c) =>
       c.languageGroup === 'preferential'
-        ? { kind: 'text', text: { ru: 'I — и курсы', kk: 'I — және курстар', en: 'I — plus courses' } }
+        ? { kind: 'text', text: { ru: 'I – и курсы', kk: 'I – және курстар', en: 'I – plus courses' } }
         : c.languageGroup === 'self'
-          ? { kind: 'text', text: { ru: 'Не условие — по требованию вуза', kk: 'Шарт емес — ЖОО талабы бойынша', en: 'Not a condition — as the university requires' } }
+          ? { kind: 'text', text: { ru: 'Не условие – по требованию вуза', kk: 'Шарт емес – ЖОО талабы бойынша', en: 'Not a condition – as the university requires' } }
           : { kind: 'no' },
     source: 'prikaz318',
   },

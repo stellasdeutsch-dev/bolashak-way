@@ -42,7 +42,7 @@ function ruPlural(n: number, one: string, few: string, many: string): string {
   return many
 }
 
-/** "1 год" / "2 года" / "5 лет" — used wherever an experience figure is shown. */
+/** "1 год" / "2 года" / "5 лет" – used wherever an experience figure is shown. */
 export function formatYears(n: number, locale: Locale): string {
   if (locale === 'kk') return `${n} жыл`
   if (locale === 'en') return `${n} ${n === 1 ? 'year' : 'years'}`

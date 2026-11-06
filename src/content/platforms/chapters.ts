@@ -3,7 +3,7 @@ import { CHAPTERS } from '../stages'
 
 /**
  * The five chapters in each programme's own words. The shared subtitles named things only
- * some programmes have — language courses, a university, a degree — so every platform
+ * some programmes have – language courses, a university, a degree – so every platform
  * says what its own chapter holds.
  */
 const SAME_APPLY: L = {
@@ -51,14 +51,14 @@ const WORDS: Record<Track, Words> = {
     awarded: {
       title: AWARD_TITLE,
       subtitle: {
-        ru: 'Договор за 90 дней; льготным категориям — языковые курсы и поступление; затем выезд',
-        kk: '90 күнде шарт; жеңілдікті санаттарға — тіл курстары және түсу; содан кейін шығу',
+        ru: 'Договор за 90 дней; льготным категориям – языковые курсы и поступление; затем выезд',
+        kk: '90 күнде шарт; жеңілдікті санаттарға – тіл курстары және түсу; содан кейін шығу',
         en: 'The contract within 90 days; preferential categories take language courses and apply; then departure',
       },
     },
     abroad: {
       title: STUDY_TITLE,
-      subtitle: { ru: 'Учёба, возвращение и отработка — от 3 до 5 лет', kk: 'Оқу, оралу және өтеу — 3-тен 5 жылға дейін', en: 'Study, come back and the work-back — three to five years' },
+      subtitle: { ru: 'Учёба, возвращение и отработка – от 3 до 5 лет', kk: 'Оқу, оралу және өтеу – 3-тен 5 жылға дейін', en: 'Study, come back and the work-back – three to five years' },
     },
   },
   phd_residency: {
@@ -77,7 +77,7 @@ const WORDS: Record<Track, Words> = {
     },
     abroad: {
       title: STUDY_TITLE,
-      subtitle: { ru: 'Учёба, возвращение и отработка — 5 или 3 года', kk: 'Оқу, оралу және өтеу — 5 не 3 жыл', en: 'Study, come back and the work-back — five or three years' },
+      subtitle: { ru: 'Учёба, возвращение и отработка – 5 или 3 года', kk: 'Оқу, оралу және өтеу – 5 не 3 жыл', en: 'Study, come back and the work-back – five or three years' },
     },
   },
   internship: {
@@ -108,7 +108,7 @@ const WORDS: Record<Track, Words> = {
       },
     },
     apply: {
-      subtitle: { ru: 'Собираем пакет — оригиналы и копии — и сдаём в Центр', kk: 'Топтаманы — түпнұсқа мен көшірмелерді — жинап, Орталыққа тапсырамыз', en: 'Assemble the package — originals and copies — and hand it to the Center' },
+      subtitle: { ru: 'Собираем пакет – оригиналы и копии – и сдаём в Центр', kk: 'Топтаманы – түпнұсқа мен көшірмелерді – жинап, Орталыққа тапсырамыз', en: 'Assemble the package – originals and copies – and hand it to the Center' },
     },
     contest: {
       subtitle: { ru: 'Три тура: тестирование, собеседование с экспертами и решение комиссии', kk: 'Үш тур: тестілеу, сарапшылармен әңгімелесу және комиссия шешімі', en: 'Three rounds: testing, an interview with experts and the commission decision' },

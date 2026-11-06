@@ -4,9 +4,9 @@ const STORE_KEY = 'bolashak-way'
 
 /** Plain-language text in all three languages: a crash may come from the i18n layer itself. */
 const TEXT = [
-  { lang: 'ru', title: 'Что-то пошло не так', body: 'Обновите страницу. Если не поможет — сбросьте сохранённые данные: анкету придётся пройти заново.', reload: 'Обновить', reset: 'Сбросить данные' },
-  { lang: 'kk', title: 'Бірдеңе дұрыс болмады', body: 'Бетті жаңартыңыз. Көмектеспесе — сақталған деректерді тазалаңыз: сауалнаманы қайта толтыру керек болады.', reload: 'Жаңарту', reset: 'Деректерді тазалау' },
-  { lang: 'en', title: 'Something went wrong', body: 'Reload the page. If that does not help, reset the saved data — you will answer the questions again.', reload: 'Reload', reset: 'Reset data' },
+  { lang: 'ru', title: 'Что-то пошло не так', body: 'Обновите страницу. Если не поможет – сбросьте сохранённые данные: анкету придётся пройти заново.', reload: 'Обновить', reset: 'Сбросить данные' },
+  { lang: 'kk', title: 'Бірдеңе дұрыс болмады', body: 'Бетті жаңартыңыз. Көмектеспесе – сақталған деректерді тазалаңыз: сауалнаманы қайта толтыру керек болады.', reload: 'Жаңарту', reset: 'Деректерді тазалау' },
+  { lang: 'en', title: 'Something went wrong', body: 'Reload the page. If that does not help, reset the saved data – you will answer the questions again.', reload: 'Reload', reset: 'Reset data' },
 ]
 
 function pickText() {

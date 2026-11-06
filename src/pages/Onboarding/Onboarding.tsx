@@ -128,9 +128,6 @@ export function Onboarding() {
     return (
       <div className={s.wrap}>
         <Card dark className={s.welcome}>
-          <div className={s.welcomeTop}>
-            <Pill tone="dark">{t('onboarding.welcomeKicker')}</Pill>
-          </div>
           <h1 className={`display ${s.welcomeTitle}`}>
             {c(platform.name)}
             <b>{t('onboarding.welcomeTitle')}</b>

@@ -7,39 +7,39 @@ import type { Category, CategoryId, L, Track, WorkerGroup } from './types'
  */
 
 const WORKBACK_ACADEMIC: L = {
-  ru: 'После учёбы отработать не меньше 5 лет в Астане, Алматы или Шымкенте — либо не меньше 3 лет в регионах. Год снимут, если весь период вас учили бесплатно, а успеваемость по договору вы держали.',
-  kk: 'Оқудан кейін Астанада, Алматыда не Шымкентте кемінде 5 жыл — не өңірлерде кемінде 3 жыл өтеу керек. Бүкіл кезеңде тегін оқысаңыз және шарттағы үлгерімді ұстасаңыз, бір жыл алынады.',
+  ru: 'После учёбы отработать не меньше 5 лет в Астане, Алматы или Шымкенте – либо не меньше 3 лет в регионах. Год снимут, если весь период вас учили бесплатно, а успеваемость по договору вы держали.',
+  kk: 'Оқудан кейін Астанада, Алматыда не Шымкентте кемінде 5 жыл – не өңірлерде кемінде 3 жыл өтеу керек. Бүкіл кезеңде тегін оқысаңыз және шарттағы үлгерімді ұстасаңыз, бір жыл алынады.',
   en: 'After your studies you owe at least 5 years in Astana, Almaty or Shymkent, or at least 3 years in the regions. One year comes off if your whole programme was free and you kept the grades your contract required.',
 }
 
 const WORKBACK_CIVIL: L = {
-  ru: 'Отработать не меньше 3 лет на госслужбе или в органах дипломатической службы. Первый год — обязательно в том государственном органе, который вас отправил.',
-  kk: 'Мемлекеттік қызметте не дипломатиялық қызмет органдарында кемінде 3 жыл өтеу керек. Бірінші жыл — міндетті түрде сізді жіберген мемлекеттік органда.',
+  ru: 'Отработать не меньше 3 лет на госслужбе или в органах дипломатической службы. Первый год – обязательно в том государственном органе, который вас отправил.',
+  kk: 'Мемлекеттік қызметте не дипломатиялық қызмет органдарында кемінде 3 жыл өтеу керек. Бірінші жыл – міндетті түрде сізді жіберген мемлекеттік органда.',
   en: 'You owe at least 3 years in public service or the diplomatic service. The first year has to be at the state body that sent you.',
 }
 
 const WORKBACK_EMPLOYER: L = {
-  ru: 'Отработать не меньше 3 лет в организации, которая давала на вас заявку, либо в её филиале или представительстве. С согласия работодателя — в другой организации в Казахстане.',
-  kk: 'Сізге өтінім берген ұйымда не оның филиалында, өкілдігінде кемінде 3 жыл өтеу керек. Жұмыс беруші келіссе — Қазақстандағы басқа ұйымда.',
-  en: 'You owe at least 3 years at the organisation that requested your training, or at its branch. With your employer\'s consent — at another organisation in Kazakhstan.',
+  ru: 'Отработать не меньше 3 лет в организации, которая давала на вас заявку, либо в её филиале или представительстве. С согласия работодателя – в другой организации в Казахстане.',
+  kk: 'Сізге өтінім берген ұйымда не оның филиалында, өкілдігінде кемінде 3 жыл өтеу керек. Жұмыс беруші келіссе – Қазақстандағы басқа ұйымда.',
+  en: 'You owe at least 3 years at the organisation that requested your training, or at its branch. With your employer\'s consent – at another organisation in Kazakhstan.',
 }
 
 const WORKBACK_NUCLEAR: L = {
-  ru: 'Отработать не меньше 3 лет в организации, которая давала на вас заявку, либо в её филиале или представительстве. В другой организации в Казахстане — только по направлению работодателя.',
-  kk: 'Сізге өтінім берген ұйымда не оның филиалында, өкілдігінде кемінде 3 жыл өтеу керек. Қазақстандағы басқа ұйымда — тек жұмыс берушінің жолдамасымен.',
+  ru: 'Отработать не меньше 3 лет в организации, которая давала на вас заявку, либо в её филиале или представительстве. В другой организации в Казахстане – только по направлению работодателя.',
+  kk: 'Сізге өтінім берген ұйымда не оның филиалында, өкілдігінде кемінде 3 жыл өтеу керек. Қазақстандағы басқа ұйымда – тек жұмыс берушінің жолдамасымен.',
   en: 'You owe at least 3 years at the organisation that requested your training, or at its branch. At another organisation in Kazakhstan only where your employer sends you.',
 }
 
 const WORKBACK_SCIENCE: L = {
-  ru: 'Отработать не меньше 3 лет подряд у того работодателя, по заявке которого вы поехали, по выбранному направлению исследования. Сменить его можно при ликвидации или реорганизации — либо с согласия работодателя и по решению Комиссии, перейдя в другую аккредитованную научную организацию с тем же направлением.',
-  kk: 'Өтінімі бойынша барған жұмыс берушіде таңдаған зерттеу бағыты бойынша қатарынан кемінде 3 жыл өтеу керек. Оны ұйым таратылса не қайта ұйымдастырылса — не жұмыс берушінің келісімімен және Комиссия шешімімен сол бағыттағы басқа аккредиттелген ғылыми ұйымға ауысып ауыстыруға болады.',
-  en: 'You owe at least 3 continuous years in your research direction with the employer that sent you. You can change it on liquidation or reorganisation — or, with your employer\'s consent and the Commission\'s decision, by moving to another accredited research organisation in the same direction.',
+  ru: 'Отработать не меньше 3 лет подряд у того работодателя, по заявке которого вы поехали, по выбранному направлению исследования. Сменить его можно при ликвидации или реорганизации – либо с согласия работодателя и по решению Комиссии, перейдя в другую аккредитованную научную организацию с тем же направлением.',
+  kk: 'Өтінімі бойынша барған жұмыс берушіде таңдаған зерттеу бағыты бойынша қатарынан кемінде 3 жыл өтеу керек. Оны ұйым таратылса не қайта ұйымдастырылса – не жұмыс берушінің келісімімен және Комиссия шешімімен сол бағыттағы басқа аккредиттелген ғылыми ұйымға ауысып ауыстыруға болады.',
+  en: 'You owe at least 3 continuous years in your research direction with the employer that sent you. You can change it on liquidation or reorganisation – or, with your employer\'s consent and the Commission\'s decision, by moving to another accredited research organisation in the same direction.',
 }
 
 const KAZ_B1 = {
   text: {
-    ru: 'Действующий сертификат КАЗТЕСТ или Qazaq Resmi Test по казахскому языку — не ниже B1.',
-    kk: 'Қазақ тілінен қолданыстағы ҚАЗТЕСТ не Qazaq Resmi Test сертификаты — B1-ден төмен емес.',
+    ru: 'Действующий сертификат КАЗТЕСТ или Qazaq Resmi Test по казахскому языку – не ниже B1.',
+    kk: 'Қазақ тілінен қолданыстағы ҚАЗТЕСТ не Qazaq Resmi Test сертификаты – B1-ден төмен емес.',
     en: 'A valid KAZTEST or Qazaq Resmi Test certificate in Kazakh, at B1 or above.',
   },
   source: 'pravila',
@@ -56,8 +56,8 @@ const UNCONDITIONAL = {
 
 const GPA = {
   text: {
-    ru: 'Средний балл диплома — не ниже GPA 3.00 из 4.00/4.33 или 4.00 из 5.00.',
-    kk: 'Диплом орташа балы — 4.00/4.33-тен GPA 3.00 не 5.00-ден 4.00-ден төмен емес.',
+    ru: 'Средний балл диплома – не ниже GPA 3.00 из 4.00/4.33 или 4.00 из 5.00.',
+    kk: 'Диплом орташа балы – 4.00/4.33-тен GPA 3.00 не 5.00-ден 4.00-ден төмен емес.',
     en: 'Diploma GPA of at least 3.00 out of 4.00/4.33, or 4.00 out of 5.00.',
   },
   source: 'pravila',
@@ -65,8 +65,8 @@ const GPA = {
 
 const RELATED_SPEC = {
   text: {
-    ru: 'Специальность в дипломе подходит к выбранной — по перечню родственных специальностей.',
-    kk: 'Дипломдағы мамандық таңдағаныңызға келеді — туыстас мамандықтар тізбесі бойынша.',
+    ru: 'Специальность в дипломе подходит к выбранной – по перечню родственных специальностей.',
+    kk: 'Дипломдағы мамандық таңдағаныңызға келеді – туыстас мамандықтар тізбесі бойынша.',
     en: 'Your diploma specialty fits the one you chose, under the related-specialties list.',
   },
   source: 'related2026',
@@ -74,9 +74,9 @@ const RELATED_SPEC = {
 
 const FOREIGN_LANG = {
   text: {
-    ru: 'Иностранный язык на уровне не ниже минимального — пороги в таблице приказа № 318.',
-    kk: 'Шет тілі ең төменгі деңгейден кем емес — шектер № 318 бұйрық кестесінде.',
-    en: 'Foreign language at or above the minimum — the thresholds are in the table of Order No. 318.',
+    ru: 'Иностранный язык на уровне не ниже минимального – пороги в таблице приказа № 318.',
+    kk: 'Шет тілі ең төменгі деңгейден кем емес – шектер № 318 бұйрық кестесінде.',
+    en: 'Foreign language at or above the minimum – the thresholds are in the table of Order No. 318.',
   },
   source: 'prikaz318',
 } as const
@@ -118,9 +118,9 @@ export const CATEGORIES: Record<CategoryId, Category> = {
       },
       {
         text: {
-          ru: 'Если вам ещё нет 18 — нотариальное согласие родителей или опекуна на учёбу за границей.',
-          kk: '18 жасқа толмасаңыз — ата-ананың не қамқоршының шетелде оқуға нотариалды келісімі.',
-          en: 'If you are under 18 — a notarised consent from a parent or guardian for studying abroad.',
+          ru: 'Если вам ещё нет 18 – нотариальное согласие родителей или опекуна на учёбу за границей.',
+          kk: '18 жасқа толмасаңыз – ата-ананың не қамқоршының шетелде оқуға нотариалды келісімі.',
+          en: 'If you are under 18 – a notarised consent from a parent or guardian for studying abroad.',
         },
         source: 'pravila',
       },
@@ -132,7 +132,7 @@ export const CATEGORIES: Record<CategoryId, Category> = {
   master_self: {
     id: 'master_self',
     track: 'master',
-    title: { ru: 'Магистратура — самостоятельно поступивший', kk: 'Магистратура — өз бетінше түскен', en: "Master's — self-admitted" },
+    title: { ru: 'Магистратура – самостоятельно поступивший', kk: 'Магистратура – өз бетінше түскен', en: "Master's – self-admitted" },
     short: { ru: 'Самостоятельно поступаю', kk: 'Өз бетінше түсемін', en: 'Self-admitted' },
     desc: {
       ru: 'Вы сами поступаете в зарубежный вуз из Списка (или уже там учитесь) и подаёте на стипендию с приглашением на руках.',
@@ -151,7 +151,7 @@ export const CATEGORIES: Record<CategoryId, Category> = {
   master_rural: {
     id: 'master_rural',
     track: 'master',
-    title: { ru: 'Магистратура — из сельского населённого пункта', kk: 'Магистратура — ауылдық елді мекеннен', en: "Master's — rural applicant" },
+    title: { ru: 'Магистратура – из сельского населённого пункта', kk: 'Магистратура – ауылдық елді мекеннен', en: "Master's – rural applicant" },
     short: { ru: 'Из села', kk: 'Ауылдан', en: 'Rural' },
     desc: {
       ru: 'Последние 2 года вы прописаны и работаете в сельском населённом пункте Казахстана.',
@@ -184,7 +184,7 @@ export const CATEGORIES: Record<CategoryId, Category> = {
   master_engineer: {
     id: 'master_engineer',
     track: 'master',
-    title: { ru: 'Магистратура — инженерно-технический работник', kk: 'Магистратура — инженерлік-техникалық қызметкер', en: "Master's — engineering worker" },
+    title: { ru: 'Магистратура – инженерно-технический работник', kk: 'Магистратура – инженерлік-техникалық қызметкер', en: "Master's – engineering worker" },
     short: { ru: 'Инженерно-технический работник', kk: 'Инженерлік-техникалық қызметкер', en: 'Engineering worker' },
     desc: {
       ru: 'Вы организуете и ведёте производственный процесс, у вас высшее техническое образование (в том числе в ИКТ) и не меньше года стажа в своей области.',
@@ -217,7 +217,7 @@ export const CATEGORIES: Record<CategoryId, Category> = {
   master_medical: {
     id: 'master_medical',
     track: 'master',
-    title: { ru: 'Магистратура — медицинский работник', kk: 'Магистратура — медицина қызметкері', en: "Master's — medical worker" },
+    title: { ru: 'Магистратура – медицинский работник', kk: 'Магистратура – медицина қызметкері', en: "Master's – medical worker" },
     short: { ru: 'Медицинский работник', kk: 'Медицина қызметкері', en: 'Medical worker' },
     desc: {
       ru: 'Работаете в медицинской организации и оказываете медицинскую помощь, высшее медицинское образование, общий медицинский стаж от 1 года.',
@@ -250,7 +250,7 @@ export const CATEGORIES: Record<CategoryId, Category> = {
   master_civil: {
     id: 'master_civil',
     track: 'master',
-    title: { ru: 'Магистратура — государственный служащий', kk: 'Магистратура — мемлекеттік қызметші', en: "Master's — civil servant" },
+    title: { ru: 'Магистратура – государственный служащий', kk: 'Магистратура – мемлекеттік қызметші', en: "Master's – civil servant" },
     short: { ru: 'Государственный служащий', kk: 'Мемлекеттік қызметші', en: 'Civil servant' },
     desc: {
       ru: 'Действующий государственный служащий (кроме политических), стаж на госслужбе от 3 лет, из них последние 12 месяцев в направляющем органе.',
@@ -264,9 +264,9 @@ export const CATEGORIES: Record<CategoryId, Category> = {
     requirements: [
       {
         text: {
-          ru: 'На день подачи вы госслужащий — кроме политических служащих. Стаж на госслужбе не меньше 3 лет, из них последние 12 месяцев в том органе, который вас направляет.',
-          kk: 'Тапсыру күні сіз мемлекеттік қызметшісіз — саяси қызметшілерден басқа. Мемлекеттік қызметтегі өтіл 3 жылдан кем емес, оның соңғы 12 айы сізді жіберетін органда.',
-          en: 'On the day you apply you are a civil servant — political appointees aside. At least 3 years in public service, the last 12 months of them at the body sending you.',
+          ru: 'На день подачи вы госслужащий – кроме политических служащих. Стаж на госслужбе не меньше 3 лет, из них последние 12 месяцев в том органе, который вас направляет.',
+          kk: 'Тапсыру күні сіз мемлекеттік қызметшісіз – саяси қызметшілерден басқа. Мемлекеттік қызметтегі өтіл 3 жылдан кем емес, оның соңғы 12 айы сізді жіберетін органда.',
+          en: 'On the day you apply you are a civil servant – political appointees aside. At least 3 years in public service, the last 12 months of them at the body sending you.',
         },
         source: 'pravila',
       },
@@ -284,11 +284,11 @@ export const CATEGORIES: Record<CategoryId, Category> = {
   master_nuclear: {
     id: 'master_nuclear',
     track: 'master',
-    title: { ru: 'Магистратура — работник атомной отрасли', kk: 'Магистратура — атом саласының қызметкері', en: "Master's — nuclear industry worker" },
+    title: { ru: 'Магистратура – работник атомной отрасли', kk: 'Магистратура – атом саласының қызметкері', en: "Master's – nuclear industry worker" },
     short: { ru: 'Работник атомной отрасли', kk: 'Атом саласының қызметкері', en: 'Nuclear industry' },
     desc: {
-      ru: 'Вы работаете в атомной энергетике, добыче урана или радиационных технологиях. Общий стаж от 3 лет, из них последние 6 месяцев — в своей области.',
-      kk: 'Атом энергетикасында, уран өндіруде не радиациялық технологияларда жұмыс істейсіз. Жалпы өтіл 3 жылдан, оның соңғы 6 айы — өз саласында.',
+      ru: 'Вы работаете в атомной энергетике, добыче урана или радиационных технологиях. Общий стаж от 3 лет, из них последние 6 месяцев – в своей области.',
+      kk: 'Атом энергетикасында, уран өндіруде не радиациялық технологияларда жұмыс істейсіз. Жалпы өтіл 3 жылдан, оның соңғы 6 айы – өз саласында.',
       en: 'You work in nuclear energy, uranium mining or radiation technology. At least 3 years in total, the last 6 months of them in your field.',
     },
     preferential: true,
@@ -348,7 +348,7 @@ export const CATEGORIES: Record<CategoryId, Category> = {
   phd_nuclear: {
     id: 'phd_nuclear',
     track: 'phd_residency',
-    title: { ru: 'Докторантура — работник атомной отрасли', kk: 'Докторантура — атом саласының қызметкері', en: 'Doctorate — nuclear industry worker' },
+    title: { ru: 'Докторантура – работник атомной отрасли', kk: 'Докторантура – атом саласының қызметкері', en: 'Doctorate – nuclear industry worker' },
     short: { ru: 'Докторантура, атомная отрасль', kk: 'Докторантура, атом саласы', en: 'Doctorate, nuclear' },
     desc: {
       ru: 'PhD или доктор по профилю для работников атомной отрасли: дополнительно нужны стаж и заявка работодателя.',
@@ -421,9 +421,9 @@ export const CATEGORIES: Record<CategoryId, Category> = {
       },
       {
         text: {
-          ru: 'Общий стаж работы не менее 3 лет, в том числе в выбранной области специализации — непрерывно последние 12 месяцев. Для категорий «пользователи системы искусственного интеллекта» и «работники атомной отрасли» — последние 6 месяцев.',
-          kk: 'Жалпы жұмыс өтілі кемінде 3 жыл, оның ішінде таңдалған салада — үздіксіз соңғы 12 ай. «Жасанды интеллект жүйесін пайдаланушылар» және «атом саласының қызметкерлері» санаттары үшін — соңғы 6 ай.',
-          en: 'At least 3 years of total experience, including 12 continuous months in the chosen field. For "AI system users" and "nuclear industry workers" — the last 6 months.',
+          ru: 'Общий стаж работы не менее 3 лет, в том числе в выбранной области специализации – непрерывно последние 12 месяцев. Для категорий «пользователи системы искусственного интеллекта» и «работники атомной отрасли» – последние 6 месяцев.',
+          kk: 'Жалпы жұмыс өтілі кемінде 3 жыл, оның ішінде таңдалған салада – үздіксіз соңғы 12 ай. «Жасанды интеллект жүйесін пайдаланушылар» және «атом саласының қызметкерлері» санаттары үшін – соңғы 6 ай.',
+          en: 'At least 3 years of total experience, including 12 continuous months in the chosen field. For "AI system users" and "nuclear industry workers" – the last 6 months.',
         },
         source: 'pravila',
       },
@@ -493,9 +493,9 @@ export const CATEGORIES: Record<CategoryId, Category> = {
       },
       {
         text: {
-          ru: 'Действительные сертификаты по казахскому (не ниже B1) и иностранному языкам на уровне приложения 4 к Правилам — порог зависит от языка стажировки.',
-          kk: 'Қазақ (B1-ден төмен емес) және шет тілдері бойынша Қағидалардың 4-қосымшасындағы деңгейдегі жарамды сертификаттар — шек тағылымдама тіліне байланысты.',
-          en: 'Valid certificates in Kazakh (B1 or above) and a foreign language at the level in Appendix 4 to the Rules — the threshold depends on the internship language.',
+          ru: 'Действительные сертификаты по казахскому (не ниже B1) и иностранному языкам на уровне приложения 4 к Правилам – порог зависит от языка стажировки.',
+          kk: 'Қазақ (B1-ден төмен емес) және шет тілдері бойынша Қағидалардың 4-қосымшасындағы деңгейдегі жарамды сертификаттар – шек тағылымдама тіліне байланысты.',
+          en: 'Valid certificates in Kazakh (B1 or above) and a foreign language at the level in Appendix 4 to the Rules – the threshold depends on the internship language.',
         },
         source: 'ns_rules422',
       },

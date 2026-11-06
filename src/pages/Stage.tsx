@@ -165,12 +165,12 @@ function LanguageTable() {
               <tr key={r.exam} className={profile.foreignCert?.exam === r.exam ? s.rowActive : ''}>
                 <td>{r.label}</td>
                 {oneLevel ? (
-                  <td>{r.third ?? '—'}</td>
+                  <td>{r.third ?? '–'}</td>
                 ) : (
                   <>
-                    <td>{r.first ?? '—'}</td>
-                    <td>{r.second ?? '—'}</td>
-                    <td>{r.third ?? '—'}</td>
+                    <td>{r.first ?? '–'}</td>
+                    <td>{r.second ?? '–'}</td>
+                    <td>{r.third ?? '–'}</td>
                   </>
                 )}
               </tr>
@@ -211,7 +211,7 @@ function ScienceLanguages() {
             {SCIENCE_LANGUAGES.map((r) => (
               <tr key={r.lang.ru}>
                 <td>{c(r.lang)}</td>
-                <td>{r.level === '—' ? t('stage.notRequired') : r.level}</td>
+                <td>{r.level === '–' ? t('stage.notRequired') : r.level}</td>
               </tr>
             ))}
           </tbody>
@@ -531,7 +531,6 @@ export function StagePage() {
 
       <Card dark className={s.hero}>
         <div className={s.heroBody}>
-          <Pill tone="dark">{c(stage.kicker)}</Pill>
           <h1 className={`display ${s.heroTitle}`}>
             {t('roadmap.stageOf', { n: sp.index + 1, total: progress.totalStages })}
             <b>
@@ -784,7 +783,7 @@ export function StagePage() {
         <Card>
           <div className={s.section}>
             <span className={s.sectionTitle}>{t('stage.deadlines')}</span>
-            {/* Deadlines are facts, not warnings — amber stays reserved for mistakes and locks. */}
+            {/* Deadlines are facts, not warnings – amber stays reserved for mistakes and locks. */}
             {deadlines.map((d, i) => (
               <Callout key={i} tone="info" source={d.source}>
                 {c(d.text)}

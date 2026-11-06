@@ -7,7 +7,7 @@ import './styles/base.css'
 import { registerSW } from 'virtual:pwa-register'
 
 // The site works offline, so a returning visitor first sees the cached copy. When a new
-// version is published the page switches to it by itself — except while the reader is
+// version is published the page switches to it by itself – except while the reader is
 // answering the onboarding questions, whose answers live only in memory: then it waits
 // for the next page change. An open tab also checks for updates every hour.
 const updateSW = registerSW({

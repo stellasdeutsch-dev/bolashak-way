@@ -1,4 +1,4 @@
-/* Design tokens — light first, dark overrides. Soft grey canvas, white cards,
+/* Design tokens – light first, dark overrides. Soft grey canvas, white cards,
    solid navy sections, flat pill buttons. */
 :root {
   color-scheme: light;

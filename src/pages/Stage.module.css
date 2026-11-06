@@ -397,7 +397,7 @@
   flex-wrap: wrap;
 }
 
-/* — collapsed verbatim quotes — */
+/* – collapsed verbatim quotes – */
 .quoteItem {
   border-top: 1px solid var(--line);
 }
@@ -470,7 +470,7 @@
   }
 }
 
-/* — "in short": the first thing on a stage, three plain answers — */
+/* – "in short": the first thing on a stage, three plain answers – */
 .shortList {
   margin: 0;
   display: grid;

@@ -3,7 +3,7 @@ import s from './Meter.module.css'
 
 /**
  * A score drawn on the exam's own scale, with the official thresholds marked on it.
- * Two numbers in a row never answer "am I close?" — a position on a line does.
+ * Two numbers in a row never answer "am I close?" – a position on a line does.
  */
 export function ScoreGauge({
   label,
@@ -28,7 +28,7 @@ export function ScoreGauge({
     <div className={s.gauge}>
       <div className={s.gaugeHead}>
         {/* The axis under the track already carries the ceiling, so the label stays
-            the exam name alone — the content's own scale string is Russian only. */}
+            the exam name alone – the content's own scale string is Russian only. */}
         <span className={s.gaugeLabel}>{label}</span>
         <span className={[s.verdict, s[`verdict_${status}`]].join(' ')}>{passLabel}</span>
       </div>
@@ -65,7 +65,7 @@ export function ScoreGauge({
 }
 
 /**
- * "You have X of the Y required" as a bar. Overshoot is clamped — the point is whether
+ * "You have X of the Y required" as a bar. Overshoot is clamped – the point is whether
  * the requirement is met, not how far past it you are.
  */
 export function Meter({

@@ -15,14 +15,14 @@ export const AWARDED_STAGES: Stage[] = [
       en: '90 calendar days to sign the contract and the pledge or guarantee agreement.',
     },
     why: {
-      ru: 'Самый жёсткий срок за всю процедуру. Не подписали договор вовремя — рабочий орган начинает процедуру лишения стипендии. Залог недвижимости или гарантия нужны на случай, если обязательства не выполнят: так государство возвращает потраченное.',
-      kk: 'Бүкіл рәсімдегі ең қатаң мерзім. Шартқа уақытында қол қоймасаңыз — жұмыс органы стипендиядан айыру рәсімін бастайды. Кепіл не кепілдік міндеттеме орындалмаған жағдайға керек: мемлекет жұмсалғанын осылай қайтарады.',
+      ru: 'Самый жёсткий срок за всю процедуру. Не подписали договор вовремя – рабочий орган начинает процедуру лишения стипендии. Залог недвижимости или гарантия нужны на случай, если обязательства не выполнят: так государство возвращает потраченное.',
+      kk: 'Бүкіл рәсімдегі ең қатаң мерзім. Шартқа уақытында қол қоймасаңыз – жұмыс органы стипендиядан айыру рәсімін бастайды. Кепіл не кепілдік міндеттеме орындалмаған жағдайға керек: мемлекет жұмсалғанын осылай қайтарады.',
       en: 'The tightest deadline in the whole process. Miss it and the working body starts withdrawing the scholarship. The property pledge or guarantee exists in case obligations are not met: that is how the state gets its money back.',
     },
     inShort: {
-      what: { ru: 'Юридическое оформление победы. Договор об учёбе плюс обеспечение обязательств — залог недвижимости или гарантия поручителя.', kk: 'Жеңістің заңды рәсімделуі. Оқу туралы шарт және міндеттемені қамтамасыз ету — жылжымайтын мүлік кепілі не кепілгердің кепілдігі.', en: 'Making the win official. The study contract plus security — a property pledge or a guarantor\'s guarantee.' },
+      what: { ru: 'Юридическое оформление победы. Договор об учёбе плюс обеспечение обязательств – залог недвижимости или гарантия поручителя.', kk: 'Жеңістің заңды рәсімделуі. Оқу туралы шарт және міндеттемені қамтамасыз ету – жылжымайтын мүлік кепілі не кепілгердің кепілдігі.', en: 'Making the win official. The study contract plus security – a property pledge or a guarantor\'s guarantee.' },
       you: { ru: 'Уложиться в 90 календарных дней и собрать документы гаранта или собственника залога.', kk: '90 күнтізбелік күнге сыйып, кепілгер не кепіл иесінің құжаттарын жинау.', en: 'Fit into 90 calendar days and gather the guarantor\'s or property owner\'s documents.' },
-      result: { ru: 'Подписанный договор — основание, по которому государство начинает платить за вашу учёбу.', kk: 'Қол қойылған шарт — мемлекет оқуыңызды төлей бастайтын негіз.', en: 'A signed contract — the basis on which the state starts paying for your studies.' },
+      result: { ru: 'Подписанный договор – основание, по которому государство начинает платить за вашу учёбу.', kk: 'Қол қойылған шарт – мемлекет оқуыңызды төлей бастайтын негіз.', en: 'A signed contract – the basis on which the state starts paying for your studies.' },
     },
     checklist: [
       {
@@ -66,8 +66,8 @@ export const AWARDED_STAGES: Stage[] = [
       {
         id: 'notary_consents',
         text: {
-          ru: 'Владелец залоговой недвижимости оформил нотариальные согласия: супруга или заявление о семейном положении, согласие на внесудебную продажу, при необходимости — согласие органов опеки.',
-          kk: 'Кепілдегі мүліктің иесі нотариалды келісім рәсімдеді: жұбайының келісімі не отбасылық жағдай туралы өтініш, соттан тыс сатуға келісім, қажет болса — қорғаншылық органының келісімі.',
+          ru: 'Владелец залоговой недвижимости оформил нотариальные согласия: супруга или заявление о семейном положении, согласие на внесудебную продажу, при необходимости – согласие органов опеки.',
+          kk: 'Кепілдегі мүліктің иесі нотариалды келісім рәсімдеді: жұбайының келісімі не отбасылық жағдай туралы өтініш, соттан тыс сатуға келісім, қажет болса – қорғаншылық органының келісімі.',
           en: 'The property owner arranged the notarised consents: the spouse\'s, or a marital-status statement, consent to an out-of-court sale, and guardianship consent where needed.',
         },
         required: false,
@@ -89,8 +89,8 @@ export const AWARDED_STAGES: Stage[] = [
     deadlines: [
       {
         text: {
-          ru: 'Договор подписывают в течение 90 календарных дней со дня решения Республиканской комиссии. Не успели — поднимают вопрос о лишении стипендии.',
-          kk: 'Шартқа Республикалық комиссия шешімінен бастап 90 күнтізбелік күн ішінде қол қояды. Үлгермесеңіз — стипендиядан айыру мәселесі көтеріледі.',
+          ru: 'Договор подписывают в течение 90 календарных дней со дня решения Республиканской комиссии. Не успели – поднимают вопрос о лишении стипендии.',
+          kk: 'Шартқа Республикалық комиссия шешімінен бастап 90 күнтізбелік күн ішінде қол қояды. Үлгермесеңіз – стипендиядан айыру мәселесі көтеріледі.',
           en: 'The contract is signed within 90 calendar days of the Republican Commission\'s decision. Miss it and the question of withdrawing the scholarship is raised.',
         },
         source: 'pp573',
@@ -98,9 +98,9 @@ export const AWARDED_STAGES: Stage[] = [
       },
       {
         text: {
-          ru: 'Научная стажировка: договор заключается в течение 90 календарных дней со дня решения Республиканской комиссии. Если мешают болезнь, командировка или другие обстоятельства, до истечения срока можно обратиться в Комиссию — продление до 90 дней даётся один раз.',
-          kk: 'Ғылыми тағылымдама: шарт Республикалық комиссия шешімінен бастап 90 күнтізбелік күн ішінде жасалады. Ауру, іссапар не басқа жағдай кедергі болса, мерзім өткенге дейін Комиссияға жүгінуге болады — 90 күнге дейін ұзарту бір рет беріледі.',
-          en: 'Scientific internship: the contract is signed within 90 calendar days of the Republican Commission\'s decision. If illness, a work trip or other circumstances get in the way, apply to the Commission before the term runs out — an extension of up to 90 days is granted once.',
+          ru: 'Научная стажировка: договор заключается в течение 90 календарных дней со дня решения Республиканской комиссии. Если мешают болезнь, командировка или другие обстоятельства, до истечения срока можно обратиться в Комиссию – продление до 90 дней даётся один раз.',
+          kk: 'Ғылыми тағылымдама: шарт Республикалық комиссия шешімінен бастап 90 күнтізбелік күн ішінде жасалады. Ауру, іссапар не басқа жағдай кедергі болса, мерзім өткенге дейін Комиссияға жүгінуге болады – 90 күнге дейін ұзарту бір рет беріледі.',
+          en: 'Scientific internship: the contract is signed within 90 calendar days of the Republican Commission\'s decision. If illness, a work trip or other circumstances get in the way, apply to the Commission before the term runs out – an extension of up to 90 days is granted once.',
         },
         source: 'ns_rules422',
         appliesTo: { track: ['science_internship'] },
@@ -141,9 +141,9 @@ export const AWARDED_STAGES: Stage[] = [
     kicker: { ru: 'Только для льготных категорий', kk: 'Тек жеңілдікті санаттарға', en: 'Preferential categories only' },
     title: { ru: 'Языковые курсы и контрольные тесты', kk: 'Тіл курстары және бақылау тесттері', en: 'Language courses and control tests' },
     summary: {
-      ru: 'Курсы в Казахстане, промежуточный тест, курсы за рубежом, итоговый тест — за счёт стипендии.',
-      kk: 'Қазақстанда курстар, аралық тест, шетелде курстар, қорытынды тест — стипендия есебінен.',
-      en: 'Courses in Kazakhstan, an interim test, courses abroad, a final test — funded by the scholarship.',
+      ru: 'Курсы в Казахстане, промежуточный тест, курсы за рубежом, итоговый тест – за счёт стипендии.',
+      kk: 'Қазақстанда курстар, аралық тест, шетелде курстар, қорытынды тест – стипендия есебінен.',
+      en: 'Courses in Kazakhstan, an interim test, courses abroad, a final test – funded by the scholarship.',
     },
     why: {
       ru: 'Льготные категории магистратуры добирают язык уже после присуждения. О том, что курсы нужны, Республиканская комиссия пишет в своём решении, а их длительность берут из утверждённой таблицы.',
@@ -153,7 +153,7 @@ export const AWARDED_STAGES: Stage[] = [
     inShort: {
       what: { ru: 'Языковая подготовка за счёт стипендии. Её назначают льготным категориям магистратуры решением Республиканской комиссии.', kk: 'Стипендия есебінен тілдік дайындық. Оны магистратураның жеңілдікті санаттарына Республикалық комиссия шешімімен тағайындайды.', en: 'Language training paid by the scholarship. It is assigned to preferential master\'s categories by the Republican Commission\'s decision.' },
       you: { ru: 'Пройти курсы в Казахстане, сдать промежуточный тест, затем курсы за рубежом и итоговый тест.', kk: 'Қазақстанда курстан өтіп, аралық тест тапсыру, содан кейін шетелдегі курс және қорытынды тест.', en: 'Take the courses in Kazakhstan, pass the interim test, then the courses abroad and the final test.' },
-      result: { ru: 'Уровень языка, с которым вас примет вуз. Не сдали и пересдачу — теряете право на дальнейшую учёбу.', kk: 'ЖОО қабылдайтын тіл деңгейі. Қайта тапсыруды да тапсырмасаңыз — одан әрі оқу құқығынан айырыласыз.', en: 'A language level a university will accept. Fail the retake too and you lose the right to continue.' },
+      result: { ru: 'Уровень языка, с которым вас примет вуз. Не сдали и пересдачу – теряете право на дальнейшую учёбу.', kk: 'ЖОО қабылдайтын тіл деңгейі. Қайта тапсыруды да тапсырмасаңыз – одан әрі оқу құқығынан айырыласыз.', en: 'A language level a university will accept. Fail the retake too and you lose the right to continue.' },
     },
     checklist: [
       {
@@ -186,9 +186,9 @@ export const AWARDED_STAGES: Stage[] = [
       {
         id: 'final_test',
         text: {
-          ru: 'Сдали итоговый тест — либо получили безусловное приглашение из вуза Списка, и тогда тест уже не нужен.',
-          kk: 'Қорытынды тестті тапсырдыңыз — не Тізімдегі ЖОО-дан сөзсіз шақыру алдыңыз, ондай жағдайда тест керек емес.',
-          en: 'You passed the final test — or got an unconditional offer from a listed university, in which case the test is no longer needed.',
+          ru: 'Сдали итоговый тест – либо получили безусловное приглашение из вуза Списка, и тогда тест уже не нужен.',
+          kk: 'Қорытынды тестті тапсырдыңыз – не Тізімдегі ЖОО-дан сөзсіз шақыру алдыңыз, ондай жағдайда тест керек емес.',
+          en: 'You passed the final test – or got an unconditional offer from a listed university, in which case the test is no longer needed.',
         },
         link: 'pp573',
       },
@@ -232,17 +232,17 @@ export const AWARDED_STAGES: Stage[] = [
       en: 'For preferential categories this step comes after the competition and the language training. The scholarship pays for preparing and filing up to 5 applications.',
     },
     inShort: {
-      what: { ru: 'Поступление в вуз, но уже после присуждения стипендии и языковых курсов. Так устроен путь у льготных категорий.', kk: 'ЖОО-ға түсу, бірақ стипендия тағайындалып, тіл курстарынан кейін. Жеңілдікті санаттардың жолы осылай құрылған.', en: 'Getting into a university — but after the award and the language courses. That is how the path works for preferential categories.' },
+      what: { ru: 'Поступление в вуз, но уже после присуждения стипендии и языковых курсов. Так устроен путь у льготных категорий.', kk: 'ЖОО-ға түсу, бірақ стипендия тағайындалып, тіл курстарынан кейін. Жеңілдікті санаттардың жолы осылай құрылған.', en: 'Getting into a university – but after the award and the language courses. That is how the path works for preferential categories.' },
       you: { ru: 'Подать заявки в вузы из Списка (оплачивается до 5) и получить безусловное зачисление.', kk: 'Тізімдегі ЖОО-ларға өтінім беру (5-еуіне дейін төленеді) және сөзсіз қабылдау алу.', en: 'Apply to universities from the list (up to 5 are covered) and get unconditional admission.' },
-      result: { ru: 'Приглашение, которое вы передаёте куратору — дальше начинается подготовка к выезду.', kk: 'Кураторға беретін шақыру — содан кейін шығуға дайындық басталады.', en: 'An offer you hand to your curator — after that, getting ready to leave begins.' },
+      result: { ru: 'Приглашение, которое вы передаёте куратору – дальше начинается подготовка к выезду.', kk: 'Кураторға беретін шақыру – содан кейін шығуға дайындық басталады.', en: 'An offer you hand to your curator – after that, getting ready to leave begins.' },
     },
     checklist: [
       {
         id: 'apply_after',
         text: {
-          ru: 'Подали заявки в вузы из Списка — оплачивается до 5 штук.',
-          kk: 'Тізімдегі ЖОО-ларға өтінім бердіңіз — 5-еуіне дейін төленеді.',
-          en: 'You applied to universities from the list — up to 5 are covered.',
+          ru: 'Подали заявки в вузы из Списка – оплачивается до 5 штук.',
+          kk: 'Тізімдегі ЖОО-ларға өтінім бердіңіз – 5-еуіне дейін төленеді.',
+          en: 'You applied to universities from the list – up to 5 are covered.',
         },
         link: 'pp573',
       },
@@ -289,14 +289,14 @@ export const AWARDED_STAGES: Stage[] = [
       en: 'Financial guarantee letter, visa documents, bank card, visa, flight ticket.',
     },
     why: {
-      ru: 'Порядок здесь важен. Сначала письмо о финансовой гарантии от Центра — его ждут и посольство, и вуз. Потом визовые документы от вуза. Потом виза, её вы оформляете сами. И только в конце — заявление на авиабилет.',
-      kk: 'Мұнда рет маңызды. Алдымен Орталықтан қаржылық кепілдік хаты — оны елшілік те, ЖОО да күтеді. Содан кейін ЖОО-дан виза құжаттары. Сосын виза, оны өзіңіз рәсімдейсіз. Ең соңында — авиабилетке өтініш.',
-      en: 'Order matters here. First the financial guarantee letter from the Center — both the embassy and the university want it. Then the visa papers from the university. Then the visa, which you arrange yourself. And only at the end, the ticket request.',
+      ru: 'Порядок здесь важен. Сначала письмо о финансовой гарантии от Центра – его ждут и посольство, и вуз. Потом визовые документы от вуза. Потом виза, её вы оформляете сами. И только в конце – заявление на авиабилет.',
+      kk: 'Мұнда рет маңызды. Алдымен Орталықтан қаржылық кепілдік хаты – оны елшілік те, ЖОО да күтеді. Содан кейін ЖОО-дан виза құжаттары. Сосын виза, оны өзіңіз рәсімдейсіз. Ең соңында – авиабилетке өтініш.',
+      en: 'Order matters here. First the financial guarantee letter from the Center – both the embassy and the university want it. Then the visa papers from the university. Then the visa, which you arrange yourself. And only at the end, the ticket request.',
     },
     inShort: {
       what: { ru: 'Организационная подготовка к отъезду. Здесь важен порядок действий, иначе застрянете на визе или билете.', kk: 'Кетуге ұйымдастырушылық дайындық. Мұнда әрекеттер реті маңызды, әйтпесе визада не билетте кідіресіз.', en: 'Getting organised for departure. Order matters here, or you will get stuck on the visa or the ticket.' },
       you: { ru: 'Взять письмо о финансовой гарантии, получить визовые документы от вуза, оформить визу и банковскую карту.', kk: 'Қаржылық кепілдік хатын алу, ЖОО-дан виза құжаттарын алу, виза мен банк картасын рәсімдеу.', en: 'Get the financial guarantee letter, the visa papers from the university, then the visa and a bank card.' },
-      result: { ru: 'Виза, карта и авиабилет — можно лететь.', kk: 'Виза, карта және авиабилет — ұшуға болады.', en: 'A visa, a card and a ticket — you can fly.' },
+      result: { ru: 'Виза, карта и авиабилет – можно лететь.', kk: 'Виза, карта және авиабилет – ұшуға болады.', en: 'A visa, a card and a ticket – you can fly.' },
     },
     checklist: [
       {
@@ -370,9 +370,9 @@ export const AWARDED_STAGES: Stage[] = [
       {
         id: 'ns_advance',
         text: {
-          ru: 'Подали заявление на аванс и сведения по карт-счёту — формы на странице о финансировании научных стажировок.',
-          kk: 'Аванс алуға өтініш пен карт-шот мәліметтерін тапсырдыңыз — нысандар ғылыми тағылымдаманы қаржыландыру бетінде.',
-          en: 'You filed the advance request and your card-account details — the forms are on the scientific-internship funding page.',
+          ru: 'Подали заявление на аванс и сведения по карт-счёту – формы на странице о финансировании научных стажировок.',
+          kk: 'Аванс алуға өтініш пен карт-шот мәліметтерін тапсырдыңыз – нысандар ғылыми тағылымдаманы қаржыландыру бетінде.',
+          en: 'You filed the advance request and your card-account details – the forms are on the scientific-internship funding page.',
         },
         link: 'ns_finance',
         appliesTo: { track: ['science_internship'] },

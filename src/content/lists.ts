@@ -3,7 +3,7 @@ import type { SourceId } from './types'
 /**
  * The two official lists the app can search: priority specialties and recommended
  * universities. The data is a verbatim snapshot of the PDFs on bolashak.gov.kz, imported
- * by scripts/import-lists.mjs — nothing here is written by hand, and every screen that
+ * by scripts/import-lists.mjs – nothing here is written by hand, and every screen that
  * shows it also shows the source link and the day the snapshot was taken.
  */
 

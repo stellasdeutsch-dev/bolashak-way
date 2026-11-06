@@ -9,7 +9,7 @@ import { platformPaths } from '@/domain/paths'
 import { useAppStore } from '@/store/useAppStore'
 import { useI18n } from '@/i18n'
 import { usePageChrome } from '@/i18n/usePageChrome'
-import { ButtonLink, Card, Pill } from '@/components/ui'
+import { ButtonLink, Card } from '@/components/ui'
 import { VideoList } from '@/components/Videos'
 import { AwardTimeline, ContestFlow, DepartureChain, PathLanes, WorkbackTable } from '@/components/Explain'
 import { InternshipSpecialtySearch, ScienceSearch, SpecialtySearch, UniversitySearch, type SpecialtyLevel } from '@/components/ListSearch'
@@ -41,7 +41,7 @@ function Section({ n, title, text, children }: { n: number; title: string; text?
   )
 }
 
-/** The front page of one programme — its own words, its own colour, nothing of the others. */
+/** The front page of one programme – its own words, its own colour, nothing of the others. */
 export function PlatformHome() {
   const { t, c } = useI18n()
   const { platform: slug } = useParams() as { platform: PlatformSlug }
@@ -57,9 +57,6 @@ export function PlatformHome() {
   return (
     <div className={s.page}>
       <Card dark className={s.hero}>
-        <div className={s.heroTop}>
-          <Pill tone="dark">{t(platform.programme === 'science' ? 'platform.scienceProgramme' : 'platform.bolashak')}</Pill>
-        </div>
         <h1 className={`display ${s.heroTitle}`}>
           <b>{c(platform.name)}</b>
         </h1>

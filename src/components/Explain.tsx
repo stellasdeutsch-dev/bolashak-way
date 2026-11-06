@@ -47,14 +47,14 @@ export function DataTable({ table }: { table: ExplainTable }) {
   )
 }
 
-/** Who owes how much — only the rows that are true for this programme. */
+/** Who owes how much – only the rows that are true for this programme. */
 export function WorkbackTable({ track }: { track: Track }) {
   return <DataTable table={workbackTable(track)} />
 }
 
 /**
  * Two lanes over the same five chapters. The chapters are identical for everyone;
- * what moves is the chapter in which you secure the university place — which is the
+ * what moves is the chapter in which you secure the university place – which is the
  * one thing the text kept failing to make obvious.
  */
 export function PathLanes() {

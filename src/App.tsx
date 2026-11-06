@@ -20,7 +20,7 @@ const Onboarding = lazy(() => import('@/pages/Onboarding/Onboarding').then((m) =
 function useTheme() {
   const theme = useAppStore((s) => s.theme)
   // The dark palette lives under [data-theme='dark'], so "system" has to resolve to a
-  // concrete value — and follow the OS when it switches at sunset.
+  // concrete value – and follow the OS when it switches at sunset.
   useEffect(() => {
     const mq = window.matchMedia('(prefers-color-scheme: dark)')
     const apply = () => {

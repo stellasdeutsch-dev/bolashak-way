@@ -31,7 +31,7 @@ const CHECK_IDS = new Set<string>(STAGES.flatMap((s) => s.checklist.map((i) => `
 
 
 /**
- * Accepts a profile only when every field matches the current content model —
+ * Accepts a profile only when every field matches the current content model –
  * an unknown category would otherwise crash the roadmap on the next render.
  */
 export function validProfile(value: unknown): Profile | null {

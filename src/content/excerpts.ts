@@ -4,7 +4,7 @@ import type { Rule, SourceId, StageId } from './types'
  * Verbatim clauses from the official acts, shown collapsed on the stage screen so a
  * reader can check the exact wording without leaving for a 60-page legal document.
  *
- * The text is quoted as published (Russian) and never paraphrased or translated here —
+ * The text is quoted as published (Russian) and never paraphrased or translated here –
  * the app's own explanation in three languages sits above it. An ellipsis marks a cut.
  */
 export interface Excerpt {

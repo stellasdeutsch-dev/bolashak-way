@@ -5,7 +5,7 @@ import type { PlatformSlug } from '@/content/types'
 import { pathsForTrack, type PlatformPaths } from '@/domain/paths'
 import { useAppStore } from '@/store/useAppStore'
 
-/** The platform named in the address, if any — "/master/roadmap" → "master". */
+/** The platform named in the address, if any – "/master/roadmap" → "master". */
 export function useRoutePlatform(): PlatformSlug | null {
   const { pathname } = useLocation()
   const first = pathname.split('/')[1]
@@ -20,7 +20,7 @@ export function useActivePlatform(): PlatformMeta | null {
   return track ? platformForTrack(track) : null
 }
 
-/** Addresses inside the reader's own platform — the one their roadmap belongs to. */
+/** Addresses inside the reader's own platform – the one their roadmap belongs to. */
 export function useMyPaths(): PlatformPaths | null {
   const track = useAppStore((st) => st.profile?.track)
   return track ? pathsForTrack(track) : null

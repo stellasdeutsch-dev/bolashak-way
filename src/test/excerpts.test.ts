@@ -196,7 +196,7 @@ describe('the competition flowchart', () => {
     }
   })
 
-  it('draws the threshold exit on both tracks — приказ № 422 п. 15 has one too', () => {
+  it('draws the threshold exit on both tracks – приказ № 422 п. 15 has one too', () => {
     const exits = (track: Profile['track']) => forTrack(track).filter((st) => st.exit).map((st) => st.id)
     expect(exits('master')).toEqual(['round1', 'round3'])
     expect(exits('science_internship')).toEqual(['round1_ns', 'round3_ns'])

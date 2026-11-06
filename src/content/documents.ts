@@ -9,7 +9,7 @@ const WITH_EXPERIENCE = ['master_rural', 'master_engineer', 'master_medical', 'm
  * on the "My documents" screen.
  */
 export const DOCUMENTS: DocItem[] = [
-  // — Preparation —
+  // – Preparation –
   {
     id: 'kazakh_cert',
     stage: 'kazakh',
@@ -68,7 +68,7 @@ export const DOCUMENTS: DocItem[] = [
     appliesTo: { track: ['science_internship'] },
   },
 
-  // — Application package —
+  // – Application package –
   {
     id: 'anketa',
     stage: 'documents',
@@ -94,7 +94,7 @@ export const DOCUMENTS: DocItem[] = [
   {
     id: 'id_passport_ns',
     stage: 'documents',
-    title: { ru: 'Удостоверение личности и паспорт — оригиналы и копии', kk: 'Жеке куәлік және паспорт — түпнұсқа мен көшірме', en: 'ID card and passport — originals and copies' },
+    title: { ru: 'Удостоверение личности и паспорт – оригиналы и копии', kk: 'Жеке куәлік және паспорт – түпнұсқа мен көшірме', en: 'ID card and passport – originals and copies' },
     note: { ru: 'Оригиналы возвращают после сверки', kk: 'Түпнұсқалар салыстырылған соң қайтарылады', en: 'The originals come back after checking' },
     source: 'ns_documents',
     appliesTo: { track: ['science_internship'] },
@@ -103,7 +103,7 @@ export const DOCUMENTS: DocItem[] = [
     id: 'diploma',
     stage: 'documents',
     title: { ru: 'Диплом бакалавра или специалиста с приложением', kk: 'Бакалавр не маман дипломы қосымшасымен', en: 'Bachelor or specialist diploma with transcript' },
-    note: { ru: 'При учёбе за рубежом — удостоверение о признании или нострификации', kk: 'Шетелде оқыған болса — тану не нострификация куәлігі', en: 'If you studied abroad — a recognition or nostrification certificate' },
+    note: { ru: 'При учёбе за рубежом – удостоверение о признании или нострификации', kk: 'Шетелде оқыған болса – тану не нострификация куәлігі', en: 'If you studied abroad – a recognition or nostrification certificate' },
     source: 'pravila',
     appliesTo: { not: { track: ['bachelor', 'science_internship'] } },
   },
@@ -224,7 +224,7 @@ export const DOCUMENTS: DocItem[] = [
     appliesTo: { track: ['science_internship'] },
   },
 
-  // — After the award —
+  // – After the award –
   {
     id: 'contract_docs',
     stage: 'contract',
@@ -271,11 +271,11 @@ export const DOCUMENTS: DocItem[] = [
     appliesTo: { not: { track: ['science_internship'] } },
   },
 
-  // — Return and work-back —
+  // – Return and work-back –
   {
     id: 'completion_application',
     stage: 'return',
-    title: { ru: 'Заявление о завершении — по установленной форме', kk: 'Аяқтау туралы өтініш — белгіленген нысан бойынша', en: 'Completion application — on the standard form' },
+    title: { ru: 'Заявление о завершении – по установленной форме', kk: 'Аяқтау туралы өтініш – белгіленген нысан бойынша', en: 'Completion application – on the standard form' },
     source: 'obrazcy',
     form: 'obrazcy',
     sourceFor: { science_internship: 'ns_alumni' },
@@ -313,7 +313,7 @@ export const DOCUMENTS: DocItem[] = [
   {
     id: 'ns_final_report',
     stage: 'return',
-    title: { ru: 'Итоговый отчёт о научной стажировке — в течение месяца после возвращения, утверждённый работодателем', kk: 'Ғылыми тағылымдама туралы қорытынды есеп — оралғаннан кейін бір ай ішінде, жұмыс беруші бекіткен', en: 'Final report on the scientific internship — within a month of coming back, approved by your employer' },
+    title: { ru: 'Итоговый отчёт о научной стажировке – в течение месяца после возвращения, утверждённый работодателем', kk: 'Ғылыми тағылымдама туралы қорытынды есеп – оралғаннан кейін бір ай ішінде, жұмыс беруші бекіткен', en: 'Final report on the scientific internship – within a month of coming back, approved by your employer' },
     source: 'ns_rules422',
     appliesTo: { track: ['science_internship'] },
   },

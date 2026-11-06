@@ -221,7 +221,7 @@ export const SOURCES: Record<SourceId, Source> = {
     id: 'ns_program',
     org: 'bolashak.gov.kz',
     url: `${B}/storage/app/media/500%20uchennye/dokumenty/programma%20stazh%20rus.docx`,
-    title: { ru: 'Программа научной стажировки — шаблон (docx)', kk: 'Ғылыми тағылымдама бағдарламасы — үлгі (docx)', en: 'Scientific internship programme template (docx)' },
+    title: { ru: 'Программа научной стажировки – шаблон (docx)', kk: 'Ғылыми тағылымдама бағдарламасы – үлгі (docx)', en: 'Scientific internship programme template (docx)' },
   },
   olympiads: {
     id: 'olympiads',
@@ -239,7 +239,7 @@ export const SOURCES: Record<SourceId, Source> = {
     id: 'stipendiat_internship',
     org: 'bolashak.gov.kz',
     url: `${B}/ru/stipendiatu/stazhirovka`,
-    title: { ru: 'Стипендиату: стажировка — действия после присуждения', kk: 'Стипендиатқа: тағылымдама — тағайындалғаннан кейінгі әрекеттер', en: 'For awardees: internship — steps after the award' },
+    title: { ru: 'Стипендиату: стажировка – действия после присуждения', kk: 'Стипендиатқа: тағылымдама – тағайындалғаннан кейінгі әрекеттер', en: 'For awardees: internship – steps after the award' },
   },
   dogovory: {
     id: 'dogovory',
@@ -299,13 +299,13 @@ export const SOURCES: Record<SourceId, Source> = {
     id: 'qrt',
     org: 'qrt.kz',
     url: 'https://www.qrt.kz',
-    title: { ru: 'Qazaq Resmi Test — онлайн-тестирование по казахскому языку', kk: 'Qazaq Resmi Test — қазақ тілінен онлайн тестілеу', en: 'Qazaq Resmi Test — online Kazakh language test' },
+    title: { ru: 'Qazaq Resmi Test – онлайн-тестирование по казахскому языку', kk: 'Qazaq Resmi Test – қазақ тілінен онлайн тестілеу', en: 'Qazaq Resmi Test – online Kazakh language test' },
   },
   kaztest: {
     id: 'kaztest',
     org: 'testcenter.kz',
     url: 'https://testcenter.kz/',
-    title: { ru: 'Национальный центр тестирования — КАЗТЕСТ', kk: 'Ұлттық тестілеу орталығы — ҚАЗТЕСТ', en: 'National Testing Center — KAZTEST' },
+    title: { ru: 'Национальный центр тестирования – КАЗТЕСТ', kk: 'Ұлттық тестілеу орталығы – ҚАЗТЕСТ', en: 'National Testing Center – KAZTEST' },
   },
   youtube: {
     id: 'youtube',

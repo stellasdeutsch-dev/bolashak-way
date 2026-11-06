@@ -138,7 +138,7 @@ svg {
   }
 }
 
-/* — print: people carry these lists to the CIP office on paper — */
+/* – print: people carry these lists to the CIP office on paper – */
 @media print {
   :root {
     --bg: #fff;
