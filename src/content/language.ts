@@ -91,7 +91,7 @@ export function requiredScore(group: LanguageGroup, exam: ExamId): number | null
 export const KAZAKH_REQUIREMENT: { text: L; source: SourceId } = {
   text: {
     ru: 'Минимальный уровень государственного языка – B1: сертификат КАЗТЕСТ Национального центра тестирования либо Qazaq Resmi Test (с ID-номером и QR-кодом для проверки на qrt.kz).',
-    kk: 'Мемлекеттік тілдің ең төменгі деңгейі – B1: Ұлттық тестілеу орталығының ҚАЗТЕСТ сертификаты немесе Qazaq Resmi Test (ID нөмірі және QR-коды бар).',
+    kk: 'Мемлекеттік тілдің ең төменгі деңгейі – B1: Ұлттық тестілеу орталығының ҚАЗТЕСТ сертификаты немесе Qazaq Resmi Test (ID нөмірі және qrt.kz-те тексеруге арналған QR-коды бар).',
     en: 'The minimum state-language level is B1: a KAZTEST certificate from the National Testing Center or a Qazaq Resmi Test certificate (with an ID number and QR code verifiable at qrt.kz).',
   },
   source: 'prikaz318',
@@ -102,7 +102,7 @@ export const LANGUAGE_NOTES: { text: L; source: SourceId; tracks: Track[] }[] = 
   {
     text: {
       ru: 'Инженерно-технические и медицинские работники, претенденты из сёл и госслужащие с IELTS 5.5, TOEFL iBT 46–59, PBT/ITP 417–497 или DET 95–104 плюс письмо о безусловном приглашении на обучение, при котором организуются языковые курсы, приравниваются ко второму пороговому уровню.',
-      kk: 'IELTS 5.5, TOEFL iBT 46–59, PBT/ITP 417–497 немесе DET 95–104 және тіл курстары ұйымдастырылатын оқуға сөзсіз шақыру хаты бар жеңілдікті санаттар екінші шекті деңгейге теңестіріледі.',
+      kk: 'IELTS 5.5, TOEFL iBT 46–59, PBT/ITP 417–497 немесе DET 95–104 және тіл курстары ұйымдастырылатын оқуға сөзсіз шақыру хаты бар инженер-техник және медицина қызметкерлері, ауылдан шыққан үміткерлер және мемлекеттік қызметшілер екінші шекті деңгейге теңестіріледі.',
       en: 'Engineering, medical, rural and civil-service applicants holding IELTS 5.5, TOEFL iBT 46–59, PBT/ITP 417–497 or DET 95–104 plus an unconditional offer with language courses attached are treated as meeting the second threshold.',
     },
     source: 'prikaz318',

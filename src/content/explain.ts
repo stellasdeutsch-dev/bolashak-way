@@ -83,7 +83,7 @@ export const WORKBACK_ROWS: WorkbackRow[] = [
     cells: [
       { ru: 'Всё обучение было бесплатным, успеваемость по договору выдержана', kk: 'Бүкіл оқу тегін болды, шарттағы үлгерім сақталды', en: 'The whole programme was free and the contractual grades were kept' },
       { ru: '−1 год', kk: '−1 жыл', en: '−1 year' },
-      { ru: 'Снимают год от срока выше', kk: 'Жоғарыдағы мерзімнен бір жыл алынады', en: 'One year comes off the term above' },
+      { ru: 'Срок выше сокращается на год', kk: 'Жоғарыдағы мерзім бір жылға қысқарады', en: 'The term above is cut by a year' },
     ],
   },
 ]
@@ -157,14 +157,14 @@ export function awardTimeline(track: Track): { total: number; marks: TimelineMar
     total: 90,
     note: science
       ? {
-          ru: 'Отсчёт идёт в календарных днях и начинается в день решения комиссии, а не в день, когда вы о нём узнали. Если не успеваете из-за болезни, командировки или других обстоятельств, до истечения срока можно один раз попросить продление – до 90 дней с решения Комиссии по рассмотрению обращений.',
-          kk: 'Санақ күнтізбелік күнмен жүреді және сіз білген күннен емес, комиссия шешім қабылдаған күннен басталады. Ауру, іссапар не басқа жағдай себебінен үлгермесеңіз, мерзім өткенге дейін бір рет ұзартуды сұрауға болады – Өтініштерді қарау комиссиясының шешімінен бастап 90 күнге дейін.',
-          en: 'The count runs in calendar days from the day of the decision, not the day you found out about it. If illness, a work trip or other circumstances get in the way, you can ask once, before the term runs out, for an extension of up to 90 days from the appeals commission\'s decision.',
+          ru: 'Срок считают в календарных днях со дня решения комиссии, а не со дня, когда вы о нём узнали. Если не успеваете из-за болезни, командировки или других обстоятельств, до истечения срока можно один раз попросить продление – до 90 дней с решения Комиссии по рассмотрению обращений.',
+          kk: 'Мерзім сіз білген күннен емес, комиссия шешімі күнінен бастап күнтізбелік күнмен есептеледі. Ауру, іссапар не басқа жағдай себебінен үлгермесеңіз, мерзім өткенге дейін бір рет ұзартуды сұрауға болады – Өтініштерді қарау комиссиясының шешімінен бастап 90 күнге дейін.',
+          en: 'The term runs in calendar days from the day of the decision, not the day you learn of it. If illness, a work trip or other circumstances get in the way, you can ask once, before the term runs out, for an extension of up to 90 days from the appeals commission\'s decision.',
         }
       : {
-          ru: 'Отсчёт идёт в календарных днях и начинается в день решения комиссии, а не в день, когда вы о нём узнали.',
-          kk: 'Санақ күнтізбелік күнмен жүреді және сіз білген күннен емес, комиссия шешім қабылдаған күннен басталады.',
-          en: 'The count runs in calendar days from the day of the decision, not the day you found out about it.',
+          ru: 'Срок считают в календарных днях со дня решения комиссии, а не со дня, когда вы о нём узнали.',
+          kk: 'Мерзім сіз білген күннен емес, комиссия шешімі күнінен бастап күнтізбелік күнмен есептеледі.',
+          en: 'The term runs in calendar days from the day of the decision, not the day you learn of it.',
         },
     marks: [
       { day: 0, tone: 'start', label: { ru: 'Решение комиссии', kk: 'Комиссия шешімі', en: 'Commission decision' }, source: science ? 'ns_rules422' : 'pp573' },
@@ -474,7 +474,7 @@ export function departureChain(track: Track): DepartureChain {
         { ru: 'Заявление на авиабилет', kk: 'Авиабилетке өтініш', en: 'Ticket request' },
       ],
       note: {
-        ru: 'Карту оформляют за месяц до отъезда, а данные карт-счёта отправляют в Управление финансового обеспечения.',
+        ru: 'Карту оформляют за месяц до отъезда, данные карт-счёта направляют в Управление финансового обеспечения.',
         kk: 'Картаны кетуге бір ай қалғанда рәсімдеп, карт-шот деректерін қаржы қамтамасыз ету басқармасына жібереді.',
         en: 'The card is opened a month before departure and its details go to the finance department.',
       },
@@ -507,9 +507,9 @@ export function departureChain(track: Track): DepartureChain {
       { ru: 'Авиабилет', kk: 'Авиабилет', en: 'Flight ticket' },
     ],
     note: {
-      ru: 'Порядок именно такой: каждый следующий шаг опирается на документ из предыдущего. Карту оформляют за месяц до отъезда.',
-      kk: 'Рет дәл осындай: әр келесі қадам алдыңғысының құжатына сүйенеді. Картаны кетуге бір ай қалғанда рәсімдейді.',
-      en: 'The order matters: each step needs the document from the one before it. The card is arranged a month before departure.',
+      ru: 'Каждый шаг требует документа из предыдущего. Карту оформляют за месяц до отъезда.',
+      kk: 'Әр қадамға алдыңғысының құжаты керек. Картаны кетуге бір ай қалғанда рәсімдейді.',
+      en: 'Each step needs the document from the one before. The card is arranged a month before departure.',
     },
     sources: ['stipendiat_master', 'viza'],
   }
