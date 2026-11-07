@@ -51,21 +51,21 @@ export const ACADEMIC_COVERAGE: L[] = [
 ]
 
 export const FREE_TUITION_NOTE: L = {
-  ru: 'Если вуз учит вас бесплатно, стипендия покрывает всё остальное, кроме самого обучения.',
-  kk: 'ЖОО сізді тегін оқытса, стипендия оқудың өзінен басқаның бәрін жабады.',
-  en: 'If the university teaches you for free, the scholarship covers everything except the tuition itself.',
+  ru: 'При бесплатном обучении стипендия покрывает остальные расходы из списка.',
+  kk: 'Оқу тегін болса, стипендия тізімдегі қалған шығыстарды жабады.',
+  en: 'If tuition is free, the scholarship covers the other costs listed.',
 }
 
 /** The two work-back mistakes every degree platform shares (ПП 573 п. 24, 25). */
 export const ACADEMIC_WORKBACK_MISTAKES: L[] = [
   {
-    ru: 'Работать по двум местам сразу: при параллельных пенсионных отчислениях отработка засчитывается только там, где предусмотрен наибольший срок.',
+    ru: 'Работать в двух местах сразу: при параллельных пенсионных отчислениях отработка засчитывается только там, где предусмотрен наибольший срок.',
     kk: 'Бір мезгілде екі жерде жұмыс істеу: қатар зейнетақы аударымдары болса, өтеу ең ұзақ мерзім көзделген жерде ғана есептеледі.',
     en: 'Working two jobs at once: with parallel pension contributions, only the position with the longest required term counts.',
   },
   {
-    ru: 'Забыть про сокращение срока на год: оно даётся, если всё обучение было бесплатным и успеваемость по договору выдержана.',
-    kk: 'Мерзімнің бір жылға қысқаруын ұмыту: ол бүкіл оқу тегін болып, шарттағы үлгерім сақталғанда беріледі.',
-    en: 'Forgetting the one-year reduction: it applies when the whole programme was free and the contractual grades were kept.',
+    ru: 'Не учесть сокращение срока на год: оно даётся, если всё обучение было бесплатным и успеваемость по договору соблюдена.',
+    kk: 'Мерзімнің бір жылға қысқаруын ескермеу: ол бүкіл оқу тегін болып, шарттағы үлгерім сақталғанда беріледі.',
+    en: 'Overlooking the one-year reduction: it applies when the whole programme was free and the contractual grades were kept.',
   },
 ]

@@ -38,7 +38,7 @@ export const COMPARE: CompareRow[] = [
     label: { ru: 'Что нужно иметь', kk: 'Не болуы керек', en: 'What you need to have' },
     cells: {
       bachelor: { ru: 'Аттестат и диплом международной олимпиады или конкурса за 3 года', kk: 'Аттестат және соңғы 3 жылдағы халықаралық олимпиада не конкурс дипломы', en: 'A school certificate and an international olympiad or contest diploma from the last 3 years' },
-      master: { ru: 'Диплом бакалавра или специалиста; льготным – ещё стаж и GPA 3.00', kk: 'Бакалавр не маман дипломы; жеңілдіктілерге – өтіл және GPA 3.00', en: "A bachelor's or specialist diploma; preferential categories also need experience and GPA 3.00" },
+      master: { ru: 'Диплом бакалавра или специалиста; льготным – также стаж и GPA 3.00', kk: 'Бакалавр не маман дипломы; жеңілдіктілерге – өтіл және GPA 3.00', en: "A bachelor's or specialist diploma; preferential categories also need experience and GPA 3.00" },
       doctorate: { ru: 'Высшее образование и приглашение из вуза Списка', kk: 'Жоғары білім және Тізімдегі ЖОО шақыруы', en: 'Higher education and an offer from a listed university' },
       internship: { ru: 'Высшее образование, 3 года стажа, из них 12 месяцев подряд по своей области', kk: 'Жоғары білім, 3 жыл өтіл, оның 12 айы өз саласында қатарынан', en: 'Higher education, 3 years of experience, the last 12 months in a row in your field' },
       science: { ru: 'Учёная степень от магистра, 12 месяцев в науке, публикации', kk: 'Магистрден бастап ғылыми дәреже, ғылымда 12 ай, жарияланымдар', en: "A degree from master's up, 12 months in research, publications" },
@@ -51,7 +51,7 @@ export const COMPARE: CompareRow[] = [
     cells: same(
       { ru: 'Да – безусловное, из вуза Списка', kk: 'Иә – сөзсіз, Тізімдегі ЖОО-дан', en: 'Yes – unconditional, from a listed university' },
       {
-        master: { ru: 'Если поступаете сами – да; льготным – нет, вуз после конкурса', kk: 'Өз бетіңізше түссеңіз – иә; жеңілдіктілерге – жоқ, ЖОО конкурстан кейін', en: 'Yes if self-admitted; preferential categories – no, the university comes after the competition' },
+        master: { ru: 'Поступающим самостоятельно – да; льготным – нет, вуз после конкурса', kk: 'Өз бетіңізше түссеңіз – иә; жеңілдіктілерге – жоқ, ЖОО конкурстан кейін', en: 'Yes if self-admitted; preferential categories – no, the university comes after the competition' },
         internship: { ru: 'Да – от принимающей организации', kk: 'Иә – қабылдаушы ұйымнан', en: 'Yes – from the host organisation' },
         science: { ru: 'Да – от организации из списка научных стажировок', kk: 'Иә – ғылыми тағылымдама тізіміндегі ұйымнан', en: 'Yes – from a host on the scientific-internship list' },
       },
@@ -75,7 +75,7 @@ export const COMPARE: CompareRow[] = [
     label: { ru: 'Иностранный язык', kk: 'Шет тілі', en: 'Foreign language' },
     cells: {
       bachelor: { ru: 'По требованию вуза – сертификат в пакет не входит', kk: 'ЖОО талабы бойынша – сертификат топтамаға кірмейді', en: "As the university requires – no certificate in the package" },
-      master: { ru: 'Льготным – I порог и курсы; поступающим сами – по требованию вуза, сертификат в пакет не входит', kk: 'Жеңілдіктілерге – I шек және курстар; өз бетіншелерге – ЖОО талабы бойынша, сертификат топтамаға кірмейді', en: 'Preferential – level I plus courses; self-admitted – as the university requires, no certificate in the package' },
+      master: { ru: 'Льготным – I порог и курсы; поступающим самостоятельно – по требованию вуза, сертификат в пакет не входит', kk: 'Жеңілдіктілерге – I шек және курстар; өз бетіншелерге – ЖОО талабы бойынша, сертификат топтамаға кірмейді', en: 'Preferential – level I plus courses; self-admitted – as the university requires, no certificate in the package' },
       doctorate: { ru: 'По требованию вуза – сертификат в пакет не входит', kk: 'ЖОО талабы бойынша – сертификат топтамаға кірмейді', en: 'As the university requires – no certificate in the package' },
       internship: { ru: 'III порог, например IELTS 5.0', kk: 'III шек, мысалы IELTS 5.0', en: 'Level III, e.g. IELTS 5.0' },
       science: { ru: 'Своя таблица: английский – IELTS 5.0', kk: 'Өз кестесі: ағылшын – IELTS 5.0', en: 'Its own table: English – IELTS 5.0' },
@@ -105,8 +105,8 @@ export const COMPARE: CompareRow[] = [
     label: { ru: 'Отработка', kk: 'Өтеу', en: 'Work-back' },
     cells: {
       bachelor: { ru: '5 лет в Астане, Алматы, Шымкенте или 3 года в регионах', kk: 'Астана, Алматы, Шымкентте 5 жыл не өңірлерде 3 жыл', en: '5 years in Astana, Almaty, Shymkent or 3 in the regions' },
-      master: { ru: '5 или 3 года; госслужащим и атомщикам – 3 года', kk: '5 не 3 жыл; мемқызметшілер мен атомшыларға – 3 жыл', en: '5 or 3 years; civil servants and nuclear workers – 3' },
-      doctorate: { ru: '5 или 3 года; атомщикам – 3 года у работодателя', kk: '5 не 3 жыл; атомшыларға – жұмыс берушіде 3 жыл', en: '5 or 3 years; nuclear workers – 3 with the employer' },
+      master: { ru: '5 или 3 года; госслужащим и работникам атомной отрасли – 3 года', kk: '5 не 3 жыл; мемқызметшілер мен атом саласы қызметкерлеріне – 3 жыл', en: '5 or 3 years; civil servants and nuclear-industry workers – 3' },
+      doctorate: { ru: '5 или 3 года; работникам атомной отрасли – 3 года у работодателя', kk: '5 не 3 жыл; атом саласы қызметкерлеріне – жұмыс берушіде 3 жыл', en: '5 or 3 years; nuclear-industry workers – 3 with the employer' },
       internship: { ru: '3 года у своего работодателя', kk: 'Өз жұмыс берушіде 3 жыл', en: '3 years with your employer' },
       science: { ru: '3 года подряд у своего работодателя', kk: 'Өз жұмыс берушіде қатарынан 3 жыл', en: '3 years in a row with your employer' },
     },
@@ -153,7 +153,7 @@ export const FINDER: FinderQuestion[] = [
     options: [
       { id: 'school', label: { ru: 'Школа или колледж', kk: 'Мектеп не колледж', en: 'School or college' }, hint: { ru: 'и диплом международной олимпиады', kk: 'және халықаралық олимпиада дипломы', en: 'plus an international olympiad diploma' }, result: 'bachelor' },
       { id: 'bachelor', label: { ru: 'Бакалавр или специалист', kk: 'Бакалавр не маман', en: 'Bachelor or specialist' }, result: 'master' },
-      { id: 'phd', label: { ru: 'Иду на PhD, доктора по профилю или в резидентуру', kk: 'PhD, бейіні бойынша доктор не резидентураға барамын', en: 'Going for a PhD, professional doctorate or residency' }, result: 'doctorate' },
+      { id: 'phd', label: { ru: 'Поступаю на PhD, доктора по профилю или в резидентуру', kk: 'PhD, бейіні бойынша доктор не резидентураға түсемін', en: 'Applying for a PhD, professional doctorate or residency' }, result: 'doctorate' },
     ],
   },
   {

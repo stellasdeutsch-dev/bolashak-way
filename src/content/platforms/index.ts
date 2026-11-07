@@ -45,9 +45,9 @@ export const PLATFORMS: PlatformMeta[] = [
     programme: BOLASHAK,
     name: { ru: 'Магистратура', kk: 'Магистратура', en: "Master's" },
     tagline: {
-      ru: 'Самостоятельно поступившим и пяти льготным категориям: село, ИТР, медики, госслужащие, атомщики',
-      kk: 'Өз бетінше түскендерге және бес жеңілдікті санатқа: ауыл, ИТҚ, медиктер, мемқызметшілер, атомшылар',
-      en: 'For self-admitted applicants and five preferential categories: rural, engineers, medics, civil servants, nuclear',
+      ru: 'Самостоятельно поступившим и пяти льготным категориям: село, ИТР, медики, госслужащие, атомная отрасль',
+      kk: 'Өз бетінше түскендерге және бес жеңілдікті санатқа: ауыл, ИТҚ, медиктер, мемқызметшілер, атом саласы',
+      en: 'For self-admitted applicants and five preferential categories: rural, engineers, medics, civil servants, nuclear industry',
     },
   },
   {

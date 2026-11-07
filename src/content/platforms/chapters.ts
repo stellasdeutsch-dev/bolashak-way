@@ -7,9 +7,9 @@ import { CHAPTERS } from '../stages'
  * says what its own chapter holds.
  */
 const SAME_APPLY: L = {
-  ru: 'Собираем пакет документов и подаём через egov.kz в срок приёма',
-  kk: 'Құжаттар топтамасын жинап, қабылдау мерзімінде egov.kz арқылы тапсырамыз',
-  en: 'Assemble the package and apply through egov.kz within the intake window',
+  ru: 'Пакет документов и подача через egov.kz в срок приёма',
+  kk: 'Құжаттар топтамасы және қабылдау мерзімінде egov.kz арқылы тапсыру',
+  en: 'The document package and applying through egov.kz within the intake window',
 }
 const SAME_CONTEST: L = {
   ru: 'Три тура: тестирование, собеседование и решение комиссии',
@@ -18,7 +18,7 @@ const SAME_CONTEST: L = {
 }
 const STUDY_TITLE: L = { ru: 'Учёба и отработка', kk: 'Оқу және өтеу', en: 'Study and work-back' }
 const INTERN_TITLE: L = { ru: 'Стажировка и отработка', kk: 'Тағылымдама және өтеу', en: 'Internship and work-back' }
-const AWARD_TITLE: L = { ru: 'После победы', kk: 'Жеңістен кейін', en: 'After the award' }
+const AWARD_TITLE: L = { ru: 'После присуждения', kk: 'Тағайындалғаннан кейін', en: 'After the award' }
 
 type Words = Partial<Record<ChapterId, { title?: L; subtitle: L }>>
 
@@ -26,9 +26,9 @@ const WORDS: Record<Track, Words> = {
   bachelor: {
     prepare: {
       subtitle: {
-        ru: 'Проверяем три условия, выбираем специальность по предмету олимпиады, вуз и сдаём казахский',
-        kk: 'Үш шартты тексеріп, олимпиада пәні бойынша мамандық пен ЖОО таңдап, қазақ тілін тапсырамыз',
-        en: 'Check the three conditions, choose a specialty in your olympiad subject and a university, pass Kazakh',
+        ru: 'Три условия, специальность по предмету олимпиады, вуз и казахский язык',
+        kk: 'Үш шарт, олимпиада пәні бойынша мамандық, ЖОО және қазақ тілі',
+        en: 'Three conditions, a specialty in your olympiad subject, a university and Kazakh',
       },
     },
     apply: { subtitle: SAME_APPLY },
@@ -39,12 +39,12 @@ const WORDS: Record<Track, Words> = {
     },
     abroad: {
       title: STUDY_TITLE,
-      subtitle: { ru: 'Учёба по плану, возвращение и 5 или 3 года работы в Казахстане', kk: 'Жоспар бойынша оқу, оралу және Қазақстанда 5 не 3 жыл жұмыс', en: 'Study to plan, come back and work in Kazakhstan for 5 or 3 years' },
+      subtitle: { ru: 'Учёба, возвращение и 5 или 3 года работы в Казахстане', kk: 'Оқу, оралу және Қазақстанда 5 не 3 жыл жұмыс', en: 'Study, return and 5 or 3 years of work in Kazakhstan' },
     },
   },
   master: {
     prepare: {
-      subtitle: { ru: 'Определяем категорию, специальность и вуз, добираем языки', kk: 'Санатты, мамандық пен ЖОО-ны анықтап, тілдерді жетілдіреміз', en: 'Settle your category, specialty and university; get the languages up to level' },
+      subtitle: { ru: 'Категория, специальность, вуз и языки', kk: 'Санат, мамандық, ЖОО және тілдер', en: 'Category, specialty, university and languages' },
     },
     apply: { subtitle: SAME_APPLY },
     contest: { subtitle: SAME_CONTEST },
@@ -58,15 +58,15 @@ const WORDS: Record<Track, Words> = {
     },
     abroad: {
       title: STUDY_TITLE,
-      subtitle: { ru: 'Учёба, возвращение и отработка – от 3 до 5 лет', kk: 'Оқу, оралу және өтеу – 3-тен 5 жылға дейін', en: 'Study, come back and the work-back – three to five years' },
+      subtitle: { ru: 'Учёба, возвращение и отработка – от 3 до 5 лет', kk: 'Оқу, оралу және өтеу – 3-тен 5 жылға дейін', en: 'Study, return and the work-back – three to five years' },
     },
   },
   phd_residency: {
     prepare: {
       subtitle: {
-        ru: 'Выбираем формат, специальность и вуз, получаем приглашение и согласуем учебный план',
-        kk: 'Форматты, мамандық пен ЖОО-ны таңдап, шақыру алып, оқу жоспарын келісеміз',
-        en: 'Choose the format, specialty and university, get the offer and agree the study plan',
+        ru: 'Формат, специальность, вуз, приглашение и учебный план',
+        kk: 'Формат, мамандық, ЖОО, шақыру және оқу жоспары',
+        en: 'Format, specialty, university, offer and study plan',
       },
     },
     apply: { subtitle: SAME_APPLY },
@@ -77,15 +77,15 @@ const WORDS: Record<Track, Words> = {
     },
     abroad: {
       title: STUDY_TITLE,
-      subtitle: { ru: 'Учёба, возвращение и отработка – 5 или 3 года', kk: 'Оқу, оралу және өтеу – 5 не 3 жыл', en: 'Study, come back and the work-back – five or three years' },
+      subtitle: { ru: 'Учёба, возвращение и отработка – 5 или 3 года', kk: 'Оқу, оралу және өтеу – 5 не 3 жыл', en: 'Study, return and the work-back – five or three years' },
     },
   },
   internship: {
     prepare: {
       subtitle: {
-        ru: 'Проверяем категорию и стаж, находим организацию, получаем приглашение и программу стажировки',
-        kk: 'Санат пен өтілді тексеріп, ұйым тауып, шақыру мен тағылымдама бағдарламасын аламыз',
-        en: 'Check your category and experience, find a host, get the invitation and the internship programme',
+        ru: 'Категория и стаж, принимающая организация, приглашение и программа стажировки',
+        kk: 'Санат пен өтіл, қабылдаушы ұйым, шақыру және тағылымдама бағдарламасы',
+        en: 'Category and experience, the host, the invitation and the internship programme',
       },
     },
     apply: { subtitle: SAME_APPLY },
@@ -96,19 +96,19 @@ const WORDS: Record<Track, Words> = {
     },
     abroad: {
       title: INTERN_TITLE,
-      subtitle: { ru: 'Стажировка по программе, возвращение и 3 года у своего работодателя', kk: 'Бағдарлама бойынша тағылымдама, оралу және өз жұмыс берушіде 3 жыл', en: 'The internship to programme, come back and 3 years with your employer' },
+      subtitle: { ru: 'Стажировка по программе, возвращение и 3 года у своего работодателя', kk: 'Бағдарлама бойынша тағылымдама, оралу және өз жұмыс берушіде 3 жыл', en: 'The internship to programme, return and 3 years with your employer' },
     },
   },
   science_internship: {
     prepare: {
       subtitle: {
-        ru: 'Проверяем степень, стаж и публикации, выбираем направление и организацию',
-        kk: 'Дәрежені, өтіл мен жарияланымдарды тексеріп, бағыт пен ұйымды таңдаймыз',
-        en: 'Check your degree, experience and publications; choose the direction and the host',
+        ru: 'Степень, стаж и публикации, направление и организация',
+        kk: 'Дәреже, өтіл мен жарияланымдар, бағыт және ұйым',
+        en: 'Degree, experience and publications, research area and host',
       },
     },
     apply: {
-      subtitle: { ru: 'Собираем пакет – оригиналы и копии – и сдаём в Центр', kk: 'Топтаманы – түпнұсқа мен көшірмелерді – жинап, Орталыққа тапсырамыз', en: 'Assemble the package – originals and copies – and hand it to the Center' },
+      subtitle: { ru: 'Пакет документов – оригиналы и копии – и сдача в Центр', kk: 'Құжаттар топтамасы – түпнұсқа мен көшірмелер – және Орталыққа тапсыру', en: 'The package – originals and copies – handed in at the Center' },
     },
     contest: {
       subtitle: { ru: 'Три тура: тестирование, собеседование с экспертами и решение комиссии', kk: 'Үш тур: тестілеу, сарапшылармен әңгімелесу және комиссия шешімі', en: 'Three rounds: testing, an interview with experts and the commission decision' },
