@@ -198,6 +198,18 @@
 :global(:root[data-theme='dark']) .chip_overdue {
   --chip-ink: #ffa4a7;
 }
+/* The Center's announcements: a navy chip, apart from every personal colour. Not
+   draggable – the Center sets these dates, the reader cannot move them. */
+.chip_centre {
+  --chip-ink: var(--on-navy);
+  --chip-bg: var(--navy);
+  --chip-dot: var(--navy);
+}
+:global(:root[data-theme='dark']) .chip_centre {
+  --chip-ink: var(--navy);
+  --chip-bg: var(--on-navy);
+  --chip-dot: var(--on-navy);
+}
 
 /* ── day card ── */
 .dayCard {
@@ -384,6 +396,97 @@
   margin-top: 10px;
 }
 
+/* ── dates from the Center's announcements ── */
+.centreIntro {
+  margin: -4px 0 12px;
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--text-2);
+  max-width: 72ch;
+}
+.centreList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+.centreRow {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+  padding: 12px 0;
+  border-top: 1px solid var(--line);
+}
+.centreRow:first-child {
+  border-top: none;
+  padding-top: 2px;
+}
+.centreQuote {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.55;
+  color: var(--text);
+  max-width: 78ch;
+  overflow-wrap: anywhere;
+}
+.centreMeta {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 4px 12px;
+  min-width: 0;
+}
+.centreNewsTitle {
+  font-size: 13.5px;
+  line-height: 1.45;
+  color: var(--text-3);
+  overflow-wrap: anywhere;
+}
+/* The source chip: small navy pill that opens the news item. */
+.centreSource {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 10px;
+  border-radius: var(--r-pill);
+  background: var(--navy);
+  color: var(--on-navy);
+  font-size: 12.5px;
+  font-weight: 650;
+  line-height: 1.3;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.centreSource::after {
+  content: '';
+  position: absolute;
+  inset: -8px -2px;
+}
+@media (hover: hover) {
+  .centreSource:hover {
+    color: var(--on-navy);
+    background: var(--navy-3);
+  }
+}
+:global(:root[data-theme='dark']) .centreSource {
+  background: var(--on-navy);
+  color: var(--navy);
+}
+@media (hover: hover) {
+  :global(:root[data-theme='dark']) .centreSource:hover {
+    color: var(--navy);
+    background: #d6deeb;
+  }
+}
+.centreFailed {
+  margin: 10px 0 0;
+  font-size: 13.5px;
+  color: var(--text-3);
+}
+
 /* ── no profile yet ── */
 .empty {
   display: flex;
@@ -445,7 +548,7 @@
     height: 7px;
     padding: 0;
     border-radius: 50%;
-    background: var(--chip-ink, var(--text-3));
+    background: var(--chip-dot, var(--chip-ink, var(--text-3)));
   }
   .chipText {
     display: none;

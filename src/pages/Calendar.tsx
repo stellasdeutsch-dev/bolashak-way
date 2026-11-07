@@ -10,22 +10,28 @@ import { evaluate } from '@/domain/applicability'
 import { buildIcs, downloadIcs } from '@/domain/ics'
 import { atNoon, monthMatrix } from '@/domain/calendar'
 import { localIso } from '@/domain/dates'
+import { centreDateId, overlaps, type CentreDate } from '@/domain/centreDates'
+import { useCentreDates } from '@/components/useCentreDates'
 import { useAppStore } from '@/store/useAppStore'
 import { useI18n } from '@/i18n'
 import { usePageChrome } from '@/i18n/usePageChrome'
 import { Button, Callout, Card, Pill, SourceLink, ButtonLink } from '@/components/ui'
 import {
   IconArrowLeft as ArrowLeft, IconArrowRight as ArrowRight, IconCalendar as CalendarIcon,
-  IconClose as Close, IconDownload as Download, IconLock as Lock,
+  IconClose as Close, IconDownload as Download, IconLock as Lock, IconExternal as ExternalLink,
 } from '@/components/icons'
 import s from './Calendar.module.css'
 
 const WEEKDAY_KEYS = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'] as const
 
-/** Anchors are the reader's own dates; deadlines are counted from them by an act. */
+/**
+ * Anchors are the reader's own dates; deadlines are counted from them by an act. Centre
+ * dates come from the Center's news: shown beside them, never stored with them.
+ */
 type CalEvent =
   | { kind: 'anchor'; id: string; key: DateKey; iso: string; title: string }
   | { kind: 'deadline'; id: string; iso: string; title: string; d: ComputedDeadline }
+  | { kind: 'centre'; id: string; iso: string; title: string; entry: CentreDate }
 
 export function Calendar() {
   const { t, c, locale } = useI18n()
@@ -70,8 +76,9 @@ export function Calendar() {
     [locale],
   )
   const showDate = (iso: string) => fmtDate.format(new Date(atNoon(iso)))
+  const showSpan = (e: CentreDate) => (e.end ? `${showDate(e.date)} – ${showDate(e.end)}` : showDate(e.date))
   const statusLabel = (e: { kind: string; d?: { status: string } }) =>
-    t(e.kind === 'anchor' ? 'calendar.legendAnchor' : e.d?.status === 'overdue' ? 'calendar.legendOverdue' : e.d?.status === 'soon' ? 'calendar.legendSoon' : 'calendar.legendUpcoming')
+    t(e.kind === 'anchor' ? 'calendar.legendAnchor' : e.kind === 'centre' ? 'calendar.centreSource' : e.d?.status === 'overdue' ? 'calendar.legendOverdue' : e.d?.status === 'soon' ? 'calendar.legendSoon' : 'calendar.legendUpcoming')
 
   /** Anchors this profile can even be asked for: a rule has to depend on them. */
   const usedAnchors = useMemo(() => {
@@ -88,6 +95,7 @@ export function Calendar() {
     () => (profile ? computeDeadlines(profile, dates, new Date()) : []),
     [profile, dates],
   )
+  const centre = useCentreDates(locale)
 
   const events = useMemo(() => {
     const list: CalEvent[] = []
@@ -104,8 +112,14 @@ export function Calendar() {
         d,
       })
     }
+    // A period is marked on its first and its last day; the day card shows the whole span.
+    for (const entry of centre.entries) {
+      const id = centreDateId(entry)
+      list.push({ kind: 'centre', id: `${id}-start`, iso: entry.date, title: entry.title, entry })
+      if (entry.end) list.push({ kind: 'centre', id: `${id}-end`, iso: entry.end, title: entry.title, entry })
+    }
     return list
-  }, [usedAnchors, dates, deadlines, t, c])
+  }, [usedAnchors, dates, deadlines, centre.entries, t, c])
 
   const byDate = useMemo(() => {
     const map = new Map<string, CalEvent[]>()
@@ -118,8 +132,12 @@ export function Calendar() {
   }, [events])
 
   const cells = monthMatrix(cursor.year, cursor.month)
+  const monthFirst = `${cursor.year}-${String(cursor.month + 1).padStart(2, '0')}-01`
+  const monthLast = localIso(new Date(cursor.year, cursor.month + 1, 0))
+  const monthCentre = centre.entries.filter((e) => overlaps(e, monthFirst, monthLast))
   const monthEvents = events
     .filter((e) => {
+      if (e.kind === 'centre') return false
       const d = new Date(atNoon(e.iso))
       return d.getUTCFullYear() === cursor.year && d.getUTCMonth() === cursor.month
     })
@@ -170,10 +188,12 @@ export function Calendar() {
     setOpenDay(null)
   }
 
+  const canExport = deadlines.length > 0 || centre.entries.length > 0
+
   function exportIcs() {
-    if (deadlines.length === 0) return
+    if (!canExport) return
     const text = buildIcs(
-      deadlines.map((d) => ({
+      [...deadlines.map((d) => ({
         id: d.occurrence ? `${d.rule.id}-${d.occurrence}` : d.rule.id,
         date: d.due,
         summary: c(d.rule.label),
@@ -184,6 +204,16 @@ export function Calendar() {
         // Nothing already overdue should wake anybody up a week before it happened.
         reminderDays: d.status === 'overdue' ? 0 : 7,
       })),
+      // The Center's dates go in as they were announced, each with its news item.
+      ...centre.entries.map((e) => ({
+        id: centreDateId(e),
+        date: e.date,
+        end: e.end,
+        summary: e.title,
+        description: [e.text, `${t('calendar.centreSource')}: ${e.url}`].join('\n\n'),
+        url: e.url,
+        reminderDays: (e.end ?? e.date) < today ? 0 : 7,
+      }))],
       t('calendar.icsName'),
       new Date(),
     )
@@ -256,11 +286,11 @@ export function Calendar() {
           {fmtMonth.format(new Date(Date.UTC(cursor.year, cursor.month, 1, 12)))}
         </h1>
         <span className={s.icsWrap}>
-          <Button variant="secondary" size="sm" onClick={exportIcs} disabled={deadlines.length === 0}>
+          <Button variant="secondary" size="sm" onClick={exportIcs} disabled={!canExport}>
             <Download size={15} aria-hidden="true" />
             {t('calendar.ics')}
           </Button>
-          {deadlines.length === 0 && <span className={s.icsNote}>{t('calendar.icsAfterFirst')}</span>}
+          {!canExport && <span className={s.icsNote}>{t('calendar.icsAfterFirst')}</span>}
         </span>
       </Card>
 
@@ -327,10 +357,7 @@ export function Calendar() {
                         {items.map((e) => (
                           <button
                             key={e.id}
-                            className={[
-                              s.chip,
-                              e.kind === 'anchor' ? s.chipAnchor : s[`chip_${e.d.status}`],
-                            ].join(' ')}
+                            className={[s.chip, chipClass(e)].join(' ')}
                             title={e.title}
                             // The label is the only accessible name once the chip
                             // collapses to a dot on a narrow screen – and the status is
@@ -378,7 +405,19 @@ export function Calendar() {
             <p className={s.dayEmpty}>{t('calendar.nothingHere')}</p>
           ) : (
             openEvents.map((e) =>
-              e.kind === 'anchor' ? (
+              e.kind === 'centre' ? (
+                <div key={e.id} className={s.dayItem}>
+                  <CentreSourceLink entry={e.entry} label={t('calendar.centreSource')} />
+                  <blockquote className={s.centreQuote} cite={e.entry.url}>
+                    {e.entry.text}
+                  </blockquote>
+                  <span className={s.dayItemNote}>
+                    {e.entry.end && <>{showSpan(e.entry)} · </>}
+                    {e.entry.title}
+                    {e.entry.published && <> · {t('calendar.centrePublished', { date: showDate(e.entry.published) })}</>}
+                  </span>
+                </div>
+              ) : e.kind === 'anchor' ? (
                 <div key={e.id} className={s.dayItem}>
                   <span className={s.dayItemTitle}>{e.title}</span>
                   <Pill tone="accent">{t('calendar.yourDate')}</Pill>
@@ -430,7 +469,7 @@ export function Calendar() {
                   {showDate(e.iso)}
                 </span>
                 <button
-                  className={[s.chip, e.kind === 'anchor' ? s.chipAnchor : s[`chip_${e.d.status}`]].join(' ')}
+                  className={[s.chip, chipClass(e)].join(' ')}
                   onClick={(ev) => openDayFrom(e.iso, ev.currentTarget)}
                 >
                   <span className={s.chipDot} aria-hidden="true" />
@@ -443,6 +482,31 @@ export function Calendar() {
         )}
       </Card>
 
+      {(centre.entries.length > 0 || centre.failed) && (
+        <Card className={s.agenda}>
+          <h2 className={s.agendaTitle}>{t('calendar.centreTitle')}</h2>
+          {centre.entries.length > 0 && <p className={s.centreIntro}>{t('calendar.centreText')}</p>}
+          {centre.entries.length > 0 && monthCentre.length === 0 && <p className={s.dayEmpty}>{t('calendar.centreMonthEmpty')}</p>}
+          {monthCentre.length > 0 && (
+            <ul className={s.centreList}>
+              {monthCentre.map((e) => (
+                <li key={centreDateId(e)} className={s.centreRow}>
+                  <span className={s.agendaDate}>{showSpan(e)}</span>
+                  <blockquote className={s.centreQuote} cite={e.url}>
+                    {e.text}
+                  </blockquote>
+                  <span className={s.centreMeta}>
+                    <CentreSourceLink entry={e} label={t('calendar.centreSource')} />
+                    <span className={s.centreNewsTitle}>{e.title}</span>
+                  </span>
+                </li>
+              ))}
+            </ul>
+          )}
+          {centre.failed && <p className={s.centreFailed}>{t('calendar.centreFailed')}</p>}
+        </Card>
+      )}
+
       {missingAnchors.length > 0 && !noDatesYet && missingDates()}
 
       <div className={s.legend}>
@@ -450,6 +514,7 @@ export function Calendar() {
         <span className={[s.legendItem, s.chip_upcoming].join(' ')}>{t('calendar.legendUpcoming')}</span>
         <span className={[s.legendItem, s.chip_soon].join(' ')}>{t('calendar.legendSoon')}</span>
         <span className={[s.legendItem, s.chip_overdue].join(' ')}>{t('calendar.legendOverdue')}</span>
+        {centre.entries.length > 0 && <span className={[s.legendItem, s.chip_centre].join(' ')}>{t('calendar.legendCentre')}</span>}
       </div>
 
       {deadlines.length > 0 && (
@@ -463,5 +528,21 @@ export function Calendar() {
         </Callout>
       )}
     </div>
+  )
+}
+
+function chipClass(e: CalEvent): string {
+  if (e.kind === 'anchor') return s.chipAnchor
+  if (e.kind === 'centre') return s.chip_centre
+  return s[`chip_${e.d.status}`]
+}
+
+/** The small source chip: says where the date comes from and opens the news item. */
+function CentreSourceLink({ entry, label }: { entry: CentreDate; label: string }) {
+  return (
+    <a className={s.centreSource} href={entry.url} target="_blank" rel="noopener noreferrer" aria-label={`${label}: ${entry.title}`}>
+      <ExternalLink size={13} aria-hidden="true" />
+      {label}
+    </a>
   )
 }

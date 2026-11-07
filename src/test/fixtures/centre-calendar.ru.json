@@ -1,0 +1,23 @@
+[
+  {
+    "date": "2026-11-16",
+    "end": "2026-11-30",
+    "text": "Тестовая запись: приём документов проводится с 16 по 30 ноября 2026 года.",
+    "title": "Тестовая новость о приёме документов",
+    "url": "https://stellasdeutsch-dev.github.io/bolashak-site/ru/news/test-1/",
+    "published": "2026-11-02"
+  },
+  {
+    "date": "2026-11-20",
+    "text": "Тестовая запись: консультация для претендентов состоится 20 ноября 2026 года.",
+    "title": "Тестовая новость о консультации",
+    "url": "https://stellasdeutsch-dev.github.io/bolashak-site/ru/news/test-2/",
+    "published": "2026-11-05"
+  },
+  {
+    "date": "2026-12-03",
+    "text": "Тестовая запись: результаты будут опубликованы 3 декабря 2026 года.",
+    "title": "Тестовая новость о результатах",
+    "url": "https://stellasdeutsch-dev.github.io/bolashak-site/ru/news/test-3/"
+  }
+]

@@ -2,8 +2,10 @@
  * Builds an .ics file from the deadlines the app has computed, so the dates leave the
  * browser and land in whatever calendar the person actually looks at.
  *
- * Only dates the app can derive from an official term go in. A deadline nobody has an
- * anchor date for is simply absent: inventing one would put a lie in someone's calendar.
+ * Only dates the app can derive from an official term go in, plus the dates the Center
+ * published in its news (as separate events, with the address of the news item). A
+ * deadline nobody has an anchor date for is simply absent: inventing one would put a lie
+ * in someone's calendar.
  */
 
 export interface IcsEvent {
@@ -11,6 +13,10 @@ export interface IcsEvent {
   id: string
   /** All-day date, yyyy-mm-dd. */
   date: string
+  /** Last day of a period, yyyy-mm-dd, inclusive; one day when absent. */
+  end?: string
+  /** A page about the event, written as the URL property. */
+  url?: string
   summary: string
   description?: string
   /** Days before the date to fire a reminder; 0 or less means none. */
@@ -86,10 +92,12 @@ export function buildIcs(events: IcsEvent[], calendarName: string, now: Date): s
       `DTSTART;VALUE=DATE:${compact(e.date)}`,
       // DTEND is exclusive for all-day events, so a one-day event ends the next day.
       // Without this Google and Apple both draw it as lasting two days.
-      `DTEND;VALUE=DATE:${compact(shiftIso(e.date, 1))}`,
+      `DTEND;VALUE=DATE:${compact(shiftIso(e.end && e.end > e.date ? e.end : e.date, 1))}`,
       `SUMMARY:${escape(e.summary)}`,
     )
     if (e.description) lines.push(`DESCRIPTION:${escape(e.description)}`)
+    // A URI value is not TEXT: no backslash escaping, only no line breaks.
+    if (e.url && /^https?:\/\//.test(e.url)) lines.push(`URL:${e.url.replace(/[\r\n]/g, '')}`)
     lines.push('TRANSP:TRANSPARENT')
     if ((e.reminderDays ?? 0) > 0) {
       lines.push(
