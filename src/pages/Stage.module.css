@@ -604,3 +604,8 @@
 .docNote {
   max-width: 68ch;
 }
+@media (pointer: coarse) {
+  .above {
+    padding-block: 12px;
+  }
+}

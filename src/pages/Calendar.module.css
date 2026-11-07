@@ -507,3 +507,28 @@
     display: none;
   }
 }
+
+/* The whole cell answers a tap or click on the day, not only the 26px number. Chips stay
+   on top as their own targets. */
+.cell {
+  position: relative;
+}
+.dayNum::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+}
+.chips {
+  position: relative;
+  z-index: 1;
+}
+.icsWrap {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+}
+.icsNote {
+  font-size: 12.5px;
+  color: var(--text-3);
+}

@@ -7,6 +7,7 @@ import { PlatformRoute } from '@/components/platform/PlatformRoute'
 import { pathsForTrack, type PlatformPaths } from '@/domain/paths'
 import type { StageId } from '@/content/types'
 import { NotFound } from '@/pages/NotFound'
+import { PageSkeleton } from '@/components/PageSkeleton'
 import { useAppStore } from '@/store/useAppStore'
 
 const Calendar = lazy(() => import('@/pages/Calendar').then((m) => ({ default: m.Calendar })))
@@ -67,7 +68,7 @@ export default function App() {
       <ScrollToTop />
       <Layout>
         {/* Pages past the first screen load on demand; the worker has them cached for offline use. */}
-        <Suspense fallback={<div aria-busy="true" style={{ minHeight: '60vh' }} />}>
+        <Suspense fallback={<PageSkeleton />}>
         <Routes>
           <Route path="/" element={<Landing />} />
           <Route path="/settings" element={<Settings />} />

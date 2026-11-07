@@ -111,3 +111,30 @@
 .statusFail {
   color: var(--danger-ink);
 }
+
+/* Sources of the other programmes, folded away. */
+.more > summary {
+  cursor: pointer;
+  padding: 10px 0;
+  font-size: 14.5px;
+  font-weight: 600;
+  color: var(--accent-ink);
+}
+.more[open] > summary {
+  margin-bottom: 8px;
+}
+.body {
+  max-width: 68ch;
+}
+.contact {
+  display: inline-flex;
+  gap: 6px;
+  align-items: center;
+  font-size: 14px;
+}
+/* A full 44px target on touch screens without changing the look. */
+@media (pointer: coarse) {
+  .contact {
+    padding-block: 12px;
+  }
+}

@@ -33,6 +33,19 @@
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+/* On the narrowest phones the active programme shows as its icon only – its name is in
+   the page heading – so the header row does not cut it to "Магистр…". It stays the
+   button's accessible name. */
+@media (max-width: 400px) {
+  .switcherNameActive {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+  }
+}
 .switcherIcon {
   flex: none;
   width: 24px;

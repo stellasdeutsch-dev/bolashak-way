@@ -97,8 +97,12 @@
 }
 
 .result:hover,
-.result:focus-visible {
+.resultActive {
   background: var(--surface-2);
+}
+/* One clear button is enough: the dialog has its own close. */
+.input::-webkit-search-cancel-button {
+  display: none;
 }
 
 .resultTitle {

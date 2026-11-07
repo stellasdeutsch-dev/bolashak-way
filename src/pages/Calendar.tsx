@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState, type KeyboardEvent } from 'react'
 import { dateLabelKey, pathsForTrack } from '@/domain/paths'
 import { Link } from 'react-router'
 import { DEADLINE_RULES } from '@/content/deadlines'
@@ -42,6 +42,13 @@ export function Calendar() {
   const [openDay, setOpenDay] = useState<string | null>(null)
   const [dragging, setDragging] = useState<DateKey | null>(null)
   const [dropTarget, setDropTarget] = useState<string | null>(null)
+  // Keyboard: the grid is one Tab stop and arrows move between days; opening a day moves
+  // focus to its card, closing it brings focus back to the day.
+  const [focusIso, setFocusIso] = useState<string | null>(null)
+  const gridRef = useRef<HTMLTableElement>(null)
+  const dayTitleRef = useRef<HTMLHeadingElement>(null)
+  const openedFrom = useRef<HTMLElement | null>(null)
+  const moveFocus = useRef(false)
 
   const fmtDate = useMemo(
     () =>
@@ -119,6 +126,37 @@ export function Calendar() {
     .sort((a, b) => a.iso.localeCompare(b.iso))
 
   const missingAnchors = usedAnchors.filter((k) => !dates[k])
+  const noDatesYet = missingAnchors.length > 0 && missingAnchors.length === usedAnchors.length
+  const tabIso = cells.some((cl) => cl.iso === focusIso) ? focusIso! : (cells.find((cl) => cl.iso === today)?.iso ?? cells.find((cl) => cl.inMonth)!.iso)
+
+  const openDayFrom = (iso: string, from: HTMLElement) => {
+    openedFrom.current = from
+    setFocusIso(iso)
+    setOpenDay(iso)
+  }
+  const closeDay = () => {
+    setOpenDay(null)
+    openedFrom.current?.focus()
+  }
+  useEffect(() => {
+    if (openDay) dayTitleRef.current?.focus()
+  }, [openDay])
+  useEffect(() => {
+    if (!moveFocus.current || !focusIso) return
+    moveFocus.current = false
+    gridRef.current?.querySelector<HTMLButtonElement>(`button[data-iso="${focusIso}"]`)?.focus()
+  }, [focusIso])
+
+  const onGridKey = (e: KeyboardEvent<HTMLTableElement>) => {
+    const step = { ArrowLeft: -1, ArrowRight: 1, ArrowUp: -7, ArrowDown: 7 }[e.key]
+    const iso = (e.target as HTMLElement).dataset.iso
+    if (step === undefined || !iso) return
+    const i = cells.findIndex((cl) => cl.iso === iso) + step
+    if (i < 0 || i >= cells.length) return
+    e.preventDefault()
+    moveFocus.current = true
+    setFocusIso(cells[i].iso)
+  }
 
   function shiftMonth(delta: number) {
     const d = new Date(Date.UTC(cursor.year, cursor.month + delta, 1, 12))
@@ -174,6 +212,30 @@ export function Calendar() {
     )
   }
 
+  /** The anchor dates still missing, with a field for each. */
+  function missingDates() {
+    return (
+      <Card className={s.agenda}>
+        <h2 className={s.agendaTitle}>{t('calendar.missingTitle')}</h2>
+        <p className={s.dayEmpty}>{t('calendar.missingText')}</p>
+        <div className={s.missing}>
+          {missingAnchors.map((key) => (
+            <label key={key} className={s.missingRow}>
+              <span>{t(dateLabelKey(key, profile!.track))}</span>
+              <input
+                type="date"
+                value=""
+                onChange={(ev) => {
+                  if (ev.target.value) moveAnchor(key, ev.target.value)
+                }}
+              />
+            </label>
+          ))}
+        </div>
+      </Card>
+    )
+  }
+
   const openEvents = openDay ? (byDate.get(openDay) ?? []) : []
 
   return (
@@ -193,16 +255,20 @@ export function Calendar() {
         <h1 className={s.title} aria-live="polite">
           {fmtMonth.format(new Date(Date.UTC(cursor.year, cursor.month, 1, 12)))}
         </h1>
-        <Button variant="secondary" size="sm" onClick={exportIcs} disabled={deadlines.length === 0}>
-          <Download size={15} />
-          {t('calendar.ics')}
-        </Button>
+        <span className={s.icsWrap}>
+          <Button variant="secondary" size="sm" onClick={exportIcs} disabled={deadlines.length === 0}>
+            <Download size={15} aria-hidden="true" />
+            {t('calendar.ics')}
+          </Button>
+          {deadlines.length === 0 && <span className={s.icsNote}>{t('calendar.icsAfterFirst')}</span>}
+        </span>
       </Card>
 
-      <p className={s.hint}>{t('calendar.hint')}</p>
+      {/* No dates yet: ask for the first one before showing an empty month. */}
+      {noDatesYet ? missingDates() : <p className={s.hint}>{t('calendar.hint')}</p>}
 
       <Card className={s.gridCard}>
-        <table className={s.grid}>
+        <table className={s.grid} ref={gridRef} onKeyDown={onGridKey}>
           <caption className="visually-hidden">{t('calendar.caption')}</caption>
           <thead>
             <tr>
@@ -245,7 +311,12 @@ export function Calendar() {
                         if (key) moveAnchor(key, cell.iso)
                       }}
                     >
-                      <button className={s.dayNum} onClick={() => setOpenDay(cell.iso)}>
+                      <button
+                        className={s.dayNum}
+                        data-iso={cell.iso}
+                        tabIndex={cell.iso === tabIso ? 0 : -1}
+                        onClick={(ev) => openDayFrom(cell.iso, ev.currentTarget)}
+                      >
                         <span className="visually-hidden">
                           {showDate(cell.iso)}
                           {items.length ? `, ${t('calendar.eventsCount', { n: items.length })}` : `, ${t('calendar.emptyDay')}`}
@@ -277,7 +348,7 @@ export function Calendar() {
                               setDragging(null)
                               setDropTarget(null)
                             }}
-                            onClick={() => setOpenDay(e.iso)}
+                            onClick={(ev) => openDayFrom(e.iso, ev.currentTarget)}
                           >
                             <span className={s.chipDot} aria-hidden="true" />
                             <span className={s.chipText}>{e.title}</span>
@@ -296,8 +367,10 @@ export function Calendar() {
       {openDay && (
         <Card className={s.dayCard}>
           <div className={s.dayHead}>
-            <h2 className={s.dayTitle}>{showDate(openDay)}</h2>
-            <button className={s.close} onClick={() => setOpenDay(null)} aria-label={t('common.close')}>
+            <h2 className={s.dayTitle} ref={dayTitleRef} tabIndex={-1}>
+              {showDate(openDay)}
+            </h2>
+            <button className={s.close} onClick={closeDay} aria-label={t('common.close')}>
               <Close size={17} />
             </button>
           </div>
@@ -358,7 +431,7 @@ export function Calendar() {
                 </span>
                 <button
                   className={[s.chip, e.kind === 'anchor' ? s.chipAnchor : s[`chip_${e.d.status}`]].join(' ')}
-                  onClick={() => setOpenDay(e.iso)}
+                  onClick={(ev) => openDayFrom(e.iso, ev.currentTarget)}
                 >
                   <span className={s.chipDot} aria-hidden="true" />
                   <span className={s.chipText}>{e.title}</span>
@@ -370,26 +443,7 @@ export function Calendar() {
         )}
       </Card>
 
-      {missingAnchors.length > 0 && (
-        <Card className={s.agenda}>
-          <h2 className={s.agendaTitle}>{t('calendar.missingTitle')}</h2>
-          <p className={s.dayEmpty}>{t('calendar.missingText')}</p>
-          <div className={s.missing}>
-            {missingAnchors.map((key) => (
-              <label key={key} className={s.missingRow}>
-                <span>{t(dateLabelKey(key, profile!.track))}</span>
-                <input
-                  type="date"
-                  value=""
-                  onChange={(ev) => {
-                    if (ev.target.value) moveAnchor(key, ev.target.value)
-                  }}
-                />
-              </label>
-            ))}
-          </div>
-        </Card>
-      )}
+      {missingAnchors.length > 0 && !noDatesYet && missingDates()}
 
       <div className={s.legend}>
         <span className={[s.legendItem, s.chipAnchor].join(' ')}>{t('calendar.legendAnchor')}</span>

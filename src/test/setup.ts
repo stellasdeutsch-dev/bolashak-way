@@ -10,3 +10,4 @@ globalThis.ResizeObserver ??= ResizeObserverStub as unknown as typeof ResizeObse
 
 // jsdom has no layout, so scrollTo is unimplemented and only adds noise in tests.
 window.scrollTo = () => {}
+Element.prototype.scrollIntoView ??= () => {}

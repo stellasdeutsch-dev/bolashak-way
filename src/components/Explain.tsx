@@ -14,7 +14,8 @@ export function DataTable({ table }: { table: ExplainTable }) {
   const { c } = useI18n()
   return (
     <div className={s.block}>
-      <div className={s.tableWrap}>
+      {/* Scrolls sideways on a phone: focusable, so a keyboard can scroll it too. */}
+      <div className={s.tableWrap} tabIndex={0} role="region" aria-label={table.head.map((h) => c(h)).join(' · ')}>
         <table className={s.table}>
           <thead>
             <tr>

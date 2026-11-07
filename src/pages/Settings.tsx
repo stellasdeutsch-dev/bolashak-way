@@ -1,10 +1,11 @@
-import { useMemo, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { pathsForTrack } from '@/domain/paths'
-import { useNavigate } from 'react-router'
+import { useLocation, useNavigate } from 'react-router'
 import { IconDownload as Download, IconMail as Mail, IconPhone as Phone, IconReset as RotateCcw, IconTrash as Trash2, IconUpload as Upload, IconUserCog as UserCog } from '@/components/icons'
 import { CATEGORIES, CATEGORIES_BY_TRACK, WORKER_GROUPS } from '@/content/categories'
 import { CONTENT_META } from '@/content/meta'
-import { SOURCES } from '@/content/sources'
+import { SOURCES, sourceFits } from '@/content/sources'
+import type { SourceId } from '@/content/types'
 import { buildSnapshot, downloadSnapshot, parseSnapshot, type Snapshot } from '@/domain/exportImport'
 import { useAppStore, type ThemePref } from '@/store/useAppStore'
 import { LOCALES, useI18n } from '@/i18n'
@@ -22,9 +23,21 @@ export function Settings() {
   const [pending, setPending] = useState<Snapshot | null>(null)
   const fileRef = useRef<HTMLInputElement>(null)
   usePageChrome(t('nav.settings'))
+  // Arriving from the "Privacy" link in a footer: open at that section.
+  const scrollTo = (useLocation().state as { scrollTo?: string } | null)?.scrollTo
+  useEffect(() => {
+    if (scrollTo) document.getElementById(scrollTo)?.scrollIntoView({ block: 'start', behavior: 'instant' })
+  }, [scrollTo])
 
   const category = state.profile ? CATEGORIES[state.profile.category] : null
   const workerGroup = useMemo(() => WORKER_GROUPS.find((g) => g.id === state.profile?.workerGroup), [state.profile])
+  // The reader's own programme first; the rest stay one click away.
+  const track = state.profile?.track
+  const [mySources, otherSources] = useMemo(() => {
+    const ids = Object.keys(SOURCES) as SourceId[]
+    if (!track) return [ids, [] as SourceId[]]
+    return [ids.filter((id) => sourceFits(id, track)), ids.filter((id) => !sourceFits(id, track))]
+  }, [track])
 
   const doExport = () => {
     downloadSnapshot(
@@ -203,11 +216,11 @@ export function Settings() {
             {t('settings.contacts')}
           </h3>
           <div className={s.row}>
-            <a href={`mailto:${CONTENT_META.contacts.email}`} style={{ display: 'inline-flex', gap: 6, alignItems: 'center', fontSize: 14 }}>
+            <a href={`mailto:${CONTENT_META.contacts.email}`} className={s.contact}>
               <Mail size={15} aria-hidden="true" />
               {CONTENT_META.contacts.email}
             </a>
-            <a href={`tel:${CONTENT_META.contacts.phone.replace(/[^+\d]/g, '')}`} style={{ display: 'inline-flex', gap: 6, alignItems: 'center', fontSize: 14 }}>
+            <a href={`tel:${CONTENT_META.contacts.phone.replace(/[^+\d]/g, '')}`} className={s.contact}>
               <Phone size={15} aria-hidden="true" />
               {CONTENT_META.contacts.phone}
             </a>
@@ -218,10 +231,30 @@ export function Settings() {
             {t('common.sources')}
           </h3>
           <div className={s.sourceList}>
-            {Object.keys(SOURCES).map((id) => (
+            {mySources.map((id) => (
               <SourceLink key={id} id={id} />
             ))}
           </div>
+          {otherSources.length > 0 && (
+            <details className={s.more}>
+              <summary>{t('settings.allSources')}</summary>
+              <div className={s.sourceList}>
+                {otherSources.map((id) => (
+                  <SourceLink key={id} id={id} />
+                ))}
+              </div>
+            </details>
+          )}
+        </div>
+      </Card>
+
+      <Card id="privacy">
+        <div className={s.section}>
+          <h2 className={s.sectionTitle}>{t('settings.privacy')}</h2>
+          <p className={s.body}>{t('settings.privacyStored')}</p>
+          <p className={s.body}>{t('settings.privacyRequests')}</p>
+          <p className={s.body}>{t('settings.privacyShared')}</p>
+          <p className={s.body}>{t('settings.privacyDelete')}</p>
         </div>
       </Card>
 

@@ -74,13 +74,16 @@ export function searchAll(query: string, profile: Profile, locale: Locale, limit
     }
   }
 
+  const stageTitle = new Map(stages.map((s) => [s.id, pick(s.title, locale).text]))
   for (const group of documentsFor(profile)) {
     for (const doc of group.items) {
       const title = pick(doc.title, locale).text
       const note = doc.note ? pick(doc.note, locale).text : ''
       const inTitle = norm(title).includes(q)
       if (inTitle || (note && norm(note).includes(q))) {
-        results.push({ id: `doc:${doc.id}`, kind: 'document', stageId: doc.stage, href: paths.documents, title, snippet: snippetAround(note || title, q), score: inTitle ? 70 : 45 })
+        // Without a note the snippet would repeat the title; name the stage instead.
+        const snippet = note ? snippetAround(note, q) : (stageTitle.get(doc.stage) ?? '')
+        results.push({ id: `doc:${doc.id}`, kind: 'document', stageId: doc.stage, href: paths.documents, title, snippet, score: inTitle ? 70 : 45 })
       }
     }
   }

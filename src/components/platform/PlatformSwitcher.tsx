@@ -19,13 +19,20 @@ export function PlatformSwitcher() {
   const myTrack = useAppStore((st) => st.profile?.track)
   const [open, setOpen] = useState(false)
   const box = useRef<HTMLDivElement>(null)
+  const btn = useRef<HTMLButtonElement>(null)
 
+  // A plain disclosure with links, not an ARIA menu: Tab walks the links, Escape closes
+  // and puts focus back on the button, and leaving the block with Tab closes it too.
   useEffect(() => {
     if (!open) return
     const onDown = (e: PointerEvent) => {
       if (!box.current?.contains(e.target as Node)) setOpen(false)
     }
-    const onKey = (e: KeyboardEvent) => e.key === 'Escape' && setOpen(false)
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key !== 'Escape') return
+      setOpen(false)
+      btn.current?.focus()
+    }
     document.addEventListener('pointerdown', onDown)
     document.addEventListener('keydown', onKey)
     return () => {
@@ -35,12 +42,19 @@ export function PlatformSwitcher() {
   }, [open])
 
   return (
-    <div className={s.switcher} ref={box}>
+    <div
+      className={s.switcher}
+      ref={box}
+      onBlur={(e) => {
+        if (open && !box.current?.contains(e.relatedTarget as Node | null)) setOpen(false)
+      }}
+    >
       <button
+        ref={btn}
         className={[s.switcherBtn, active ? s.switcherBtnActive : ''].join(' ')}
         onClick={() => setOpen((v) => !v)}
         aria-expanded={open}
-        aria-haspopup="menu"
+        aria-controls="platform-switcher-list"
         aria-label={active ? undefined : t('platform.choose')}
       >
         {active ? (
@@ -48,7 +62,7 @@ export function PlatformSwitcher() {
             <span className={s.switcherIcon} data-p={active.slug}>
               <StageIcon name={active.icon} size={14} />
             </span>
-            <span className={s.switcherName}>{c(active.name)}</span>
+            <span className={[s.switcherName, s.switcherNameActive].join(' ')}>{c(active.name)}</span>
           </>
         ) : (
           <>
@@ -59,12 +73,18 @@ export function PlatformSwitcher() {
         <ChevronDown size={14} aria-hidden="true" />
       </button>
       {open && (
-        <div className={s.switcherMenu} role="menu">
+        <div className={s.switcherMenu} id="platform-switcher-list">
           <span className={s.switcherGroup}>{t('platform.bolashak')}</span>
           {PLATFORMS.map((p, i) => (
             <div key={p.slug}>
               {i === 4 && <span className={s.switcherGroup}>{t('platform.scienceProgramme')}</span>}
-              <Link role="menuitem" to={platformPaths(p.slug).home} className={s.switcherItem} data-p={p.slug} onClick={() => setOpen(false)}>
+              <Link
+                to={platformPaths(p.slug).home}
+                className={s.switcherItem}
+                data-p={p.slug}
+                aria-current={active?.slug === p.slug ? 'page' : undefined}
+                onClick={() => setOpen(false)}
+              >
                 <span className={s.switcherIcon} data-p={p.slug}>
                   <StageIcon name={p.icon} size={15} />
                 </span>
@@ -76,7 +96,7 @@ export function PlatformSwitcher() {
               </Link>
             </div>
           ))}
-          <Link role="menuitem" to="/" className={s.switcherAll} onClick={() => setOpen(false)}>
+          <Link to="/" className={s.switcherAll} onClick={() => setOpen(false)}>
             {t('platform.allProgrammes')}
           </Link>
         </div>

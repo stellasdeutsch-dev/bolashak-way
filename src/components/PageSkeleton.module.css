@@ -1,0 +1,30 @@
+.wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-height: 60vh;
+}
+.block {
+  height: 140px;
+  border-radius: var(--r-xl);
+  background: var(--surface);
+  border: var(--card-hairline);
+  animation: fade 1.4s var(--ease-out) infinite alternate;
+}
+.hero {
+  height: 200px;
+  background: var(--surface-3);
+}
+@keyframes fade {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0.55;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .block {
+    animation: none;
+  }
+}

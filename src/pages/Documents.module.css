@@ -211,3 +211,10 @@
   gap: 5px;
   padding: 6px 0;
 }
+
+/* Source and form links are small text; on touch screens they get a full 44px target. */
+@media (pointer: coarse) {
+  .above {
+    padding-block: 12px;
+  }
+}

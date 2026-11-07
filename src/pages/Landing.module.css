@@ -543,13 +543,6 @@
   gap: 8px 14px;
 }
 
-.footnote {
-  max-width: 72ch;
-  font-size: 13.5px;
-  line-height: 1.6;
-  color: var(--text-3);
-  padding: 0 4px;
-}
 
 /* ── first steps for a newcomer ── */
 .heroActions {
@@ -634,18 +627,3 @@
   color: var(--text);
 }
 
-.footnote p {
-  margin: 0 0 8px;
-}
-.footLinks {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 4px 20px;
-}
-.footLinks a {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  min-height: 44px;
-  font-weight: 600;
-}

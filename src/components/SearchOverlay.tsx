@@ -4,6 +4,7 @@ import { IconSearch as Search, IconClose as X } from '@/components/icons'
 import { MIN_QUERY, searchAll, type ResultKind, type SearchResult } from '@/domain/search'
 import { useAppStore } from '@/store/useAppStore'
 import { useI18n } from '@/i18n'
+import { useModalFocus } from './useModalFocus'
 import s from './SearchOverlay.module.css'
 
 const KIND_KEY: Record<ResultKind, string> = {
@@ -50,37 +51,22 @@ export function SearchOverlay({ open, onClose }: { open: boolean; onClose: () =>
   const [query, setQuery] = useState('')
   const inputRef = useRef<HTMLInputElement>(null)
   const panelRef = useRef<HTMLDivElement>(null)
-  const restoreTo = useRef<HTMLElement | null>(null)
 
   const results = useMemo(() => (profile && open ? searchAll(query, profile, locale) : []), [query, profile, locale, open])
+  // Results are shown grouped by kind; arrows walk them in that on-screen order.
+  const grouped = useMemo(
+    () =>
+      results.reduce<Record<string, SearchResult[]>>((acc, r) => {
+        ;(acc[r.kind] ??= []).push(r)
+        return acc
+      }, {}),
+    [results],
+  )
+  const ordered = useMemo(() => Object.values(grouped).flat(), [grouped])
+  const [active, setActive] = useState(0)
+  useEffect(() => setActive(0), [query])
 
-  useEffect(() => {
-    if (!open) return
-    restoreTo.current = document.activeElement as HTMLElement
-    inputRef.current?.focus()
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') return onClose()
-      // Keep focus inside the dialog while it is open.
-      if (e.key === 'Tab' && panelRef.current) {
-        const focusable = panelRef.current.querySelectorAll<HTMLElement>('a[href], button:not([disabled]), input')
-        if (focusable.length === 0) return
-        const first = focusable[0]
-        const last = focusable[focusable.length - 1]
-        if (e.shiftKey && document.activeElement === first) {
-          e.preventDefault()
-          last.focus()
-        } else if (!e.shiftKey && document.activeElement === last) {
-          e.preventDefault()
-          first.focus()
-        }
-      }
-    }
-    document.addEventListener('keydown', onKey)
-    return () => {
-      document.removeEventListener('keydown', onKey)
-      restoreTo.current?.focus?.()
-    }
-  }, [open, onClose])
+  useModalFocus(panelRef, open, onClose, () => inputRef.current)
 
   useEffect(() => {
     if (!open) setQuery('')
@@ -92,11 +78,22 @@ export function SearchOverlay({ open, onClose }: { open: boolean; onClose: () =>
     onClose()
     navigate(r.href)
   }
+  const searching = query.trim().length >= MIN_QUERY
+  const optionId = (r: SearchResult) => `search-opt-${r.id.replace(/[^\w-]/g, '_')}`
 
-  const grouped = results.reduce<Record<string, SearchResult[]>>((acc, r) => {
-    ;(acc[r.kind] ??= []).push(r)
-    return acc
-  }, {})
+  // Enter opens the highlighted result (the first one by default); arrows move the highlight.
+  const onInputKey = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (ordered.length === 0) return
+    if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+      e.preventDefault()
+      const next = (active + (e.key === 'ArrowDown' ? 1 : -1) + ordered.length) % ordered.length
+      setActive(next)
+      document.getElementById(optionId(ordered[next]))?.scrollIntoView({ block: 'nearest' })
+    } else if (e.key === 'Enter') {
+      e.preventDefault()
+      go(ordered[active] ?? ordered[0])
+    }
+  }
 
   return (
     <div className={s.overlay} role="dialog" aria-modal="true" aria-label={t('search.title')} onClick={onClose}>
@@ -108,23 +105,44 @@ export function SearchOverlay({ open, onClose }: { open: boolean; onClose: () =>
             className={s.input}
             value={query}
             onChange={(e) => setQuery(e.target.value)}
+            onKeyDown={onInputKey}
             placeholder={t('search.placeholder')}
             aria-label={t('search.title')}
             type="search"
+            role="combobox"
+            aria-expanded={ordered.length > 0}
+            aria-controls="search-results"
+            aria-autocomplete="list"
+            aria-activedescendant={ordered[active] ? optionId(ordered[active]) : undefined}
           />
           <button className={s.closeBtn} onClick={onClose} aria-label={t('common.close')}>
             <X size={18} aria-hidden="true" />
           </button>
         </div>
 
-        <div className={s.results}>
-          {query.trim().length < MIN_QUERY && <p className={s.hint}>{t('search.hint')}</p>}
-          {query.trim().length >= MIN_QUERY && results.length === 0 && <p className={s.hint}>{t('search.empty')}</p>}
+        {/* The count is said aloud as it changes; the list itself stays silent. */}
+        <p className="visually-hidden" role="status" aria-live="polite">
+          {searching ? (results.length ? t('search.found', { n: results.length }) : t('search.empty')) : ''}
+        </p>
+        <div className={s.results} id="search-results" role="listbox" aria-label={t('search.title')}>
+          {!searching && <p className={s.hint}>{t('search.hint')}</p>}
+          {searching && results.length === 0 && <p className={s.hint}>{t('search.empty')}</p>}
           {Object.entries(grouped).map(([kind, list]) => (
-            <section key={kind} className={s.group}>
-              <h3 className={s.groupTitle}>{t(KIND_KEY[kind as ResultKind])}</h3>
+            <section key={kind} className={s.group} role="group" aria-labelledby={`search-group-${kind}`}>
+              <h3 className={s.groupTitle} id={`search-group-${kind}`}>
+                {t(KIND_KEY[kind as ResultKind])}
+              </h3>
               {list.map((r) => (
-                <button key={r.id} className={s.result} onClick={() => go(r)}>
+                <button
+                  key={r.id}
+                  id={optionId(r)}
+                  role="option"
+                  aria-selected={ordered[active]?.id === r.id}
+                  tabIndex={-1}
+                  className={[s.result, ordered[active]?.id === r.id ? s.resultActive : ''].join(' ')}
+                  onClick={() => go(r)}
+                  onMouseMove={() => setActive(ordered.indexOf(r))}
+                >
                   <span className={s.resultTitle}>
                     <Highlighted text={r.title} query={query.trim()} />
                   </span>

@@ -140,8 +140,14 @@ describe('search overlay', () => {
     )
     fireEvent.click(screen.getByRole('button', { name: /Поиск/ }))
     const dialog = screen.getByRole('dialog')
-    fireEvent.change(within(dialog).getByRole('searchbox'), { target: { value: 'слоты' } })
+    fireEvent.change(within(dialog).getByRole('combobox'), { target: { value: 'слоты' } })
     expect(within(dialog).getAllByText(/слоты/i).length).toBeGreaterThan(0)
+    // the count is announced, and arrows move the highlighted option
+    expect(within(dialog).getByText(/^Найдено: \d+/)).toBeInTheDocument()
+    const input = within(dialog).getByRole('combobox')
+    const firstId = input.getAttribute('aria-activedescendant')
+    fireEvent.keyDown(input, { key: 'ArrowDown' })
+    expect(input.getAttribute('aria-activedescendant')).not.toBe(firstId)
   })
 })
 

@@ -1,9 +1,10 @@
-import { useEffect, type ReactNode, useRef } from 'react'
+import { type ReactNode, useRef } from 'react'
 import { Link } from 'react-router'
 import { IconInfo as Info, IconAlertTriangle as TriangleAlert, IconExternal as ExternalLink } from '@/components/icons'
 import { getSource } from '@/content/sources'
 import type { SourceId } from '@/content/types'
 import { useI18n } from '@/i18n'
+import { useModalFocus } from './useModalFocus'
 import s from './ui.module.css'
 
 type ButtonProps = {
@@ -156,35 +157,7 @@ export function ConfirmDialog({
 }) {
   const { t } = useI18n()
   const dialogRef = useRef<HTMLDivElement>(null)
-  const restoreTo = useRef<HTMLElement | null>(null)
-
-  useEffect(() => {
-    if (!open) return
-    restoreTo.current = document.activeElement as HTMLElement
-    dialogRef.current?.querySelector<HTMLElement>('button')?.focus()
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') return onCancel()
-      // Trap Tab inside the dialog while it is open.
-      if (e.key === 'Tab' && dialogRef.current) {
-        const focusable = dialogRef.current.querySelectorAll<HTMLElement>('button:not([disabled]), a[href], input')
-        if (focusable.length === 0) return
-        const first = focusable[0]
-        const last = focusable[focusable.length - 1]
-        if (e.shiftKey && document.activeElement === first) {
-          e.preventDefault()
-          last.focus()
-        } else if (!e.shiftKey && document.activeElement === last) {
-          e.preventDefault()
-          first.focus()
-        }
-      }
-    }
-    document.addEventListener('keydown', onKey)
-    return () => {
-      document.removeEventListener('keydown', onKey)
-      restoreTo.current?.focus?.()
-    }
-  }, [open, onCancel])
+  useModalFocus(dialogRef, open, onCancel)
 
   if (!open) return null
   return (

@@ -217,3 +217,11 @@
     animation: none;
   }
 }
+
+/* "View" / "Download" are small text links; on touch screens they get a full 44px target. */
+@media (pointer: coarse) {
+  .link,
+  .primaryLink {
+    padding-block: 12px;
+  }
+}

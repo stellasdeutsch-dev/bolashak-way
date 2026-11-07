@@ -3,6 +3,7 @@ import { Link } from 'react-router'
 import { PLATFORMS, getPlatform, platformForTrack } from '@/content/platforms'
 import { COMPARE, FINDER, type FinderOption } from '@/content/platforms/compare'
 import { CONTENT_META } from '@/content/meta'
+import { PageFootnote } from '@/components/PageFootnote'
 import type { PlatformSlug } from '@/content/types'
 import { platformPaths } from '@/domain/paths'
 import { useAppStore } from '@/store/useAppStore'
@@ -11,7 +12,7 @@ import { usePageChrome } from '@/i18n/usePageChrome'
 import { Button, ButtonLink, Card, Pill, SourceLink } from '@/components/ui'
 import { Glossary } from '@/components/Glossary'
 import { StageIcon } from '@/components/StageIcon'
-import { IconArrowRight as ArrowRight, IconReset as Reset, IconExternal as ExternalLink } from '@/components/icons'
+import { IconArrowRight as ArrowRight, IconReset as Reset } from '@/components/icons'
 import s from './Landing.module.css'
 
 /**
@@ -74,25 +75,11 @@ export function Landing() {
 
       <CompareTable />
 
-      <footer className={s.footnote}>
-        <p>{t('landing.unofficial')}</p>
-        <p>
-          {t('common.verifiedOn')}: {CONTENT_META.lastVerified}. {c(CONTENT_META.disclaimer)}
-        </p>
-        <p className={s.footLinks}>
-          <a href="https://bolashak.gov.kz/ru" target="_blank" rel="noopener noreferrer">
-            <ExternalLink size={13} aria-hidden="true" /> {t('landing.official')}
-          </a>
-          <a href={REPORT_URL} target="_blank" rel="noopener noreferrer">
-            <ExternalLink size={13} aria-hidden="true" /> {t('landing.report')}
-          </a>
-        </p>
-      </footer>
+      <PageFootnote />
     </div>
   )
 }
 
-export const REPORT_URL = 'https://github.com/stellasdeutsch-dev/bolashak-way/issues/new'
 
 const scrollToId = (id: string) => {
   const el = document.getElementById(id)

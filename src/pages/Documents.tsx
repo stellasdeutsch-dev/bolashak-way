@@ -10,6 +10,7 @@ import { usePageChrome } from '@/i18n/usePageChrome'
 import { Card, ProgressRing } from '@/components/ui'
 import { AllForms } from '@/components/Forms'
 import { StepBar } from '@/components/Meter'
+import { announce } from '@/components/announce'
 import s from './Documents.module.css'
 
 export function Documents() {
@@ -91,7 +92,11 @@ export function Documents() {
                       aria-checked={done}
                       aria-disabled={auto}
                       aria-label={c(d.title)}
-                      onClick={() => !auto && toggleDocument(d.id)}
+                      onClick={() => {
+                        if (auto) return
+                        toggleDocument(d.id)
+                        announce(`${doneCount + (done ? -1 : 1)} / ${all.length} ${t('documents.collected')}`)
+                      }}
                     />
                     <span className={[s.box, done ? s.boxDone : ''].join(' ')} aria-hidden="true">
                       <Check size={15} strokeWidth={3} />

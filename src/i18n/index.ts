@@ -75,6 +75,21 @@ export function formatMonths(n: number, locale: Locale): string {
   return `${n} ${ruPlural(n, 'месяц', 'месяца', 'месяцев')}`
 }
 
+/**
+ * A calendar date ("2026-10-28") in the reader's language: "28 октября 2026 г.",
+ * "28 October 2026". Read as UTC noon, so no time zone can shift it to the day before.
+ */
+export function formatDate(iso: string, locale: Locale, style: 'long' | 'short' = 'long'): string {
+  const d = new Date(`${iso.slice(0, 10)}T12:00:00Z`)
+  if (Number.isNaN(d.getTime())) return iso
+  return new Intl.DateTimeFormat(locale === 'kk' ? 'kk-KZ' : locale === 'en' ? 'en-GB' : 'ru-RU', {
+    day: 'numeric',
+    month: style === 'long' ? 'long' : '2-digit',
+    year: 'numeric',
+    timeZone: 'UTC',
+  }).format(d)
+}
+
 export function formatRange(min: number, max: number) {
   return min === max ? `${min}` : `${min}–${max}`
 }

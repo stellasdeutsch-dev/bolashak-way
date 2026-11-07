@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react'
 import { useParams } from 'react-router'
 import { PLATFORM_HOMES, getPlatform } from '@/content/platforms'
-import { CONTENT_META } from '@/content/meta'
+import { PageFootnote } from '@/components/PageFootnote'
 import type { PlatformSlug, Track } from '@/content/types'
 import { PLATFORM_VIDEO_IDS, VIDEOS } from '@/content/videos'
 import { evaluate } from '@/domain/applicability'
@@ -14,9 +14,8 @@ import { VideoList } from '@/components/Videos'
 import { AwardTimeline, ContestFlow, DepartureChain, PathLanes, WorkbackTable } from '@/components/Explain'
 import { InternshipSpecialtySearch, ScienceSearch, SpecialtySearch, UniversitySearch, type SpecialtyLevel } from '@/components/ListSearch'
 import { Deal, Facts, Fit, More, PathOverview, Requirements } from '@/components/platform/PlatformBlocks'
-import { IconArrowRight as ArrowRight, IconExternal as ExternalLink } from '@/components/icons'
+import { IconArrowRight as ArrowRight } from '@/components/icons'
 import { Glossary } from '@/components/Glossary'
-import { REPORT_URL } from './Landing'
 import s from './PlatformHome.module.css'
 
 const LEVEL: Partial<Record<Track, SpecialtyLevel>> = {
@@ -154,20 +153,7 @@ export function PlatformHome() {
         </div>
       </section>
 
-      <footer className={s.footnote}>
-        <p>{t('landing.unofficial')}</p>
-        <p>
-          {t('common.verifiedOn')}: {CONTENT_META.lastVerified}. {c(CONTENT_META.disclaimer)}
-        </p>
-        <p className={s.footLinks}>
-          <a href="https://bolashak.gov.kz/ru" target="_blank" rel="noopener noreferrer">
-            <ExternalLink size={13} aria-hidden="true" /> {t('landing.official')}
-          </a>
-          <a href={REPORT_URL} target="_blank" rel="noopener noreferrer">
-            <ExternalLink size={13} aria-hidden="true" /> {t('landing.report')}
-          </a>
-        </p>
-      </footer>
+      <PageFootnote />
     </div>
   )
 }

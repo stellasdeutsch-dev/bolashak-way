@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
+import { useModalFocus } from './useModalFocus'
 import { FORMS, formsForStage, type OfficialForm } from '@/content/forms'
 import type { StageId } from '@/content/types'
 import { evaluate } from '@/domain/applicability'
@@ -25,36 +26,15 @@ function sizeLabel(bytes: number, locale: string) {
 function PdfViewer({ form, onClose }: { form: OfficialForm; onClose: () => void }) {
   const { t, c } = useI18n()
   const box = useRef<HTMLDivElement>(null)
-  const restoreTo = useRef<HTMLElement | null>(null)
-
+  useModalFocus(box, true, onClose)
+  // The page behind does not scroll while the viewer is open.
   useEffect(() => {
-    restoreTo.current = document.activeElement as HTMLElement
-    box.current?.querySelector<HTMLElement>('button')?.focus()
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') onClose()
-      if (e.key === 'Tab' && box.current) {
-        const f = box.current.querySelectorAll<HTMLElement>('button:not([disabled]), a[href]')
-        if (!f.length) return
-        const first = f[0]
-        const last = f[f.length - 1]
-        if (e.shiftKey && document.activeElement === first) {
-          e.preventDefault()
-          last.focus()
-        } else if (!e.shiftKey && document.activeElement === last) {
-          e.preventDefault()
-          first.focus()
-        }
-      }
-    }
-    document.addEventListener('keydown', onKey)
     const { overflow } = document.body.style
     document.body.style.overflow = 'hidden'
     return () => {
-      document.removeEventListener('keydown', onKey)
       document.body.style.overflow = overflow
-      restoreTo.current?.focus?.()
     }
-  }, [onClose])
+  }, [])
 
   return (
     <div className={s.overlay} role="dialog" aria-modal="true" aria-label={c(form.title)} onClick={onClose}>
@@ -72,6 +52,9 @@ function PdfViewer({ form, onClose }: { form: OfficialForm; onClose: () => void 
         <iframe className={s.frame} src={form.url} title={c(form.title)} />
         {/* A browser without a built-in PDF plugin shows nothing in the frame, so keep a way out. */}
         <p className={s.viewerHint}>{t('forms.viewerHint')}</p>
+        {/* Tab out of the PDF frame lands here and goes back to the top of the viewer:
+            key presses inside the frame never reach this page, so the trap cannot see them. */}
+        <span tabIndex={0} onFocus={() => box.current?.querySelector<HTMLElement>('a[href]')?.focus()} />
       </div>
     </div>
   )

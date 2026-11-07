@@ -145,7 +145,8 @@ function LanguageTable() {
         </div>
       )}
 
-      <div className={s.tableWrap}>
+      {/* Scrolls sideways on a phone: focusable, so a keyboard can scroll it too. */}
+      <div className={s.tableWrap} tabIndex={0} role="region" aria-label={t('stage.thresholdTable')}>
         <table className={s.table}>
           <thead>
             <tr>
@@ -200,7 +201,7 @@ function ScienceLanguages() {
       <p className={s.body} style={{ marginTop: 16, fontSize: 13.5 }}>
         {t('stage.scienceLanguagesNote')}
       </p>
-      <div className={s.tableWrap}>
+      <div className={s.tableWrap} tabIndex={0} role="region" aria-label={t('stage.internshipLanguage')}>
         <table className={s.table}>
           <thead>
             <tr>
