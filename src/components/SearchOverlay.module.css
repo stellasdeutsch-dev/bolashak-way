@@ -120,3 +120,28 @@
   border-radius: 4px;
   padding: 0 2px;
 }
+
+/* Opening motion: the backdrop fades, the panel rises a few pixels and settles – short and quick, off for reduced motion. */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+}
+@keyframes popIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.98);
+  }
+}
+.overlay {
+  animation: fadeIn 0.18s var(--ease-out);
+}
+.panel {
+  animation: popIn 0.22s var(--ease-spring);
+}
+@media (prefers-reduced-motion: reduce) {
+  .overlay,
+  .panel {
+    animation: none;
+  }
+}

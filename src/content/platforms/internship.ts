@@ -431,9 +431,9 @@ export const INTERNSHIP_STAGES: StagePatches = {
 
 export const INTERNSHIP_HOME: PlatformHome = {
   intro: {
-    ru: 'Стажировка до 12 месяцев в зарубежной организации – для работников девяти категорий со стажем. Это не учёба на степень: вы едете по программе стажировки, которую утвердили ваша организация и принимающая, а потом не меньше трёх лет работаете у своего работодателя.',
-    kk: 'Шетелдік ұйымда 12 айға дейінгі тағылымдама – өтілі бар тоғыз санаттағы қызметкерлерге. Бұл дәрежеге оқу емес: өз ұйымыңыз бен қабылдаушы ұйым бекіткен бағдарлама бойынша барасыз, содан кейін өз жұмыс берушіңізде кемінде үш жыл істейсіз.',
-    en: 'An internship of up to 12 months at a foreign host – for experienced workers in nine categories. It is not a degree: you go on a programme approved by your organisation and the host, then work for your employer for at least three years.',
+    ru: 'Стажировка до 12 месяцев в зарубежной организации – для работников девяти категорий со стажем. Степени стажировка не даёт: вы едете по программе стажировки, которую утвердили ваша организация и принимающая, а потом не меньше трёх лет работаете у своего работодателя.',
+    kk: 'Шетелдік ұйымда 12 айға дейінгі тағылымдама – өтілі бар тоғыз санаттағы қызметкерлерге. Тағылымдама дәреже бермейді: өз ұйымыңыз бен қабылдаушы ұйым бекіткен бағдарлама бойынша барасыз, содан кейін өз жұмыс берушіңізде кемінде үш жыл істейсіз.',
+    en: 'An internship of up to 12 months at a foreign host – for experienced workers in nine categories. It leads to no degree: you go on a programme approved by your organisation and the host, then work for your employer for at least three years.',
   },
   facts: [
     { value: '12', caption: { ru: 'месяцев – максимальный срок стажировки', kk: 'ай – тағылымдаманың ең ұзақ мерзімі', en: 'months – the longest an internship can run' }, source: 'pp573' },

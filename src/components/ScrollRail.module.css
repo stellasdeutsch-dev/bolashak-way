@@ -1,0 +1,135 @@
+/* Page scroll rail (see ScrollRail.tsx). One solid colour: the platform accent. */
+:global(html).hasRail {
+  scrollbar-width: none;
+}
+:global(html).hasRail::-webkit-scrollbar {
+  display: none;
+}
+
+.rail {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 20px;
+  z-index: 61;
+  touch-action: none;
+  user-select: none;
+}
+.rail[hidden] {
+  display: none;
+}
+.rail::before {
+  content: '';
+  position: absolute;
+  top: 4px;
+  bottom: 4px;
+  right: 4px;
+  width: 10px;
+  border-radius: var(--r-pill);
+  background: var(--accent-tint);
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+.rail:hover::before,
+.drag::before {
+  opacity: 1;
+}
+
+.thumb {
+  position: absolute;
+  top: 0;
+  right: 5px;
+  width: 4px;
+  border-radius: var(--r-pill);
+  background: var(--accent-btn);
+  box-shadow: 0 0 0 1.5px var(--surface);
+  opacity: 0.5;
+  cursor: grab;
+  will-change: transform, height;
+  transition: width 0.24s var(--ease-spring), right 0.24s var(--ease-spring), opacity 0.3s;
+}
+.on .thumb {
+  opacity: 1;
+  width: 6px;
+}
+.rail:hover .thumb,
+.drag .thumb {
+  opacity: 1;
+  width: 10px;
+  right: 4px;
+}
+.drag .thumb {
+  cursor: grabbing;
+  background: var(--accent-deep);
+}
+
+.mark {
+  position: absolute;
+  right: 0;
+  width: 20px;
+  height: 12px;
+  margin-top: -6px;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+.mark::after {
+  content: '';
+  position: absolute;
+  right: 7px;
+  top: 4px;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--text-3);
+  transition: transform 0.15s, background-color 0.15s;
+}
+.rail:hover .mark,
+.drag .mark {
+  opacity: 1;
+}
+.here::after {
+  background: var(--warn);
+  transform: scale(1.5);
+}
+.mark:hover::after {
+  background: var(--warn);
+  transform: scale(2);
+}
+
+.tip {
+  position: absolute;
+  right: 26px;
+  top: 0;
+  transform: translateY(-50%);
+  max-width: min(360px, 60vw);
+  padding: 6px 10px;
+  border-radius: var(--r-sm);
+  background: var(--navy);
+  color: var(--on-navy);
+  font-size: 13px;
+  line-height: 1.35;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  box-shadow: var(--shadow-card-lift);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.15s;
+}
+.tipOn {
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rail *,
+  .rail::before {
+    transition: none !important;
+  }
+}
+@media print {
+  .rail {
+    display: none;
+  }
+}

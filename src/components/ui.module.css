@@ -41,11 +41,11 @@
   background: var(--accent-deep);
 }
 .secondary {
-  background: var(--steel);
-  color: #fff;
+  background: var(--accent-tint);
+  color: var(--accent-ink);
 }
 .secondary:hover:not(:disabled) {
-  filter: brightness(1.06);
+  background: var(--accent-tint-2);
 }
 .ghost {
   background: var(--surface);
@@ -269,5 +269,38 @@
     white-space: normal;
     text-align: center;
     max-width: 100%;
+  }
+}
+
+/* Opening motion: the backdrop fades, the panel rises a few pixels and settles – short and quick, off for reduced motion. */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+}
+@keyframes popIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.98);
+  }
+}
+.overlay {
+  animation: fadeIn 0.18s var(--ease-out);
+}
+.dialog {
+  animation: popIn 0.22s var(--ease-spring);
+}
+@media (prefers-reduced-motion: reduce) {
+  .overlay,
+  .dialog {
+    animation: none;
+  }
+}
+
+/* Source links are small text; on touch screens give them a full 44px target without changing how they look. */
+@media (pointer: coarse) {
+  .calloutSource {
+    padding-block: 12px;
+    margin-top: 0;
   }
 }

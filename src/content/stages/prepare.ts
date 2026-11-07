@@ -304,7 +304,7 @@ export const PREPARE_STAGES: Stage[] = [
         en: 'Looking at last year\'s list. Specialties and the number of places change every year.',
       },
       {
-        ru: 'Смотреть только на название программы в вузе. Важно, попадает ли она в специальность из перечня.',
+        ru: 'Смотреть только на название программы в вузе. Решает другое: попадает ли она в специальность из перечня.',
         kk: 'Тек ЖОО бағдарламасының атауына қарау. Маңыздысы – ол тізбедегі мамандыққа кіре ме.',
         en: 'Going by the programme\'s name alone. What matters is whether it falls under a listed specialty.',
       },

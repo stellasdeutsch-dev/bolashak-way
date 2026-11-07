@@ -6,6 +6,7 @@
 }
 .hint {
   margin: 0;
+  max-width: 72ch;
   font-size: 14.5px;
   line-height: 1.6;
   color: var(--text-2);
@@ -27,22 +28,6 @@
   border: 1px solid var(--line);
   border-radius: var(--r-lg);
   background: var(--surface-2);
-}
-.icon {
-  flex: none;
-  display: grid;
-  place-items: center;
-  width: 36px;
-  height: 36px;
-  border-radius: var(--r-md);
-}
-.iconForm {
-  color: var(--accent-ink);
-  background: var(--accent-tint);
-}
-.iconSample {
-  color: var(--text-2);
-  background: var(--steel-tint);
 }
 .body {
   display: flex;
@@ -67,7 +52,7 @@
   display: flex;
   align-items: center;
   flex-wrap: wrap;
-  gap: 7px;
+  gap: 4px 14px;
   font-size: 13.5px;
   color: var(--text-3);
 }
@@ -78,13 +63,6 @@
   font-weight: 650;
   font-size: 12.5px;
   color: var(--text-2);
-}
-.dot {
-  width: 3px;
-  height: 3px;
-  border-radius: 50%;
-  background: currentColor;
-  opacity: 0.5;
 }
 .actions {
   display: flex;
@@ -110,7 +88,7 @@
   background: var(--accent-btn);
 }
 .link:hover {
-  text-decoration: underline;
+  color: var(--text);
 }
 .primaryLink:hover {
   background: var(--accent-deep);
@@ -212,5 +190,30 @@
   }
   .actions {
     display: none;
+  }
+}
+
+/* Opening motion: the backdrop fades, the panel rises a few pixels and settles – short and quick, off for reduced motion. */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+}
+@keyframes popIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.98);
+  }
+}
+.overlay {
+  animation: fadeIn 0.18s var(--ease-out);
+}
+.viewer {
+  animation: popIn 0.22s var(--ease-spring);
+}
+@media (prefers-reduced-motion: reduce) {
+  .overlay,
+  .viewer {
+    animation: none;
   }
 }

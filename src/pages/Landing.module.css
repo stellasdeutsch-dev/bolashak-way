@@ -91,11 +91,12 @@
   box-shadow: var(--shadow-card);
   color: var(--text);
   text-decoration: none;
-  transition: border-color 0.15s var(--ease-out);
+  transition: border-color 0.15s var(--ease-out), box-shadow 0.15s var(--ease-out);
 }
 .card:hover {
   text-decoration: none;
   border-color: rgba(var(--p-rgb), 0.6);
+  box-shadow: var(--shadow-card-lift);
 }
 .card:focus-visible {
   outline: none;
@@ -117,6 +118,7 @@
   background: var(--p);
 }
 .cardBadge {
+  white-space: nowrap;
   font-size: 12px;
   font-weight: 600;
   padding: 4px 9px;
@@ -525,8 +527,6 @@
   padding: 10px;
   font-size: 14px;
   overflow-wrap: break-word;
-  -webkit-hyphens: auto;
-  hyphens: auto;
 }
 @media (min-width: 900px) {
   .pairPick,
@@ -547,6 +547,7 @@
 }
 
 .footnote {
+  max-width: 72ch;
   font-size: 13.5px;
   line-height: 1.6;
   color: var(--text-3);

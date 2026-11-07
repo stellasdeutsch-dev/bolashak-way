@@ -32,7 +32,7 @@
   color: var(--text-2);
 }
 .filterActive {
-  background: var(--steel);
+  background: var(--accent-btn);
   border-color: transparent;
   color: #fff;
 }
@@ -45,7 +45,6 @@
   display: flex;
   align-items: center;
   gap: 10px;
-  flex-wrap: wrap;
 }
 .groupNum {
   font-size: 22px;
@@ -56,6 +55,8 @@
   line-height: 1;
 }
 .groupTitle {
+  flex: 1;
+  min-width: 0;
   font-size: 16px;
   font-weight: 700;
   letter-spacing: -0.015em;

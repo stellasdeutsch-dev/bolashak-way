@@ -230,7 +230,7 @@ export const SCIENCE_STAGES: StagePatches = {
       en: 'The invitation names the research directions, the dates and the cost with a breakdown – with a notarised Kazakh or Russian translation. The programme follows Appendix 5 to the Rules: your employer approves it and the listed host agrees it, also with a notarised translation.',
     },
     inShort: {
-      what: { ru: 'Два ключевых документа: приглашение и программа научной стажировки.', kk: 'Екі негізгі құжат: шақыру және ғылыми тағылымдама бағдарламасы.', en: 'Two key documents: the invitation and the research programme.' },
+      what: { ru: 'Приглашение от зарубежной организации и программа научной стажировки.', kk: 'Шетелдік ұйымның шақыруы және ғылыми тағылымдама бағдарламасы.', en: 'The invitation from the host organisation and the research programme.' },
       you: { ru: 'Получить приглашение, составить программу, утвердить её у работодателя и согласовать с организацией.', kk: 'Шақыру алып, бағдарлама жасап, оны жұмыс берушіге бекітіп, ұйыммен келісу.', en: 'Get the invitation, write the programme, have your employer approve it and the host agree it.' },
       result: { ru: 'Приглашение и программа, готовые к подаче.', kk: 'Тапсыруға дайын шақыру мен бағдарлама.', en: 'An invitation and a programme ready to submit.' },
     },

@@ -126,7 +126,7 @@
     padding-right: 8px;
   }
   .switcherName {
-    max-width: 30vw;
+    max-width: 42vw;
   }
   /* The chooser's own label is short and is the only hint of what the chip does. */
   .switcherName.hideNarrow {
@@ -742,7 +742,7 @@
   display: grid;
   place-items: center;
   color: #fff;
-  background: var(--success);
+  background: var(--accent-btn);
   margin-top: 1px;
 }
 .coverNote {
@@ -956,6 +956,12 @@
 .moreHead:hover {
   background: var(--surface-2);
 }
+.moreHead:hover .moreText b {
+  color: var(--accent-ink);
+}
+.moreText b {
+  transition: color 0.15s var(--ease-out);
+}
 .moreText {
   display: flex;
   flex-direction: column;
@@ -976,6 +982,18 @@
 }
 .moreBody {
   padding: 18px;
+  animation: bodyIn 0.2s var(--ease-out);
+}
+@keyframes bodyIn {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .moreBody {
+    animation: none;
+  }
 }
 .dealCol .cover {
   padding: 9px 12px;

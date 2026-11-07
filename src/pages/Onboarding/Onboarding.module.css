@@ -145,7 +145,7 @@
   border-color: var(--line-strong);
 }
 .chipActive {
-  background: var(--steel);
+  background: var(--accent-btn);
   border-color: transparent;
   color: #fff;
 }

@@ -166,7 +166,7 @@
 }
 
 .external:hover {
-  text-decoration: underline;
+  color: var(--text);
 }
 
 @media print {

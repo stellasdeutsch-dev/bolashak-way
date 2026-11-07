@@ -6,6 +6,7 @@ import {
 } from '@/components/icons'
 import { SearchOverlay } from './SearchOverlay'
 import { ErrorBoundary } from './ErrorBoundary'
+import { ScrollRail } from './ScrollRail'
 import { PlatformSwitcher } from './platform/PlatformSwitcher'
 import { useActivePlatform, usePlatformColour } from './platform/usePlatform'
 import { platformPaths } from '@/domain/paths'
@@ -96,6 +97,7 @@ export function Layout({ children }: { children: ReactNode }) {
 
   return (
     <div className={s.shell}>
+      <ScrollRail />
       <button type="button" className={s.skip} onClick={() => focusMain(mainRef.current)}>
         {t('nav.skip')}
       </button>

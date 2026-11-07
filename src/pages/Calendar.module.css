@@ -271,7 +271,7 @@
   text-decoration: none;
 }
 .stageLink:hover {
-  text-decoration: underline;
+  color: var(--text);
 }
 .dayField {
   display: flex;

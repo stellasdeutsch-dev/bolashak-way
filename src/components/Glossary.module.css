@@ -8,6 +8,11 @@
   border-radius: var(--r-md);
   background: var(--surface-2);
   border: 1px solid var(--line);
+  transition: border-color 0.15s var(--ease-out), box-shadow 0.15s var(--ease-out), background 0.15s var(--ease-out);
+}
+.item:hover {
+  border-color: rgba(var(--accent-rgb), 0.45);
+  box-shadow: var(--shadow-card-lift);
 }
 .item[open] {
   background: var(--surface);
@@ -48,6 +53,20 @@
   padding: 0 16px 16px;
   display: grid;
   gap: 10px;
+}
+.item[open] .body {
+  animation: bodyIn 0.2s var(--ease-out);
+}
+@keyframes bodyIn {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .item[open] .body {
+    animation: none;
+  }
 }
 .body p {
   margin: 0;

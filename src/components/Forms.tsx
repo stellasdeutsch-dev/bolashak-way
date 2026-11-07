@@ -7,12 +7,14 @@ import { useI18n } from '@/i18n'
 import { Button, SourceLink } from '@/components/ui'
 import {
   IconClose as Close, IconDownload as Download, IconExternal as ExternalLink,
-  IconFileStack as FileStack, IconFileSignature as FileSignature,
 } from '@/components/icons'
 import s from './Forms.module.css'
 
-function sizeLabel(bytes: number) {
-  return bytes >= 1024 * 1024 ? `${(bytes / 1024 / 1024).toFixed(1)} MB` : `${Math.round(bytes / 1024)} KB`
+/** File size with the unit in the reader's language: КБ and МБ in Russian and Kazakh, KB and MB in English. */
+function sizeLabel(bytes: number, locale: string) {
+  const [kb, mb] = locale === 'en' ? ['KB', 'MB'] : ['КБ', 'МБ']
+  const comma = (n: string) => (locale === 'en' ? n : n.replace('.', ','))
+  return bytes >= 1024 * 1024 ? `${comma((bytes / 1024 / 1024).toFixed(1))} ${mb}` : `${Math.round(bytes / 1024)} ${kb}`
 }
 
 /**
@@ -76,23 +78,17 @@ function PdfViewer({ form, onClose }: { form: OfficialForm; onClose: () => void 
 }
 
 function FormCard({ form, onView }: { form: OfficialForm; onView: (f: OfficialForm) => void }) {
-  const { t, c } = useI18n()
-  const Icon = form.kind === 'form' ? FileSignature : FileStack
+  const { t, c, locale } = useI18n()
   return (
     <li className={s.card}>
-      <span className={[s.icon, form.kind === 'form' ? s.iconForm : s.iconSample].join(' ')}>
-        <Icon size={19} />
-      </span>
       <div className={s.body}>
         <span className={s.title}>{c(form.title)}</span>
         {form.note && <p className={s.note}>{c(form.note)}</p>}
         <div className={s.meta}>
           <span className={s.tag}>{t(form.kind === 'form' ? 'forms.kindForm' : 'forms.kindSample')}</span>
-          <span className={s.dot} aria-hidden="true" />
           <span>
-            {form.fileType.toUpperCase()} · {sizeLabel(form.bytes)}
+            {form.fileType.toUpperCase()}, {sizeLabel(form.bytes, locale)}
           </span>
-          <span className={s.dot} aria-hidden="true" />
           <span>{t('forms.published', { date: form.published })}</span>
         </div>
         <div className={s.actions}>

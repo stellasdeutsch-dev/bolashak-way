@@ -111,6 +111,7 @@
   max-width: 56ch;
 }
 .footnote {
+  max-width: 72ch;
   font-size: 13.5px;
   line-height: 1.6;
   color: var(--text-3);
