@@ -10,18 +10,18 @@ export const CHAPTERS: Chapter[] = [
     id: 'prepare',
     title: { ru: 'Подготовка', kk: 'Дайындық', en: 'Preparation' },
     subtitle: {
-      ru: 'Проверяем соответствие, выбираем специальность, вуз и добираем язык',
-      kk: 'Сәйкестікті тексереміз, мамандық пен ЖОО таңдап, тілді жетілдіреміз',
-      en: 'Check eligibility, choose a specialty and university, sort out the language',
+      ru: 'Соответствие условиям, специальность, вуз и языки',
+      kk: 'Шарттарға сәйкестік, мамандық, ЖОО және тілдер',
+      en: 'Eligibility, specialty, university and languages',
     },
   },
   {
     id: 'apply',
     title: { ru: 'Подача', kk: 'Тапсыру', en: 'Application' },
     subtitle: {
-      ru: 'Собираем пакет документов и подаём заявку в срок приёма',
-      kk: 'Құжаттар топтамасын жинап, қабылдау мерзімінде өтініш береміз',
-      en: 'Assemble the documents and apply within the intake window',
+      ru: 'Пакет документов и подача в срок приёма',
+      kk: 'Құжаттар топтамасы және қабылдау мерзімінде тапсыру',
+      en: 'The document package and applying within the intake period',
     },
   },
   {
