@@ -3,6 +3,7 @@ import { persist, createJSONStorage } from 'zustand/middleware'
 import type { DateKey, Locale, Profile, StageId, Track } from '@/content/types'
 import { CONTENT_META } from '@/content/meta'
 import { sanitizeProgress, type Progress } from '@/domain/exportImport'
+import { localeFromUrl } from '@/domain/site'
 import { safeLocalStorage } from './safeStorage'
 
 export type ThemePref = 'system' | 'light' | 'dark'
@@ -48,7 +49,13 @@ export interface AppState {
   hydrateFrom: (data: Partial<AppState>) => void
 }
 
+/**
+ * Only used when nothing is stored yet: a stored choice always wins. The site's own
+ * `?lang=` comes first, so a reader who arrives from the Kazakh site stays in Kazakh.
+ */
 const detectLocale = (): Locale => {
+  const fromUrl = typeof window === 'undefined' ? null : localeFromUrl(window.location)
+  if (fromUrl) return fromUrl
   if (typeof navigator === 'undefined') return 'ru'
   const l = navigator.language.slice(0, 2).toLowerCase()
   return l === 'kk' ? 'kk' : l === 'en' ? 'en' : 'ru'

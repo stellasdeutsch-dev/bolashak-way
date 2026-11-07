@@ -131,6 +131,11 @@ export const UI = {
     settings: { ru: 'Настройки', kk: 'Баптаулар', en: 'Settings' },
     overview: { ru: 'Обзор', kk: 'Шолу', en: 'Overview' },
   },
+  /** The site this app is a section of. */
+  site: {
+    name: { ru: 'Центр международных программ', kk: 'Халықаралық бағдарламалар орталығы', en: 'Center for International Programs' },
+    toHome: { ru: 'На сайт Центра международных программ', kk: 'Халықаралық бағдарламалар орталығының сайтына', en: 'To the Center for International Programs site' },
+  },
   /**
    * Labels for the bottom tab bar. Five tabs leave about 68px each on a 375px phone,
    * and the full nav labels do not fit – «Бағдарлама туралы» needs 99px even at 10px.

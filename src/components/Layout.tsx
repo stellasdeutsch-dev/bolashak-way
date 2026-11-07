@@ -2,7 +2,7 @@ import { useEffect, useRef, useState, type ReactNode } from 'react'
 import { NavLink, Link, useLocation } from 'react-router'
 import {
   IconMap as MapIcon, IconFolderCheck as FolderCheck, IconSettings as SettingsIcon,
-  IconSearch as Search, IconBookOpen as BookOpen, IconCalendar as CalendarIcon,
+  IconSearch as Search, IconBookOpen as BookOpen, IconCalendar as CalendarIcon, IconArrowLeft as ArrowLeft,
 } from '@/components/icons'
 import { SearchOverlay } from './SearchOverlay'
 import { ErrorBoundary } from './ErrorBoundary'
@@ -10,6 +10,7 @@ import { ScrollRail } from './ScrollRail'
 import { PlatformSwitcher } from './platform/PlatformSwitcher'
 import { useActivePlatform, usePlatformColour } from './platform/usePlatform'
 import { platformPaths } from '@/domain/paths'
+import { siteHome } from '@/domain/site'
 import { LOCALES, useI18n } from '@/i18n'
 import { useAppStore } from '@/store/useAppStore'
 import { useDocumentLocale } from '@/i18n/usePageChrome'
@@ -59,7 +60,7 @@ export function LangSwitch() {
 }
 
 export function Layout({ children }: { children: ReactNode }) {
-  const { t } = useI18n()
+  const { t, locale } = useI18n()
   useDocumentLocale()
   const saveFailed = useSaveStatus((st) => st.failed)
   const restoreFailed = useAppStore((st) => st.restoreFailed && st.profile === null)
@@ -114,6 +115,16 @@ export function Layout({ children }: { children: ReactNode }) {
       <button type="button" className={s.skip} onClick={() => focusMain(mainRef.current)}>
         {t('nav.skip')}
       </button>
+      {/* The app is a section of the Center's site: the way back sits above the header
+          and scrolls away with the page, so the sticky header keeps its height. */}
+      <div className={s.parent}>
+        <div className={s.parentInner}>
+          <a href={siteHome(locale)} className={s.parentLink} hrefLang={locale}>
+            <ArrowLeft size={14} aria-hidden="true" />
+            {t('site.name')}
+          </a>
+        </div>
+      </div>
       <header className={s.header}>
         <div className={s.headerInner}>
           <Link to="/" className={s.brand} aria-label="Bolashak Way">

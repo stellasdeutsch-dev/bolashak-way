@@ -6,6 +6,54 @@
   background: var(--bg);
 }
 
+/* The way back to the Center's site: one quiet line above the header. */
+.parent {
+  background: var(--bg);
+  border-bottom: 1px solid var(--line);
+}
+.parentInner {
+  max-width: var(--content-max);
+  margin: 0 auto;
+  padding: 0 20px;
+  display: flex;
+  align-items: center;
+  min-height: 34px;
+}
+.parentLink {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+  padding: 7px 0;
+  font-size: 13.5px;
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--text-2);
+  text-decoration: none;
+}
+/* A finger gets a 44px target without making the line taller. */
+.parentLink::after {
+  content: '';
+  position: absolute;
+  inset: -5px -8px;
+}
+@media (hover: hover) {
+  .parentLink:hover {
+    color: var(--text);
+  }
+}
+@media (max-width: 400px) {
+  .parentInner {
+    padding: 0 14px;
+  }
+}
+@media print {
+  .parent {
+    display: none;
+  }
+}
+
 .header {
   position: sticky;
   top: 0;
