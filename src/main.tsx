@@ -21,6 +21,11 @@ const updateSW = registerSW({
   },
 })
 
+// For whoever opens the developer tools: the logo's ornament from the top of the page source, drawn
+// in the console in the app's accent colour. No words. The Bolashak site does the same.
+const ornament = [...document.childNodes].find((n) => n.nodeType === Node.COMMENT_NODE)?.textContent?.replace(/^\n+|\s+$/g, '')
+if (ornament && !import.meta.env.TEST) console.log(`%c${ornament}`, 'font:12px/1 ui-monospace,Menlo,monospace;color:#2a6ef0')
+
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <ErrorBoundary>
