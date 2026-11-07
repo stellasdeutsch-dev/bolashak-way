@@ -81,9 +81,13 @@
   transition: background-color 150ms var(--ease-out);
 }
 
-.facade:hover .playBadge,
 .facade:focus-visible .playBadge {
   background: var(--accent-deep);
+}
+@media (hover: hover) {
+  .facade:hover .playBadge {
+    background: var(--accent-deep);
+  }
 }
 
 
@@ -163,8 +167,10 @@
   text-decoration: none;
 }
 
-.external:hover {
-  color: var(--text);
+@media (hover: hover) {
+  .external:hover {
+    color: var(--text);
+  }
 }
 
 @media print {
@@ -173,4 +179,12 @@
   .langSwitch {
     display: none;
   }
+}
+
+/* A clip from an earlier competition: say so next to its date. */
+.oldNote {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.45;
+  color: var(--warn-ink);
 }

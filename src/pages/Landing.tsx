@@ -318,7 +318,7 @@ function CompareTable() {
       <table className={[s.compareTable, s.pairTable].join(' ')}>
         <thead>
           <tr>
-            <th className={s.compareCorner} />
+            <td className={s.compareCorner} aria-hidden="true" />
             {picked.map((p) => (
               <th key={p.slug} data-p={p.slug} className={s.compareHead}>
                 <Link to={platformPaths(p.slug).home}>{c(p.name)}</Link>
@@ -344,7 +344,7 @@ function CompareTable() {
         <table className={[s.compareTable, s.fullTable].join(' ')}>
           <thead>
             <tr>
-              <th className={s.compareCorner} />
+              <td className={s.compareCorner} aria-hidden="true" />
               {PLATFORMS.map((p) => (
                 <th key={p.slug} data-p={p.slug} className={s.compareHead}>
                   <Link to={platformPaths(p.slug).home}>

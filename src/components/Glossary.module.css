@@ -10,9 +10,11 @@
   border: 1px solid var(--line);
   transition: border-color 0.15s var(--ease-out), box-shadow 0.15s var(--ease-out), background 0.15s var(--ease-out);
 }
-.item:hover {
-  border-color: rgba(var(--accent-rgb), 0.45);
-  box-shadow: var(--shadow-card-lift);
+@media (hover: hover) {
+  .item:hover {
+    border-color: rgba(var(--accent-rgb), 0.45);
+    box-shadow: var(--shadow-card-lift);
+  }
 }
 .item[open] {
   background: var(--surface);

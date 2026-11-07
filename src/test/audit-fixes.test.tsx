@@ -1,7 +1,8 @@
 import { describe, expect, it, beforeEach, vi } from 'vitest'
 import { act, render, screen, fireEvent, within } from '@testing-library/react'
 import { MemoryRouter, Route, Routes } from 'react-router'
-import { kkPossessive, useI18n } from '@/i18n'
+import { formatDate, kkPossessive, useI18n } from '@/i18n'
+import { SourceLink } from '@/components/ui'
 import { safeLocalStorage, useSaveStatus } from '@/store/safeStorage'
 import { useAppStore } from '@/store/useAppStore'
 import { StagePage } from '@/pages/Stage'
@@ -126,5 +127,32 @@ describe('404', () => {
     expect(screen.getByText(/ссылка устарела/)).toBeInTheDocument()
     expect(screen.getByRole('link', { name: 'Мой план' })).toHaveAttribute('href', '/master/roadmap')
     expect(document.title).toMatch(/^Страница не найдена/)
+  })
+})
+
+describe('dates', () => {
+  it('reads a calendar date the same in every time zone and language', () => {
+    expect(formatDate('2026-10-28', 'ru')).toMatch(/^28 октября 2026/)
+    expect(formatDate('2026-10-28', 'en')).toBe('28 October 2026')
+    expect(formatDate('not a date', 'ru')).toBe('not a date')
+  })
+})
+
+describe('sources without a public page', () => {
+  it('names the closed applicant chats instead of linking to an e-mail', () => {
+    render(<SourceLink id="chat-faq" />)
+    expect(screen.queryByRole('link')).toBeNull()
+    expect(screen.getByText(/публичной ссылки нет/)).toBeInTheDocument()
+  })
+})
+
+describe('a saved plan that cannot be read', () => {
+  it('starts over and says why', async () => {
+    localStorage.setItem('bolashak-way', JSON.stringify({ state: { profile: { track: 'nope' }, checked: [] }, version: 3 }))
+    await useAppStore.persist.rehydrate()
+    expect(useAppStore.getState().profile).toBeNull()
+    expect(useAppStore.getState().restoreFailed).toBe(true)
+    useAppStore.getState().setProfile(self)
+    expect(useAppStore.getState().restoreFailed).toBe(false)
   })
 })

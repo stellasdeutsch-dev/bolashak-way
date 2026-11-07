@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { IconExternal as ExternalLink, IconPlay as Play } from '@/components/icons'
 import type { Locale, VideoClip, VideoItem } from '@/content/types'
 import { useI18n } from '@/i18n'
+import { CONTENT_META } from '@/content/meta'
 import { SourceLink } from '@/components/ui'
 import s from './Videos.module.css'
 
@@ -69,6 +70,9 @@ function VideoRow({ item }: { item: VideoItem }) {
             {formatDate(clip.published, locale)} · {formatDuration(clip.durationSec, t)}
           </span>
         </div>
+        {Number(clip.published.slice(0, 4)) < CONTENT_META.competitionYear && (
+          <p className={s.oldNote}>{t('video.oldNote', { year: clip.published.slice(0, 4), current: CONTENT_META.competitionYear })}</p>
+        )}
         <div className={s.actions}>
           {item.clips.length > 1 && (
             <div className={s.langSwitch} role="group" aria-label={t('video.langLabel')}>

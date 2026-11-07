@@ -30,9 +30,11 @@
   cursor: pointer;
   transition: background 160ms var(--ease-out), color 160ms var(--ease-out);
 }
-.arrow:hover {
-  background: var(--surface-3);
-  color: var(--text);
+@media (hover: hover) {
+  .arrow:hover {
+    background: var(--surface-3);
+    color: var(--text);
+  }
 }
 .title {
   flex: 1;
@@ -113,9 +115,11 @@
   font-variant-numeric: tabular-nums;
   color: var(--text-2);
 }
-.dayNum:hover {
-  background: var(--surface-3);
-  color: var(--text);
+@media (hover: hover) {
+  .dayNum:hover {
+    background: var(--surface-3);
+    color: var(--text);
+  }
 }
 .isToday .dayNum {
   color: var(--text-on-accent);
@@ -145,8 +149,10 @@
   color: var(--chip-ink, var(--text-2));
   background: var(--chip-bg, var(--surface-3));
 }
-.chip:hover {
-  filter: brightness(0.97);
+@media (hover: hover) {
+  .chip:hover {
+    filter: brightness(0.97);
+  }
 }
 .chipDot {
   flex: none;
@@ -270,8 +276,10 @@
   color: var(--accent-ink);
   text-decoration: none;
 }
-.stageLink:hover {
-  color: var(--text);
+@media (hover: hover) {
+  .stageLink:hover {
+    color: var(--text);
+  }
 }
 .dayField {
   display: flex;

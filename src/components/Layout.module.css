@@ -31,8 +31,10 @@
   color: var(--text);
   text-decoration: none;
 }
-.brand:hover {
-  text-decoration: none;
+@media (hover: hover) {
+  .brand:hover {
+    text-decoration: none;
+  }
 }
 .mark {
   width: 30px;
@@ -68,10 +70,12 @@
   font-weight: 500;
   text-decoration: none;
 }
-.deskLink:hover {
-  background: var(--surface-3);
-  color: var(--text);
-  text-decoration: none;
+@media (hover: hover) {
+  .deskLink:hover {
+    background: var(--surface-3);
+    color: var(--text);
+    text-decoration: none;
+  }
 }
 .deskLinkActive {
   background: var(--surface);
@@ -155,8 +159,10 @@
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-.tab:hover {
-  text-decoration: none;
+@media (hover: hover) {
+  .tab:hover {
+    text-decoration: none;
+  }
 }
 .tabActive {
   color: var(--accent);
@@ -197,9 +203,11 @@
   position: absolute;
   inset: -5px;
 }
-.iconBtn:hover {
-  background: var(--surface-2);
-  color: var(--text);
+@media (hover: hover) {
+  .iconBtn:hover {
+    background: var(--surface-2);
+    color: var(--text);
+  }
 }
 
 /* At 320px the brand, search and three language chips must still fit on one row. */

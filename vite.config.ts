@@ -47,12 +47,20 @@ export default defineConfig({
       injectRegister: 'auto',
       manifest: false,
       workbox: {
-        globPatterns: ['**/*.{js,css,html,svg,webmanifest}', 'icon-*.png', 'apple-touch-icon.png', '**/inter-{latin,latin-ext,cyrillic,cyrillic-ext}-wght-normal-*.woff2'],
+        // Fonts: Russian pages need latin + cyrillic, Kazakh ones also cyrillic-ext. latin-ext
+        // (85 KB) only carries the diacritics of some university names, so it is cached the
+        // first time a page actually uses it rather than on every install.
+        globPatterns: ['**/*.{js,css,html,svg,webmanifest}', 'icon-*.png', 'apple-touch-icon.png', '**/inter-{latin,cyrillic,cyrillic-ext}-wght-normal-*.woff2'],
         // The two official lists are only fetched when somebody searches, so precaching them
         // would put 350 KB on every install for a screen most people open once. Cache the
         // chunk the first time it is actually asked for instead — after that it is offline too.
         globIgnores: ['**/lists*.generated-*.js'],
         runtimeCaching: [
+          {
+            urlPattern: /\/assets\/inter-latin-ext-wght-normal-[\w-]+\.woff2$/,
+            handler: 'CacheFirst',
+            options: { cacheName: 'bolashak-fonts', expiration: { maxEntries: 2 }, cacheableResponse: { statuses: [0, 200] } },
+          },
           {
             urlPattern: /\/assets\/lists[\w.]*\.generated-[\w-]+\.js$/,
             handler: 'CacheFirst',
@@ -71,7 +79,13 @@ export default defineConfig({
         // against /repo/stage/ and 404'd — a blank page — and it also captured the /cloud/
         // sub-app, whose own files sit under a longer path. Letting those paths reach the
         // host means 404.html runs and redirects into the right hash route.
-        navigateFallback: null,
+        //
+        // A deep path offline (/repo/master/roadmap) is answered with the precached 404.html
+        // instead: it has no assets of its own, only the script that turns the path into the
+        // hash route – exactly what the host does online. /cloud/ is another app and is left
+        // to the network.
+        navigateFallback: '404.html',
+        navigateFallbackDenylist: [/\/cloud(\/|$)/],
       },
     }),
   ],

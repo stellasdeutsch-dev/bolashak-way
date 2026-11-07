@@ -55,8 +55,10 @@
   display: inline-flex;
 }
 
-.closeBtn:hover {
-  background: var(--surface-3);
+@media (hover: hover) {
+  .closeBtn:hover {
+    background: var(--surface-3);
+  }
 }
 
 .results {
@@ -96,9 +98,13 @@
   font: inherit;
 }
 
-.result:hover,
 .resultActive {
   background: var(--surface-2);
+}
+@media (hover: hover) {
+  .result:hover {
+    background: var(--surface-2);
+  }
 }
 /* One clear button is enough: the dialog has its own close. */
 .input::-webkit-search-cancel-button {
@@ -137,10 +143,10 @@
   }
 }
 .overlay {
-  animation: fadeIn 0.18s var(--ease-out);
+  animation: fadeIn var(--dur-fast) var(--ease-out);
 }
 .panel {
-  animation: popIn 0.22s var(--ease-spring);
+  animation: popIn var(--dur-base) var(--ease-spring);
 }
 @media (prefers-reduced-motion: reduce) {
   .overlay,

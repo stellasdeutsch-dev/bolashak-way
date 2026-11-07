@@ -118,8 +118,18 @@ export function Callout({ children, tone = 'info', source }: { children: ReactNo
 }
 
 export function SourceLink({ id, label }: { id: SourceId; label?: string }) {
-  const { c } = useI18n()
+  const { c, t } = useI18n()
   const src = getSource(id)
+  // A source without a public page (answers given in closed applicant chats) is named,
+  // not linked: a mail link would look like a document and open an e-mail instead.
+  if (!/^https?:/.test(src.url)) {
+    return (
+      <span className={[s.calloutSource, s.sourcePlain].join(' ')}>
+        {label ?? c(src.title)}
+        <span className={s.sourceOrg}> · {t('common.noPublicSource')}</span>
+      </span>
+    )
+  }
   return (
     <a className={s.calloutSource} href={src.url} target="_blank" rel="noopener noreferrer">
       <ExternalLink size={13} aria-hidden="true" />

@@ -83,13 +83,20 @@
   border: 1.5px solid transparent;
   transition: border-color 0.15s var(--ease-out);
 }
-.checkItem:hover:not(.checkItemOff) {
-  border-color: var(--line-strong);
+@media (hover: hover) {
+  .checkItem:hover:not(.checkItemOff) {
+    border-color: var(--line-strong);
+  }
 }
-.checkItemDone,
-.checkItemDone:hover:not(.checkItemOff) {
+.checkItemDone {
   background: var(--success-tint);
   border-color: transparent;
+}
+@media (hover: hover) {
+  .checkItemDone:hover:not(.checkItemOff) {
+    background: var(--success-tint);
+    border-color: transparent;
+  }
 }
 .checkItemDone .checkText {
   color: var(--text-2);
@@ -130,6 +137,11 @@
   font-size: 14.5px;
   line-height: 1.5;
   color: var(--text-2);
+}
+.lockedLink {
+  display: block;
+  margin-top: 6px;
+  font-weight: 600;
 }
 .lockedIcon {
   flex: none;
@@ -288,8 +300,10 @@
   line-height: 1.62;
   color: var(--text-2);
 }
-.faqBtn:hover {
-  color: var(--accent);
+@media (hover: hover) {
+  .faqBtn:hover {
+    color: var(--accent);
+  }
 }
 .faqTags {
   display: flex;
@@ -453,8 +467,10 @@
   font: inherit;
   color: var(--text);
 }
-.quoteBtn:hover .quoteToggle {
-  color: var(--accent);
+@media (hover: hover) {
+  .quoteBtn:hover .quoteToggle {
+    color: var(--accent);
+  }
 }
 .quoteClause {
   font-size: 15.5px;
@@ -485,11 +501,11 @@
   margin-top: 12px;
 }
 
-/* The tick draws itself instead of blinking into place. */
-.boxDone svg path,
-.boxAuto svg path {
+/* The tick draws itself when the reader ticks a box – not on every visit, and not for
+   boxes closed by the plan itself. */
+.boxJust svg path {
   stroke-dasharray: 26;
-  animation: drawTick 0.34s var(--ease-spring) both;
+  animation: drawTick var(--dur-slow) var(--ease-spring) both;
 }
 
 @keyframes drawTick {
@@ -502,8 +518,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .boxDone svg path,
-  .boxAuto svg path {
+  .boxJust svg path {
     animation: none;
   }
 }

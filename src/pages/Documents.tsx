@@ -20,6 +20,7 @@ export function Documents() {
   const documentsDone = useAppStore((st) => st.documentsDone)
   const toggleDocument = useAppStore((st) => st.toggleDocument)
   const [onlyRemaining, setOnlyRemaining] = useState(false)
+  const [justTicked, setJustTicked] = useState<string | null>(null)
   usePageChrome(t('nav.documents'))
 
   useEffect(() => {
@@ -95,10 +96,11 @@ export function Documents() {
                       onClick={() => {
                         if (auto) return
                         toggleDocument(d.id)
+                        setJustTicked(done ? null : d.id)
                         announce(`${doneCount + (done ? -1 : 1)} / ${all.length} ${t('documents.collected')}`)
                       }}
                     />
-                    <span className={[s.box, done ? s.boxDone : ''].join(' ')} aria-hidden="true">
+                    <span className={[s.box, done ? s.boxDone : '', done && justTicked === d.id ? s.boxJust : ''].join(' ')} aria-hidden="true">
                       <Check size={15} strokeWidth={3} />
                     </span>
                     <span>

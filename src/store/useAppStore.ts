@@ -29,6 +29,11 @@ export interface AppState {
    * switching programme files the current progress here and brings back the target's.
    */
   archive: Partial<Record<Track, Progress>>
+  /**
+   * A saved plan was found but could not be read (damaged or from an unknown version), so
+   * the reader starts over. Not stored: it is only there to tell them why.
+   */
+  restoreFailed: boolean
 
   setLocale: (l: Locale) => void
   setTheme: (t: ThemePref) => void
@@ -77,6 +82,7 @@ export const useAppStore = create<AppState>()(
       theme: 'system',
       ...EMPTY,
       archive: {},
+      restoreFailed: false,
 
       setLocale: (locale) => set({ locale }),
       setTheme: (theme) => set({ theme }),
@@ -84,13 +90,13 @@ export const useAppStore = create<AppState>()(
         const st = get()
         const now = new Date().toISOString()
         if (!st.profile || st.profile.track === profile.track) {
-          set({ profile, onboardedAt: st.onboardedAt && st.profile ? st.onboardedAt : now })
+          set({ profile, onboardedAt: st.onboardedAt && st.profile ? st.onboardedAt : now, restoreFailed: false })
           return
         }
         const archive = { ...st.archive, [st.profile.track]: progressOf(st) }
         const back = archive[profile.track]
         delete archive[profile.track]
-        set({ ...EMPTY, ...(back ?? {}), profile, onboardedAt: back?.onboardedAt ?? now, archive })
+        set({ ...EMPTY, ...(back ?? {}), profile, onboardedAt: back?.onboardedAt ?? now, archive, restoreFailed: false })
       },
 
       toggleCheck: (stage, item) => {
@@ -160,11 +166,13 @@ export const useAppStore = create<AppState>()(
           const clean = sanitizeProgress(value)
           if (clean.profile && clean.profile.track === track) archive[track as Track] = clean
         }
+        const progress = sanitizeProgress(raw)
         return {
           ...current,
+          restoreFailed: raw.profile != null && progress.profile === null,
           locale: raw.locale === 'kk' || raw.locale === 'en' || raw.locale === 'ru' ? raw.locale : current.locale,
           theme: raw.theme === 'light' || raw.theme === 'dark' || raw.theme === 'system' ? raw.theme : current.theme,
-          ...sanitizeProgress(raw),
+          ...progress,
           archive,
         }
       },

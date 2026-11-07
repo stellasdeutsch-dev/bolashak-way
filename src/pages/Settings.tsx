@@ -8,7 +8,7 @@ import { SOURCES, sourceFits } from '@/content/sources'
 import type { SourceId } from '@/content/types'
 import { buildSnapshot, downloadSnapshot, parseSnapshot, type Snapshot } from '@/domain/exportImport'
 import { useAppStore, type ThemePref } from '@/store/useAppStore'
-import { LOCALES, useI18n } from '@/i18n'
+import { LOCALES, useI18n, formatDate } from '@/i18n'
 import { usePageChrome } from '@/i18n/usePageChrome'
 import { Button, Card, ConfirmDialog, Pill, SourceLink } from '@/components/ui'
 import s from './Settings.module.css'
@@ -206,7 +206,7 @@ export function Settings() {
               {t('common.year')}: {CONTENT_META.competitionYear}
             </Pill>
             <Pill>
-              {t('common.verifiedOn')}: {CONTENT_META.lastVerified}
+              {t('common.verifiedOn')}: {formatDate(CONTENT_META.lastVerified, state.locale)}
             </Pill>
           </div>
           <p className={s.body}>{c(CONTENT_META.disclaimer)}</p>

@@ -54,6 +54,7 @@ export const UI = {
       kk: 'Оқығыңыз келмесе – сол дүниелер Халықаралық бағдарламалар орталығының екі роликінде.',
       en: 'If you would rather not read, here are the same things in two clips from the Center for International Programmes itself.',
     },
+    oldNote: { ru: 'Снято в {year} году – порядок мог измениться, сверяйтесь с правилами {current} года.', kk: '{year} жылы түсірілген – тәртіп өзгерген болуы мүмкін, {current} жылғы қағидалармен салыстырыңыз.', en: 'Filmed in {year}: the procedure may have changed since, check against the {current} rules.' },
   },
   landing: {
     title: { ru: 'Пять программ', kk: 'Бес бағдарлама', en: 'Five programmes' },
@@ -250,6 +251,9 @@ export const UI = {
     updateReady: { ru: 'Доступна новая версия', kk: 'Жаңа нұсқа бар', en: 'A new version is available' },
     updateNow: { ru: 'Обновить', kk: 'Жаңарту', en: 'Update' },
     loading: { ru: 'Загрузка…', kk: 'Жүктелуде…', en: 'Loading…' },
+    noPublicSource: { ru: 'закрытые чаты, публичной ссылки нет', kk: 'жабық чаттар, жария сілтеме жоқ', en: 'closed chats, no public link' },
+    restoreFailed: { ru: 'Сохранённый план не удалось прочитать, поэтому путь начинается заново. Выберите программу или загрузите свою копию.', kk: 'Сақталған жоспарды оқу мүмкін болмады, сондықтан жол қайта басталады. Бағдарламаны таңдаңыз немесе көшірмеңізді жүктеңіз.', en: 'Your saved plan could not be read, so the path starts over. Choose a programme or load your copy.' },
+    restoreFailedAction: { ru: 'Загрузить копию в Настройках', kk: 'Баптауларда көшірмені жүктеу', en: 'Load a copy in Settings' },
   },
   eligibility: {
     expTitle: { ru: 'По стажу вы пока не проходите', kk: 'Өтіл бойынша әзірге сәйкес келмейсіз', en: 'You do not meet the experience requirement yet' },

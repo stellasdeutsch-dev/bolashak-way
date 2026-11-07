@@ -87,12 +87,16 @@
   color: var(--text-on-accent);
   background: var(--accent-btn);
 }
-.link:hover {
-  color: var(--text);
+@media (hover: hover) {
+  .link:hover {
+    color: var(--text);
+  }
 }
-.primaryLink:hover {
-  background: var(--accent-deep);
-  text-decoration: none;
+@media (hover: hover) {
+  .primaryLink:hover {
+    background: var(--accent-deep);
+    text-decoration: none;
+  }
 }
 
 .sources {

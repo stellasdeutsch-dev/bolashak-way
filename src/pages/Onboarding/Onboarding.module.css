@@ -80,14 +80,22 @@
   border: 2px solid var(--line);
   transition: border-color 0.15s var(--ease-out);
 }
-.option:hover {
-  border-color: var(--line-strong);
+@media (hover: hover) {
+  .option:hover {
+    border-color: var(--line-strong);
+  }
 }
-.optionActive,
-.optionActive:hover {
+.optionActive {
   border-color: var(--accent);
   background: var(--accent-tint);
   background: color-mix(in srgb, var(--accent-tint) 55%, var(--surface));
+}
+@media (hover: hover) {
+  .optionActive:hover {
+    border-color: var(--accent);
+    background: var(--accent-tint);
+    background: color-mix(in srgb, var(--accent-tint) 55%, var(--surface));
+  }
 }
 .optionIcon {
   flex: none;
@@ -141,8 +149,10 @@
   color: var(--text-2);
   transition: border-color 0.15s var(--ease-out);
 }
-.chip:hover {
-  border-color: var(--line-strong);
+@media (hover: hover) {
+  .chip:hover {
+    border-color: var(--line-strong);
+  }
 }
 .chipActive {
   background: var(--accent-btn);
@@ -311,4 +321,9 @@
 }
 .chipsList .chipBadge {
   margin-left: 0;
+}
+
+/* A press reads as a press on touch screens too, where there is no hover. */
+.option:active {
+  transform: scale(0.99);
 }

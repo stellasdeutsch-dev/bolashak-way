@@ -4,7 +4,7 @@ import type {
 } from '@/content/lists'
 import type { SourceId } from '@/content/types'
 import { LIST_SOURCES, matches, matchingEquivalents } from '@/content/lists'
-import { useI18n } from '@/i18n'
+import { useI18n, formatDate } from '@/i18n'
 import { SourceLink } from '@/components/ui'
 import { IconSearch as Search, IconExternal as ExternalLink, IconClose as Close } from '@/components/icons'
 import s from './ListSearch.module.css'
@@ -98,7 +98,7 @@ function Shell({
         ))}
         {takenOn && (
           <span className={s.taken}>
-            {t('lists.takenOn')}: {new Date(takenOn).toLocaleDateString(locale === 'en' ? 'en-GB' : locale === 'kk' ? 'kk-KZ' : 'ru-RU')}
+            {t('lists.takenOn')}: {formatDate(takenOn, locale)}
           </span>
         )}
       </div>

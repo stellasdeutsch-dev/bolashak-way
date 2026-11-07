@@ -46,6 +46,9 @@ export function LangSwitch() {
           className={[s.langBtn, locale === l.id ? s.langBtnActive : ''].join(' ')}
           onClick={() => setLocale(l.id)}
           aria-pressed={locale === l.id}
+          // Read out as "Қазақша", not as the letters K-K, and in its own language.
+          aria-label={l.native}
+          lang={l.id}
           title={l.native}
         >
           {l.label}
@@ -59,6 +62,7 @@ export function Layout({ children }: { children: ReactNode }) {
   const { t } = useI18n()
   useDocumentLocale()
   const saveFailed = useSaveStatus((st) => st.failed)
+  const restoreFailed = useAppStore((st) => st.restoreFailed && st.profile === null)
   const announcement = useAnnouncer((st) => st.message)
   const applyUpdate = useUpdate((st) => st.apply)
   const hasProfile = useAppStore((st) => st.profile !== null)
@@ -150,6 +154,14 @@ export function Layout({ children }: { children: ReactNode }) {
           <Callout tone="warn">
             {t('common.saveFailed')}{' '}
             <Link to="/settings">{t('common.saveFailedAction')}</Link>
+          </Callout>
+        </div>
+      )}
+
+      {restoreFailed && (
+        <div className={s.saveBanner} role="status">
+          <Callout tone="warn">
+            {t('common.restoreFailed')} <Link to="/settings">{t('common.restoreFailedAction')}</Link>
           </Callout>
         </div>
       )}

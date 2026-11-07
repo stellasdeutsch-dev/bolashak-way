@@ -1,57 +1,59 @@
 // Reports which localised strings still fall back to Russian.
-// Usage: npm run i18n:coverage
-import { STAGES } from '../src/content/stages/index.ts'
-import { CATEGORIES } from '../src/content/categories.ts'
-import { DOCUMENTS } from '../src/content/documents.ts'
-import { FAQ } from '../src/content/faq.ts'
+// Usage: npm run i18n:coverage [-- --list]
+//
+// Walks every export of every module under src/content (platform texts, glossary,
+// explainers, forms, sources, deadlines…) and the UI strings in src/i18n/ui.ts. Any object
+// with a Russian `ru` string counts as one localisable string and needs `kk` and `en`.
+// Left out: verbatim quotes of the acts (excerpts.ts) – they are Russian on purpose – and
+// the generated official lists, which are snapshots of Russian PDFs.
+import { readdirSync, statSync } from 'node:fs'
+import { join, relative } from 'node:path'
+import { fileURLToPath, pathToFileURL } from 'node:url'
+
+const root = fileURLToPath(new URL('..', import.meta.url))
+const SKIP = [/excerpts\.ts$/, /\.generated\.ts$/, /\.test\.ts$/]
+
+function files(dir) {
+  return readdirSync(dir).flatMap((name) => {
+    const p = join(dir, name)
+    return statSync(p).isDirectory() ? files(p) : /\.ts$/.test(p) && !SKIP.some((re) => re.test(p)) ? [p] : []
+  })
+}
 
 const missing = { kk: [], en: [] }
 let total = 0
+const seen = new WeakSet()
 
-function check(label, l) {
-  if (!l || typeof l.ru !== 'string') return
-  total += 1
-  for (const loc of ['kk', 'en']) if (!l[loc]) missing[loc].push(label)
+function walk(value, label) {
+  if (!value || typeof value !== 'object' || seen.has(value)) return
+  seen.add(value)
+  if (typeof value.ru === 'string') {
+    total += 1
+    for (const loc of ['kk', 'en']) if (!value[loc]) missing[loc].push(label)
+    return
+  }
+  for (const [k, v] of Object.entries(value)) walk(v, `${label}.${k}`)
 }
 
-for (const s of STAGES) {
-  check(`${s.id}.kicker`, s.kicker)
-  check(`${s.id}.title`, s.title)
-  check(`${s.id}.summary`, s.summary)
-  check(`${s.id}.why`, s.why)
-  s.checklist.forEach((i) => check(`${s.id}.check.${i.id}`, i.text))
-  s.mistakes.forEach((m, i) => check(`${s.id}.mistake.${i}`, m))
-  ;(s.deadlines ?? []).forEach((d, i) => check(`${s.id}.deadline.${i}`, d.text))
-  ;(s.notes ?? []).forEach((n, i) => check(`${s.id}.note.${i}`, n.text))
-}
-for (const c of Object.values(CATEGORIES)) {
-  check(`cat.${c.id}.title`, c.title)
-  check(`cat.${c.id}.short`, c.short)
-  check(`cat.${c.id}.desc`, c.desc)
-  check(`cat.${c.id}.workBack`, c.workBack)
-  c.requirements.forEach((r, i) => check(`cat.${c.id}.req.${i}`, r.text))
-}
-for (const d of DOCUMENTS) {
-  check(`doc.${d.id}.title`, d.title)
-  if (d.note) check(`doc.${d.id}.note`, d.note)
-}
-for (const f of FAQ) {
-  check(`faq.${f.id}.q`, f.q)
-  check(`faq.${f.id}.a`, f.a)
+const modules = [...files(join(root, 'src/content')), join(root, 'src/i18n/ui.ts')]
+for (const file of modules) {
+  const mod = await import(pathToFileURL(file).href)
+  const name = relative(join(root, 'src'), file).replace(/\.ts$/, '')
+  for (const [exp, value] of Object.entries(mod)) walk(value, `${name}:${exp}`)
 }
 
 const pct = (n) => `${(((total - n) / total) * 100).toFixed(1)}%`
-console.log(`total localisable strings: ${total}`)
+console.log(`modules: ${modules.length}, localisable strings: ${total}`)
 for (const loc of ['kk', 'en']) {
   console.log(`\n${loc}: ${total - missing[loc].length}/${total} translated (${pct(missing[loc].length)}), missing ${missing[loc].length}`)
-  const byStage = {}
+  const byModule = {}
   for (const m of missing[loc]) {
-    const key = m.split('.').slice(0, 2).join('.')
-    byStage[key] = (byStage[key] ?? 0) + 1
+    const key = m.split('.')[0]
+    byModule[key] = (byModule[key] ?? 0) + 1
   }
-  const top = Object.entries(byStage).sort((a, b) => b[1] - a[1])
-  console.log('  ' + top.map(([k, v]) => `${k}:${v}`).join(' '))
+  const top = Object.entries(byModule).sort((a, b) => b[1] - a[1])
+  if (top.length) console.log('  ' + top.map(([k, v]) => `${k}:${v}`).join(' '))
 }
 if (process.argv.includes('--list')) {
-  console.log('\nmissing kk:\n' + missing.kk.join('\n'))
+  for (const loc of ['kk', 'en']) console.log(`\nmissing ${loc}:\n` + missing[loc].join('\n'))
 }

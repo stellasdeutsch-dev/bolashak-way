@@ -105,8 +105,10 @@
   text-decoration: none;
   white-space: nowrap;
 }
-.site:hover {
-  color: var(--text);
+@media (hover: hover) {
+  .site:hover {
+    color: var(--text);
+  }
 }
 .foot {
   display: flex;
@@ -131,8 +133,10 @@
   background: var(--surface-3);
   cursor: pointer;
 }
-.clear:hover {
-  color: var(--text);
+@media (hover: hover) {
+  .clear:hover {
+    color: var(--text);
+  }
 }
 .subhead {
   margin: 4px 0 0;
@@ -147,8 +151,10 @@
   cursor: pointer;
   transition: border-color 0.18s var(--ease-out);
 }
-.rowButton:hover {
-  border-color: var(--accent);
+@media (hover: hover) {
+  .rowButton:hover {
+    border-color: var(--accent);
+  }
 }
 .codeAlt {
   background: var(--surface-3);

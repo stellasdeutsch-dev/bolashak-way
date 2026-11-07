@@ -4,7 +4,7 @@ import { FORMS, formsForStage, type OfficialForm } from '@/content/forms'
 import type { StageId } from '@/content/types'
 import { evaluate } from '@/domain/applicability'
 import { useAppStore } from '@/store/useAppStore'
-import { useI18n } from '@/i18n'
+import { useI18n, formatDate } from '@/i18n'
 import { Button, SourceLink } from '@/components/ui'
 import {
   IconClose as Close, IconDownload as Download, IconExternal as ExternalLink,
@@ -72,7 +72,7 @@ function FormCard({ form, onView }: { form: OfficialForm; onView: (f: OfficialFo
           <span>
             {form.fileType.toUpperCase()}, {sizeLabel(form.bytes, locale)}
           </span>
-          <span>{t('forms.published', { date: form.published })}</span>
+          <span>{t('forms.published', { date: formatDate(form.published, locale) })}</span>
         </div>
         <div className={s.actions}>
           {form.fileType === 'pdf' ? (

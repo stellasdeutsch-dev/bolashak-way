@@ -93,10 +93,12 @@
   text-decoration: none;
   transition: border-color 0.15s var(--ease-out), box-shadow 0.15s var(--ease-out);
 }
-.card:hover {
-  text-decoration: none;
-  border-color: rgba(var(--p-rgb), 0.6);
-  box-shadow: var(--shadow-card-lift);
+@media (hover: hover) {
+  .card:hover {
+    text-decoration: none;
+    border-color: rgba(var(--p-rgb), 0.6);
+    box-shadow: var(--shadow-card-lift);
+  }
 }
 .card:focus-visible {
   outline-color: var(--p);
@@ -189,8 +191,10 @@
   font-size: 15.5px;
   color: var(--text);
 }
-.finderDone:hover {
-  background: var(--surface-3);
+@media (hover: hover) {
+  .finderDone:hover {
+    background: var(--surface-3);
+  }
 }
 .finderQText {
   display: block;
@@ -225,8 +229,10 @@
   font-size: 14px;
   color: var(--text-3);
 }
-.finderOption:hover {
-  border-color: var(--accent);
+@media (hover: hover) {
+  .finderOption:hover {
+    border-color: var(--accent);
+  }
 }
 .finderResult {
   /* the button inside takes the chosen platform's colour, not the page's */
@@ -452,8 +458,10 @@
   font-size: 14.5px;
   text-decoration: none;
 }
-.compareHead a:hover {
-  color: var(--p);
+@media (hover: hover) {
+  .compareHead a:hover {
+    color: var(--p);
+  }
 }
 .compareDot {
   width: 24px;
@@ -505,6 +513,11 @@
 .pairChipOn svg {
   color: #fff;
 }
+/* The dark theme's platform colours are bright: white on them falls under 4.5:1, navy holds. */
+:global(:root[data-theme='dark']) .pairChipOn,
+:global(:root[data-theme='dark']) .pairChipOn svg {
+  color: var(--navy);
+}
 .pairTable {
   margin-top: 12px;
   min-width: 0;
@@ -550,6 +563,12 @@
   display: flex;
   flex-wrap: wrap;
   gap: 12px;
+}
+/* On a phone both buttons take the full width: same size, the arrow stays by its label. */
+@media (max-width: 420px) {
+  .heroActions > * {
+    width: 100%;
+  }
 }
 .sectionTitle:focus {
   outline: none;
@@ -627,3 +646,8 @@
   color: var(--text);
 }
 
+
+/* A press reads as a press on touch screens too, where there is no hover. */
+.card:active {
+  transform: scale(0.99);
+}

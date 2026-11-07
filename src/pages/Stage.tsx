@@ -20,7 +20,7 @@ import { DEADLINE_RULES } from '@/content/deadlines'
 import { evaluate, foreignThreshold, foreignCertMeets, experienceRequirement, meetsExperience } from '@/domain/applicability'
 import { isDocAuto } from '@/domain/documents'
 import { useAppStore } from '@/store/useAppStore'
-import { useI18n, pick, formatMonths, formatYears } from '@/i18n'
+import { useI18n, pick, formatMonths, formatYears, formatDate } from '@/i18n'
 import { usePageChrome } from '@/i18n/usePageChrome'
 import { Button, ButtonLink, Callout, Card, ConfirmDialog, FallbackBadge, Pill, SourceLink } from '@/components/ui'
 import { announce } from '@/components/announce'
@@ -68,7 +68,8 @@ function FaqRow({ item }: { item: FaqItem }) {
         <div className={s.faqAnswer}>
           {a.text}
           <div className={s.faqTags}>
-            <Pill tone={item.status === 'official' || item.status === 'confirmed' ? 'success' : 'warn'}>{statusLabel}</Pill>
+            {/* Only an answer from a published act is green; chat answers stay neutral. */}
+            <Pill tone={item.status === 'official' ? 'success' : item.status === 'confirmed' ? 'default' : 'warn'}>{statusLabel}</Pill>
             <SourceLink id={item.source} />
           </div>
         </div>
@@ -246,7 +247,7 @@ function Excerpts({ stage }: { stage: StageId }) {
             <div key={e.id} className={s.quoteItem}>
               <button className={s.quoteBtn} onClick={() => setOpenId(open ? null : e.id)} aria-expanded={open}>
                 <span className={s.quoteClause}>
-                  {getSource(e.source).org} · {e.clause}
+                  {getSource(e.source).org} · <span lang="ru">{e.clause}</span>
                 </span>
                 <span className={s.quoteToggle}>
                   {open ? t('stage.hideQuote') : t('stage.showQuote')}
@@ -302,7 +303,7 @@ function StageVideos({ stage }: { stage: StageId }) {
 
 /** Anchor dates the user enters, and the official terms counted from them. */
 function DeadlinePanel({ stage }: { stage: StageId }) {
-  const { t, c } = useI18n()
+  const { t, c, locale } = useI18n()
   const profile = useAppStore((st) => st.profile)!
   const dates = useAppStore((st) => st.dates)
   const setDate = useAppStore((st) => st.setDate)
@@ -341,7 +342,7 @@ function DeadlinePanel({ stage }: { stage: StageId }) {
             <span className={s.dueText}>{c(d.rule.label)}</span>
             <span className={s.dueMeta}>
               <Pill tone={d.status === 'overdue' ? 'warn' : d.status === 'soon' ? 'accent' : 'success'}>
-                {t('deadlines.due')}: {d.due} ·{' '}
+                {t('deadlines.due')}: {formatDate(d.due, locale)} ·{' '}
                 {d.daysLeft < 0 ? t('deadlines.overdue', { n: Math.abs(d.daysLeft) }) : d.daysLeft === 0 ? t('deadlines.today') : t('deadlines.daysLeft', { n: d.daysLeft })}
               </Pill>
               {d.rule.recurring && <span className={s.tag}>{t('deadlines.every6')}</span>}
@@ -472,7 +473,7 @@ export function StagePage() {
   const { id } = useParams<{ id: StageId }>()
   const navigate = useNavigate()
   const paths = useMyPaths() ?? platformPaths('master')
-  const { t, c, cf } = useI18n()
+  const { t, c, cf, locale } = useI18n()
 
   const profile = useAppStore((st) => st.profile)
   const checked = useAppStore((st) => st.checked)
@@ -484,6 +485,7 @@ export function StagePage() {
   const toggleDocument = useAppStore((st) => st.toggleDocument)
   const setNote = useAppStore((st) => st.setNote)
   const [confirmClose, setConfirmClose] = useState(false)
+  const [justTicked, setJustTicked] = useState<string | null>(null)
 
   useEffect(() => {
     if (!profile) navigate('/', { replace: true })
@@ -528,6 +530,7 @@ export function StagePage() {
 
   const tick = (itemId: string, wasDone: boolean, required: boolean) => {
     toggleCheck(stage.id, itemId)
+    setJustTicked(wasDone ? null : itemId)
     const done = sp.requiredDone + (required ? (wasDone ? -1 : 1) : 0)
     announce(t(wasDone ? 'stage.untickedStatus' : 'stage.tickedStatus', { done, total: sp.requiredTotal }))
   }
@@ -607,10 +610,9 @@ export function StagePage() {
               <span>
                 {t('stage.lockedChecklist', { chapter: c(lockedChapter.title) })}
                 {unlocker && (
-                  <>
-                    {' '}
-                    <Link to={paths.stage(unlocker.stage.id)}>{t('stage.lockedGoTo', { stage: c(unlocker.stage.title) })}</Link>
-                  </>
+                  <Link className={s.lockedLink} to={paths.stage(unlocker.stage.id)}>
+                    {t('stage.lockedGoTo', { stage: c(unlocker.stage.title) })}
+                  </Link>
                 )}
               </span>
             </p>
@@ -630,7 +632,7 @@ export function StagePage() {
                   aria-describedby={locked && lockedChapter ? 'locked-note' : undefined}
                   onClick={() => !auto && !locked && tick(item.id, done, item.required !== false)}
                 />
-                <span className={[s.box, done ? (auto ? s.boxAuto : s.boxDone) : '', locked && !done ? s.boxLocked : ''].join(' ')} aria-hidden="true">
+                <span className={[s.box, done ? (auto ? s.boxAuto : s.boxDone) : '', done && justTicked === item.id ? s.boxJust : '', locked && !done ? s.boxLocked : ''].join(' ')} aria-hidden="true">
                   {locked && !done ? <Lock size={12} /> : <Check size={15} strokeWidth={3} />}
                 </span>
                 <span>
@@ -906,7 +908,7 @@ export function StagePage() {
           <p className={s.body} style={{ fontSize: 13, display: 'flex', gap: 8 }}>
             <CircleAlert size={16} style={{ flex: 'none', marginTop: 2 }} aria-hidden="true" />
             <span>
-              {t('common.verifiedOn')}: {CONTENT_META.lastVerified}. {c(CONTENT_META.disclaimer)}
+              {t('common.verifiedOn')}: {formatDate(CONTENT_META.lastVerified, locale)}. {c(CONTENT_META.disclaimer)}
             </span>
           </p>
         </div>

@@ -18,8 +18,10 @@
   cursor: pointer;
   transition: border-color 0.18s var(--ease-out), box-shadow 0.18s var(--ease-out);
 }
-.switcherBtn:hover {
-  border-color: var(--line-strong);
+@media (hover: hover) {
+  .switcherBtn:hover {
+    border-color: var(--line-strong);
+  }
 }
 .switcherBtnActive {
   border-color: rgba(var(--accent-rgb), 0.45);
@@ -93,10 +95,15 @@
   color: var(--text);
   text-decoration: none;
 }
-.switcherItem:hover,
 .switcherItem:focus-visible {
   background: rgba(var(--p-rgb), 0.1);
   text-decoration: none;
+}
+@media (hover: hover) {
+  .switcherItem:hover {
+    background: rgba(var(--p-rgb), 0.1);
+    text-decoration: none;
+  }
 }
 .switcherItem > svg {
   color: var(--p);
@@ -127,9 +134,11 @@
   text-align: center;
   text-decoration: none;
 }
-.switcherAll:hover {
-  color: var(--text);
-  text-decoration: none;
+@media (hover: hover) {
+  .switcherAll:hover {
+    color: var(--text);
+    text-decoration: none;
+  }
 }
 
 /* On a phone the chip shows only the colour badge and a short name; the brand gives way. */
@@ -319,9 +328,11 @@
 .fitGo svg:first-child {
   color: var(--p);
 }
-.fitGo:hover {
-  text-decoration: none;
-  background: rgba(var(--p-rgb), 0.1);
+@media (hover: hover) {
+  .fitGo:hover {
+    text-decoration: none;
+    background: rgba(var(--p-rgb), 0.1);
+  }
 }
 .fitSources {
   grid-column: 1 / -1;
@@ -678,9 +689,11 @@
   color: var(--text);
   text-decoration: none;
 }
-.stepLink:hover {
-  text-decoration: none;
-  box-shadow: 0 0 0 1.5px var(--accent);
+@media (hover: hover) {
+  .stepLink:hover {
+    text-decoration: none;
+    box-shadow: 0 0 0 1.5px var(--accent);
+  }
 }
 .stepIcon {
   flex: none;
@@ -962,11 +975,15 @@
   cursor: pointer;
   color: var(--text);
 }
-.moreHead:hover {
-  background: var(--surface-2);
+@media (hover: hover) {
+  .moreHead:hover {
+    background: var(--surface-2);
+  }
 }
-.moreHead:hover .moreText b {
-  color: var(--accent-ink);
+@media (hover: hover) {
+  .moreHead:hover .moreText b {
+    color: var(--accent-ink);
+  }
 }
 .moreText b {
   transition: color 0.15s var(--ease-out);

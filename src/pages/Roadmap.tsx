@@ -15,7 +15,7 @@ import { computeDeadlines, nearestDeadline } from '@/domain/deadlines'
 import { documentsFor } from '@/domain/documents'
 import { staleness } from '@/domain/freshness'
 import { useAppStore } from '@/store/useAppStore'
-import { useI18n, formatRange } from '@/i18n'
+import { useI18n, formatRange, formatDate } from '@/i18n'
 import { usePageChrome } from '@/i18n/usePageChrome'
 import { ButtonLink, Callout, Card, Pill, ProgressRing } from '@/components/ui'
 import { StageIcon } from '@/components/StageIcon'
@@ -319,7 +319,7 @@ export function Roadmap() {
           {t('common.year')}: {CONTENT_META.competitionYear}
         </Pill>{' '}
         <Pill>
-          {t('common.verifiedOn')}: {new Date(CONTENT_META.lastVerified).toLocaleDateString(locale === 'en' ? 'en-GB' : locale === 'kk' ? 'kk-KZ' : 'ru-RU')}
+          {t('common.verifiedOn')}: {formatDate(CONTENT_META.lastVerified, locale)}
         </Pill>
         <p className={s.introSub} style={{ marginTop: 12 }}>
           {c(CONTENT_META.disclaimer)}
