@@ -40,62 +40,39 @@ const startAt = (platform: string) =>
   )
 
 describe('onboarding flow', () => {
-  it('walks the questions of its own platform and stores a usable profile', () => {
+  it('asks only for the direction and stores a usable profile', () => {
     startAt('master')
-    fireEvent.click(screen.getByRole('button', { name: /Начать/i }))
-
-    // The platform already fixed the track: no programme choice, only the category.
-    expect(screen.queryByRole('button', { name: /Научная стажировка/ })).toBeNull()
+    // no welcome screen, no language, experience or invitation questions
+    expect(screen.queryByRole('button', { name: /Начать/i })).toBeNull()
+    expect(screen.queryByText(/Вопрос \d из/)).toBeNull()
+    expect(screen.queryByRole('button', { name: /Сертификата нет/ })).toBeNull()
     fireEvent.click(screen.getByRole('button', { name: /^Медицинский работник$/ }))
-    fireEvent.click(screen.getByRole('button', { name: /^Далее/ }))
-
-    fireEvent.click(screen.getByRole('button', { name: /Пока нет/ }))
-    fireEvent.click(screen.getByRole('button', { name: /^Далее/ }))
-
-    // Two groups on this screen: the foreign certificate first, the Kazakh one second.
-    fireEvent.click(screen.getAllByRole('button', { name: /Сертификата нет/ })[0])
-    fireEvent.click(screen.getAllByRole('button', { name: /Есть действующий сертификат/ })[1])
-    fireEvent.click(screen.getByRole('button', { name: /^Далее/ }))
-
-    fireEvent.click(screen.getByRole('button', { name: /Есть стаж/ }))
     fireEvent.click(screen.getByRole('button', { name: /Собрать мой план/ }))
 
     const stored = useAppStore.getState().profile
-    expect(stored).not.toBeNull()
-    expect(stored!.track).toBe('master')
-    expect(stored!.category).toBe('master_medical')
-    expect(stored!.kazakhCert).toBe(true)
+    expect(stored).toMatchObject({ track: 'master', category: 'master_medical', invitation: 'none', foreignCert: null, kazakhCert: false, experience: null })
     expect(screen.getByText('roadmap')).toBeInTheDocument()
   })
 
-  it('asks the bachelor three questions, not four', () => {
+  it('opens the plan straight away when the programme has one direction', () => {
     startAt('bachelor')
-    fireEvent.click(screen.getByRole('button', { name: /Начать/i }))
-    expect(screen.getByText(/Вопрос 1 из 3/)).toBeInTheDocument()
+    expect(useAppStore.getState().profile).toMatchObject({ track: 'bachelor', category: 'bachelor' })
+    expect(screen.getByText('roadmap')).toBeInTheDocument()
   })
 
-  it('lets the user step back without losing the earlier answer', () => {
-    startAt('master')
-    fireEvent.click(screen.getByRole('button', { name: /Начать/i }))
-    fireEvent.click(screen.getByRole('button', { name: /^Госслужащий|^Государственный служащий$/ }))
-    fireEvent.click(screen.getByRole('button', { name: /^Далее/ }))
-    fireEvent.click(screen.getByRole('button', { name: /Назад/ }))
-    expect(screen.getByRole('button', { name: /^Государственный служащий$/ })).toHaveAttribute('aria-pressed', 'true')
+  it('asks an intern for the worker group before building the plan', () => {
+    startAt('internship')
+    const build = screen.getByRole('button', { name: /Собрать мой план/ })
+    expect(build).toBeDisabled()
+    fireEvent.click(screen.getAllByRole('button', { pressed: false })[0])
+    expect(screen.getByRole('button', { name: /Собрать мой план/ })).toBeEnabled()
   })
 
-  it('warns before replacing a roadmap from another programme', () => {
-    useAppStore.setState({ profile: medic, onboardedAt: new Date().toISOString() })
+  it('keeps the other programme when switching to a one-direction programme', () => {
+    useAppStore.setState({ profile: medic, onboardedAt: new Date().toISOString(), checked: ['eligibility:citizen'] })
     startAt('science')
-    expect(screen.getByText(/вернутся, если переключитесь обратно/)).toBeInTheDocument()
-  })
-
-  it('asks about work experience only when the category sets a requirement', () => {
-    startAt('master')
-    fireEvent.click(screen.getByRole('button', { name: /Начать/i }))
-    fireEvent.click(screen.getByRole('button', { name: /^Самостоятельно поступаю/ }))
-    expect(screen.getByText(/Вопрос 1 из 3/)).toBeInTheDocument()
-    fireEvent.click(screen.getByRole('button', { name: /^Медицинский работник$/ }))
-    expect(screen.getByText(/Вопрос 1 из 4/)).toBeInTheDocument()
+    expect(useAppStore.getState().profile?.track).toBe('science_internship')
+    expect(useAppStore.getState().archive.master?.checked).toEqual(['eligibility:citizen'])
   })
 })
 

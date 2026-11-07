@@ -1,3 +1,4 @@
+import { NEUTRAL_ANSWERS } from '@/domain/profile'
 import type { DateKey, ExamId, Invitation, Profile, StageId, Track, WorkerGroup } from '@/content/types'
 import { CONTENT_META } from '@/content/meta'
 import { CATEGORIES } from '@/content/categories'
@@ -62,15 +63,10 @@ export function validProfile(value: unknown): Profile | null {
     experience = { years: ex.years, continuousMonths: ex.continuousMonths }
   }
 
-  return {
-    track: p.track as Track,
-    category: p.category as Profile['category'],
-    workerGroup,
-    invitation: p.invitation as Invitation,
-    foreignCert,
-    kazakhCert: p.kazakhCert,
-    experience,
-  }
+  // the checks above keep rejecting malformed data; the answers themselves are not kept any more (see NEUTRAL_ANSWERS)
+  void foreignCert
+  void experience
+  return { track: p.track as Track, category: p.category as Profile['category'], workerGroup, ...NEUTRAL_ANSWERS }
 }
 
 const keepKnown = (value: unknown, known: Set<string>): string[] =>

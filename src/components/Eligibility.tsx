@@ -15,7 +15,8 @@ export function EligibilityBanner() {
   const profile = useAppStore((st) => st.profile)
   if (!profile) return null
   const req = experienceRequirement(profile)
-  if (!req || meetsExperience(profile)) return null
+  // experience is not asked any more, so there is nothing to warn about; the requirement itself is on the category stage
+  if (!req || !profile.experience || meetsExperience(profile)) return null
 
   const category = CATEGORIES[profile.category]
   const need: string[] = []

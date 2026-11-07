@@ -402,13 +402,19 @@ function CategoryRequirements() {
     <Card>
       <div className={s.section}>
         <span className={s.sectionTitle}>{t('stage.categoryRequirements')}</span>
-        {req && (
+        {/* experience is not asked any more: the requirement is shown as it is, without a verdict */}
+        {req && !profile.experience && (
+          <div className={s.scoreRow}>
+            <Pill tone="accent">
+              {t('stage.expRequired')}: {parts.join(' · ')}
+            </Pill>
+          </div>
+        )}
+        {req && profile.experience && (
           <div className={s.scoreRow}>
             <Pill tone="accent">
               {t('stage.yourExperience')}:{' '}
-              {profile.experience
-                ? `${formatYears(profile.experience.years, locale)} ${t('stage.yearsTotal')} · ${formatMonths(profile.experience.continuousMonths, locale)} ${t('stage.monthsContinuous')}`
-                : t('stage.expNone')}
+              {`${formatYears(profile.experience.years, locale)} ${t('stage.yearsTotal')} · ${formatMonths(profile.experience.continuousMonths, locale)} ${t('stage.monthsContinuous')}`}
             </Pill>
             <Pill tone={ok ? 'success' : 'warn'}>
               {ok ? t('stage.expMeets') : t('stage.expBelow')}: {t('stage.expRequired')} {parts.join(' · ')}

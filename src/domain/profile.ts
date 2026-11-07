@@ -61,18 +61,15 @@ export function isStepComplete(draft: OnboardingDraft, step: number): boolean {
   }
 }
 
+/**
+ * The app asks only for the direction (category, and the worker group for an internship).
+ * Invitation, certificates and experience are no longer asked: they stay at their neutral
+ * defaults, so no step closes by itself and the roadmap shows the full path.
+ */
+export const NEUTRAL_ANSWERS = { invitation: 'none', foreignCert: null, kazakhCert: false, experience: null } as const
+
 export function toProfile(draft: OnboardingDraft): Profile {
   const track = draft.track ?? 'master'
   const category = draft.category ?? defaultCategoryFor(track)
-  return {
-    track,
-    category,
-    workerGroup: draft.workerGroup,
-    invitation: draft.invitation ?? 'none',
-    foreignCert: draft.hasForeignCert && Number(draft.score) > 0 ? { exam: draft.exam, score: Number(draft.score) } : null,
-    kazakhCert: draft.kazakhCert ?? false,
-    experience: draft.hasExperience
-      ? { years: Number(draft.years) || 0, continuousMonths: Number(draft.continuousMonths) || 0 }
-      : null,
-  }
+  return { track, category, workerGroup: draft.workerGroup, ...NEUTRAL_ANSWERS }
 }

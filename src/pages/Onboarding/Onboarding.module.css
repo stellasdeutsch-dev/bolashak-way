@@ -185,9 +185,19 @@
 .footer {
   margin-top: auto;
   display: flex;
+  flex-wrap: wrap;
   gap: 10px;
   align-items: center;
   padding-top: 18px;
+}
+.footer > * {
+  white-space: nowrap;
+}
+/* one question now: on a phone the buttons follow it instead of sinking under the bottom bar */
+@media (max-width: 640px) {
+  .wrap {
+    min-height: 0;
+  }
 }
 .grow {
   flex: 1;

@@ -17,7 +17,7 @@ import { DEADLINE_RULES } from '@/content/deadlines'
 import { KAZAKH_REQUIREMENT, LANGUAGE_NOTES } from '@/content/language'
 import { documentsFor } from '@/domain/documents'
 import { buildSnapshot, parseSnapshot } from '@/domain/exportImport'
-import { toProfile, emptyDraft, isStepComplete, draftFromProfile } from '@/domain/profile'
+import { toProfile, emptyDraft, isStepComplete } from '@/domain/profile'
 
 const profile = (over: Partial<Profile> = {}): Profile => ({
   track: 'master',
@@ -210,7 +210,7 @@ describe('progress', () => {
 })
 
 describe('onboarding draft', () => {
-  it('validates each step and round-trips through a profile', () => {
+  it('validates the direction and keeps only the direction in the profile', () => {
     const draft = emptyDraft()
     expect(isStepComplete(draft, 0)).toBe(false)
     draft.track = 'internship'
@@ -219,20 +219,15 @@ describe('onboarding draft', () => {
     draft.workerGroup = 'medical'
     expect(isStepComplete(draft, 0)).toBe(true)
 
+    // answers the app no longer asks never reach the profile
     draft.invitation = 'unconditional'
     draft.kazakhCert = true
     draft.hasForeignCert = true
-    draft.exam = 'ielts'
-    draft.score = '5.5'
+    draft.score = '75'
     draft.hasExperience = true
     draft.years = '4'
-    draft.continuousMonths = '14'
-    expect([1, 2, 3].every((s) => isStepComplete(draft, s))).toBe(true)
-
     const p = toProfile(draft)
-    expect(p.foreignCert).toEqual({ exam: 'ielts', score: 5.5 })
-    expect(p.experience).toEqual({ years: 4, continuousMonths: 14 })
-    expect(draftFromProfile(p).score).toBe('5.5')
+    expect(p).toEqual({ track: 'internship', category: 'internship', workerGroup: 'medical', invitation: 'none', foreignCert: null, kazakhCert: false, experience: null })
   })
 
   it('treats a missing score as "no certificate"', () => {

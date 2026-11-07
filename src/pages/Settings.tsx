@@ -2,7 +2,7 @@ import { useMemo, useRef, useState } from 'react'
 import { pathsForTrack } from '@/domain/paths'
 import { useNavigate } from 'react-router'
 import { IconDownload as Download, IconMail as Mail, IconPhone as Phone, IconReset as RotateCcw, IconTrash as Trash2, IconUpload as Upload, IconUserCog as UserCog } from '@/components/icons'
-import { CATEGORIES, WORKER_GROUPS } from '@/content/categories'
+import { CATEGORIES, CATEGORIES_BY_TRACK, WORKER_GROUPS } from '@/content/categories'
 import { CONTENT_META } from '@/content/meta'
 import { SOURCES } from '@/content/sources'
 import { buildSnapshot, downloadSnapshot, parseSnapshot, type Snapshot } from '@/domain/exportImport'
@@ -119,40 +119,14 @@ export function Settings() {
                   <span className={s.profileVal}>{c(workerGroup.title)}</span>
                 </div>
               )}
-              <div className={s.profileRow}>
-                <span className={s.profileKey}>{t('onboarding.q2')}</span>
-                <span className={s.profileVal}>
-                  {state.profile.invitation === 'unconditional'
-                    ? t('onboarding.inv_yes')
-                    : state.profile.invitation === 'applied'
-                      ? t('onboarding.inv_applied')
-                      : t('onboarding.inv_none')}
-                </span>
-              </div>
-              <div className={s.profileRow}>
-                <span className={s.profileKey}>{t('onboarding.q3foreign')}</span>
-                <span className={s.profileVal}>
-                  {state.profile.foreignCert ? `${t(`exams.${state.profile.foreignCert.exam}`)} · ${state.profile.foreignCert.score}` : t('onboarding.noCert')}
-                </span>
-              </div>
-              <div className={s.profileRow}>
-                <span className={s.profileKey}>{t('onboarding.q3kazakh')}</span>
-                <span className={s.profileVal}>{state.profile.kazakhCert ? t('common.yes') : t('common.no')}</span>
-              </div>
-              <div className={s.profileRow}>
-                <span className={s.profileKey}>{t('onboarding.q4')}</span>
-                <span className={s.profileVal}>
-                  {state.profile.experience
-                    ? `${state.profile.experience.years} / ${state.profile.experience.continuousMonths} ${t('common.months')}`
-                    : t('onboarding.noExp')}
-                </span>
-              </div>
             </div>
             <div className={s.row}>
-              <Button variant="ghost" onClick={() => navigate(`${pathsForTrack(state.profile!.track).start}?edit=1`)}>
-                <UserCog size={16} aria-hidden="true" />
-                {t('settings.editProfile')}
-              </Button>
+              {(CATEGORIES_BY_TRACK[state.profile.track].length > 1 || state.profile.track === 'internship') && (
+                <Button variant="ghost" onClick={() => navigate(`${pathsForTrack(state.profile!.track).start}?edit=1`)}>
+                  <UserCog size={16} aria-hidden="true" />
+                  {t('settings.editProfile')}
+                </Button>
+              )}
               <Button variant="quiet" onClick={() => navigate('/')}>
                 {t('settings.changeProgramme')}
               </Button>

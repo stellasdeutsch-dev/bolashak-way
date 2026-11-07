@@ -1,27 +1,20 @@
-import { useEffect, useMemo, useRef, useState, type ReactNode } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useNavigate, useParams, useSearchParams } from 'react-router'
-import {
-  IconArrowLeft as ArrowLeft, IconArrowRight as ArrowRight,
-  IconMailCheck as MailCheck, IconMailQuestion as MailQuestion, IconMailX as MailX, IconLanguages as Languages,
-  IconBadgeCheck as BadgeCheck, IconBan as Ban, IconClock as Clock,
-  IconFingerprint as Fingerprint,
-} from '@/components/icons'
+import { IconArrowLeft as ArrowLeft, IconArrowRight as ArrowRight } from '@/components/icons'
 import { CATEGORIES, CATEGORIES_BY_TRACK, WORKER_GROUPS } from '@/content/categories'
 import { getPlatform, platformForTrack } from '@/content/platforms'
-import type { PlatformSlug } from '@/content/types'
+import type { PlatformSlug, Track } from '@/content/types'
 import { platformPaths } from '@/domain/paths'
 import { StageIcon } from '@/components/StageIcon'
-import { CONTENT_META } from '@/content/meta'
-import type { CategoryId, ExamId, Invitation, Track } from '@/content/types'
 import { defaultCategoryFor, draftFromProfile, emptyDraft, isStepComplete, toProfile, type OnboardingDraft } from '@/domain/profile'
 import { useAppStore } from '@/store/useAppStore'
 import { useI18n } from '@/i18n'
 import { usePageChrome } from '@/i18n/usePageChrome'
-import { Button, Card, Pill } from '@/components/ui'
+import { Button, Pill } from '@/components/ui'
 import s from './Onboarding.module.css'
 
 
-/** The first question in each platform's own terms. */
+/** The question in each platform's own terms. */
 const Q1: Record<Track, string> = {
   bachelor: 'onboarding.q1single',
   master: 'onboarding.q1_master',
@@ -30,44 +23,11 @@ const Q1: Record<Track, string> = {
   science_internship: 'onboarding.q1single',
 }
 
-const INVITATIONS: { id: Invitation; Icon: typeof MailCheck; title: string; desc: string }[] = [
-  { id: 'none', Icon: MailX, title: 'onboarding.inv_none', desc: 'onboarding.inv_none_d' },
-  { id: 'applied', Icon: MailQuestion, title: 'onboarding.inv_applied', desc: 'onboarding.inv_applied_d' },
-  { id: 'unconditional', Icon: MailCheck, title: 'onboarding.inv_yes', desc: 'onboarding.inv_yes_d' },
-]
-
-const EXAMS: ExamId[] = ['ielts', 'toefl_ibt', 'toefl_pbt', 'det', 'other']
-
-
-function Option({
-  active,
-  icon,
-  title,
-  desc,
-  onClick,
-}: {
-  active: boolean
-  icon: ReactNode
-  title: string
-  desc?: string
-  onClick: () => void
-}) {
-  return (
-    <button
-      className={[s.option, active ? s.optionActive : ''].join(' ')}
-      onClick={onClick}
-      aria-pressed={active}
-      aria-label={desc ? `${title}. ${desc}` : title}
-    >
-      <span className={s.optionIcon}>{icon}</span>
-      <span className={s.optionBody}>
-        <span className={s.optionTitle}>{title}</span>
-        {desc && <span className={s.optionDesc}>{desc}</span>}
-      </span>
-    </button>
-  )
-}
-
+/**
+ * The only question left: which Bolashak direction (category, and the worker group for an internship).
+ * Language, experience and invitation are not asked. A programme with a single direction has nothing
+ * to choose, so its plan opens straight away.
+ */
 export function Onboarding() {
   const { t, c } = useI18n()
   const navigate = useNavigate()
@@ -79,7 +39,6 @@ export function Onboarding() {
   usePageChrome(`${c(platform.name)} · ${t('onboarding.welcomeKicker')}`)
   const profile = useAppStore((st) => st.profile)
   const setProfile = useAppStore((st) => st.setProfile)
-  // Editing answers only makes sense for the roadmap you already have on this platform.
   const sameTrack = profile?.track === track
   const editing = params.get('edit') === '1' && sameTrack
   const replacing = profile !== null && !sameTrack
@@ -87,291 +46,97 @@ export function Onboarding() {
   const [draft, setDraft] = useState<OnboardingDraft>(() =>
     profile && sameTrack ? draftFromProfile(profile) : { ...emptyDraft(), track, category: defaultCategoryFor(track) },
   )
-  const [step, setStep] = useState(editing ? 0 : -1)
-
-  // The work-experience question is asked only where the chosen category sets a requirement:
-  // for a self-enrolled master's or a bachelor's it would be noise.
-  const needsExperience = Boolean(CATEGORIES[draft.category as CategoryId]?.experience)
-  const STEPS = needsExperience ? 4 : 3
-  const LAST_STEP = STEPS - 1
-  const maxSteps = CATEGORIES_BY_TRACK[track].some((id) => CATEGORIES[id].experience) ? 4 : 3
+  const categoryOptions = CATEGORIES_BY_TRACK[track]
+  const hasChoice = categoryOptions.length > 1 || track === 'internship'
   const questionRef = useRef<HTMLHeadingElement>(null)
-  // Each new question takes focus, so keyboard and screen-reader users hear it straight away.
-  useEffect(() => {
-    if (step >= 0) questionRef.current?.focus({ preventScroll: false })
-  }, [step])
 
   const update = (patch: Partial<OnboardingDraft>) => setDraft((d) => ({ ...d, ...patch }))
-
-  const categoryOptions = useMemo(() => (draft.track ? CATEGORIES_BY_TRACK[draft.track] : []), [draft.track])
-  const canNext = step >= 0 && isStepComplete(draft, step)
-
-  const finish = () => {
-    const done = needsExperience ? draft : { ...draft, hasExperience: false }
-    setProfile(toProfile(done))
+  const finish = (d: OnboardingDraft = draft) => {
+    setProfile(toProfile(d))
     navigate(paths.roadmap, { replace: true })
   }
 
-  // Guard the bounds: a double-click must not push the wizard past the last question.
-  const next = () => {
-    if (step >= LAST_STEP) return finish()
-    setStep((v) => Math.min(LAST_STEP, v + 1))
-  }
-  const back = () => {
-    if (step === 0) navigate(editing ? paths.roadmap : paths.home)
-    else setStep((v) => Math.max(0, v - 1))
-  }
-  const host = track === 'internship' || track === 'science_internship'
-  const mine = profile ? platformForTrack(profile.track) : null
+  // nothing to choose: build the plan and open it
+  useEffect(() => {
+    if (hasChoice) questionRef.current?.focus({ preventScroll: true })
+    else if (editing) navigate(paths.roadmap, { replace: true })
+    else finish({ ...emptyDraft(), track, category: categoryOptions[0] })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+  if (!hasChoice) return null
 
-  if (step === -1) {
-    return (
-      <div className={s.wrap}>
-        <Card dark className={s.welcome}>
-          <h1 className={`display ${s.welcomeTitle}`}>
-            {c(platform.name)}
-            <b>{t('onboarding.welcomeTitle')}</b>
-          </h1>
-          <p className={s.welcomeText}>{t('onboarding.welcomeText', { n: maxSteps })}</p>
-          {replacing && mine && (
-            <p className={s.replaceNote}>{t('onboarding.replaceNote', { mine: c(mine.name), name: c(platform.name) })}</p>
-          )}
-          <div className={s.welcomeStats}>
-            <Pill tone="dark">
-              {t('common.year')}: {CONTENT_META.competitionYear}
-            </Pill>
-            <Pill tone="dark">
-              {t('common.verifiedOn')}: {CONTENT_META.lastVerified}
-            </Pill>
-          </div>
-          <div>
-            <Button size="lg" onClick={() => setStep(0)}>
-              <Fingerprint size={17} aria-hidden="true" />
-              {t('onboarding.start')}
-            </Button>
-          </div>
-        </Card>
-      </div>
-    )
-  }
+  const mine = profile ? platformForTrack(profile.track) : null
 
   return (
     <div className={s.wrap}>
-      <div className={s.dots} aria-hidden="true">
-        {Array.from({ length: STEPS }, (_, i) => i).map((i) => (
-          <span key={i} className={[s.dot, i < step ? s.dotDone : '', i === step ? s.dotActive : ''].join(' ')}>
-            <span className={s.dotFill} />
-          </span>
-        ))}
-      </div>
-
       <div className={s.head}>
-        <span className={s.step}>{t('onboarding.stepOf', { n: step + 1, total: STEPS })}</span>
-        <h1 className={s.question} ref={questionRef} tabIndex={-1}>
-          {step === 0 && t(Q1[track])}
-          {step === 1 && t(host ? 'onboarding.q2_host' : 'onboarding.q2')}
-          {step === 2 && t('onboarding.q3')}
-          {step === 3 && t('onboarding.q4')}
-        </h1>
-        <p className={s.hint}>
-          {step === 0 && t('onboarding.q1hint')}
-          {step === 1 && t(host ? 'onboarding.q2hint_host' : 'onboarding.q2hint')}
-          {step === 2 && t('onboarding.otherExamHint')}
-          {step === 3 && t('onboarding.q4hint')}
-        </p>
-        {editing && step === 0 && <Pill tone="warn">{t('onboarding.editNote')}</Pill>}
+        <h1 className={s.question} ref={questionRef} tabIndex={-1}>{t(Q1[track])}</h1>
+        <p className={s.hint}>{t('onboarding.q1hint')}</p>
+        {replacing && mine && (
+          <p className={s.hint}>{t('onboarding.replaceNote', { mine: c(mine.name), name: c(platform.name) })}</p>
+        )}
+        {editing && <Pill tone="warn">{t('onboarding.editNote')}</Pill>}
       </div>
 
-      {step === 0 && (
-        <div>
-          {categoryOptions.length === 1 && (
-            <div className={s.single}>
-              <span className={s.singleIcon}>
-                <StageIcon name={platform.icon} size={20} />
-              </span>
-              <span>
-                <b>{c(CATEGORIES[categoryOptions[0]].title)}</b>
-                <span>{c(CATEGORIES[categoryOptions[0]].desc)}</span>
-              </span>
-            </div>
-          )}
-          {categoryOptions.length > 1 && (
-            <>
-              <div className={s.chips}>
-                {categoryOptions.map((id) => (
-                  <button
-                    key={id}
-                    className={[s.chip, draft.category === id ? s.chipActive : ''].join(' ')}
-                    onClick={() => update({ category: id })}
-                    aria-pressed={draft.category === id}
-                    title={c(CATEGORIES[id].desc)}
-                  >
-                    {c(CATEGORIES[id].short)}
-                  </button>
-                ))}
-              </div>
-              {draft.category && <p className={s.hint} style={{ marginTop: 10 }}>{c(CATEGORIES[draft.category].desc)}</p>}
-            </>
-          )}
-
-          {draft.track === 'internship' && (
-            <>
-              <div className={s.subhead}>{t('category.workerGroup')}</div>
-              <div className={[s.chips, s.chipsList].join(' ')}>
-                {WORKER_GROUPS.map((g) => (
-                  <button
-                    key={g.id}
-                    className={[s.chip, draft.workerGroup === g.id ? s.chipActive : ''].join(' ')}
-                    onClick={() => update({ workerGroup: g.id })}
-                    aria-pressed={draft.workerGroup === g.id}
-                  >
-                    {c(g.title)}
-                    {g.shortMonths && <span className={s.chipBadge}>{t('onboarding.shortMonths', { n: g.shortMonths })}</span>}
-                  </button>
-                ))}
-              </div>
-            </>
-          )}
-        </div>
-      )}
-
-      {step === 1 && (
-        <div className={s.options}>
-          {INVITATIONS.map(({ id, Icon, title, desc }) => (
-            <Option
-              key={id}
-              active={draft.invitation === id}
-              icon={<Icon size={20} />}
-              title={t(title)}
-              desc={t(host && id === 'none' ? 'onboarding.inv_none_d_host' : host && id === 'applied' ? 'onboarding.inv_applied_d_host' : desc)}
-              onClick={() => update({ invitation: id })}
-            />
-          ))}
-        </div>
-      )}
-
-      {step === 2 && (
-        <div>
-          <div className={s.subhead}>{t('onboarding.q3foreign')}</div>
-          <div className={`${s.options} ${s.options2}`}>
-            <Option
-              active={draft.hasForeignCert === false}
-              icon={<Ban size={20} />}
-              title={t('onboarding.noCert')}
-              onClick={() => update({ hasForeignCert: false, score: '' })}
-            />
-            <Option
-              active={draft.hasForeignCert === true}
-              icon={<Languages size={20} />}
-              title={t('onboarding.hasCert')}
-              onClick={() => update({ hasForeignCert: true })}
-            />
+      <div>
+        {categoryOptions.length === 1 && (
+          <div className={s.single}>
+            <span className={s.singleIcon}>
+              <StageIcon name={platform.icon} size={20} />
+            </span>
+            <span>
+              <b>{c(CATEGORIES[categoryOptions[0]].title)}</b>
+              <span>{c(CATEGORIES[categoryOptions[0]].desc)}</span>
+            </span>
           </div>
-          {draft.hasForeignCert && (
-            <div className={s.field}>
-              <label className={s.inputWrap}>
-                <span className={s.label}>{t('onboarding.exam')}</span>
-                <select className={s.select} value={draft.exam} onChange={(e) => update({ exam: e.target.value as ExamId })}>
-                  {EXAMS.map((e) => (
-                    <option key={e} value={e}>
-                      {t(`exams.${e}`)}
-                    </option>
-                  ))}
-                </select>
-              </label>
-              <label className={s.inputWrap}>
-                <span className={s.label}>{t('onboarding.score')}</span>
-                <input
-                  className={s.input}
-                  type="number"
-                  inputMode="decimal"
-                  step="0.5"
-                  min="0"
-                  value={draft.score}
-                  onChange={(e) => update({ score: e.target.value })}
-                  placeholder="6.5"
-                />
-              </label>
+        )}
+        {categoryOptions.length > 1 && (
+          <>
+            <div className={s.chips}>
+              {categoryOptions.map((id) => (
+                <button
+                  key={id}
+                  className={[s.chip, draft.category === id ? s.chipActive : ''].join(' ')}
+                  onClick={() => update({ category: id })}
+                  aria-pressed={draft.category === id}
+                  title={c(CATEGORIES[id].desc)}
+                >
+                  {c(CATEGORIES[id].short)}
+                </button>
+              ))}
             </div>
-          )}
+            {draft.category && <p className={s.hint} style={{ marginTop: 10 }}>{c(CATEGORIES[draft.category].desc)}</p>}
+          </>
+        )}
 
-          <div className={s.subhead}>{t('onboarding.q3kazakh')}</div>
-          <div className={`${s.options} ${s.options2}`}>
-            <Option
-              active={draft.kazakhCert === false}
-              icon={<Ban size={20} />}
-              title={t('onboarding.noCert')}
-              onClick={() => update({ kazakhCert: false })}
-            />
-            <Option
-              active={draft.kazakhCert === true}
-              icon={<BadgeCheck size={20} />}
-              title={t('onboarding.hasCert')}
-              onClick={() => update({ kazakhCert: true })}
-            />
-          </div>
-        </div>
-      )}
-
-      {step === 3 && (
-        <div>
-          <div className={`${s.options} ${s.options2}`}>
-            <Option
-              active={draft.hasExperience === false}
-              icon={<Ban size={20} />}
-              title={t('onboarding.noExp')}
-              onClick={() => update({ hasExperience: false, years: '', continuousMonths: '' })}
-            />
-            <Option
-              active={draft.hasExperience === true}
-              icon={<Clock size={20} />}
-              title={t('onboarding.hasExp')}
-              onClick={() => update({ hasExperience: true })}
-            />
-          </div>
-          {draft.hasExperience && (
-            <div className={s.field}>
-              <label className={s.inputWrap}>
-                <span className={s.label}>{t('onboarding.years')}</span>
-                <input
-                  className={s.input}
-                  type="number"
-                  inputMode="numeric"
-                  min="0"
-                  max="60"
-                  value={draft.years}
-                  onChange={(e) => update({ years: e.target.value })}
-                  placeholder="3"
-                />
-              </label>
-              <label className={s.inputWrap}>
-                <span className={s.label}>{t('onboarding.continuous')}</span>
-                <input
-                  className={s.input}
-                  type="number"
-                  inputMode="numeric"
-                  min="0"
-                  max="600"
-                  value={draft.continuousMonths}
-                  onChange={(e) => update({ continuousMonths: e.target.value })}
-                  placeholder="12"
-                />
-              </label>
+        {track === 'internship' && (
+          <>
+            <div className={s.subhead}>{t('category.workerGroup')}</div>
+            <div className={[s.chips, s.chipsList].join(' ')}>
+              {WORKER_GROUPS.map((g) => (
+                <button
+                  key={g.id}
+                  className={[s.chip, draft.workerGroup === g.id ? s.chipActive : ''].join(' ')}
+                  onClick={() => update({ workerGroup: g.id })}
+                  aria-pressed={draft.workerGroup === g.id}
+                >
+                  {c(g.title)}
+                  {g.shortMonths && <span className={s.chipBadge}>{t('onboarding.shortMonths', { n: g.shortMonths })}</span>}
+                </button>
+              ))}
             </div>
-          )}
-        </div>
-      )}
+          </>
+        )}
+      </div>
 
       <div className={s.footer}>
-        {(step > 0 || editing || profile) && (
-          <Button variant="quiet" onClick={back}>
-            <ArrowLeft size={16} aria-hidden="true" />
-            {t('common.back')}
-          </Button>
-        )}
+        <Button variant="quiet" onClick={() => navigate(editing ? paths.roadmap : paths.home)}>
+          <ArrowLeft size={16} aria-hidden="true" />
+          {t('common.back')}
+        </Button>
         <span className={s.grow} />
-        <Button size="lg" onClick={next} disabled={!canNext}>
-          {step === LAST_STEP ? (editing ? t('onboarding.save') : t('onboarding.finish')) : t('common.next')}
+        <Button size="lg" onClick={() => finish()} disabled={!isStepComplete(draft, 0)}>
+          {editing ? t('onboarding.save') : t('onboarding.finish')}
           <ArrowRight size={16} aria-hidden="true" />
         </Button>
       </div>
