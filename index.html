@@ -2,28 +2,54 @@
 <html lang="ru">
   <head>
     <meta charset="UTF-8" />
+    <!-- Content-Security-Policy goes here in production builds (vite.config.ts); the dev server needs inline styles and a websocket. -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data: https://i.ytimg.com; font-src 'self'; connect-src 'self'; frame-src https://www.youtube-nocookie.com https://bolashak.gov.kz; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'; upgrade-insecure-requests" />
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <meta name="theme-color" content="#0b1220" media="(prefers-color-scheme: dark)" />
     <meta name="theme-color" content="#f2f4f8" media="(prefers-color-scheme: light)" />
-    <meta name="description" content="Bolashak Way – пошаговый план подачи на международную стипендию «Болашак»: от проверки требований до отработки." />
+    <meta name="description" content="Bolashak Way – пошаговый план подачи на международную стипендию «Болашак»: от проверки требований до отработки. Независимый гид, не сайт Центра международных программ." />
+    <link rel="canonical" href="https://stellasdeutsch-dev.github.io/bolashak-way/" />
+
+    <!-- Link previews in Telegram, WhatsApp and elsewhere. -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Bolashak Way" />
+    <meta property="og:title" content="Bolashak Way – пошаговый план на стипендию «Болашак»" />
+    <meta property="og:description" content="Требования, документы и сроки по шагам для пяти программ. Независимый гид, не сайт Центра международных программ." />
+    <meta property="og:url" content="https://stellasdeutsch-dev.github.io/bolashak-way/" />
+    <meta property="og:image" content="https://stellasdeutsch-dev.github.io/bolashak-way/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Bolashak Way: пошаговый план на стипендию «Болашак»" />
+    <meta property="og:locale" content="ru_RU" />
+    <meta property="og:locale:alternate" content="kk_KZ" />
+    <meta property="og:locale:alternate" content="en_GB" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Bolashak Way – пошаговый план на стипендию «Болашак»" />
+    <meta name="twitter:description" content="Требования, документы и сроки по шагам для пяти программ. Независимый гид, не сайт Центра международных программ." />
+    <meta name="twitter:image" content="https://stellasdeutsch-dev.github.io/bolashak-way/og-image.png" />
+
     <link rel="icon" href="./favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="./icon-192.png" type="image/png" sizes="192x192" />
+    <link rel="apple-touch-icon" href="./apple-touch-icon.png" />
     <link rel="manifest" href="./manifest.webmanifest" />
-    <script>
-      // Resolve the theme before the first paint, so a dark-mode reader never sees a white flash.
-      try {
-        var t = (JSON.parse(localStorage.getItem('bolashak-way') || '{}').state || {}).theme || 'system'
-        if (t === 'system') t = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
-        document.documentElement.setAttribute('data-theme', t)
-      } catch (e) {}
-    </script>
+    <script src="./theme.js"></script>
     <title>Bolashak Way</title>
-    <script type="module" crossorigin src="./assets/index-4tsQaZ7p.js"></script>
-    <link rel="modulepreload" crossorigin href="./assets/vendor-3c8YH8Hr.js">
+    <script type="module" crossorigin src="./assets/index-BNpntPkN.js"></script>
+    <link rel="modulepreload" crossorigin href="./assets/vendor-CYNkN9Eg.js">
     <link rel="modulepreload" crossorigin href="./assets/content-DPj2q1Gg.js">
     <link rel="stylesheet" crossorigin href="./assets/vendor-DScC8bfs.css">
-    <link rel="stylesheet" crossorigin href="./assets/index-D4JkpFa-.css">
+    <link rel="stylesheet" crossorigin href="./assets/index-BHe3GwmX.css">
   </head>
   <body>
     <div id="root"></div>
+    <noscript>
+      <div>
+        <h1>Bolashak Way</h1>
+        <p lang="ru">Для работы приложения нужен JavaScript. Включите его в настройках браузера. Официальная информация о стипендии – на <a href="https://bolashak.gov.kz/">bolashak.gov.kz</a>.</p>
+        <p lang="kk">Қолданбаға JavaScript қажет. Оны браузер баптауларында қосыңыз. Стипендия туралы ресми ақпарат – <a href="https://bolashak.gov.kz/">bolashak.gov.kz</a> сайтында.</p>
+        <p lang="en">This app needs JavaScript. Please turn it on in your browser settings. Official information about the scholarship is at <a href="https://bolashak.gov.kz/">bolashak.gov.kz</a>.</p>
+      </div>
+    </noscript>
   </body>
 </html>
