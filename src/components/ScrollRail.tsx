@@ -77,9 +77,11 @@ export function ScrollRail() {
     let heads: { el: HTMLElement; top: number; mark: HTMLElement }[] = []
     let lastHere: HTMLElement | null = null
     // the drop: its two ends, their speeds, its width, a squash after hitting an edge, and a droplet
-    let top = -1, bottom = -1, vTop = 0, vBottom = 0, width = 4, vWidth = 0, squash = 0, vSquash = 0
+    let top = -1, bottom = -1, pos = 0, vPos = 0, vel = 0, stretchS = 0, vStretch = 0, width = 4, vWidth = 0, squash = 0, vSquash = 0
     let lastTarget = 0, dir = 0, prevY = scrollY
     let dropY = 0, vDrop = 0, dropAlive = false, dropAge = 0
+    // which end is the tail: eases between -1 (moving up) and 1 (moving down), so the shape never flips at once
+    let bias = 0, vBias = 0
     const geo = () => {
       const H = root.scrollHeight, V = innerHeight, track = sb.clientHeight - PAD * 2
       const h = Math.max(36, Math.round((track * V) / Math.max(H, 1)))
@@ -112,39 +114,40 @@ export function ScrollRail() {
       const moved = tTop - lastTarget
       if (Math.abs(moved) > 0.3) dir = Math.sign(moved)
       lastTarget = tTop
-      const wTarget = drag || hover ? 10 : sb.classList.contains(s.on) ? 8 : 4
+      const wTarget = drag || hover ? 10 : sb.classList.contains(s.on) ? 7 : 4
       // hitting the top or the bottom of the page with speed squashes the drop
       const speed = Math.abs(y - prevY) / dt
-      if (!still && speed > 6 && (y <= 0 || y >= g.max - 1) && Math.abs(prevY - y) > 0) vSquash += Math.min(0.12, speed / 300)
+      if (!still && speed > 6 && (y <= 0 || y >= g.max - 1) && Math.abs(prevY - y) > 0) vSquash += Math.min(0.05, speed / 700)
       prevY = y
 
       if (still || drag || top < 0) {
-        top = tTop; bottom = tBottom; vTop = vBottom = 0; width = wTarget; vWidth = 0; squash = vSquash = 0; dropAlive = false
+        pos = tTop; vPos = 0; vel = 0; stretchS = 0; vStretch = 0; bias = vBias = 0
+        width = wTarget; vWidth = 0; squash = vSquash = 0; dropAlive = false
       } else {
-        // the leading end follows the page closely, the trailing one on a soft, slightly bouncy spring
-        const lead = { k: 0.55, c: 1.05 }, trail = { k: 0.045, c: 0.28 }, rest = { k: 0.1, c: 0.38 }
-        const pTop = dir < 0 ? lead : dir > 0 ? trail : rest
-        const pBottom = dir > 0 ? lead : dir < 0 ? trail : rest
-        ;[top, vTop] = spring(top, vTop, tTop, pTop.k, pTop.c, dt)
-        ;[bottom, vBottom] = spring(bottom, vBottom, tBottom, pBottom.k, pBottom.c, dt)
-        // a drop never turns inside out and never stretches beyond reason
-        if (bottom - top < g.h * 0.6) { const m = (top + bottom) / 2; top = m - g.h * 0.3; bottom = m + g.h * 0.3 }
-        if (bottom - top > g.h + 220) { if (dir > 0) top = bottom - g.h - 220; else bottom = top + g.h + 220 }
-        ;[width, vWidth] = spring(width, vWidth, wTarget, 0.2, 0.7, dt)
-        ;[squash, vSquash] = spring(squash, vSquash, 0, 0.16, 0.32, dt)
-        if (Math.abs(top - tTop) < 0.05 && Math.abs(vTop) < 0.02) { top = tTop; vTop = 0 }
-        if (Math.abs(bottom - tBottom) < 0.05 && Math.abs(vBottom) < 0.02) { bottom = tBottom; vBottom = 0 }
+        // the drop follows the page on a smooth spring; how far its tail trails depends on a smoothed speed,
+        // so the separate steps of a mouse wheel don't make it pulse
+        ;[pos, vPos] = spring(pos, vPos, tTop, 0.3, 1.1, dt)
+        vel += (moved / dt - vel) * Math.min(1, 0.06 * dt)
+        ;[stretchS, vStretch] = spring(stretchS, vStretch, Math.min(220, Math.abs(vel) * 12), 0.05, 0.45, dt)
+        ;[bias, vBias] = spring(bias, vBias, dir, 0.12, 0.7, dt)
+        ;[width, vWidth] = spring(width, vWidth, wTarget, 0.12, 0.69, dt)
+        ;[squash, vSquash] = spring(squash, vSquash, 0, 0.16, 0.56, dt)
+        if (Math.abs(pos - tTop) < 0.05 && Math.abs(vPos) < 0.02) { pos = tTop; vPos = 0 }
+        if (Math.abs(vel) < 0.02) vel = 0
+        if (vel === 0 && Math.abs(stretchS) < 0.05 && Math.abs(vStretch) < 0.02) { stretchS = 0; vStretch = 0 }
         if (Math.abs(width - wTarget) < 0.02 && Math.abs(vWidth) < 0.01) { width = wTarget; vWidth = 0 }
         if (Math.abs(squash) < 0.002 && Math.abs(vSquash) < 0.002) { squash = vSquash = 0 }
       }
-
+      // the tail trails behind the direction of travel
+      top = pos - Math.max(0, stretchS) * Math.max(0, bias)
+      bottom = pos + g.h + Math.max(0, stretchS) * Math.max(0, -bias)
       const stretch = Math.max(0, bottom - top - g.h)
       const w = width * (1 + squash * 2.2)
       const r = w / 2
       // the trailing end thins as the drop stretches; the leading one stays round and full
       const thin = Math.max(0.3, 1 - stretch / 80)
-      const rTop = dir > 0 ? r * thin : r
-      const rBottom = dir < 0 ? r * thin : r
+      const rTop = r * (1 - (1 - thin) * Math.max(0, bias))
+      const rBottom = r * (1 - (1 - thin) * Math.max(0, -bias))
       const neck = Math.max(Math.min(rTop, rBottom) * 0.5, r * (1 - stretch / 110))
       const right = 5 - (width - 4) / 6
       const cx = RAIL_W - right - r
@@ -156,8 +159,8 @@ export function ScrollRail() {
 
       // a long, fast stretch lets a droplet fall off the tail; it lags behind and runs back in
       const tailY = dir > 0 ? pTop + rTop : pBottom - rBottom
-      if (!still && !drag && !dropAlive && stretch > 70 && dir !== 0) {
-        dropAlive = true; dropAge = 0; dropY = tailY - dir * 6; vDrop = (dir > 0 ? vTop : vBottom) * 0.4
+      if (!still && !drag && !dropAlive && stretch > 110 && dir !== 0) {
+        dropAlive = true; dropAge = 0; dropY = tailY - dir * 6; vDrop = vPos * 0.4
       }
       if (dropAlive) {
         dropAge += dt
@@ -182,7 +185,7 @@ export function ScrollRail() {
 
       const moving = top !== tTop || bottom !== tBottom || width !== wTarget || squash !== 0 || vSquash !== 0 || dropAlive
       if (moving) raf = requestAnimationFrame(paint)
-      else { last = 0; dir = 0 }
+      else { last = 0; dir = 0; bias = vBias = 0 }
     }
     const kick = () => { if (!raf) raf = requestAnimationFrame(paint) }
     const showTip = (text: string | undefined, top: number) => {
