@@ -1,9 +1,17 @@
 /* Page scroll rail (see ScrollRail.tsx). One solid colour: the platform accent. */
-:global(html).hasRail {
-  scrollbar-width: none;
+/* wide screens only: on phones and tablets the browser's own scrollbar stays, without section dots */
+@media (min-width: 1024px) {
+  :global(html).hasRail {
+    scrollbar-width: none;
+  }
+  :global(html).hasRail::-webkit-scrollbar {
+    display: none;
+  }
 }
-:global(html).hasRail::-webkit-scrollbar {
-  display: none;
+@media (max-width: 1023px) {
+  .rail {
+    display: none !important;
+  }
 }
 
 .rail {
