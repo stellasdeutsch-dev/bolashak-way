@@ -88,8 +88,25 @@ svg {
   }
 }
 
+/* Selected text in the brand colours. Light surfaces: the deep accent with white text
+   (5.7:1). Dark sections and the dark theme: a pale blue with navy text (14:1). Fixed
+   values, not the programme colour, so the contrast holds on every platform; fields
+   follow the same rule, so typed text stays readable. */
 ::selection {
-  background: var(--accent-tint-2);
+  background: #1f5fd6;
+  color: #fff;
+}
+.on-dark::selection,
+.on-dark ::selection,
+:root[data-theme='dark'] ::selection {
+  background: #cfe0ff;
+  color: #0b1220;
+}
+@media (forced-colors: active) {
+  ::selection {
+    background: Highlight;
+    color: HighlightText;
+  }
 }
 
 /* Two-tone display heading: light grey first line, bold second line. */

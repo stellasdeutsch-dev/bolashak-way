@@ -26,7 +26,9 @@ const updateSW = registerSW({
 const ornament = [...document.childNodes].find((n) => n.nodeType === Node.COMMENT_NODE)?.textContent?.replace(/^\n+|\s+$/g, '')
 if (ornament && !import.meta.env.TEST) console.log(`%c${ornament}`, 'font:12px/1 ui-monospace,Menlo,monospace;color:#2a6ef0')
 
-createRoot(document.getElementById('root')!).render(
+// Errors caught by a boundary are logged by ErrorBoundary itself (and a page that could
+// not load offline is not an error at all), so React does not log them a second time.
+createRoot(document.getElementById('root')!, { onCaughtError: () => {} }).render(
   <StrictMode>
     <ErrorBoundary>
       <App />

@@ -635,3 +635,10 @@
     gap: 6px;
   }
 }
+
+/* The navy bar is a dark section: selection uses the light pair (see base.css). */
+.hud::selection,
+.hud ::selection {
+  background: #cfe0ff;
+  color: #0b1220;
+}

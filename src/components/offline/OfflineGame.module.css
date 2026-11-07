@@ -1,0 +1,449 @@
+/* Offline screen: a navy section with the way back, then the route puzzle on a white
+   card. The map follows the site's offline page (dotted ground, arcs, a yellow pin for
+   the goal) in the app's own tokens. */
+.screen {
+  --goal: #ffc629;
+  --goal-ink: #111827;
+  --road: rgba(85, 117, 149, 0.42);
+  --km: #5f6a7d;
+  --paper: var(--surface-2);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-width: 1040px;
+  margin: 0 auto;
+}
+:global(:root[data-theme='dark']) .screen {
+  --road: rgba(170, 180, 198, 0.4);
+  --km: #aab4c6;
+}
+
+.head {
+  background: var(--navy);
+  color: var(--on-navy);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: var(--r-xl);
+  padding: 24px;
+}
+.title {
+  margin: 0 0 8px;
+  font-size: clamp(26px, 5vw, 36px);
+  font-weight: 750;
+  letter-spacing: -0.03em;
+  line-height: 1.15;
+}
+.lead {
+  margin: 0;
+  max-width: 62ch;
+  font-size: 15.5px;
+  line-height: 1.55;
+  color: var(--on-navy-muted);
+}
+/* The Center's phone, under the puzzle. */
+.call {
+  margin: 4px 0 0;
+  text-align: center;
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--text-3);
+}
+.call a {
+  font-weight: 650;
+  white-space: nowrap;
+}
+.retry {
+  margin-top: 16px;
+  min-height: 44px;
+  padding: 0 22px;
+  border-radius: var(--r-pill);
+  background: var(--accent-btn);
+  color: #fff;
+  font: 600 15.5px/1 var(--font);
+}
+@media (hover: hover) {
+  .retry:hover {
+    background: var(--accent-deep);
+  }
+}
+.head :focus-visible {
+  outline-color: var(--on-navy);
+}
+
+.game {
+  display: grid;
+  gap: 14px;
+  min-width: 0;
+  padding: clamp(16px, 3vw, 24px);
+  border-radius: var(--r-xl);
+  background: var(--surface);
+  border: 1px solid var(--line);
+}
+.task {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  font-size: 16px;
+  font-weight: 700;
+}
+.pill {
+  padding: 6px 14px;
+  border-radius: var(--r-pill);
+  background: var(--accent-btn);
+  color: #fff;
+}
+.pillGoal {
+  background: var(--goal);
+  color: var(--goal-ink);
+}
+.arrow {
+  color: var(--text-3);
+}
+.hint {
+  margin: 0;
+  max-width: 46em;
+  font-size: 15px;
+  line-height: 1.55;
+  color: var(--text-2);
+}
+
+/* ── the map ── */
+.map {
+  border-radius: var(--r-lg);
+  background: var(--paper);
+  overflow: hidden;
+}
+.svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  touch-action: manipulation;
+  font-family: var(--font);
+}
+.dotGround {
+  fill: var(--line-strong);
+}
+.road {
+  fill: none;
+  stroke: var(--road);
+  stroke-width: 1.5;
+  stroke-linecap: round;
+}
+.roadCan {
+  stroke: var(--accent);
+  stroke-width: 2.2;
+}
+.km {
+  font-size: 12px;
+  font-weight: 600;
+  fill: var(--km);
+  text-anchor: middle;
+  paint-order: stroke;
+  stroke: var(--paper);
+  stroke-width: 4px;
+  stroke-linejoin: round;
+  pointer-events: none;
+}
+.kmCan {
+  fill: var(--accent-ink);
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.city {
+  cursor: pointer;
+  outline: none;
+}
+.hit {
+  fill: transparent;
+}
+.dot {
+  fill: var(--surface);
+  stroke: var(--text);
+  stroke-width: 2;
+}
+.halo {
+  fill: var(--accent);
+  opacity: 0;
+}
+.ring {
+  fill: none;
+  stroke: transparent;
+  stroke-width: 2;
+}
+.city text {
+  font-size: 14px;
+  font-weight: 600;
+  fill: var(--text);
+  pointer-events: none;
+  paint-order: stroke;
+  stroke: var(--paper);
+  stroke-width: 5px;
+  stroke-linejoin: round;
+}
+.strong text {
+  font-weight: 800;
+}
+.can .dot {
+  stroke: var(--accent);
+  stroke-width: 2.5;
+}
+.can .ring {
+  stroke: var(--accent);
+  opacity: 0.35;
+  animation: breathe 1.8s ease-in-out infinite;
+}
+.on .dot {
+  fill: var(--accent);
+  stroke: var(--accent);
+}
+.here .halo {
+  opacity: 0.16;
+}
+.here .dot {
+  fill: var(--accent);
+  stroke: var(--surface);
+  stroke-width: 2.5;
+}
+/* Keyboard focus: a solid ring in the text colour, never only a colour change. */
+.city:focus-visible .ring {
+  stroke: var(--text);
+  opacity: 1;
+  stroke-width: 2.5;
+  animation: none;
+}
+@media (hover: hover) {
+  .city:hover .ring {
+    stroke: var(--accent);
+    opacity: 0.6;
+  }
+}
+@keyframes breathe {
+  50% {
+    opacity: 0.08;
+  }
+}
+
+.pin path {
+  fill: var(--goal);
+  stroke: var(--goal-ink);
+  stroke-width: 1.5;
+}
+.pin circle {
+  fill: var(--goal-ink);
+}
+
+.mine {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 3.5;
+  stroke-linecap: round;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: draw 0.6s ease-in-out forwards;
+}
+.dimmed .mine {
+  opacity: 0.35;
+}
+.seen {
+  fill: none;
+  stroke: var(--accent-tint-2);
+  stroke-width: 4;
+  stroke-linecap: round;
+}
+.best {
+  fill: none;
+  stroke: var(--goal);
+  stroke-width: 5;
+  stroke-linecap: round;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: draw 0.7s ease-in-out forwards;
+}
+@keyframes draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+.plane path {
+  fill: var(--accent);
+  stroke: var(--surface);
+  stroke-width: 1.2;
+  stroke-linejoin: round;
+}
+.tag rect {
+  fill: var(--text);
+}
+.tag text {
+  font-size: 11px;
+  font-weight: 700;
+  fill: var(--surface);
+  text-anchor: middle;
+}
+.tag {
+  animation: appear 0.25s var(--ease-out);
+}
+@keyframes appear {
+  from {
+    opacity: 0;
+  }
+}
+
+/* ── your route under the map ── */
+.trip {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 4px;
+  margin: 0;
+  min-height: 28px;
+  font-size: 15px;
+  font-weight: 600;
+}
+.tripStep {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+.stop {
+  padding: 2px 10px;
+  border-radius: var(--r-pill);
+  background: var(--surface-3);
+}
+.stopGoal {
+  background: var(--goal);
+  color: var(--goal-ink);
+}
+.leg {
+  padding: 0 2px;
+  font-size: 13px;
+  color: var(--text-3);
+  white-space: nowrap;
+}
+.leg::before {
+  content: '';
+  display: inline-block;
+  width: 14px;
+  height: 2px;
+  margin-right: 4px;
+  vertical-align: middle;
+  background: var(--road);
+}
+.sum {
+  margin-left: auto;
+  font-weight: 800;
+}
+
+.result {
+  display: grid;
+  gap: 10px;
+  padding: 14px 16px;
+  border-radius: var(--r-md);
+  background: var(--surface-2);
+}
+.result[hidden] {
+  display: none;
+}
+.verdict {
+  margin: 0;
+  font-size: 17px;
+  font-weight: 750;
+}
+.explain {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.55;
+  color: var(--text-2);
+  max-width: 62ch;
+}
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+.score {
+  font-size: 14.5px;
+  font-weight: 600;
+  color: var(--text-3);
+}
+.btns {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.ghost {
+  justify-self: start;
+  min-height: 44px;
+  padding: 0 18px;
+  border-radius: var(--r-pill);
+  border: 1.5px solid var(--line-strong);
+  background: var(--surface);
+  color: var(--text);
+  font: 600 15px/1 var(--font);
+}
+@media (hover: hover) {
+  .ghost:hover {
+    border-color: var(--accent);
+    color: var(--accent-ink);
+  }
+}
+
+/* An upright map so the whole puzzle fits a phone without sideways scrolling. */
+@media (max-width: 600px) {
+  .head {
+    padding: 18px;
+  }
+  .title {
+    font-size: 24px;
+  }
+  .lead {
+    font-size: 15px;
+  }
+  .game {
+    padding: 12px;
+    gap: 10px;
+  }
+  .task {
+    font-size: 14.5px;
+    gap: 6px;
+  }
+  .pill {
+    padding: 3px 11px;
+  }
+  .hint {
+    font-size: 14px;
+    line-height: 1.45;
+  }
+  .trip {
+    font-size: 14px;
+  }
+  .sum {
+    margin-left: 0;
+    width: 100%;
+  }
+  .btns {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    width: 100%;
+  }
+  .ghost {
+    width: 100%;
+    padding: 0 10px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .can .ring,
+  .tag,
+  .mine,
+  .best {
+    animation: none;
+  }
+  .mine,
+  .best {
+    stroke-dashoffset: 0;
+  }
+}

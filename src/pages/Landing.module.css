@@ -651,3 +651,10 @@
 .card:active {
   transform: scale(0.99);
 }
+
+/* Navy pill: selection uses the light pair (see base.css). */
+.treeRoot::selection,
+.treeRoot ::selection {
+  background: #cfe0ff;
+  color: #0b1220;
+}

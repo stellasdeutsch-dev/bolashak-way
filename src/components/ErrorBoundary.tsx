@@ -1,4 +1,7 @@
 import { Component, type ErrorInfo, type ReactNode } from 'react'
+import type { Locale } from '@/content/types'
+import { useAppStore } from '@/store/useAppStore'
+import { OfflineScreen } from './offline/OfflineGame'
 
 const STORE_KEY = 'bolashak-way'
 
@@ -19,6 +22,27 @@ function pickText() {
   }
 }
 
+/**
+ * A page whose code could not be fetched because the device is offline. Browsers word
+ * it differently: Chrome "Failed to fetch dynamically imported module", Safari
+ * "Importing a module script failed", Firefox "error loading dynamically imported module";
+ * Vite's own preloader "Unable to preload CSS for …".
+ */
+export function isOfflineLoadError(error: unknown, online = typeof navigator === 'undefined' ? true : navigator.onLine): boolean {
+  const message = error instanceof Error ? `${error.name} ${error.message}` : String(error ?? '')
+  return !online && /dynamically imported module|importing a module script failed|unable to preload|failed to fetch|loading (css )?chunk|networkerror/i.test(message)
+}
+
+/** The language on screen right now, even before anything was saved. */
+function currentLocale(): Locale | null {
+  try {
+    const l = useAppStore.getState().locale
+    return l === 'ru' || l === 'kk' || l === 'en' ? l : null
+  } catch {
+    return null
+  }
+}
+
 interface Props {
   children: ReactNode
   /** Shown inside the page frame (header and tabs stay usable) rather than full-screen. */
@@ -29,20 +53,23 @@ interface Props {
  * Last line of defence: instead of a white screen, say what happened and offer a way
  * out that works even when the saved progress itself is what breaks the render.
  */
-export class ErrorBoundary extends Component<Props, { failed: boolean }> {
-  state = { failed: false }
+export class ErrorBoundary extends Component<Props, { failed: boolean; offline: boolean }> {
+  state = { failed: false, offline: false }
 
-  static getDerivedStateFromError() {
-    return { failed: true }
+  static getDerivedStateFromError(error: unknown) {
+    return { failed: true, offline: isOfflineLoadError(error) }
   }
 
   componentDidCatch(error: Error, info: ErrorInfo) {
+    // No connection is not a crash: the offline screen explains it and reloads when back.
+    if (isOfflineLoadError(error)) return
     console.error('Bolashak Way crashed', error, info.componentStack)
   }
 
   render() {
     if (!this.state.failed) return this.props.children
     const t = pickText()
+    if (this.state.offline) return <OfflineScreen locale={currentLocale() ?? (t.lang as Locale)} />
     const reset = () => {
       try {
         localStorage.removeItem(STORE_KEY)
