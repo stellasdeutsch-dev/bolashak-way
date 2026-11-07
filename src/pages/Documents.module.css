@@ -225,3 +225,86 @@
     padding-block: 12px;
   }
 }
+
+/* ── «Save the list (PDF)» ── */
+.filtersSpacer {
+  flex: 1;
+}
+.pdfBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 10px 16px;
+  border-radius: var(--r-pill);
+  background: var(--surface);
+  border: 1.5px solid var(--line);
+  font-size: 14.5px;
+  font-weight: 550;
+  color: var(--accent-ink);
+}
+@media (hover: hover) {
+  .pdfBtn:hover {
+    border-color: var(--line-strong);
+    color: var(--text);
+  }
+}
+
+/* The paper list lives outside the app and is never on screen. When the button starts
+   printing, <html data-print="documents"> leaves only this sheet on the page; any other
+   printing (Ctrl+P on this or another page) is untouched. */
+.sheet {
+  display: none;
+}
+@media print {
+  :global(html[data-print='documents']) body > :not(.sheet) {
+    display: none !important;
+  }
+  :global(html[data-print='documents']) .sheet {
+    display: block;
+    color: #000;
+    font-size: 12pt;
+    line-height: 1.45;
+  }
+}
+.sheetTitle {
+  font-size: 18pt;
+  font-weight: 700;
+  margin: 0 0 8pt;
+}
+.sheetMeta {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 2pt 12pt;
+  margin: 0 0 14pt;
+}
+.sheetMeta dt {
+  color: #444;
+}
+.sheetMeta dd {
+  margin: 0;
+  font-weight: 600;
+}
+.sheetPart {
+  margin: 0 0 14pt;
+}
+.sheetPartTitle {
+  font-size: 13pt;
+  font-weight: 700;
+  margin: 0 0 6pt;
+  padding-bottom: 3pt;
+  border-bottom: 1px solid #888;
+}
+.sheetList {
+  margin: 0;
+  padding-left: 22pt;
+}
+.sheetList li {
+  margin: 0 0 4pt;
+  break-inside: avoid;
+}
+.sheetFoot {
+  margin: 18pt 0 0;
+  font-size: 10pt;
+  color: #444;
+  word-break: break-all;
+}

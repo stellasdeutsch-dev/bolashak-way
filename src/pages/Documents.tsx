@@ -1,6 +1,12 @@
 import { useEffect, useMemo, useState } from 'react'
+import { createPortal } from 'react-dom'
 import { useNavigate } from 'react-router'
 import { IconCheck as Check, IconDownload as Download, IconFileSignature as FileSignature } from '@/components/icons'
+import { getCategory, WORKER_GROUPS } from '@/content/categories'
+import { platformForTrack } from '@/content/platforms'
+import type { Profile } from '@/content/types'
+import { localIso } from '@/domain/dates'
+import { formatDate } from '@/i18n'
 import { getStageFor } from '@/domain/resolve'
 import { getSource } from '@/content/sources'
 import { documentsFor, isDocAuto } from '@/domain/documents'
@@ -14,7 +20,7 @@ import { announce } from '@/components/announce'
 import s from './Documents.module.css'
 
 export function Documents() {
-  const { t, c } = useI18n()
+  const { t, c, locale } = useI18n()
   const navigate = useNavigate()
   const profile = useAppStore((st) => st.profile)
   const documentsDone = useAppStore((st) => st.documentsDone)
@@ -26,6 +32,20 @@ export function Documents() {
   useEffect(() => {
     if (!profile) navigate('/', { replace: true })
   }, [profile, navigate])
+
+  // The print sheet is only used when printed from the button; Ctrl+P keeps the page.
+  useEffect(() => {
+    const done = () => delete document.documentElement.dataset.print
+    window.addEventListener('afterprint', done)
+    return () => {
+      window.removeEventListener('afterprint', done)
+      done()
+    }
+  }, [])
+  const savePdf = () => {
+    document.documentElement.dataset.print = 'documents'
+    window.print()
+  }
 
   const groups = useMemo(() => (profile ? documentsFor(profile) : []), [profile])
   if (!profile) return null
@@ -55,6 +75,11 @@ export function Documents() {
         </button>
         <button className={[s.filter, onlyRemaining ? s.filterActive : ''].join(' ')} onClick={() => setOnlyRemaining(true)} aria-pressed={onlyRemaining}>
           {t('documents.remaining')} · {all.length - doneCount}
+        </button>
+        <span className={s.filtersSpacer} />
+        <button type="button" className={s.pdfBtn} onClick={savePdf}>
+          <Download size={15} aria-hidden="true" />
+          {t('documents.savePdf')}
         </button>
       </div>
 
@@ -137,6 +162,64 @@ export function Documents() {
         </div>
         <AllForms />
       </Card>
+
+      {createPortal(
+        <PrintSheet
+          profile={profile}
+          missing={all.filter((d) => !isDone(d.id, isDocAuto(d, profile))).map((d) => c(d.title))}
+          have={all.filter((d) => isDone(d.id, isDocAuto(d, profile))).map((d) => c(d.title))}
+          date={formatDate(localIso(new Date()), locale)}
+        />,
+        document.body,
+      )}
+    </div>
+  )
+}
+
+/**
+ * The paper version: programme and direction, what is still missing, then what is there,
+ * the date and where the list came from. Rendered outside the app, hidden on screen, and
+ * printed alone only when the reader asks for it with the button.
+ */
+function PrintSheet({ profile, missing, have, date }: { profile: Profile; missing: string[]; have: string[]; date: string }) {
+  const { t, c } = useI18n()
+  const category = getCategory(profile.category)
+  const group = profile.workerGroup ? WORKER_GROUPS.find((g) => g.id === profile.workerGroup) : null
+  const direction = [c(category.short ?? category.title), group ? c(group.title) : ''].filter(Boolean).join(' · ')
+  const address = `${window.location.origin}${window.location.pathname}${window.location.hash}`
+  const list = (title: string, items: string[], mark: string) => (
+    <section className={s.sheetPart}>
+      <h2 className={s.sheetPartTitle}>
+        {title} · {items.length}
+      </h2>
+      {items.length > 0 && (
+        <ol className={s.sheetList}>
+          {items.map((name, i) => (
+            <li key={i}>
+              <span aria-hidden="true">{mark} </span>
+              {name}
+            </li>
+          ))}
+        </ol>
+      )}
+    </section>
+  )
+  return (
+    <div className={s.sheet} data-testid="documents-print">
+      <h1 className={s.sheetTitle}>{t('documents.printTitle')}</h1>
+      <dl className={s.sheetMeta}>
+        <dt>{t('documents.printProgramme')}</dt>
+        <dd>{c(platformForTrack(profile.track).name)}</dd>
+        <dt>{t('documents.printDirection')}</dt>
+        <dd>{direction}</dd>
+        <dt>{t('documents.printDate')}</dt>
+        <dd>{date}</dd>
+      </dl>
+      {list(t('documents.printMissing'), missing, '☐')}
+      {list(t('documents.printHave'), have, '☑')}
+      <p className={s.sheetFoot}>
+        Bolashak Way · {t('documents.printAddress')}: {address}
+      </p>
     </div>
   )
 }
