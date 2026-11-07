@@ -6,9 +6,10 @@
   box-sizing: border-box;
 }
 
+/* No global smooth scrolling: a new page has to start at the top at once, not slide
+   past the reader. Anchors that should glide pass behavior: 'smooth' themselves. */
 html {
   -webkit-text-size-adjust: 100%;
-  scroll-behavior: smooth;
 }
 
 body {
@@ -70,10 +71,19 @@ svg {
   max-width: 100%;
 }
 
+/* A solid outline, not a shadow: it holds 3:1 on every surface and survives Windows
+   high-contrast mode, which drops box-shadow. Modules change only its colour, never remove it. */
 :focus-visible {
-  outline: none;
-  box-shadow: var(--focus);
-  border-radius: var(--r-sm);
+  outline: 2px solid var(--accent-ink);
+  outline-offset: 2px;
+}
+.on-dark :focus-visible {
+  outline-color: var(--on-navy);
+}
+@media (forced-colors: active) {
+  :focus-visible {
+    outline: 2px solid CanvasText;
+  }
 }
 
 ::selection {

@@ -2,9 +2,15 @@
 #
 # Why a branch and not the Pages artifact flow: an artifact deployment replaces the
 # whole site, so a second build (the `cloud` branch, published under /cloud/) could
-# never coexist with it. Publishing into gh-pages with keep_files lets each branch own
-# its own folder: main writes the root and leaves /cloud alone; cloud writes /cloud
-# and leaves the root alone.
+# never coexist with it. The cloud branch writes /cloud and leaves the root alone.
+#
+# The root is published as a clean copy (keep_files: false): files of earlier builds –
+# old chunks with outdated wording, or anything that slipped into dist by mistake – do not
+# pile up on the site for ever. The /cloud folder is not ours, so it is copied over from
+# the current gh-pages before publishing and goes back unchanged.
+#
+# Actions are pinned to the commit their v4 tag points at, so a moved tag cannot change
+# what runs with write access to the repository.
 name: Deploy to GitHub Pages
 
 on:
@@ -24,19 +30,26 @@ jobs:
   publish:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
         with:
           node-version: 22
           cache: npm
       - run: npm ci
       - run: npm test -- --run
       - run: npm run build
-      - uses: peaceiris/actions-gh-pages@v4
+      - name: Carry the /cloud build over from the published site
+        run: |
+          if git fetch --depth=1 origin gh-pages && git cat-file -e FETCH_HEAD:cloud 2>/dev/null; then
+            git archive FETCH_HEAD cloud | tar -x -C dist
+            echo "kept $(find dist/cloud -type f | wc -l) files under /cloud"
+          else
+            echo "no /cloud folder on gh-pages"
+          fi
+      - uses: peaceiris/actions-gh-pages@84c30a85c19949d7eee79c4ff27748b70285e453 # v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./dist
           publish_branch: gh-pages
-          # Never wipe /cloud when the root is republished.
-          keep_files: true
+          keep_files: false
           commit_message: 'main → / (${{ github.sha }})'

@@ -106,11 +106,11 @@
 }
 .pillSuccess {
   background: var(--success-tint);
-  color: var(--success);
+  color: var(--success-ink);
 }
 .pillWarn {
   background: var(--warn-tint);
-  color: #a4680b;
+  color: var(--warn-ink);
 }
 .pillDark {
   background: rgba(255, 255, 255, 0.09);

@@ -3,6 +3,7 @@ import { persist, createJSONStorage } from 'zustand/middleware'
 import type { DateKey, Locale, Profile, StageId, Track } from '@/content/types'
 import { CONTENT_META } from '@/content/meta'
 import { sanitizeProgress, type Progress } from '@/domain/exportImport'
+import { safeLocalStorage } from './safeStorage'
 
 export type ThemePref = 'system' | 'light' | 'dark'
 
@@ -136,7 +137,7 @@ export const useAppStore = create<AppState>()(
     {
       name: 'bolashak-way',
       version: CONTENT_META.schemaVersion,
-      storage: createJSONStorage(() => localStorage),
+      storage: createJSONStorage(() => safeLocalStorage()),
       partialize: (s) => ({
         schemaVersion: s.schemaVersion,
         locale: s.locale,

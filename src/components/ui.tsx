@@ -35,9 +35,16 @@ export function Button({ children, onClick, variant = 'primary', size = 'md', fu
  * A link that looks like a button. A <button> inside an <a> is invalid HTML and breaks
  * keyboard focus in Safari and Firefox, so navigation gets its own element.
  */
-export function ButtonLink({ to, children, variant = 'primary', size = 'md', full }: Omit<ButtonProps, 'onClick' | 'type' | 'disabled' | 'ariaLabel'> & { to: string }) {
+export function ButtonLink({
+  to,
+  state,
+  children,
+  variant = 'primary',
+  size = 'md',
+  full,
+}: Omit<ButtonProps, 'onClick' | 'type' | 'disabled' | 'ariaLabel'> & { to: string; state?: unknown }) {
   return (
-    <Link to={to} className={[s.btn, s[variant], s[size], full ? s.full : '', s.btnLink].join(' ')}>
+    <Link to={to} state={state} className={[s.btn, s[variant], s[size], full ? s.full : '', s.btnLink].join(' ')}>
       {children}
     </Link>
   )
@@ -133,6 +140,8 @@ export function ConfirmDialog({
   confirmLabel,
   onConfirm,
   onCancel,
+  confirmVariant = 'danger',
+  extra,
 }: {
   open: boolean
   title: string
@@ -140,6 +149,10 @@ export function ConfirmDialog({
   confirmLabel: string
   onConfirm: () => void
   onCancel: () => void
+  /** 'danger' for destructive actions; 'primary' when confirming is the safe choice. */
+  confirmVariant?: 'danger' | 'primary'
+  /** A second way out, shown between Cancel and the main action. */
+  extra?: { label: string; onClick: () => void }
 }) {
   const { t } = useI18n()
   const dialogRef = useRef<HTMLDivElement>(null)
@@ -183,7 +196,12 @@ export function ConfirmDialog({
           <Button variant="quiet" onClick={onCancel}>
             {t('common.cancel')}
           </Button>
-          <Button variant="danger" onClick={onConfirm}>
+          {extra && (
+            <Button variant="ghost" onClick={extra.onClick}>
+              {extra.label}
+            </Button>
+          )}
+          <Button variant={confirmVariant} onClick={onConfirm}>
             {confirmLabel}
           </Button>
         </div>

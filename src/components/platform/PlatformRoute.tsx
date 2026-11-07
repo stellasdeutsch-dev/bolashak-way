@@ -4,6 +4,7 @@ import { getPlatform, isPlatformSlug, platformForTrack } from '@/content/platfor
 import { platformPaths } from '@/domain/paths'
 import { useAppStore } from '@/store/useAppStore'
 import { useI18n } from '@/i18n'
+import { usePageChrome } from '@/i18n/usePageChrome'
 import { ButtonLink, Card } from '@/components/ui'
 import { StageIcon } from '@/components/StageIcon'
 import { NotFound } from '@/pages/NotFound'
@@ -29,6 +30,7 @@ function PlatformMismatch({ slug }: { slug: Parameters<typeof getPlatform>[0] })
   const profile = useAppStore((st) => st.profile)!
   const mine = platformForTrack(profile.track)
   const target = getPlatform(slug)
+  usePageChrome(t('platform.mismatchTitle', { name: c(mine.name) }))
   return (
     <Card className={s.mismatch}>
       <h1 className={s.mismatchTitle}>{t('platform.mismatchTitle', { name: c(mine.name) })}</h1>

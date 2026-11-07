@@ -1,12 +1,45 @@
 /// <reference types="vitest/config" />
 import { fileURLToPath, URL } from 'node:url'
-import { defineConfig } from 'vite'
+import { defineConfig, type Plugin } from 'vite'
 import react from '@vitejs/plugin-react'
 import { VitePWA } from 'vite-plugin-pwa'
+
+/**
+ * Content-Security-Policy for the published site. GitHub Pages cannot send headers, so it
+ * goes in a <meta>. Only the build gets it: the dev server injects inline styles and talks
+ * over a websocket. What is allowed and why:
+ * - scripts and styles: this site only (the theme script is public/theme.js, not inline);
+ * - frames: the YouTube player (no-cookie host, after a click) and the official PDF blanks;
+ * - images: i.ytimg.com only because a playing YouTube embed hands its cover to the
+ *   browser's media controls, which load it in this page (after the click, never before);
+ * - no other images, fonts or requests to anyone else.
+ */
+export const CSP = [
+  "default-src 'self'",
+  "script-src 'self'",
+  "style-src 'self'",
+  "img-src 'self' data: https://i.ytimg.com",
+  "font-src 'self'",
+  "connect-src 'self'",
+  'frame-src https://www.youtube-nocookie.com https://bolashak.gov.kz',
+  "worker-src 'self'",
+  "manifest-src 'self'",
+  "object-src 'none'",
+  "base-uri 'self'",
+  "form-action 'none'",
+  'upgrade-insecure-requests',
+].join('; ')
+
+const cspMeta = (): Plugin => ({
+  name: 'csp-meta',
+  apply: 'build',
+  transformIndexHtml: (html) => html.replace('<!--%CSP%-->', `<meta http-equiv="Content-Security-Policy" content="${CSP}" />`),
+})
 
 export default defineConfig({
   plugins: [
     react(),
+    cspMeta(),
     // The app is fully local, so it works offline once cached; the manifest in public/ is reused.
     VitePWA({
       // 'prompt' lets main.tsx pick the moment to switch: never in the middle of the questions.
@@ -14,7 +47,7 @@ export default defineConfig({
       injectRegister: 'auto',
       manifest: false,
       workbox: {
-        globPatterns: ['**/*.{js,css,html,svg,webmanifest}', '**/inter-{latin,latin-ext,cyrillic,cyrillic-ext}-wght-normal-*.woff2'],
+        globPatterns: ['**/*.{js,css,html,svg,webmanifest}', 'icon-*.png', 'apple-touch-icon.png', '**/inter-{latin,latin-ext,cyrillic,cyrillic-ext}-wght-normal-*.woff2'],
         // The two official lists are only fetched when somebody searches, so precaching them
         // would put 350 KB on every install for a screen most people open once. Cache the
         // chunk the first time it is actually asked for instead — after that it is offline too.

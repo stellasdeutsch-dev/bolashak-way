@@ -22,7 +22,8 @@ import { isDocAuto } from '@/domain/documents'
 import { useAppStore } from '@/store/useAppStore'
 import { useI18n, pick, formatMonths, formatYears } from '@/i18n'
 import { usePageChrome } from '@/i18n/usePageChrome'
-import { Button, Callout, Card, FallbackBadge, Pill, SourceLink } from '@/components/ui'
+import { Button, ButtonLink, Callout, Card, ConfirmDialog, FallbackBadge, Pill, SourceLink } from '@/components/ui'
+import { announce } from '@/components/announce'
 import { VideoList } from '@/components/Videos'
 import { AwardTimeline, ContestFlow, WorkbackTable } from '@/components/Explain'
 import { InternshipSpecialtySearch, ScienceSearch, SpecialtySearch, UniversitySearch, type SpecialtyLevel } from '@/components/ListSearch'
@@ -104,9 +105,9 @@ function LanguageTable() {
 
   return (
     <Card>
-      <div className={s.sectionTitle} style={{ marginBottom: 12 }}>
+      <h2 className={s.sectionTitle} style={{ marginBottom: 12 }}>
         {t('stage.thresholdTable')}
-      </div>
+      </h2>
       {profile.foreignCert && (
         <div className={s.scoreRow}>
           <Pill tone="accent">
@@ -236,7 +237,7 @@ function Excerpts({ stage }: { stage: StageId }) {
   return (
     <Card>
       <div className={s.section}>
-        <span className={s.sectionTitle}>{t('stage.excerpts')}</span>
+        <h2 className={s.sectionTitle}>{t('stage.excerpts')}</h2>
         <p className={s.body} style={{ fontSize: 13.5 }}>{t('stage.excerptsHint')}</p>
         {items.map((e) => {
           const open = openId === e.id
@@ -276,7 +277,7 @@ function StageFormsCard({ stage }: { stage: StageId }) {
   return (
     <Card>
       <div className={s.section}>
-        <span className={s.sectionTitle}>{t('forms.title')}</span>
+        <h2 className={s.sectionTitle}>{t('forms.title')}</h2>
         <StageForms stage={stage} />
       </div>
     </Card>
@@ -291,7 +292,7 @@ function StageVideos({ stage }: { stage: StageId }) {
   return (
     <Card>
       <div className={s.section}>
-        <span className={s.sectionTitle}>{t('video.title')}</span>
+        <h2 className={s.sectionTitle}>{t('video.title')}</h2>
         <VideoList items={items} />
       </div>
     </Card>
@@ -319,7 +320,7 @@ function DeadlinePanel({ stage }: { stage: StageId }) {
   return (
     <Card>
       <div className={s.section}>
-        <span className={s.sectionTitle}>{t('deadlines.title')}</span>
+        <h2 className={s.sectionTitle}>{t('deadlines.title')}</h2>
         <p className={s.body} style={{ fontSize: 13.5 }}>{t('deadlines.intro')}</p>
         {anchors.map((key) => (
           <label key={key} className={s.dateField}>
@@ -363,7 +364,7 @@ function LanguageNotes() {
   return (
     <Card>
       <div className={s.section}>
-        <span className={s.sectionTitle}>{t('stage.languageNotes')}</span>
+        <h2 className={s.sectionTitle}>{t('stage.languageNotes')}</h2>
         {notes.map((n, i) => {
           const text = cf(n.text)
           return (
@@ -401,7 +402,7 @@ function CategoryRequirements() {
   return (
     <Card>
       <div className={s.section}>
-        <span className={s.sectionTitle}>{t('stage.categoryRequirements')}</span>
+        <h2 className={s.sectionTitle}>{t('stage.categoryRequirements')}</h2>
         {/* experience is not asked any more: the requirement is shown as it is, without a verdict */}
         {req && !profile.experience && (
           <div className={s.scoreRow}>
@@ -481,12 +482,13 @@ export function StagePage() {
   const setStageDone = useAppStore((st) => st.setStageDone)
   const toggleDocument = useAppStore((st) => st.toggleDocument)
   const setNote = useAppStore((st) => st.setNote)
+  const [confirmClose, setConfirmClose] = useState(false)
 
   useEffect(() => {
     if (!profile) navigate('/', { replace: true })
   }, [profile, navigate])
   useEffect(() => {
-    window.scrollTo({ top: 0 })
+    window.scrollTo({ top: 0, behavior: 'instant' })
   }, [id])
 
   const progress = useMemo(() => (profile ? computeProgress({ profile, checked, stagesDone }) : null), [profile, checked, stagesDone])
@@ -499,7 +501,7 @@ export function StagePage() {
       <Card>
         <h1 className={s.heroTitle}>{t('common.notFound')}</h1>
         <div style={{ marginTop: 16 }}>
-          <Button onClick={() => navigate(paths.roadmap)}>{t('common.toRoadmap')}</Button>
+          <ButtonLink to={paths.roadmap}>{t('common.toRoadmap')}</ButtonLink>
         </div>
       </Card>
     )
@@ -518,6 +520,21 @@ export function StagePage() {
   const prev = order[sp.index - 1]
   const next = order[sp.index + 1]
   const lockedChapter = locked ? chapters[chapters.findIndex((ch) => ch.id === stage.chapter) - 1] : null
+  // The stage whose closing moves the plan on – where a locked stage sends the reader.
+  const unlocker = locked && progress.current && progress.current.stage.id !== stage.id ? progress.current : null
+  const markedDone = stagesDone.includes(stage.id)
+  const openSteps = sp.items.filter((i) => !i.done && i.item.required !== false)
+
+  const tick = (itemId: string, wasDone: boolean, required: boolean) => {
+    toggleCheck(stage.id, itemId)
+    const done = sp.requiredDone + (required ? (wasDone ? -1 : 1) : 0)
+    announce(t(wasDone ? 'stage.untickedStatus' : 'stage.tickedStatus', { done, total: sp.requiredTotal }))
+  }
+  const closeStage = () => {
+    // Closing with steps left open is allowed, but never by accident.
+    if (!markedDone && sp.status !== 'done' && openSteps.length > 0) return setConfirmClose(true)
+    setStageDone(stage.id, !markedDone)
+  }
 
   const title = cf(stage.title)
   const why = cf(stage.why)
@@ -525,14 +542,14 @@ export function StagePage() {
   return (
     <div className={s.page}>
       <div className={s.top}>
-        <Button variant="quiet" size="sm" onClick={() => navigate(paths.roadmap)}>
+        <ButtonLink variant="quiet" size="sm" to={paths.roadmap} state={{ scrollTo: stage.id }}>
           <ArrowLeft size={15} aria-hidden="true" />
           {t('common.toRoadmap')}
-        </Button>
+        </ButtonLink>
         <Pill>{c(chapter.title)}</Pill>
-        <Pill tone={sp.status === 'done' ? 'success' : locked ? 'default' : 'accent'}>
-          {sp.status === 'done' ? t('roadmap.doneState') : locked ? t('roadmap.locked') : t('roadmap.items', { done: sp.requiredDone, total: sp.requiredTotal })}
-        </Pill>
+        {(sp.status === 'done' || locked) && (
+          <Pill tone={sp.status === 'done' ? 'success' : 'default'}>{sp.status === 'done' ? t('roadmap.doneState') : t('roadmap.locked')}</Pill>
+        )}
       </div>
 
       <Card dark className={s.hero}>
@@ -579,11 +596,89 @@ export function StagePage() {
         </Callout>
       )}
 
-      {stage.inShort && (
-        <Card>
-          <div className={s.section}>
-            <span className={s.sectionTitle}>{t('stage.inShort')}</span>
-            {/* Three short answers side by side: the whole stage in one glance. */}
+      <Card>
+        <div className={s.section}>
+          <h2 className={s.sectionTitle}>{t('stage.checklist')}</h2>
+          {/* Locked by design: say why the boxes do not respond and where the plan goes on. */}
+          {locked && lockedChapter && (
+            <p className={s.lockedNote} id="locked-note">
+              <Lock size={15} className={s.lockedIcon} aria-hidden="true" />
+              <span>
+                {t('stage.lockedChecklist', { chapter: c(lockedChapter.title) })}
+                {unlocker && (
+                  <>
+                    {' '}
+                    <Link to={paths.stage(unlocker.stage.id)}>{t('stage.lockedGoTo', { stage: c(unlocker.stage.title) })}</Link>
+                  </>
+                )}
+              </span>
+            </p>
+          )}
+          {sp.items.map(({ item, done, auto }) => {
+            const text = cf(item.text)
+            return (
+              <div key={item.id} className={[s.checkItem, done ? s.checkItemDone : '', auto || locked ? s.checkItemOff : '', locked ? s.checkItemLocked : ''].join(' ')}>
+                {/* The whole row is the checkbox; the source link sits above it as its own control. */}
+                <button
+                  type="button"
+                  className={s.hit}
+                  role="checkbox"
+                  aria-checked={done}
+                  aria-disabled={auto || locked}
+                  aria-label={text.text}
+                  aria-describedby={locked && lockedChapter ? 'locked-note' : undefined}
+                  onClick={() => !auto && !locked && tick(item.id, done, item.required !== false)}
+                />
+                <span className={[s.box, done ? (auto ? s.boxAuto : s.boxDone) : '', locked && !done ? s.boxLocked : ''].join(' ')} aria-hidden="true">
+                  {locked && !done ? <Lock size={12} /> : <Check size={15} strokeWidth={3} />}
+                </span>
+                <span>
+                  <span className={s.checkText} aria-hidden="true">
+                    {text.text}
+                    {text.fallback && <FallbackBadge />}
+                  </span>
+                  <span className={s.checkMeta}>
+                    {item.required === false && <span className={s.tag}>{t('common.optional')}</span>}
+                    {auto && <span className={s.tag}>{t('roadmap.autoDone')}</span>}
+                    {item.link && (
+                      <a href={getSource(item.link).url} target="_blank" rel="noopener noreferrer" className={s.above}>
+                        <ExternalLink size={13} aria-hidden="true" />
+                        {getSource(item.link).org}
+                      </a>
+                    )}
+                  </span>
+                </span>
+              </div>
+            )
+          })}
+          {/* Closing the stage belongs with its steps, not three screens further down. */}
+          {!locked && !sp.autoDone && (
+            <div className={s.closeRow}>
+              <Button variant={sp.status === 'done' ? 'ghost' : 'secondary'} onClick={closeStage}>
+                {markedDone ? (
+                  t('stage.unmarkDone')
+                ) : sp.status === 'done' ? (
+                  <>
+                    <Check size={15} aria-hidden="true" />
+                    {t('roadmap.doneState')}
+                  </>
+                ) : (
+                  <>
+                    <Check size={15} aria-hidden="true" />
+                    {t('stage.markDone')}
+                  </>
+                )}
+              </Button>
+            </div>
+          )}
+        </div>
+      </Card>
+
+      {/* What the stage is and why it matters – after the checklist, so "what to do" is the first thing on the page. */}
+      <Card className={s.whyCard}>
+        <div className={s.section}>
+          <h2 className={s.sectionTitle}>{t('stage.about')}</h2>
+          {stage.inShort && (
             <dl className={s.shortList}>
               {(
                 [
@@ -598,13 +693,8 @@ export function StagePage() {
                 </div>
               ))}
             </dl>
-          </div>
-        </Card>
-      )}
-
-      <Card className={s.whyCard}>
-        <div className={s.section}>
-          <span className={s.sectionTitle}>{t('stage.why')}</span>
+          )}
+          <h3 className={s.subTitle}>{t('stage.why')}</h3>
           <p className={s.body}>
             {why.text}
             {why.fallback && <FallbackBadge />}
@@ -641,7 +731,7 @@ export function StagePage() {
           </Callout>
           <Card>
             <div className={s.section}>
-              <span className={s.sectionTitle}>{t('stage.workBackTable')}</span>
+              <h2 className={s.sectionTitle}>{t('stage.workBackTable')}</h2>
             <WorkbackTable track={profile.track} />
             </div>
           </Card>
@@ -651,7 +741,7 @@ export function StagePage() {
       {(stage.id === 'testing' || stage.id === 'interview' || stage.id === 'commission') && (
         <Card>
           <div className={s.section}>
-            <span className={s.sectionTitle}>{t('flow.contestTitle')}</span>
+            <h2 className={s.sectionTitle}>{t('flow.contestTitle')}</h2>
             {/* The three rounds with the exits drawn in, and this stage marked on them. */}
             <ContestFlow track={profile.track} hereStage={stage.id} />
           </div>
@@ -661,7 +751,7 @@ export function StagePage() {
       {stage.id === 'contract' && (
         <Card>
           <div className={s.section}>
-            <span className={s.sectionTitle}>{t('stage.awardClock')}</span>
+            <h2 className={s.sectionTitle}>{t('stage.awardClock')}</h2>
             {/* Dim the term that is not yours, so nobody counts the wrong deadline. */}
             <AwardTimeline track={profile.track} />
           </div>
@@ -673,7 +763,7 @@ export function StagePage() {
       {(stage.id === 'specialty' || stage.id === 'university') && !(profile.track === 'internship' && stage.id === 'university') && (
         <Card>
           <div className={s.section}>
-            <span className={s.sectionTitle}>{t(LIST_TITLE[profile.track][stage.id])}</span>
+            <h2 className={s.sectionTitle}>{t(LIST_TITLE[profile.track][stage.id])}</h2>
             {profile.track === 'science_internship' ? (
               <ScienceSearch />
             ) : profile.track === 'internship' ? (
@@ -687,52 +777,10 @@ export function StagePage() {
         </Card>
       )}
 
-      <Card>
-        <div className={s.section}>
-          <span className={s.sectionTitle}>{t('stage.checklist')}</span>
-          {sp.items.map(({ item, done, auto }) => {
-            const text = cf(item.text)
-            return (
-              <div key={item.id} className={[s.checkItem, done ? s.checkItemDone : '', auto || locked ? s.checkItemOff : ''].join(' ')}>
-                {/* The whole row is the checkbox; the source link sits above it as its own control. */}
-                <button
-                  type="button"
-                  className={s.hit}
-                  role="checkbox"
-                  aria-checked={done}
-                  aria-disabled={auto || locked}
-                  aria-label={text.text}
-                  onClick={() => !auto && !locked && toggleCheck(stage.id, item.id)}
-                />
-                <span className={[s.box, done ? (auto ? s.boxAuto : s.boxDone) : ''].join(' ')} aria-hidden="true">
-                  <Check size={15} strokeWidth={3} />
-                </span>
-                <span>
-                  <span className={s.checkText} aria-hidden="true">
-                    {text.text}
-                    {text.fallback && <FallbackBadge />}
-                  </span>
-                  <span className={s.checkMeta}>
-                    {item.required === false && <span className={s.tag}>{t('common.optional')}</span>}
-                    {auto && <span className={s.tag}>{t('roadmap.autoDone')}</span>}
-                    {item.link && (
-                      <a href={getSource(item.link).url} target="_blank" rel="noopener noreferrer" className={s.above}>
-                        <ExternalLink size={13} aria-hidden="true" />
-                        {getSource(item.link).org}
-                      </a>
-                    )}
-                  </span>
-                </span>
-              </div>
-            )
-          })}
-        </div>
-      </Card>
-
       {stageDocs.length > 0 && (
         <Card>
           <div className={s.section}>
-            <span className={s.sectionTitle}>{t('stage.documents')}</span>
+            <h2 className={s.sectionTitle}>{t('stage.documents')}</h2>
             {stageDocs.map((d) => {
               const auto = isDocAuto(d, profile)
               const done = auto || documentsDone.includes(d.id)
@@ -766,7 +814,7 @@ export function StagePage() {
       {stage.mistakes.length > 0 && (
         <Card>
           <div className={s.section}>
-            <span className={s.sectionTitle}>{t('stage.mistakes')}</span>
+            <h2 className={s.sectionTitle}>{t('stage.mistakes')}</h2>
             {stage.mistakes.map((m, i) => {
               const text = cf(m)
               return (
@@ -788,7 +836,7 @@ export function StagePage() {
       {deadlines.length > 0 && (
         <Card>
           <div className={s.section}>
-            <span className={s.sectionTitle}>{t('stage.deadlines')}</span>
+            <h2 className={s.sectionTitle}>{t('stage.deadlines')}</h2>
             {/* Deadlines are facts, not warnings – amber stays reserved for mistakes and locks. */}
             {deadlines.map((d, i) => (
               <Callout key={i} tone="info" source={d.source}>
@@ -817,7 +865,7 @@ export function StagePage() {
         {faq.length > 0 && (
           <Card>
             <div className={s.section}>
-              <span className={s.sectionTitle}>{t('stage.faq')}</span>
+              <h2 className={s.sectionTitle}>{t('stage.faq')}</h2>
               <div>
                 {faq.map((f) => (
                   <FaqRow key={f.id} item={f} />
@@ -831,7 +879,7 @@ export function StagePage() {
 
       <Card>
         <div className={s.section}>
-          <span className={s.sectionTitle}>{t('stage.note')}</span>
+          <h2 className={s.sectionTitle}>{t('stage.note')}</h2>
           <textarea
             className={s.note}
             value={notes[stage.id] ?? ''}
@@ -842,12 +890,13 @@ export function StagePage() {
           <span className={s.tag} style={{ alignSelf: 'flex-start' }}>
             {t('stage.noteSaved')}
           </span>
+          <p className={s.noteHint}>{t('stage.notePrivacy')}</p>
         </div>
       </Card>
 
       <Card>
         <div className={s.section}>
-          <span className={s.sectionTitle}>{t('common.sources')}</span>
+          <h2 className={s.sectionTitle}>{t('common.sources')}</h2>
           <div className={s.sources}>
             {stage.sources.map((src) => (
               <SourceLink key={src} id={src} />
@@ -864,36 +913,40 @@ export function StagePage() {
 
       <div className={s.footerNav}>
         {prev && (
-          <Button variant="ghost" onClick={() => navigate(paths.stage(prev.stage.id))}>
+          <ButtonLink variant="ghost" to={paths.stage(prev.stage.id)}>
             <ArrowLeft size={15} aria-hidden="true" />
             {t('stage.prevStage')}
-          </Button>
+          </ButtonLink>
         )}
         <span className={s.grow} />
-        {!locked && (
-          <Button variant={sp.status === 'done' ? 'ghost' : 'secondary'} onClick={() => setStageDone(stage.id, !stagesDone.includes(stage.id))} disabled={sp.autoDone}>
-            {sp.status === 'done' && !stagesDone.includes(stage.id) ? (
-              <>
-                <Check size={15} aria-hidden="true" />
-                {t('roadmap.doneState')}
-              </>
-            ) : stagesDone.includes(stage.id) ? (
-              t('stage.unmarkDone')
-            ) : (
-              <>
-                <Check size={15} aria-hidden="true" />
-                {t('stage.markDone')}
-              </>
-            )}
-          </Button>
-        )}
         {next && (
-          <Button onClick={() => navigate(paths.stage(next.stage.id))}>
+          <ButtonLink to={paths.stage(next.stage.id)}>
             {t('stage.nextStage')}
             {next.status === 'locked' ? <Lock size={14} aria-hidden="true" /> : <ArrowRight size={15} aria-hidden="true" />}
-          </Button>
+          </ButtonLink>
         )}
       </div>
+
+      <ConfirmDialog
+        open={confirmClose}
+        title={t('stage.closeEarlyTitle')}
+        text={t('stage.closeEarlyText', { done: sp.requiredDone, total: sp.requiredTotal })}
+        confirmLabel={t('stage.tickAllAndClose')}
+        confirmVariant="primary"
+        extra={{
+          label: t('stage.closeAnyway'),
+          onClick: () => {
+            setStageDone(stage.id, true)
+            setConfirmClose(false)
+          },
+        }}
+        onCancel={() => setConfirmClose(false)}
+        onConfirm={() => {
+          for (const { item } of openSteps) toggleCheck(stage.id, item.id)
+          setStageDone(stage.id, true)
+          setConfirmClose(false)
+        }}
+      />
     </div>
   )
 }

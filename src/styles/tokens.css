@@ -41,8 +41,9 @@
   --success: #1db56a;
   --success-tint: rgba(29, 181, 106, 0.12);
   /* Text versions of the status colours, AA on their own tints. */
-  --success-ink: #11784a;
+  --success-ink: #0d6e40;
   --danger-ink: #b42329;
+  --warn-ink: #8a5a12;
   --warn: #f59e0b;
   --warn-tint: rgba(245, 158, 11, 0.14);
   --danger: #e5484d;
@@ -53,7 +54,6 @@
   --card-hairline: 1px solid rgba(17, 24, 39, 0.07);
   /* Menus and dialogs that float over the page. */
   --shadow-card-lift: 0 8px 24px rgba(11, 18, 32, 0.12);
-  --focus: 0 0 0 4px rgba(var(--accent-rgb), 0.32);
 
   --r-xl: 20px;
   --r-lg: 16px;
@@ -97,6 +97,7 @@
   --success-tint: rgba(29, 181, 106, 0.18);
   --success-ink: #8ff0c0;
   --danger-ink: #ffa4a7;
+  --warn-ink: #f5c36b;
   --warn-tint: rgba(245, 158, 11, 0.18);
   --danger-tint: rgba(229, 72, 77, 0.16);
   --locked: #3a4660;
@@ -167,12 +168,12 @@
 [data-p='master'] { --p: #2a6ef0; --p-rgb: 42, 110, 240; }
 [data-p='doctorate'] { --p: #7352ec; --p-rgb: 115, 82, 236; }
 [data-p='internship'] { --p: #07806f; --p-rgb: 7, 128, 111; }
-[data-p='science'] { --p: #cf3674; --p-rgb: 207, 54, 116; }
+[data-p='science'] { --p: #cf3674; --p-rgb: 207, 54, 116; --p-ink: #a8245a; }
 :root[data-theme='dark'] [data-p='bachelor'] { --p: #ff7b2e; --p-rgb: 255, 123, 46; }
 :root[data-theme='dark'] [data-p='master'] { --p: #3b8dff; --p-rgb: 59, 141, 255; }
 :root[data-theme='dark'] [data-p='doctorate'] { --p: #8f73ff; --p-rgb: 143, 115, 255; }
 :root[data-theme='dark'] [data-p='internship'] { --p: #19b8a0; --p-rgb: 25, 184, 160; }
-:root[data-theme='dark'] [data-p='science'] { --p: #ec5a93; --p-rgb: 236, 90, 147; }
+:root[data-theme='dark'] [data-p='science'] { --p: #ec5a93; --p-rgb: 236, 90, 147; --p-ink: #f27aa8; }
 
 /* Big screens (iMac, external monitors): let the layout breathe instead of a narrow strip. */
 @media (min-width: 1600px) {

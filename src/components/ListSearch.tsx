@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState, type ReactNode } from 'react'
+import { useCallback, useEffect, useMemo, useState, type ReactNode } from 'react'
 import type {
   InternshipSpecialty, PrioritySpecialty, RecommendedUniversity, ScienceArea, ScienceDirection, ScienceOrg,
 } from '@/content/lists'
@@ -15,21 +15,30 @@ const LIMIT = 25
  * Each list is a snapshot of an official PDF – hundreds of kilobytes nobody needs until
  * they search. They load the first time somebody types, never with the page.
  */
-function useLazy<T>(active: boolean, load: () => Promise<T>): T | null {
+function useLazy<T>(active: boolean, load: () => Promise<T>): { data: T | null; failed: boolean; retry: () => void } {
   const [data, setData] = useState<T | null>(null)
+  // Offline before the first search, or an old tab after a deploy: the chunk can fail to
+  // load. Say so and offer another try instead of "loading…" forever.
+  const [failed, setFailed] = useState(false)
+  const [attempt, setAttempt] = useState(0)
   useEffect(() => {
-    if (!active || data) return
+    if (!active || data || failed) return
     let alive = true
-    void load().then((m) => {
-      if (alive) setData(m)
-    })
+    load().then(
+      (m) => alive && setData(m),
+      () => alive && setFailed(true),
+    )
     return () => {
       alive = false
     }
     // `load` is a stable module import per call site.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [active, data])
-  return data
+  }, [active, data, failed, attempt])
+  const retry = useCallback(() => {
+    setFailed(false)
+    setAttempt((n) => n + 1)
+  }, [])
+  return { data, failed, retry }
 }
 
 interface AcademicLists {
@@ -97,12 +106,36 @@ function Shell({
   )
 }
 
-function Status({ query, loaded, found, nothing }: { query: string; loaded: boolean; found: number; nothing: string }) {
+/** Shown when the list file could not be fetched; the official PDF stays linked below. */
+function LoadError({ onRetry }: { onRetry: () => void }) {
   const { t } = useI18n()
-  if (!active(query)) return null
-  if (!loaded) return <p className={s.status}>{t('lists.loading')}</p>
-  if (found === 0) return <p className={s.status}>{nothing}</p>
-  return <p className={s.status}>{t('lists.found', { n: found })}</p>
+  return (
+    <p className={s.status}>
+      {t('lists.loadFailed')}{' '}
+      <button type="button" className={s.retry} onClick={onRetry}>
+        {t('lists.retry')}
+      </button>
+    </p>
+  )
+}
+
+/** Loading, nothing found or the count – in a live region, so screen readers hear it too. */
+function Status({ query, loaded, found, nothing, failed, onRetry }: { query: string; loaded: boolean; found: number; nothing: string; failed?: boolean; onRetry?: () => void }) {
+  const { t } = useI18n()
+  const body = !active(query) ? null : failed && onRetry ? (
+    <LoadError onRetry={onRetry} />
+  ) : !loaded ? (
+    <p className={s.status}>{t('lists.loading')}</p>
+  ) : found === 0 ? (
+    <p className={s.status}>{nothing}</p>
+  ) : (
+    <p className={s.status}>{t('lists.found', { n: found })}</p>
+  )
+  return (
+    <div role="status" aria-live="polite">
+      {body}
+    </div>
+  )
 }
 
 function More({ total }: { total: number }) {
@@ -124,7 +157,7 @@ const LEVEL_HINT: Record<SpecialtyLevel, string> = {
 export function SpecialtySearch({ level }: { level?: SpecialtyLevel }) {
   const { t } = useI18n()
   const [query, setQuery] = useState('')
-  const lists = useLazy(active(query), loadAcademic)
+  const { data: lists, failed, retry } = useLazy(active(query), loadAcademic)
   const hits = useMemo(() => {
     if (!lists || !active(query)) return []
     return lists.SPECIALTIES.filter(
@@ -135,7 +168,7 @@ export function SpecialtySearch({ level }: { level?: SpecialtyLevel }) {
   return (
     <Shell placeholder={t('lists.specialtyPlaceholder')} query={query} onQuery={setQuery} sources={[LIST_SOURCES.specialties]} takenOn={lists?.LISTS_TAKEN_ON}>
       <p className={s.hint}>{t(level ? LEVEL_HINT[level] : 'lists.specialtyHint')}</p>
-      <Status query={query} loaded={!!lists} found={hits.length} nothing={t('lists.nothing')} />
+      <Status query={query} loaded={!!lists} found={hits.length} nothing={t('lists.nothing')} failed={failed} onRetry={retry} />
       {hits.length > 0 && (
         <>
           <ul className={s.results}>
@@ -171,7 +204,7 @@ export function SpecialtySearch({ level }: { level?: SpecialtyLevel }) {
 export function UniversitySearch() {
   const { t } = useI18n()
   const [query, setQuery] = useState('')
-  const lists = useLazy(active(query), loadAcademic)
+  const { data: lists, failed, retry } = useLazy(active(query), loadAcademic)
   const hits = useMemo(() => {
     if (!lists || !active(query)) return []
     return lists.UNIVERSITIES.filter((u) => matches(`${u.name} ${u.country}`, query))
@@ -180,7 +213,7 @@ export function UniversitySearch() {
   return (
     <Shell placeholder={t('lists.universityPlaceholder')} query={query} onQuery={setQuery} sources={[LIST_SOURCES.universities]} takenOn={lists?.LISTS_TAKEN_ON}>
       <p className={s.hint}>{t('lists.universityHint')}</p>
-      <Status query={query} loaded={!!lists} found={hits.length} nothing={t('lists.nothingUni')} />
+      <Status query={query} loaded={!!lists} found={hits.length} nothing={t('lists.nothingUni')} failed={failed} onRetry={retry} />
       {hits.length > 0 && (
         <>
           <ul className={s.results}>
@@ -209,7 +242,7 @@ export function UniversitySearch() {
 export function InternshipSpecialtySearch() {
   const { t } = useI18n()
   const [query, setQuery] = useState('')
-  const lists = useLazy(active(query), loadInternship)
+  const { data: lists, failed, retry } = useLazy(active(query), loadInternship)
   const hits = useMemo(() => {
     if (!lists || !active(query)) return []
     return lists.INTERNSHIP_SPECIALTIES.filter((sp) => matches(`${sp.name} ${sp.group} ${sp.direction} ${sp.code}`, query))
@@ -218,7 +251,7 @@ export function InternshipSpecialtySearch() {
   return (
     <Shell placeholder={t('lists.internshipPlaceholder')} query={query} onQuery={setQuery} sources={['pps_internship_pdf']} takenOn={lists?.INTERNSHIP_TAKEN_ON}>
       <p className={s.hint}>{t('lists.internshipHint')}</p>
-      <Status query={query} loaded={!!lists} found={hits.length} nothing={t('lists.nothing')} />
+      <Status query={query} loaded={!!lists} found={hits.length} nothing={t('lists.nothing')} failed={failed} onRetry={retry} />
       {hits.length > 0 && (
         <>
           <ul className={s.results}>
@@ -253,7 +286,7 @@ export function ScienceSearch() {
   const [query, setQuery] = useState('')
   const [picked, setPicked] = useState<ScienceDirection | null>(null)
   const [country, setCountry] = useState('')
-  const lists = useLazy(active(query) || picked !== null, loadScience)
+  const { data: lists, failed, retry } = useLazy(active(query) || picked !== null, loadScience)
 
   const directions = useMemo(() => {
     if (!lists || !active(query) || picked) return []
@@ -289,7 +322,7 @@ export function ScienceSearch() {
       takenOn={lists?.SCIENCE_TAKEN_ON}
     >
       <p className={s.hint}>{t('lists.scienceHint')}</p>
-      {!lists && active(query) && <p className={s.status}>{t('lists.loading')}</p>}
+      {failed ? <LoadError onRetry={retry} /> : !lists && active(query) && <p className={s.status}>{t('lists.loading')}</p>}
 
       {picked && (
         <div className={s.picked}>

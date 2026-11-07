@@ -46,15 +46,12 @@ function VideoRow({ item }: { item: VideoItem }) {
           />
         </div>
       ) : (
+        // A plain navy poster instead of YouTube's thumbnail: the preview image alone would
+        // tell Google about every visitor who opens the block. Nothing leaves before the click.
         <button className={s.facade} onClick={() => setPlaying(true)} aria-label={`${t('video.play')}: ${clip.title}`}>
-          <img
-            className={s.thumb}
-            src={`https://i.ytimg.com/vi/${clip.youtubeId}/hqdefault.jpg`}
-            alt=""
-            loading="lazy"
-            width={480}
-            height={360}
-          />
+          <span className={s.facadeLength} aria-hidden="true">
+            {formatDuration(clip.durationSec, t)}
+          </span>
           <span className={s.playBadge}>
             <Play size={26} />
           </span>

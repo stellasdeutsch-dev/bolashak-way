@@ -17,9 +17,29 @@ export function pick(l: L | undefined, locale: Locale): { text: string; fallback
   return { text: l.ru, fallback: locale !== 'ru' }
 }
 
+/**
+ * The Kazakh possessive ending after a number written in digits ("4 қадамның 2-сі"):
+ * it follows the last word as it is read aloud – екі ends in a vowel, бір in a
+ * consonant – and that word's vowel harmony (front -сі/-і, back -сы/-ы).
+ */
+const KK_UNITS = ['', 'бір', 'екі', 'үш', 'төрт', 'бес', 'алты', 'жеті', 'сегіз', 'тоғыз']
+const KK_TENS = ['', 'он', 'жиырма', 'отыз', 'қырық', 'елу', 'алпыс', 'жетпіс', 'сексен', 'тоқсан']
+export function kkPossessive(n: number): string {
+  const v = Math.abs(Math.trunc(n))
+  const word =
+    v === 0 ? 'нөл' : v % 10 ? KK_UNITS[v % 10] : (v % 100) / 10 ? KK_TENS[(v % 100) / 10] : v % 1000 ? 'жүз' : v % 1_000_000 ? 'мың' : 'миллион'
+  const back = /[аоұы]/.test(word.replace(/[^аоұыәөүіеи]/g, '').slice(-1))
+  const vowelEnd = /[аеиоұүыіәө]$/.test(word)
+  return vowelEnd ? (back ? 'сы' : 'сі') : back ? 'ы' : 'і'
+}
+
 function interpolate(s: string, params?: Record<string, string | number>) {
   if (!params) return s
-  return s.replace(/\{(\w+)\}/g, (_, k) => (params[k] !== undefined ? String(params[k]) : `{${k}}`))
+  // {n:poss} prints the number with its Kazakh possessive ending: "2-сі", "1-і".
+  return s.replace(/\{(\w+)(?::(poss))?\}/g, (whole, k, mod) => {
+    if (params[k] === undefined) return whole
+    return mod ? `${params[k]}-${kkPossessive(Number(params[k]))}` : String(params[k])
+  })
 }
 
 export function useI18n() {

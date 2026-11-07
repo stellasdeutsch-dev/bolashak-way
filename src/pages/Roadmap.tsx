@@ -3,8 +3,8 @@ import { useMyPaths } from '@/components/platform/usePlatform'
 import { platformPaths } from '@/domain/paths'
 import { useHideOnScroll } from '@/components/useHideOnScroll'
 import { StepBar } from '@/components/Meter'
-import { Link, useNavigate } from 'react-router'
-import { IconArrowDown as ArrowDown, IconCheck as Check, IconChevronRight as ChevronRight, IconLock as Lock } from '@/components/icons'
+import { Link, useLocation, useNavigate } from 'react-router'
+import { IconArrowRight as ArrowRight, IconCheck as Check, IconChevronRight as ChevronRight, IconLock as Lock } from '@/components/icons'
 import { CHAPTERS } from '@/content/stages'
 import { chaptersFor } from '@/content/platforms/chapters'
 import { CATEGORIES } from '@/content/categories'
@@ -17,7 +17,7 @@ import { staleness } from '@/domain/freshness'
 import { useAppStore } from '@/store/useAppStore'
 import { useI18n, formatRange } from '@/i18n'
 import { usePageChrome } from '@/i18n/usePageChrome'
-import { Button, Callout, Card, Pill, ProgressRing } from '@/components/ui'
+import { ButtonLink, Callout, Card, Pill, ProgressRing } from '@/components/ui'
 import { StageIcon } from '@/components/StageIcon'
 import { EligibilityBanner } from '@/components/Eligibility'
 import s from './Roadmap.module.css'
@@ -31,7 +31,7 @@ type Row =
  * content read left-to-right. Chosen over a winding trail because 17–19 stages
  * have to be scannable – the same shape Coursera and Khan Academy use for a syllabus.
  */
-function RoadmapTrack({ rows, currentId, continueLabel }: { rows: Row[]; currentId?: string; continueLabel: string }) {
+function RoadmapTrack({ rows, currentId, nowLabel }: { rows: Row[]; currentId?: string; nowLabel: string }) {
   const { t, c } = useI18n()
   const paths = useMyPaths() ?? platformPaths('master')
   const stageIds = rows.filter((r) => r.kind === 'stage').map((r) => r.id)
@@ -77,7 +77,6 @@ function RoadmapTrack({ rows, currentId, continueLabel }: { rows: Row[]; current
             id={`node-${item.stage.id}`}
             to={paths.stage(item.stage.id)}
             className={[s.row, item.status === 'locked' ? s.rowLocked : '', isCurrent ? s.rowCurrent : ''].join(' ')}
-            aria-label={`${c(item.stage.title)} – ${statusLabel}`}
           >
             <span
               className={[
@@ -113,7 +112,9 @@ function RoadmapTrack({ rows, currentId, continueLabel }: { rows: Row[]; current
             <span className={s.rowBody}>
               <span className={s.rowTitle}>
                 {c(item.stage.title)}
-                {isCurrent && item.status !== 'done' && <span className={s.nowTag}>{continueLabel}</span>}
+                {/* The status the bubble shows by colour, said in words for screen readers. */}
+                <span className="visually-hidden">. {statusLabel}.</span>
+                {isCurrent && item.status !== 'done' && <span className={s.nowTag}>{nowLabel}</span>}
               </span>
               <span className={s.rowSummary}>{c(item.stage.summary)}</span>
               <span className={s.rowMeta}>
@@ -139,6 +140,7 @@ export function Roadmap() {
   const checked = useAppStore((st) => st.checked)
   const stagesDone = useAppStore((st) => st.stagesDone)
   const hudHidden = useHideOnScroll()
+  const location = useLocation()
 
   useEffect(() => {
     if (!profile) navigate('/', { replace: true })
@@ -153,6 +155,13 @@ export function Roadmap() {
   const stale = useMemo(() => staleness(CONTENT_META, new Date()), [])
   const docCount = useMemo(() => (profile ? documentsFor(profile).reduce((n, g) => n + g.items.length, 0) : 0), [profile])
   usePageChrome(t('nav.roadmap'))
+
+  // Back from a stage ("К плану"): land on that stage's row, not at the top of the list.
+  const returnTo = (location.state as { scrollTo?: string } | null)?.scrollTo
+  useEffect(() => {
+    if (!returnTo || !progress) return
+    document.getElementById(`node-${returnTo}`)?.scrollIntoView({ block: 'center', behavior: 'instant' })
+  }, [returnTo, progress])
 
   if (!profile || !progress) return null
 
@@ -175,13 +184,6 @@ export function Roadmap() {
     },
     ...group.items.map((item) => ({ kind: 'stage' as const, id: item.stage.id, item })),
   ])
-
-  const jumpToCurrent = () => {
-    if (!current) return
-    const el = document.getElementById(`node-${current.stage.id}`)
-    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' })
-    else navigate(paths.stage(current.stage.id))
-  }
 
   return (
     <div className={s.page}>
@@ -232,7 +234,9 @@ export function Roadmap() {
 
       <div className={[s.sticky, hudHidden ? s.stickyHidden : ''].join(' ')} aria-hidden={hudHidden}>
         <div className={s.hud}>
-          <ProgressRing value={progress.ratio} size={54} stroke={6} dark />
+          <span className={s.hudRing}>
+            <ProgressRing value={progress.ratio} size={54} stroke={6} dark />
+          </span>
           <div className={s.hudText}>
             <div className={s.hudKicker}>
               {current
@@ -276,23 +280,24 @@ export function Roadmap() {
           </div>
           {current && (
             <>
+              {/* Opens the current stage itself: the list is right below, scrolling to it is no help. */}
               <span className={s.hudBtnNarrow}>
-                <Button size="sm" onClick={jumpToCurrent} ariaLabel={t('common.continue')}>
-                  <ArrowDown size={16} aria-hidden="true" />
-                </Button>
+                <Link to={paths.stage(current.stage.id)} className={s.hudIconLink} aria-label={`${t('common.continue')}: ${c(current.stage.title)}`}>
+                  <ArrowRight size={16} aria-hidden="true" />
+                </Link>
               </span>
               <span className={s.hudBtnWide}>
-                <Button size="md" onClick={jumpToCurrent}>
+                <ButtonLink to={paths.stage(current.stage.id)}>
                   {t('common.continue')}
-                  <ArrowDown size={16} aria-hidden="true" />
-                </Button>
+                  <ArrowRight size={16} aria-hidden="true" />
+                </ButtonLink>
               </span>
             </>
           )}
         </div>
       </div>
 
-      <RoadmapTrack rows={rows} currentId={current?.stage.id} continueLabel={t('common.continue')} />
+      <RoadmapTrack rows={rows} currentId={current?.stage.id} nowLabel={t('roadmap.current')} />
 
       <div className={s.legend}>
         <span className={s.legendItem}>

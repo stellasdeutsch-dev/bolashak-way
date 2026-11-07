@@ -185,8 +185,10 @@
   gap: 6px;
 }
 
-.rowOff {
-  opacity: 0.8;
+/* Dim the box and the title, never the links: they must keep full contrast. */
+.rowOff .box,
+.rowOff .docTitle {
+  opacity: 0.72;
 }
 /* Invisible checkbox stretched over the row; links sit above it as their own targets. */
 .hit {
@@ -200,10 +202,6 @@
 }
 .rowOff .hit {
   cursor: default;
-}
-.hit:focus-visible {
-  outline: none;
-  box-shadow: var(--focus);
 }
 .above {
   position: relative;

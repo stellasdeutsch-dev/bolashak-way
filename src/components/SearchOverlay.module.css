@@ -99,7 +99,6 @@
 .result:hover,
 .result:focus-visible {
   background: var(--surface-2);
-  outline: none;
 }
 
 .resultTitle {

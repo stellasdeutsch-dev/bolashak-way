@@ -16,7 +16,8 @@
 }
 .field:focus-within {
   border-color: var(--accent);
-  box-shadow: 0 0 0 3px var(--accent-tint);
+  outline: 2px solid var(--accent-ink);
+  outline-offset: 2px;
 }
 .field input {
   flex: 1;
@@ -195,4 +196,12 @@
   color: var(--text);
   font: inherit;
   font-size: 15px;
+}
+.retry {
+  padding: 6px 12px;
+  border-radius: var(--r-pill);
+  background: var(--accent-tint);
+  color: var(--accent-ink);
+  font-weight: 600;
+  font-size: 14px;
 }

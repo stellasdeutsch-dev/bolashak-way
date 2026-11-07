@@ -58,11 +58,33 @@
 .hudBtn {
   flex: none;
 }
+/* The same arrow as a round accent button, as a link to the current stage. */
+.hudIconLink {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: var(--r-pill);
+  background: var(--accent-btn);
+  color: #fff;
+}
+.hudIconLink:hover {
+  color: #fff;
+  background: var(--accent-deep);
+}
+.hudRing {
+  flex: none;
+  display: contents;
+}
 
 @media (max-width: 520px) {
   .hud {
     gap: 12px;
     padding: 12px 13px;
+  }
+  /* The big ring of the intro card already shows the same figure just above. */
+  .hudRing {
+    display: none;
   }
   .hudTitle {
     font-size: 15.5px;
@@ -338,8 +360,8 @@
   background: var(--surface);
   box-shadow: var(--shadow-card);
 }
-.rowLocked {
-  opacity: 0.8;
+.rowLocked .rowTitle {
+  color: var(--text-2);
 }
 .rowLocked:hover {
   background: none;

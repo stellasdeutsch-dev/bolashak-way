@@ -45,8 +45,6 @@
   content: '−';
 }
 .term:focus-visible {
-  outline: none;
-  box-shadow: var(--focus);
   border-radius: var(--r-md);
 }
 .body {

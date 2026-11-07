@@ -34,11 +34,16 @@ function useTheme() {
   }, [theme])
 }
 
+/**
+ * A new page starts at the top, instantly. A link that wants to land somewhere else
+ * (the roadmap row of the stage you came from) says so in its state.
+ */
 function ScrollToTop() {
-  const { pathname } = useLocation()
+  const { pathname, state } = useLocation()
+  const keep = Boolean((state as { scrollTo?: string } | null)?.scrollTo)
   useEffect(() => {
-    window.scrollTo({ top: 0 })
-  }, [pathname])
+    if (!keep) window.scrollTo({ top: 0, behavior: 'instant' })
+  }, [pathname, keep])
   return null
 }
 

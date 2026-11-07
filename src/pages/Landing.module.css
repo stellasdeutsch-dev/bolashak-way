@@ -99,8 +99,7 @@
   box-shadow: var(--shadow-card-lift);
 }
 .card:focus-visible {
-  outline: none;
-  box-shadow: 0 0 0 4px rgba(var(--p-rgb), 0.35);
+  outline-color: var(--p);
 }
 .cardTop {
   display: flex;
@@ -109,6 +108,7 @@
   gap: 8px;
 }
 .cardIcon {
+  flex: none;
   width: 40px;
   height: 40px;
   border-radius: 10px;
@@ -118,12 +118,13 @@
   background: var(--p);
 }
 .cardBadge {
-  white-space: nowrap;
+  min-width: 0;
   font-size: 12px;
   font-weight: 600;
   padding: 4px 9px;
   border-radius: var(--r-pill);
-  color: var(--p);
+  /* The deeper text shade of the platform colour: plain --p is under 4.5:1 on its own tint. */
+  color: var(--p-ink, var(--p));
   background: rgba(var(--p-rgb), 0.12);
   text-align: right;
 }
@@ -401,10 +402,6 @@
   background:
     linear-gradient(90deg, var(--surface) 30%, rgba(255, 255, 255, 0)) left / 40px 100% no-repeat local,
     radial-gradient(farthest-side at 100% 50%, rgba(11, 18, 32, 0.12), rgba(11, 18, 32, 0)) right / 14px 100% no-repeat scroll;
-}
-.compareScroll:focus-visible {
-  outline: none;
-  box-shadow: var(--focus);
 }
 .compareTable {
   width: 100%;

@@ -395,10 +395,6 @@
   border-radius: var(--r-md);
   border: 1px solid var(--line);
 }
-.matrixScroll:focus-visible {
-  outline: none;
-  box-shadow: var(--focus);
-}
 .matrix {
   width: 100%;
   min-width: 560px;

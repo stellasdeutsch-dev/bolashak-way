@@ -12,6 +12,11 @@ import { useActivePlatform, usePlatformColour } from './platform/usePlatform'
 import { platformPaths } from '@/domain/paths'
 import { LOCALES, useI18n } from '@/i18n'
 import { useAppStore } from '@/store/useAppStore'
+import { useDocumentLocale } from '@/i18n/usePageChrome'
+import { useSaveStatus } from '@/store/safeStorage'
+import { useAnnouncer } from './announce'
+import { useUpdate } from './update'
+import { Callout } from './ui'
 import s from './Layout.module.css'
 
 type NavItem = { to: string; key: string; Icon: typeof MapIcon; end?: boolean }
@@ -52,6 +57,10 @@ export function LangSwitch() {
 
 export function Layout({ children }: { children: ReactNode }) {
   const { t } = useI18n()
+  useDocumentLocale()
+  const saveFailed = useSaveStatus((st) => st.failed)
+  const announcement = useAnnouncer((st) => st.message)
+  const applyUpdate = useUpdate((st) => st.apply)
   const hasProfile = useAppStore((st) => st.profile !== null)
   const [searchOpen, setSearchOpen] = useState(false)
   const { pathname } = useLocation()
@@ -103,7 +112,7 @@ export function Layout({ children }: { children: ReactNode }) {
       </button>
       <header className={s.header}>
         <div className={s.headerInner}>
-          <Link to="/" className={s.brand}>
+          <Link to="/" className={s.brand} aria-label="Bolashak Way">
             <span className={s.mark} aria-hidden="true">
               <svg width="17" height="17" viewBox="0 0 64 64" fill="none">
                 <path d="M18 42C24 26 40 24 46 34c-8-2-14 2-18 12" stroke="currentColor" strokeWidth="6" strokeLinecap="round" />
@@ -136,6 +145,15 @@ export function Layout({ children }: { children: ReactNode }) {
         </div>
       </header>
 
+      {saveFailed && (
+        <div className={s.saveBanner} role="alert">
+          <Callout tone="warn">
+            {t('common.saveFailed')}{' '}
+            <Link to="/settings">{t('common.saveFailedAction')}</Link>
+          </Callout>
+        </div>
+      )}
+
       {/* Keyed by route so the content fades in on every navigation. */}
       <main ref={mainRef} tabIndex={-1} className={[s.main, nav.length ? '' : s.mainNoTabs].join(' ')} key={pathname}>
         <ErrorBoundary inline>{children}</ErrorBoundary>
@@ -152,6 +170,19 @@ export function Layout({ children }: { children: ReactNode }) {
         </nav>
       )}
       <SearchOverlay open={searchOpen} onClose={() => setSearchOpen(false)} />
+      <p className="visually-hidden" role="status" aria-live="polite">
+        {announcement}
+      </p>
+      <div role="status" aria-live="polite" className={s.updateSlot}>
+        {applyUpdate && (
+          <div className={s.update}>
+            <span>{t('common.updateReady')}</span>
+            <button type="button" className={s.updateBtn} onClick={applyUpdate}>
+              {t('common.updateNow')}
+            </button>
+          </div>
+        )}
+      </div>
     </div>
   )
 }

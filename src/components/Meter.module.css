@@ -27,15 +27,15 @@
   border-radius: var(--r-pill);
 }
 .verdict_pass {
-  color: #1c6b45;
+  color: var(--success-ink);
   background: var(--success-tint);
 }
 .verdict_partial {
-  color: #8a5a12;
+  color: var(--warn-ink);
   background: var(--warn-tint);
 }
 .verdict_below {
-  color: #9b2c2c;
+  color: var(--danger-ink);
   background: var(--danger-tint);
 }
 .verdict_unknown {
@@ -136,10 +136,10 @@
   font-variant-numeric: tabular-nums;
 }
 .meterOk {
-  color: #1c6b45;
+  color: var(--success-ink);
 }
 .meterShort {
-  color: #8a5a12;
+  color: var(--warn-ink);
 }
 .meterTrack {
   height: 8px;

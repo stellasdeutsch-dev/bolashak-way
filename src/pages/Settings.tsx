@@ -72,7 +72,7 @@ export function Settings() {
 
       <Card>
         <div className={s.section}>
-          <span className={s.sectionTitle}>{t('settings.language')}</span>
+          <h2 className={s.sectionTitle}>{t('settings.language')}</h2>
           <div className={s.segmented}>
             {LOCALES.map((l) => (
               <button
@@ -86,9 +86,9 @@ export function Settings() {
             ))}
           </div>
 
-          <span className={s.sectionTitle} style={{ marginTop: 12 }}>
+          <h2 className={s.sectionTitle} style={{ marginTop: 12 }}>
             {t('settings.theme')}
-          </span>
+          </h2>
           <div className={s.segmented}>
             {themes.map((th) => (
               <button
@@ -107,7 +107,7 @@ export function Settings() {
       {state.profile && category && (
         <Card>
           <div className={s.section}>
-            <span className={s.sectionTitle}>{t('settings.profile')}</span>
+            <h2 className={s.sectionTitle}>{t('settings.profile')}</h2>
             <div className={s.profileGrid}>
               <div className={s.profileRow}>
                 <span className={s.profileKey}>{t('onboarding.q1')}</span>
@@ -138,7 +138,7 @@ export function Settings() {
 
       <Card>
         <div className={s.section}>
-          <span className={s.sectionTitle}>{t('settings.data')}</span>
+          <h2 className={s.sectionTitle}>{t('settings.data')}</h2>
           <div className={s.row}>
             <Button variant="ghost" onClick={doExport}>
               <Download size={16} aria-hidden="true" />
@@ -174,7 +174,7 @@ export function Settings() {
       {/* Its own card: at the bottom of the data block people were not finding it. */}
       <Card>
         <div className={s.section}>
-          <span className={s.sectionTitle}>{t('settings.reset')}</span>
+          <h2 className={s.sectionTitle}>{t('settings.reset')}</h2>
           <p className={s.hint}>{t('settings.resetHint')}</p>
           <div className={s.row}>
             <Button variant="danger" onClick={() => setConfirmReset(true)}>
@@ -187,7 +187,7 @@ export function Settings() {
 
       <Card>
         <div className={s.section}>
-          <span className={s.sectionTitle}>{t('settings.about')}</span>
+          <h2 className={s.sectionTitle}>{t('settings.about')}</h2>
           <div className={s.row}>
             <Pill>
               {t('common.year')}: {CONTENT_META.competitionYear}
@@ -199,9 +199,9 @@ export function Settings() {
           <p className={s.body}>{c(CONTENT_META.disclaimer)}</p>
           <p className={s.body}>{t('settings.aboutText')}</p>
 
-          <span className={s.sectionTitle} style={{ marginTop: 10 }}>
+          <h3 className={s.sectionTitle} style={{ marginTop: 10 }}>
             {t('settings.contacts')}
-          </span>
+          </h3>
           <div className={s.row}>
             <a href={`mailto:${CONTENT_META.contacts.email}`} style={{ display: 'inline-flex', gap: 6, alignItems: 'center', fontSize: 14 }}>
               <Mail size={15} aria-hidden="true" />
@@ -214,9 +214,9 @@ export function Settings() {
           </div>
           <p className={s.hint}>{c(CONTENT_META.contacts.address)}</p>
 
-          <span className={s.sectionTitle} style={{ marginTop: 10 }}>
+          <h3 className={s.sectionTitle} style={{ marginTop: 10 }}>
             {t('common.sources')}
-          </span>
+          </h3>
           <div className={s.sourceList}>
             {Object.keys(SOURCES).map((id) => (
               <SourceLink key={id} id={id} />
