@@ -31,6 +31,7 @@ export function ScrollRail() {
     let tail = scrollY, raf = 0, idle = 0, debounce = 0
     let drag: { y: number; top: number } | null = null
     let heads: { el: HTMLElement; top: number; mark: HTMLElement }[] = []
+    let stretch = 0, lastHere: HTMLElement | null = null
     const geo = () => {
       const H = root.scrollHeight, V = innerHeight, track = sb.clientHeight - PAD * 2
       const h = Math.max(36, Math.round((track * V) / Math.max(H, 1)))
@@ -61,8 +62,14 @@ export function ScrollRail() {
       const a = posOf(y, g), b = posOf(tail, g)
       thumb.style.height = `${g.h + Math.abs(a - b)}px`
       thumb.style.transform = `translateY(${Math.min(a, b)}px)`
+      // a long stretch ends with a small wobble as the tail catches up
+      stretch = Math.max(stretch, Math.abs(a - b))
+      if (tail === y && stretch > 14 && !still) { thumb.classList.remove(s.settle); void thumb.offsetWidth; thumb.classList.add(s.settle) }
+      if (tail === y) stretch = 0
       const here = sectionAt(y)
       for (const x of heads) x.mark.classList.toggle(s.here, x === here)
+      // entering a new section rings its dot once
+      if (here && here.mark !== lastHere) { if (lastHere && !still) { here.mark.classList.remove(s.ping); void here.mark.offsetWidth; here.mark.classList.add(s.ping) } lastHere = here.mark }
       if (tail !== y) raf = requestAnimationFrame(paint)
     }
     const kick = () => { if (!raf) raf = requestAnimationFrame(paint) }
@@ -75,6 +82,7 @@ export function ScrollRail() {
     }
     const measure = () => {
       marksBox.textContent = ''
+      lastHere = null
       const main = document.querySelector('main')
       let list = main ? [...main.querySelectorAll<HTMLElement>('h2')] : []
       if (list.length < 3 && main) list = [...main.querySelectorAll<HTMLElement>('h2, h3')]
@@ -84,6 +92,7 @@ export function ScrollRail() {
         const top = el.getBoundingClientRect().top + scrollY
         const mark = document.createElement('div')
         mark.className = s.mark
+        mark.style.setProperty('--i', String(marksBox.childElementCount))
         mark.style.top = `${posOf(top - offset() - 8, g) + g.h / 2}px`
         marksBox.append(mark)
         return { el, top, mark }
@@ -122,6 +131,8 @@ export function ScrollRail() {
       kick()
     }
     thumb.addEventListener('pointerup', endDrag)
+    thumb.addEventListener('animationend', () => thumb.classList.remove(s.settle))
+    marksBox.addEventListener('animationend', (e) => (e.target as HTMLElement).classList.remove(s.ping))
     thumb.addEventListener('pointercancel', endDrag)
     sb.addEventListener('pointermove', (e) => {
       if (drag) return
