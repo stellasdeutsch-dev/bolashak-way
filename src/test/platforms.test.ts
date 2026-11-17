@@ -11,7 +11,7 @@ import { resolveStage } from '@/domain/resolve'
 import { ICON_NAMES } from '@/components/StageIcon'
 import { chaptersFor } from '@/content/platforms/chapters'
 import { EXCERPTS } from '@/content/excerpts'
-import { SOURCE_TRACKS, sourceFits } from '@/content/sources'
+import { SOURCES, sourceFits } from '@/content/sources'
 import { CONTEST_FLOW, awardTimeline, departureChain, workbackTable } from '@/content/explain'
 import { COMPARE } from '@/content/platforms/compare'
 import fs from 'node:fs'
@@ -140,9 +140,10 @@ describe('five platforms, five stories', () => {
         for (const raw of STAGES.filter((st) => evaluate(st.appliesTo, p))) {
           // Raw data first: a mismatch is a content bug even if the resolver hides it.
           const patch = STAGE_PATCHES[track][raw.id]
-          ;(patch?.sources ?? raw.sources).forEach((src) => {
-            if (!sourceFits(src, track) && !SOURCE_TRACKS[src]?.length) return
-          })
+          // A shared stage lists every programme's sources and the resolver keeps the fitting
+          // ones; a platform's own list must hold only its own, and something must be left.
+          patch?.sources?.forEach((src) => check(`${raw.id}.patch.sources`, src))
+          if (resolveStage(raw, track).sources.length === 0) wrong.push(`${raw.id}.sources → none left`)
           raw.checklist
             .filter((c) => evaluate(c.appliesTo, p))
             .forEach((c) => check(`${raw.id}.check.${c.id}.link`, patch?.links && c.id in patch.links ? (patch.links[c.id] ?? undefined) : c.link))
@@ -164,6 +165,15 @@ describe('five platforms, five stories', () => {
         })
       }
       FAQ.filter((f) => !f.tracks || f.tracks.includes(track)).forEach((f) => check(`faq.${f.id}`, f.source))
+      // The platform's own front page: its key figures, who it is for, what it pays.
+      const home = PLATFORM_HOMES[platform.slug]
+      home.facts.forEach((f, i) => check(`home.fact${i}`, f.source))
+      home.fitSources.forEach((src) => check('home.fitSources', src))
+      check('home.coverageSource', home.coverageSource)
+      check('home.coverageNoteSource', home.coverageNoteSource)
+      awardTimeline(track).marks.forEach((m, i) => check(`awardTimeline.mark${i}`, m.source))
+      workbackTable(track).sources.forEach((src) => check('workbackTable', src))
+      departureChain(track).sources.forEach((src) => check('departureChain', src))
       expect([...new Set(wrong)]).toEqual([])
     })
   }
@@ -206,6 +216,48 @@ describe('five platforms, five stories', () => {
       }
     }
     expect(missing).toEqual([])
+  })
+})
+
+/**
+ * Every place content names a source by id. `sourceFits` treats an id it does not know as
+ * fitting every programme, and `getSource` throws on it at render time – so a typo in one id
+ * would pass the checks above and still take a page down. Walk all content and look each
+ * id up in the registry.
+ */
+describe('source ids', () => {
+  const SOURCE_KEYS = new Set(['source', 'sources', 'link', 'links', 'form', 'sourceFor', 'formFor', 'fitSources', 'coverageSource', 'coverageNoteSource'])
+  // The generated lists hold university URLs under `link`, not source ids.
+  const modules = import.meta.glob(['../content/**/*.ts', '!../content/lists*.ts'], { eager: true }) as Record<string, Record<string, unknown>>
+
+  it('all name an entry of the registry', () => {
+    const unknown: string[] = []
+    let found = 0
+    const seen = new Set<unknown>()
+    const idsIn = (v: unknown): unknown[] => (v == null ? [] : Array.isArray(v) ? v : typeof v === 'object' ? Object.values(v as object) : [v])
+    const check = (where: string, id: unknown) => {
+      // null in a `links` patch means "no link here"
+      if (id === null) return
+      found++
+      if (typeof id !== 'string' || !(id in SOURCES)) unknown.push(`${where} = ${JSON.stringify(id)}`)
+    }
+    const walk = (v: unknown, where: string) => {
+      if (!v || typeof v !== 'object' || seen.has(v)) return
+      seen.add(v)
+      for (const [k, x] of Object.entries(v)) {
+        if (SOURCE_KEYS.has(k)) idsIn(x).forEach((id) => check(`${where}.${k}`, id))
+        walk(x, `${where}.${k}`)
+      }
+    }
+    for (const [file, exports] of Object.entries(modules)) for (const [name, value] of Object.entries(exports)) walk(value, `${file}:${name}`)
+    // Data built by functions per programme is out of the walker's reach.
+    for (const p of PLATFORMS) {
+      awardTimeline(p.track).marks.forEach((m) => check(`awardTimeline(${p.track})`, m.source))
+      workbackTable(p.track).sources.forEach((src) => check(`workbackTable(${p.track})`, src))
+      departureChain(p.track).sources.forEach((src) => check(`departureChain(${p.track})`, src))
+    }
+    expect(found).toBeGreaterThan(500)
+    expect(unknown).toEqual([])
   })
 })
 
