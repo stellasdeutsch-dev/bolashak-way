@@ -10,14 +10,15 @@ import { useAppStore } from '@/store/useAppStore'
 import { applicableStages } from '@/domain/progress'
 import type { Profile } from '@/content/types'
 
+// As the onboarding stores it: only the direction is asked, the rest stays neutral.
 const medic: Profile = {
   track: 'master',
   category: 'master_medical',
   workerGroup: null,
   invitation: 'none',
   foreignCert: null,
-  kazakhCert: true,
-  experience: { years: 2, continuousMonths: 18 },
+  kazakhCert: false,
+  experience: null,
 }
 
 const renderAt = (ui: React.ReactNode) => render(<HashRouter>{ui}</HashRouter>)
@@ -99,10 +100,10 @@ describe('roadmap', () => {
     expect(screen.getByText('Следующее действие')).toBeInTheDocument()
   })
 
-  it('closes the Kazakh certificate stage from the onboarding answers alone', () => {
+  it('leaves the Kazakh certificate stage to the reader: the questions do not ask about it', () => {
     renderAt(<Roadmap />)
     const node = document.getElementById('node-kazakh')!
-    expect(within(node).getByText(/закрыто по вашим ответам/)).toBeInTheDocument()
+    expect(within(node).queryByText(/закрыто по вашим ответам/)).toBeNull()
   })
 
   it('shows language courses for a preferential category', () => {

@@ -154,14 +154,16 @@ describe('progress', () => {
     expect(r.ratio).toBeLessThan(0.1)
   })
 
-  it('auto-closes stages from onboarding answers without any clicks', () => {
-    const p = profile({ kazakhCert: true, invitation: 'unconditional', foreignCert: { exam: 'ielts', score: 7 } })
+  it('closes no stage by itself: the questions ask only for the direction', () => {
+    // The profile exactly as the onboarding builds it – certificates, invitation and
+    // experience are not asked, so nothing may count as done without a click.
+    const p = toProfile({ ...emptyDraft(), track: 'master', category: 'master_self' })
     const r = computeProgress({ profile: p, checked: [], stagesDone: [] })
-    expect(r.byId.get('kazakh')!.status).toBe('done')
-    expect(r.byId.get('kazakh')!.autoDone).toBe(true)
-    expect(r.byId.get('foreign')!.status).toBe('done')
-    expect(r.byId.get('admission')!.status).toBe('done')
-    expect(r.ratio).toBeGreaterThan(0)
+    expect(r.stages.filter((sp) => sp.autoDone).map((sp) => sp.stage.id)).toEqual([])
+    for (const id of ['kazakh', 'foreign', 'admission'] as const) expect(r.byId.get(id)!.status).not.toBe('done')
+    // Only "you know your category" is answered by choosing it.
+    const auto = r.stages.flatMap((sp) => sp.items.filter((i) => i.auto).map((i) => `${sp.stage.id}:${i.item.id}`))
+    expect(auto).toEqual(['category:category_known'])
   })
 
   it('marks a stage done when all required items are checked, and keeps optional ones free', () => {
