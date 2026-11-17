@@ -1,5 +1,5 @@
 import { create } from 'zustand'
-import { persist, createJSONStorage } from 'zustand/middleware'
+import { persist, type PersistStorage, type StorageValue } from 'zustand/middleware'
 import type { DateKey, Locale, Profile, StageId } from '@/content/types'
 import { CONTENT_META } from '@/content/meta'
 import { sanitizeArchive, sanitizeProgress, type Archive, type Progress } from '@/domain/exportImport'
@@ -70,6 +70,36 @@ const EMPTY = {
   documentsDone: [] as string[],
   notes: {} as Record<string, string>,
   dates: {} as Partial<Record<DateKey, string>>,
+}
+
+const STORAGE_KEY = 'bolashak-way'
+/** Where a save that could not be read is copied before anything new is written. */
+const UNREADABLE_KEY = `${STORAGE_KEY}.unreadable`
+const UNREADABLE = '__unreadable'
+
+const keepUnreadable = (text: string) => safeLocalStorage().setItem(UNREADABLE_KEY, text)
+
+/**
+ * JSON over the never-throwing localStorage. A save cut short (a full disk, a crash mid
+ * write) does not parse: instead of a silent clean start whose first write destroys it,
+ * the text is copied aside and the reader is told the plan could not be read.
+ */
+function jsonStorage(): PersistStorage<unknown> {
+  const store = safeLocalStorage()
+  return {
+    getItem: (name) => {
+      const text = store.getItem(name) as string | null
+      if (text === null) return null
+      try {
+        return JSON.parse(text) as StorageValue<unknown>
+      } catch {
+        keepUnreadable(text)
+        return { state: { [UNREADABLE]: true }, version: CONTENT_META.schemaVersion }
+      }
+    },
+    setItem: (name, value) => store.setItem(name, JSON.stringify(value)),
+    removeItem: (name) => store.removeItem(name),
+  }
 }
 
 const progressOf = (st: AppState): Progress => ({
@@ -152,9 +182,9 @@ export const useAppStore = create<AppState>()(
         }),
     }),
     {
-      name: 'bolashak-way',
+      name: STORAGE_KEY,
       version: CONTENT_META.schemaVersion,
-      storage: createJSONStorage(() => safeLocalStorage()),
+      storage: jsonStorage(),
       partialize: (s) => ({
         schemaVersion: s.schemaVersion,
         locale: s.locale,
@@ -171,12 +201,16 @@ export const useAppStore = create<AppState>()(
       // Runs on every load, not only on version bumps: whatever the browser kept from an
       // older content year is cut down to what the current model understands.
       merge: (persisted, current) => {
-        const raw = (persisted ?? {}) as Partial<AppState>
+        const raw = (persisted ?? {}) as Partial<AppState> & { [UNREADABLE]?: true }
+        if (raw[UNREADABLE]) return { ...current, restoreFailed: true }
         const progress = sanitizeProgress(raw)
         const archive = sanitizeArchive(raw.archive, progress.profile?.track)
+        const restoreFailed = raw.profile != null && progress.profile === null
+        // The plan is gone from the screen, but its data is kept aside, not overwritten.
+        if (restoreFailed) keepUnreadable(JSON.stringify(persisted))
         return {
           ...current,
-          restoreFailed: raw.profile != null && progress.profile === null,
+          restoreFailed,
           locale: raw.locale === 'kk' || raw.locale === 'en' || raw.locale === 'ru' ? raw.locale : current.locale,
           theme: raw.theme === 'light' || raw.theme === 'dark' || raw.theme === 'system' ? raw.theme : current.theme,
           ...progress,

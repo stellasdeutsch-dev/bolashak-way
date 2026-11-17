@@ -80,3 +80,14 @@ describe('switching programme', () => {
   })
 })
 
+describe('a damaged save', () => {
+  it('is reported and kept, not silently overwritten', async () => {
+    const broken = '{"state":{"profile":{"track":"master","category":"master_self"},"checked":["eligibility:cit'
+    localStorage.setItem('bolashak-way', broken)
+    await useAppStore.persist.rehydrate()
+    expect(useAppStore.getState().restoreFailed).toBe(true)
+    useAppStore.getState().setLocale('en')
+    expect(localStorage.getItem('bolashak-way.unreadable')).toBe(broken)
+  })
+})
+
