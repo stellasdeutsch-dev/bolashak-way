@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { IconExternal as ExternalLink, IconPlay as Play } from '@/components/icons'
 import type { Locale, VideoClip, VideoItem } from '@/content/types'
-import { useI18n, type UiKey } from '@/i18n'
+import { intlLocale, useI18n, type UiKey } from '@/i18n'
 import { CONTENT_META } from '@/content/meta'
 import { SourceLink } from '@/components/ui'
 import s from './Videos.module.css'
@@ -17,7 +17,7 @@ function formatDuration(sec: number, t: (k: UiKey, p?: Record<string, string | n
 
 function formatDate(iso: string, locale: Locale) {
   const d = new Date(`${iso}T12:00:00Z`)
-  return new Intl.DateTimeFormat(locale === 'kk' ? 'kk-KZ' : locale === 'en' ? 'en-GB' : 'ru-RU', {
+  return new Intl.DateTimeFormat(intlLocale(locale), {
     month: 'long',
     year: 'numeric',
     timeZone: 'UTC',

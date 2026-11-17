@@ -5,7 +5,7 @@ import { DEADLINE_RULES } from '@/content/deadlines'
 import { getSource } from '@/content/sources'
 import { getStageFor } from '@/domain/resolve'
 import type { DateKey } from '@/content/types'
-import { computeDeadlines, type ComputedDeadline } from '@/domain/deadlines'
+import { computeDeadlines, deadlineEventId, type ComputedDeadline } from '@/domain/deadlines'
 import { evaluate } from '@/domain/applicability'
 import { buildIcs, downloadIcs } from '@/domain/ics'
 import { atNoon, monthMatrix } from '@/domain/calendar'
@@ -16,7 +16,7 @@ import { useToday } from '@/components/useToday'
 import { DateField } from '@/components/DateField'
 import { useAppStore } from '@/store/useAppStore'
 import { usePlanProfile } from '@/components/platform/usePlatform'
-import { useI18n } from '@/i18n'
+import { intlLocale, useI18n } from '@/i18n'
 import { usePageChrome } from '@/i18n/usePageChrome'
 import { Button, Callout, Card, Pill, SourceLink } from '@/components/ui'
 import {
@@ -63,7 +63,7 @@ export function Calendar() {
 
   const fmtDate = useMemo(
     () =>
-      new Intl.DateTimeFormat(locale === 'kk' ? 'kk-KZ' : locale === 'en' ? 'en-GB' : 'ru-RU', {
+      new Intl.DateTimeFormat(intlLocale(locale), {
         day: 'numeric',
         month: 'long',
         year: 'numeric',
@@ -73,7 +73,7 @@ export function Calendar() {
   )
   const fmtMonth = useMemo(
     () =>
-      new Intl.DateTimeFormat(locale === 'kk' ? 'kk-KZ' : locale === 'en' ? 'en-GB' : 'ru-RU', {
+      new Intl.DateTimeFormat(intlLocale(locale), {
         month: 'long',
         year: 'numeric',
         timeZone: 'UTC',
@@ -111,7 +111,7 @@ export function Calendar() {
     for (const d of deadlines) {
       list.push({
         kind: 'deadline',
-        id: d.occurrence ? `${d.rule.id}-${d.occurrence}` : d.rule.id,
+        id: deadlineEventId(d),
         iso: d.due,
         title: c(d.rule.label),
         d,
@@ -200,7 +200,7 @@ export function Calendar() {
     if (!canExport) return
     const text = buildIcs(
       [...deadlines.map((d) => ({
-        id: d.occurrence ? `${d.rule.id}-${d.occurrence}` : d.rule.id,
+        id: deadlineEventId(d),
         date: d.due,
         summary: c(d.rule.label),
         description: [

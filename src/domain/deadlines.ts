@@ -71,6 +71,12 @@ function statusOf(due: number, today: number): DeadlineStatus {
   return days <= 14 ? 'soon' : 'upcoming'
 }
 
+/**
+ * One id per deadline, the same on the calendar grid and in the exported .ics (where it
+ * is the UID): a recurring term gets one per occurrence.
+ */
+export const deadlineEventId = (d: ComputedDeadline): string => (d.occurrence ? `${d.rule.id}-${d.occurrence}` : d.rule.id)
+
 /** The single most pressing obligation, for the roadmap header. */
 export function nearestDeadline(list: ComputedDeadline[]): ComputedDeadline | null {
   if (list.length === 0) return null
