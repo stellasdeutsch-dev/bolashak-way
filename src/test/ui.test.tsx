@@ -161,7 +161,9 @@ describe('every stage renders for every category', () => {
     { track: 'bachelor', category: 'bachelor', workerGroup: null, invitation: 'none', foreignCert: null, kazakhCert: false, experience: null },
   ]
 
-  it.each(sample.map((p) => [p.category, p] as const))('renders all stages of %s without crashing', (_name, profile) => {
+  // Each case renders every stage of a plan (about 17 full pages): ~2 s alone, and past the
+  // default 5 s unit-test limit when the machine is busy. Give it room instead of failing on time.
+  it.each(sample.map((p) => [p.category, p] as const))('renders all stages of %s without crashing', { timeout: 30_000 }, (_name, profile) => {
     for (const stage of applicableStages(profile)) {
       useAppStore.setState({
         profile,
