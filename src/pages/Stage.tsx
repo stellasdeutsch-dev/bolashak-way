@@ -4,7 +4,7 @@ import { dateLabelKey, platformPaths } from '@/domain/paths'
 import { Link, useParams } from 'react-router'
 import { IconArrowLeft as ArrowLeft, IconArrowRight as ArrowRight, IconCheck as Check, IconChevronDown as ChevronDown, IconAlertCircle as CircleAlert, IconExternal as ExternalLink, IconLock as Lock, IconAlertTriangle as TriangleAlert } from '@/components/icons'
 import { chaptersFor } from '@/content/platforms/chapters'
-import { platformForTrack, type PlatformMeta } from '@/content/platforms'
+import { platformForTrack } from '@/content/platforms'
 import { getStageFor } from '@/domain/resolve'
 import { DOCUMENTS, docForTrack } from '@/content/documents'
 import { faqForStage } from '@/content/faq'
@@ -12,33 +12,23 @@ import { excerptsForStage } from '@/content/excerpts'
 import { videosForStage } from '@/content/videos'
 import { getSource } from '@/content/sources'
 import { CONTENT_META } from '@/content/meta'
-import { ENGLISH_THRESHOLDS, KAZAKH_REQUIREMENT, LANGUAGE_GROUP_BY_CATEGORY, LANGUAGE_NOTES, SCIENCE_LANGUAGES } from '@/content/language'
-import { getCategory } from '@/content/categories'
 import type { DateKey, FaqItem, StageId } from '@/content/types'
 import { computeProgress } from '@/domain/progress'
 import { computeDeadlines } from '@/domain/deadlines'
 import { DEADLINE_RULES } from '@/content/deadlines'
-import { evaluate, experienceRequirement } from '@/domain/applicability'
+import { evaluate } from '@/domain/applicability'
 import { useAppStore } from '@/store/useAppStore'
-import { useI18n, pick, formatMonths, formatYears, formatDate, type UiKey } from '@/i18n'
+import { useI18n, pick, formatDate } from '@/i18n'
 import { usePageChrome } from '@/i18n/usePageChrome'
 import { Button, ButtonLink, Callout, Card, ConfirmDialog, FallbackBadge, Pill, SourceLink } from '@/components/ui'
 import { announce } from '@/components/announce'
 import { DateField } from '@/components/DateField'
 import { useToday } from '@/components/useToday'
 import { VideoList } from '@/components/Videos'
-import { AwardTimeline, ContestFlow, WorkbackTable } from '@/components/Explain'
-import { InternshipSpecialtySearch, ScienceSearch, SpecialtySearch, UniversitySearch } from '@/components/ListSearch'
 
-/** The heading over each kind of list; a kind without a university list has no entry for it. */
-const LIST_TITLE: Record<PlatformMeta['lists']['kind'], Partial<Record<'specialty' | 'university', UiKey>>> = {
-  degree: { specialty: 'lists.specialtyTitle', university: 'lists.universityTitle' },
-  internship: { specialty: 'lists.internshipTitle' },
-  science: { specialty: 'lists.scienceTitle', university: 'lists.scienceHostsTitle' },
-}
 import { StageForms } from '@/components/Forms'
 import { formsForStage } from '@/content/forms'
-import { ResponsiveTable } from '@/components/ResponsiveTable'
+import { STAGE_EXTRAS } from './stage/extras'
 import s from './Stage.module.css'
 
 function FaqRow({ item }: { item: FaqItem }) {
@@ -75,69 +65,6 @@ function FaqRow({ item }: { item: FaqItem }) {
         </div>
       )}
     </div>
-  )
-}
-
-function LanguageTable() {
-  const { t } = useI18n()
-  const profile = useAppStore((st) => st.profile)!
-  const group = LANGUAGE_GROUP_BY_CATEGORY[profile.category]
-  if (group === 'none') return null
-  const science = group === 'science'
-  // For applicants admitted on their own and for doctoral/residency applicants the Rules
-  // (pp573 п. 9 пп. 3, пп. 11–12) set no language condition: Order 318 is shown for reference.
-  const advisory = group === 'self'
-  // Only the preferential table has three levels; everywhere else one threshold decides.
-  const oneLevel = group !== 'preferential'
-  const rows = ENGLISH_THRESHOLDS[group]
-
-  return (
-    <Card>
-      <h2 className={s.sectionTitle} style={{ marginBottom: 12 }}>
-        {t('stage.thresholdTable')}
-      </h2>
-      {advisory && <p className={s.body} style={{ margin: '10px 0 0' }}>{t('stage.advisoryNote')}</p>}
-
-      {/* A table where it fits, one card per exam on a phone. */}
-      <ResponsiveTable
-        label={t('stage.thresholdTable')}
-        head={oneLevel ? [t('onboarding.exam'), t('stage.threshold')] : [t('onboarding.exam'), t('stage.level1'), t('stage.level2'), t('stage.level3')]}
-        rows={rows.map((r) => ({
-          key: r.exam,
-          cells: oneLevel ? [r.label, r.third ?? '–'] : [r.label, r.first ?? '–', r.second ?? '–', r.third ?? '–'],
-        }))}
-        wrapClassName={s.tableWrap}
-        tableClassName={s.table}
-      />
-      {!oneLevel && (
-        <p className={s.body} style={{ marginTop: 12, fontSize: 13.5 }}>
-          {t('stage.levelsNote')}
-        </p>
-      )}
-      {science && <ScienceLanguages />}
-      <div style={{ marginTop: 10 }}>
-        <SourceLink id={science ? 'ns_rules422' : 'prikaz318'} />
-      </div>
-    </Card>
-  )
-}
-
-/** Minimums for scientific internships by the language they run in (their own file, not Order 318). */
-function ScienceLanguages() {
-  const { t, c } = useI18n()
-  return (
-    <>
-      <p className={s.body} style={{ marginTop: 16, fontSize: 13.5 }}>
-        {t('stage.scienceLanguagesNote')}
-      </p>
-      <ResponsiveTable
-        label={t('stage.internshipLanguage')}
-        head={[t('stage.internshipLanguage'), t('stage.minimum')]}
-        rows={SCIENCE_LANGUAGES.map((r) => ({ key: r.lang.ru, cells: [c(r.lang), r.level === '–' ? t('stage.notRequired') : r.level] }))}
-        wrapClassName={s.tableWrap}
-        tableClassName={s.table}
-      />
-    </>
   )
 }
 
@@ -273,85 +200,6 @@ function DeadlinePanel({ stage }: { stage: StageId }) {
   )
 }
 
-/** Special cases and non-English thresholds from приказ №318, shown under the table. */
-function LanguageNotes() {
-  const { t, cf } = useI18n()
-  const track = useAppStore((st) => st.profile!.track)
-  const notes = LANGUAGE_NOTES.filter((n) => n.tracks.includes(track))
-  // Every note comes from the same order, so the link belongs to the block, not each line.
-  const sources = [...new Set(notes.map((n) => n.source))]
-  if (notes.length === 0) return null
-  return (
-    <Card>
-      <div className={s.section}>
-        <h2 className={s.sectionTitle}>{t('stage.languageNotes')}</h2>
-        {notes.map((n, i) => {
-          const text = cf(n.text)
-          return (
-            <p key={i} className={s.reqRow}>
-              <span>
-                {text.text}
-                {text.fallback && <FallbackBadge />}
-              </span>
-              {sources.length > 1 && <SourceLink id={n.source} />}
-            </p>
-          )
-        })}
-        {sources.length === 1 && (
-          <div className={s.blockSource}>
-            <SourceLink id={sources[0]} />
-          </div>
-        )}
-      </div>
-    </Card>
-  )
-}
-
-/** The category's own admission requirements, with the experience it asks for on top. */
-function CategoryRequirements() {
-  const { t, cf, locale } = useI18n()
-  const profile = useAppStore((st) => st.profile)!
-  const category = getCategory(profile.category)
-  const req = experienceRequirement(profile)
-  const reqSources = [...new Set(category.requirements.map((r) => r.source))]
-  const parts: string[] = []
-  if (req?.years != null) parts.push(`${formatYears(req.years, locale)} ${t('stage.yearsTotal')}`)
-  if (req?.continuousMonths != null) parts.push(`${formatMonths(req.continuousMonths, locale)} ${t('stage.monthsContinuous')}`)
-
-  return (
-    <Card>
-      <div className={s.section}>
-        <h2 className={s.sectionTitle}>{t('stage.categoryRequirements')}</h2>
-        {req && (
-          <div className={s.scoreRow}>
-            <Pill tone="accent">
-              {t('stage.expRequired')}: {parts.join(' · ')}
-            </Pill>
-          </div>
-        )}
-
-        {category.requirements.map((r, i) => {
-          const text = cf(r.text)
-          return (
-            <p key={i} className={s.reqRow}>
-              <span>
-                {text.text}
-                {text.fallback && <FallbackBadge />}
-              </span>
-              {reqSources.length > 1 && <SourceLink id={r.source} />}
-            </p>
-          )
-        })}
-        {reqSources.length === 1 && (
-          <div className={s.blockSource}>
-            <SourceLink id={reqSources[0]} />
-          </div>
-        )}
-      </div>
-    </Card>
-  )
-}
-
 export function StagePage() {
   const { id } = useParams<{ id: StageId }>()
   const paths = useMyPaths() ?? platformPaths('master')
@@ -389,9 +237,8 @@ export function StagePage() {
   }
 
   const sp = progress.byId.get(stage.id)!
+  const Extra = STAGE_EXTRAS[stage.id]
   const platform = platformForTrack(profile.track)
-  const lists = platform.lists
-  const listTitle = stage.id === 'specialty' || stage.id === 'university' ? LIST_TITLE[lists.kind][stage.id] : undefined
   const chapters = chaptersFor(profile.track)
   const chapter = chapters.find((ch) => ch.id === stage.chapter)!
   const locked = sp.status === 'locked'
@@ -582,74 +429,7 @@ export function StagePage() {
         </Callout>
       ))}
 
-      {stage.id === 'category' && <CategoryRequirements />}
-      {stage.id === 'foreign' && (
-        <>
-          <LanguageTable />
-          <LanguageNotes />
-        </>
-      )}
-      {stage.id === 'kazakh' && (
-        <Callout tone="info" source={platform.kazakhSource}>
-          <strong>{t('stage.kazakhTitle')}</strong>
-          <br />
-          {c(KAZAKH_REQUIREMENT.text)}
-        </Callout>
-      )}
-      {stage.id === 'workback' && (
-        <>
-          <Callout tone="info" source={platform.rulesSource}>
-            <strong>{t('stage.workBackTitle')}</strong>
-            <br />
-            {c(getCategory(profile.category).workBack)}
-          </Callout>
-          <Card>
-            <div className={s.section}>
-              <h2 className={s.sectionTitle}>{t('stage.workBackTable')}</h2>
-            <WorkbackTable track={profile.track} />
-            </div>
-          </Card>
-        </>
-      )}
-
-      {(stage.id === 'testing' || stage.id === 'interview' || stage.id === 'commission') && (
-        <Card>
-          <div className={s.section}>
-            <h2 className={s.sectionTitle}>{t('flow.contestTitle')}</h2>
-            {/* The three rounds with the exits drawn in, and this stage marked on them. */}
-            <ContestFlow track={profile.track} hereStage={stage.id} />
-          </div>
-        </Card>
-      )}
-
-      {stage.id === 'contract' && (
-        <Card>
-          <div className={s.section}>
-            <h2 className={s.sectionTitle}>{t('stage.awardClock')}</h2>
-            {/* Dim the term that is not yours, so nobody counts the wrong deadline. */}
-            <AwardTimeline track={profile.track} />
-          </div>
-        </Card>
-      )}
-
-      {/* Each platform searches its own official list: degree specialties at its level,
-          the internship list, or research directions with the hosts that take them. */}
-      {listTitle && (
-        <Card>
-          <div className={s.section}>
-            <h2 className={s.sectionTitle}>{t(listTitle)}</h2>
-            {lists.kind === 'science' ? (
-              <ScienceSearch />
-            ) : lists.kind === 'internship' ? (
-              <InternshipSpecialtySearch />
-            ) : stage.id === 'specialty' ? (
-              <SpecialtySearch level={lists.level} />
-            ) : (
-              <UniversitySearch />
-            )}
-          </div>
-        </Card>
-      )}
+      {Extra && <Extra stage={stage} profile={profile} platform={platform} />}
 
       {stageDocs.length > 0 && (
         <Card>
