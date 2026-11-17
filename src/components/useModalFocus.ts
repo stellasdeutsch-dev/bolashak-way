@@ -1,6 +1,10 @@
 import { useEffect, useRef, type RefObject } from 'react'
 
-const FOCUSABLE = 'a[href], button:not([disabled]), input, textarea, select, iframe'
+// Only what Tab can reach: a result list moved by arrow keys gives its rows tabIndex=-1,
+// and counting those as the ends of the dialog let Tab slip out to the page beneath.
+const FOCUSABLE = ['a[href]', 'button:not([disabled])', 'input:not([disabled])', 'textarea:not([disabled])', 'select:not([disabled])', 'iframe']
+  .map((sel) => `${sel}:not([tabindex="-1"])`)
+  .join(', ')
 
 /**
  * Focus handling every dialog here shares: move focus in when it opens, keep Tab inside
@@ -24,10 +28,11 @@ export function useModalFocus(box: RefObject<HTMLElement | null>, open: boolean,
       if (items.length === 0) return
       const head = items[0]
       const tail = items[items.length - 1]
-      if (e.shiftKey && document.activeElement === head) {
+      const inside = box.current.contains(document.activeElement)
+      if (e.shiftKey && (document.activeElement === head || !inside)) {
         e.preventDefault()
         tail.focus()
-      } else if (!e.shiftKey && document.activeElement === tail) {
+      } else if (!e.shiftKey && (document.activeElement === tail || !inside)) {
         e.preventDefault()
         head.focus()
       }
