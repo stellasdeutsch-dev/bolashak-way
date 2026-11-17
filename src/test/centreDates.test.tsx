@@ -145,7 +145,7 @@ describe('.ics with the Center’s dates', () => {
     expect(unfolded).toContain('DTSTART;VALUE=DATE:20261116\r\nDTEND;VALUE=DATE:20261201')
     expect(unfolded).toContain('DTSTART;VALUE=DATE:20261120\r\nDTEND;VALUE=DATE:20261121')
     expect(unfolded).toContain(`URL:${period.url}`)
-    expect(unfolded).toContain(`UID:${centreDateId(period)}-20261116@bolashak-way`)
+    expect(unfolded).toContain(`UID:${centreDateId(period)}@bolashak-way`)
     // the sentence goes in as it is, only escaped
     expect(unfolded).toContain('DESCRIPTION:Тестовая запись: приём документов проводится с 16 по 30 ноября 2026 года.')
     // the personal deadline has no URL
