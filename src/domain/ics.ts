@@ -87,7 +87,9 @@ export function buildIcs(events: IcsEvent[], calendarName: string, now: Date): s
   for (const e of events) {
     lines.push(
       'BEGIN:VEVENT',
-      `UID:${e.id}-${compact(e.date)}@bolashak-way`,
+      // The id alone: a corrected date must update the event already in the calendar,
+      // not add a second one beside it with its own reminder.
+      `UID:${e.id}@bolashak-way`,
       `DTSTAMP:${stamp}`,
       `DTSTART;VALUE=DATE:${compact(e.date)}`,
       // DTEND is exclusive for all-day events, so a one-day event ends the next day.

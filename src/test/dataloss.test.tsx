@@ -1,6 +1,7 @@
 import { beforeEach, describe, expect, it } from 'vitest'
 import { act } from '@testing-library/react'
 import { buildSnapshot, parseSnapshot } from '@/domain/exportImport'
+import { buildIcs } from '@/domain/ics'
 import { useAppStore } from '@/store/useAppStore'
 import type { Profile } from '@/content/types'
 
@@ -106,6 +107,17 @@ describe('a damaged save', () => {
     expect(useAppStore.getState().restoreFailed).toBe(true)
     useAppStore.getState().setLocale('en')
     expect(localStorage.getItem('bolashak-way.unreadable')).toBe(broken)
+  })
+})
+
+describe('the .ics file', () => {
+  it('keeps one UID per event when its date changes, so a re-import updates it', () => {
+    const now = new Date('2026-11-17T10:00:00Z')
+    const uid = (text: string) => text.split('\r\n').find((l) => l.startsWith('UID:'))
+    const a = buildIcs([{ id: 'contract_90', date: '2026-12-01', summary: 'S' }], 'Cal', now)
+    const b = buildIcs([{ id: 'contract_90', date: '2026-12-15', summary: 'S' }], 'Cal', now)
+    expect(uid(a)).toBe('UID:contract_90@bolashak-way')
+    expect(uid(b)).toBe(uid(a))
   })
 })
 
