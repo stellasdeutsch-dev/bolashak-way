@@ -3,11 +3,11 @@ import { useNavigate } from 'react-router'
 import { IconSearch as Search, IconClose as X } from '@/components/icons'
 import { MIN_QUERY, searchAll, type ResultKind, type SearchResult } from '@/domain/search'
 import { useAppStore } from '@/store/useAppStore'
-import { useI18n } from '@/i18n'
+import { useI18n, type UiKey } from '@/i18n'
 import { useModalFocus } from './useModalFocus'
 import s from './SearchOverlay.module.css'
 
-const KIND_KEY: Record<ResultKind, string> = {
+const KIND_KEY: Record<ResultKind, UiKey> = {
   stage: 'search.kindStage',
   checklist: 'search.kindChecklist',
   mistake: 'search.kindMistake',

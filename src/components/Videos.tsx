@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { IconExternal as ExternalLink, IconPlay as Play } from '@/components/icons'
 import type { Locale, VideoClip, VideoItem } from '@/content/types'
-import { useI18n } from '@/i18n'
+import { useI18n, type UiKey } from '@/i18n'
 import { CONTENT_META } from '@/content/meta'
 import { SourceLink } from '@/components/ui'
 import s from './Videos.module.css'
@@ -11,7 +11,7 @@ function clipFor(item: VideoItem, locale: Locale): VideoClip {
   return item.clips.find((cl) => cl.lang === locale) ?? item.clips.find((cl) => cl.lang === 'ru') ?? item.clips[0]
 }
 
-function formatDuration(sec: number, t: (k: string, p?: Record<string, string | number>) => string) {
+function formatDuration(sec: number, t: (k: UiKey, p?: Record<string, string | number>) => string) {
   return sec < 60 ? t('video.seconds', { n: sec }) : t('video.minutes', { n: Math.round(sec / 60) })
 }
 

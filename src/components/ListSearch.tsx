@@ -4,7 +4,7 @@ import type {
 } from '@/content/lists'
 import type { SourceId } from '@/content/types'
 import { LIST_SOURCES, matches, matchingEquivalents } from '@/content/lists'
-import { useI18n, formatDate } from '@/i18n'
+import { useI18n, formatDate, type UiKey } from '@/i18n'
 import { SourceLink } from '@/components/ui'
 import { IconSearch as Search, IconExternal as ExternalLink, IconClose as Close } from '@/components/icons'
 import s from './ListSearch.module.css'
@@ -160,7 +160,7 @@ function More({ total }: { total: number }) {
 
 export type SpecialtyLevel = 'Бакалавриат' | 'Магистратура' | 'Докторантура'
 
-const LEVEL_HINT: Record<SpecialtyLevel, string> = {
+const LEVEL_HINT: Record<SpecialtyLevel, UiKey> = {
   Бакалавриат: 'lists.hintBachelor',
   Магистратура: 'lists.hintMaster',
   Докторантура: 'lists.hintDoctorate',

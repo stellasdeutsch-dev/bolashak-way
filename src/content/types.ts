@@ -92,7 +92,8 @@ export type StageId =
   | 'return'
   | 'workback'
 
-export type SourceId = string
+export type { SourceId } from './sources'
+import type { SourceId } from './sources'
 export type DocId = string
 
 /** User-entered anchor dates that personal deadlines are computed from. */

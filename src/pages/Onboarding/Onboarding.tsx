@@ -8,14 +8,14 @@ import { platformPaths } from '@/domain/paths'
 import { StageIcon } from '@/components/StageIcon'
 import { defaultCategoryFor, draftFromProfile, emptyDraft, isDraftComplete, toProfile, type OnboardingDraft } from '@/domain/profile'
 import { useAppStore } from '@/store/useAppStore'
-import { useI18n } from '@/i18n'
+import { useI18n, type UiKey } from '@/i18n'
 import { usePageChrome } from '@/i18n/usePageChrome'
 import { Button, Pill } from '@/components/ui'
 import s from './Onboarding.module.css'
 
 
 /** The question in each platform's own terms. */
-const Q1: Record<Track, string> = {
+const Q1: Record<Track, UiKey> = {
   bachelor: 'onboarding.q1single',
   master: 'onboarding.q1_master',
   phd_residency: 'onboarding.q1_doctorate',

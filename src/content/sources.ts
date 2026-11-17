@@ -1,4 +1,4 @@
-import type { Source, SourceId, Track } from './types'
+import type { L, Source, Track } from './types'
 
 const B = 'https://bolashak.gov.kz'
 
@@ -6,7 +6,7 @@ const B = 'https://bolashak.gov.kz'
  * Registry of official sources. Every fact in content points here by id, so
  * updating a link for a new competition year is a one-line change.
  */
-export const SOURCES: Record<SourceId, Source> = {
+export const SOURCES = {
   pravila: {
     id: 'pravila',
     org: 'bolashak.gov.kz',
@@ -319,10 +319,14 @@ export const SOURCES: Record<SourceId, Source> = {
     url: 'mailto:info@bolashak.gov.kz',
     title: { ru: 'Ответы администрации в чатах претендентов (май–август 2026)', kk: 'Әкімшіліктің үміткерлер чаттарындағы жауаптары (2026 ж. мамыр–тамыз)', en: 'Administration answers in applicant chats (May–Aug 2026)' },
   },
-}
+} satisfies Record<string, { id: string; title: L; url: string; org: string }>
+
+/** A source is named by its key in the registry: a misspelt id does not compile. */
+export type SourceId = keyof typeof SOURCES
 
 export const getSource = (id: SourceId): Source => {
-  const s = SOURCES[id]
+  // Each entry repeats its key as its id (checked in model.test.ts).
+  const s = SOURCES[id] as Source | undefined
   if (!s) throw new Error(`Unknown source id: ${id}`)
   return s
 }

@@ -1,7 +1,9 @@
 import { useCallback } from 'react'
 import { LOCALE_IDS, type L, type Locale } from '@/content/types'
 import { useAppStore } from '@/store/useAppStore'
-import { UI, resolveUi } from './ui'
+import { UI, resolveUi, type UiKey } from './ui'
+
+export type { UiKey }
 
 /** Each language's name in itself; a Record, so a language added to LOCALE_IDS needs one. */
 const LOCALE_NAMES: Record<Locale, { label: string; native: string }> = {
@@ -48,7 +50,7 @@ function interpolate(s: string, params?: Record<string, string | number>) {
 export function useI18n() {
   const locale = useAppStore((s) => s.locale)
   const t = useCallback(
-    (path: string, params?: Record<string, string | number>) => interpolate(resolveUi(UI as never, path, locale), params),
+    (path: UiKey, params?: Record<string, string | number>) => interpolate(resolveUi(UI as never, path, locale), params),
     [locale],
   )
   const c = useCallback((l: L | undefined) => pick(l, locale).text, [locale])

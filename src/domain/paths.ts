@@ -1,4 +1,4 @@
-import type { PlatformSlug, StageId, Track } from '@/content/types'
+import type { DateKey, PlatformSlug, StageId, Track } from '@/content/types'
 import { platformForTrack } from '@/content/platforms'
 
 /** Every address inside one platform. Pages build links only through this. */
@@ -25,7 +25,7 @@ export const platformPaths = (slug: PlatformSlug): PlatformPaths => ({
 export const pathsForTrack = (track: Track): PlatformPaths => platformPaths(platformForTrack(track).slug)
 
 /** The i18n key for an anchor date, in the platform's own words ("обучения" or "стажировки"). */
-export const dateLabelKey = (key: string, track: Track): string =>
+export const dateLabelKey = (key: DateKey, track: Track): `deadlines.${DateKey}` | `deadlines.${'study_start' | 'study_end'}_intern` =>
   (track === 'internship' || track === 'science_internship') && (key === 'study_start' || key === 'study_end')
     ? `deadlines.${key}_intern`
     : `deadlines.${key}`

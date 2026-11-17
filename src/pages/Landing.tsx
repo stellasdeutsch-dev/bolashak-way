@@ -97,7 +97,7 @@ const scrollToId = (id: string) => {
 
 function WhatIs() {
   const { t } = useI18n()
-  const steps = ['landing.whatStep1', 'landing.whatStep2', 'landing.whatStep3']
+  const steps = ['landing.whatStep1', 'landing.whatStep2', 'landing.whatStep3'] as const
   return (
     <Card className={s.what}>
       <h2 className={s.sectionTitle}>{t('landing.whatTitle')}</h2>

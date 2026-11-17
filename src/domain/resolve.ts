@@ -1,4 +1,4 @@
-import type { Stage, StageId, Track } from '@/content/types'
+import type { SourceId, Stage, StageId, Track } from '@/content/types'
 import { STAGE_BY_ID } from '@/content/stages'
 import { STAGE_PATCHES } from '@/content/platforms'
 import { sourceFits } from '@/content/sources'
@@ -13,7 +13,7 @@ export function resolveStage(stage: Stage, track: Track): Stage {
   const texts = patch.checklist ?? {}
   const links = patch.links ?? {}
   // A link to another programme's page is swapped for this platform's own, or dropped.
-  const linkFor = (id: string, link?: string) =>
+  const linkFor = (id: string, link?: SourceId) =>
     id in links ? (links[id] ?? undefined) : sourceFits(link, track) ? link : undefined
   return {
     ...stage,

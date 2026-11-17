@@ -20,7 +20,8 @@ import { useUpdate } from './update'
 import { Callout } from './ui'
 import s from './Layout.module.css'
 
-type NavItem = { to: string; key: string; Icon: typeof MapIcon; end?: boolean }
+/** Each item has a full label (nav.*) and a short one for the tab bar (navShort.*). */
+type NavItem = { to: string; key: 'overview' | 'roadmap' | 'calendar' | 'documents' | 'settings'; Icon: typeof MapIcon; end?: boolean }
 
 /** Inside a platform the nav is that platform's; on the chooser it is just the way in. */
 function useNav(): NavItem[] {
@@ -28,11 +29,11 @@ function useNav(): NavItem[] {
   if (!platform) return []
   const p = platformPaths(platform.slug)
   return [
-    { to: p.home, key: 'nav.overview', Icon: BookOpen, end: true },
-    { to: p.roadmap, key: 'nav.roadmap', Icon: MapIcon },
-    { to: p.calendar, key: 'nav.calendar', Icon: CalendarIcon },
-    { to: p.documents, key: 'nav.documents', Icon: FolderCheck },
-    { to: '/settings', key: 'nav.settings', Icon: SettingsIcon },
+    { to: p.home, key: 'overview', Icon: BookOpen, end: true },
+    { to: p.roadmap, key: 'roadmap', Icon: MapIcon },
+    { to: p.calendar, key: 'calendar', Icon: CalendarIcon },
+    { to: p.documents, key: 'documents', Icon: FolderCheck },
+    { to: '/settings', key: 'settings', Icon: SettingsIcon },
   ]
 }
 
@@ -141,7 +142,7 @@ export function Layout({ children }: { children: ReactNode }) {
             {nav.map(({ to, key, Icon, end }) => (
               <NavLink key={to} to={to} end={end} className={({ isActive }) => [s.deskLink, isActive ? s.deskLinkActive : ''].join(' ')}>
                 <Icon size={16} aria-hidden="true" />
-                {t(key)}
+                {t(`nav.${key}`)}
               </NavLink>
             ))}
           </nav>
@@ -187,7 +188,7 @@ export function Layout({ children }: { children: ReactNode }) {
           {nav.map(({ to, key, Icon, end }) => (
             <NavLink key={to} to={to} end={end} className={({ isActive }) => [s.tab, isActive ? s.tabActive : ''].join(' ')}>
               <Icon size={20} aria-hidden="true" />
-              <span className={s.tabLabel}>{t(key.replace('nav.', 'navShort.'))}</span>
+              <span className={s.tabLabel}>{t(`navShort.${key}`)}</span>
             </NavLink>
           ))}
         </nav>

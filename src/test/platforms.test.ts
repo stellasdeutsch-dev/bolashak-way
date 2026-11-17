@@ -16,7 +16,7 @@ import { CONTEST_FLOW, awardTimeline, departureChain, workbackTable } from '@/co
 import { COMPARE } from '@/content/platforms/compare'
 import fs from 'node:fs'
 import path from 'node:path'
-import type { CategoryId, L, PlatformSlug, Profile, Track } from '@/content/types'
+import type { CategoryId, L, PlatformSlug, Profile, SourceId, Track } from '@/content/types'
 
 /**
  * Each platform tells only its own programme. These are the words that give another
@@ -128,7 +128,7 @@ describe('five platforms, five stories', () => {
     it(`${platform.slug} cites only its own programme's sources`, () => {
       const track = platform.track
       const wrong: string[] = []
-      const check = (where: string, id?: string) => {
+      const check = (where: string, id?: SourceId) => {
         if (id && !sourceFits(id, track)) wrong.push(`${where} → ${id}`)
       }
       for (const category of CATEGORIES_BY_TRACK[track]) {

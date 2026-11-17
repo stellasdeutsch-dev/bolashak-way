@@ -5,6 +5,7 @@ import { PLATFORMS } from '@/content/platforms'
 import { DEADLINE_RULES } from '@/content/deadlines'
 import { LOCALES } from '@/i18n'
 import { sanitizeProgress } from '@/domain/exportImport'
+import { SOURCES } from '@/content/sources'
 
 /**
  * The id lists are written once (content/types.ts) and everything else is derived from
@@ -41,5 +42,9 @@ describe('one list per kind of id', () => {
       expect(clean.profile, id).toEqual({ track, category: id, workerGroup })
       expect(Object.keys(clean.dates), id).toEqual([...DATE_KEYS])
     }
+  })
+
+  it('names each source by its own key', () => {
+    for (const [key, source] of Object.entries(SOURCES)) expect(source.id, key).toBe(key)
   })
 })

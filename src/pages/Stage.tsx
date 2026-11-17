@@ -19,7 +19,7 @@ import { computeDeadlines } from '@/domain/deadlines'
 import { DEADLINE_RULES } from '@/content/deadlines'
 import { evaluate, experienceRequirement } from '@/domain/applicability'
 import { useAppStore } from '@/store/useAppStore'
-import { useI18n, pick, formatMonths, formatYears, formatDate } from '@/i18n'
+import { useI18n, pick, formatMonths, formatYears, formatDate, type UiKey } from '@/i18n'
 import { usePageChrome } from '@/i18n/usePageChrome'
 import { Button, ButtonLink, Callout, Card, ConfirmDialog, FallbackBadge, Pill, SourceLink } from '@/components/ui'
 import { announce } from '@/components/announce'
@@ -30,7 +30,7 @@ import { AwardTimeline, ContestFlow, WorkbackTable } from '@/components/Explain'
 import { InternshipSpecialtySearch, ScienceSearch, SpecialtySearch, UniversitySearch, type SpecialtyLevel } from '@/components/ListSearch'
 
 const LEVEL_BY_TRACK: Partial<Record<Track, SpecialtyLevel>> = { bachelor: 'Бакалавриат', master: 'Магистратура', phd_residency: 'Докторантура' }
-const LIST_TITLE: Record<Track, Record<'specialty' | 'university', string>> = {
+const LIST_TITLE: Record<Track, Record<'specialty' | 'university', UiKey>> = {
   bachelor: { specialty: 'lists.specialtyTitle', university: 'lists.universityTitle' },
   master: { specialty: 'lists.specialtyTitle', university: 'lists.universityTitle' },
   phd_residency: { specialty: 'lists.specialtyTitle', university: 'lists.universityTitle' },

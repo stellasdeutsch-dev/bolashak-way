@@ -655,6 +655,14 @@ export const UI = {
 type Leaf = { ru: string; kk?: string; en?: string } | string
 type UiTree = { [k: string]: Leaf | UiTree }
 
+/** Every dotted path to a string in a tree: 'stage.checklist', 'calendar.mon' … */
+type PathsOf<T> = {
+  [K in keyof T & string]: T[K] extends string | { ru: string } ? K : `${K}.${PathsOf<T[K]>}`
+}[keyof T & string]
+
+/** A key of the interface strings. A misspelt key does not compile. */
+export type UiKey = PathsOf<typeof UI>
+
 export function resolveUi(tree: UiTree, path: string, locale: Locale): string {
   const leaf = path.split('.').reduce<Leaf | UiTree | undefined>((acc, k) => (acc && typeof acc === 'object' ? (acc as UiTree)[k] : undefined), tree)
   if (leaf === undefined) return path
