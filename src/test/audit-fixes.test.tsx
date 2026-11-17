@@ -132,8 +132,18 @@ describe('404', () => {
 
 describe('dates', () => {
   it('reads a calendar date the same in every time zone and language', () => {
-    expect(formatDate('2026-10-28', 'ru')).toMatch(/^28 октября 2026/)
-    expect(formatDate('2026-10-28', 'en')).toBe('28 October 2026')
+    // West of UTC, east of it, and the furthest-east zone (UTC+14): one wrong offset moves the day.
+    const before = process.env.TZ
+    try {
+      for (const zone of ['America/Los_Angeles', 'Asia/Almaty', 'Pacific/Kiritimati']) {
+        process.env.TZ = zone
+        expect(formatDate('2026-10-28', 'ru'), zone).toMatch(/^28 октября 2026/)
+        expect(formatDate('2026-10-28', 'en'), zone).toBe('28 October 2026')
+        expect(formatDate('2026-01-01', 'en'), zone).toBe('1 January 2026')
+      }
+    } finally {
+      process.env.TZ = before
+    }
     expect(formatDate('not a date', 'ru')).toBe('not a date')
   })
 })

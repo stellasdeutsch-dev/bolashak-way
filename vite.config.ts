@@ -97,6 +97,9 @@ export default defineConfig({
     environment: 'jsdom',
     globals: true,
     setupFiles: ['./src/test/setup.ts'],
+    // The readers are in Kazakhstan (UTC+5/+6). In UTC – where CI runs – the local and the
+    // UTC date are the same, so a date bug that only shows east of Greenwich passes there.
+    env: { TZ: 'Asia/Almaty' },
     // the site/ folder is a separate project with its own Playwright tests
     include: ['src/**/*.test.{ts,tsx}'],
   },

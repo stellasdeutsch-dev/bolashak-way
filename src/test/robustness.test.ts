@@ -13,9 +13,15 @@ describe('calendar dates', () => {
     expect(isIsoDate('26-01-01')).toBe(false)
   })
 
+  it('runs in the readers\' time zone, where local and UTC dates differ', () => {
+    // Set in vite.config.ts; without it the test below proves nothing.
+    expect(new Date(2026, 2, 1, 2, 0).getTimezoneOffset()).toBeLessThan(0)
+  })
+
   it('takes "today" from the reader\'s calendar, not from UTC', () => {
     // 02:00 local time on 1 March: in UTC+5 the UTC date is still 28 February.
     const early = new Date(2026, 2, 1, 2, 0)
+    expect(early.toISOString().slice(0, 10)).toBe('2026-02-28')
     expect(localIso(early)).toBe('2026-03-01')
   })
 })
