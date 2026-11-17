@@ -84,7 +84,8 @@ export function parseCentreDates(raw: unknown): CentreDate[] | null {
     out.push(entry)
   }
   out.sort((a, b) => a.date.localeCompare(b.date) || (a.end ?? a.date).localeCompare(b.end ?? b.date))
-  return out.slice(0, MAX_ENTRIES)
+  // Over the cap, the oldest go: the feed grows at the far end, where the coming dates are.
+  return out.slice(-MAX_ENTRIES)
 }
 
 /** Loads the feed once, giving up after `timeoutMs`. Never throws. */

@@ -2,6 +2,7 @@ import { beforeEach, describe, expect, it } from 'vitest'
 import { act } from '@testing-library/react'
 import { buildSnapshot, parseSnapshot } from '@/domain/exportImport'
 import { buildIcs } from '@/domain/ics'
+import { parseCentreDates } from '@/domain/centreDates'
 import { useAppStore } from '@/store/useAppStore'
 import type { Profile } from '@/content/types'
 
@@ -118,6 +119,18 @@ describe('the .ics file', () => {
     const b = buildIcs([{ id: 'contract_90', date: '2026-12-15', summary: 'S' }], 'Cal', now)
     expect(uid(a)).toBe('UID:contract_90@bolashak-way')
     expect(uid(b)).toBe(uid(a))
+  })
+})
+
+describe('the Center’s dates', () => {
+  it('keeps the upcoming dates when the feed is longer than the cap', () => {
+    const feed = Array.from({ length: 600 }, (_, i) => {
+      const d = new Date(Date.UTC(2025, 0, 1 + i))
+      return { date: d.toISOString().slice(0, 10), text: `Событие ${i}`, title: 'Новость', url: `https://bolashak.gov.kz/ru/news/${i}` }
+    })
+    const out = parseCentreDates(feed)!
+    expect(out).toHaveLength(500)
+    expect(out.at(-1)!.date).toBe(feed.at(-1)!.date)
   })
 })
 
