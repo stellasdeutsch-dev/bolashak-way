@@ -6,7 +6,7 @@ import { getPlatform, platformForTrack } from '@/content/platforms'
 import type { PlatformSlug, Track } from '@/content/types'
 import { platformPaths } from '@/domain/paths'
 import { StageIcon } from '@/components/StageIcon'
-import { defaultCategoryFor, draftFromProfile, emptyDraft, isStepComplete, toProfile, type OnboardingDraft } from '@/domain/profile'
+import { defaultCategoryFor, draftFromProfile, emptyDraft, isDraftComplete, toProfile, type OnboardingDraft } from '@/domain/profile'
 import { useAppStore } from '@/store/useAppStore'
 import { useI18n } from '@/i18n'
 import { usePageChrome } from '@/i18n/usePageChrome'
@@ -135,7 +135,7 @@ export function Onboarding() {
           {t('common.back')}
         </Button>
         <span className={s.grow} />
-        <Button size="lg" onClick={() => finish()} disabled={!isStepComplete(draft, 0)}>
+        <Button size="lg" onClick={() => finish()} disabled={!isDraftComplete(draft)}>
           {editing ? t('onboarding.save') : t('onboarding.finish')}
           <ArrowRight size={16} aria-hidden="true" />
         </Button>

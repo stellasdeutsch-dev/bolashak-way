@@ -11,7 +11,7 @@ import { Layout } from '@/components/Layout'
 import { useAnnouncer } from '@/components/announce'
 import type { Profile } from '@/content/types'
 
-const self: Profile = { track: 'master', category: 'master_self', workerGroup: null, invitation: 'none', foreignCert: null, kazakhCert: false, experience: null }
+const self: Profile = { track: 'master', category: 'master_self', workerGroup: null }
 
 beforeEach(() => {
   localStorage.clear()

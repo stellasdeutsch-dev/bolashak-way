@@ -16,7 +16,6 @@ export const DOCUMENTS: DocItem[] = [
     title: { ru: 'Сертификат КАЗТЕСТ или Qazaq Resmi Test (B1 и выше)', kk: 'ҚАЗТЕСТ немесе Qazaq Resmi Test сертификаты (B1 және жоғары)', en: 'KAZTEST or Qazaq Resmi Test certificate (B1+)' },
     note: { ru: 'Действительный на момент подачи', kk: 'Тапсыру кезінде жарамды', en: 'Valid at the time of application' },
     source: 'prikaz318',
-    autoCompleteWhen: { kazakhCert: true },
     sourceFor: { science_internship: 'ns_minscore' },
   },
   {
@@ -28,7 +27,6 @@ export const DOCUMENTS: DocItem[] = [
     // ПП 573 п. 10 пп. 5 and п. 14 пп. 5; приказ МНВО № 422 п. 9 пп. 8. The doctoral package
     // (п. 12) and the self-admitted master's one list no foreign certificate.
     appliesTo: { category: ['master_rural', 'master_engineer', 'master_medical', 'master_civil', 'master_nuclear', 'internship', 'science_internship'] },
-    autoCompleteWhen: { hasForeignCert: true },
     sourceFor: { science_internship: 'ns_rules422' },
   },
   {
@@ -38,7 +36,6 @@ export const DOCUMENTS: DocItem[] = [
     note: { ru: 'С данными претендента, специальностью, сроками и стоимостью, с нотариальным переводом', kk: 'Үміткер деректері, мамандық, мерзім және құн көрсетіліп, нотариалды аудармасымен', en: 'With your details, specialty, dates and cost, notarially translated' },
     source: 'pravila',
     appliesTo: { not: { category: [...PREFERENTIAL] } },
-    autoCompleteWhen: { invitation: ['unconditional'] },
     sourceFor: { internship: 'pp573', science_internship: 'ns_rules422' },
   },
   {

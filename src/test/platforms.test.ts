@@ -65,10 +65,6 @@ const profileFor = (track: Track, category: CategoryId): Profile => ({
   track,
   category,
   workerGroup: track === 'internship' ? 'teacher' : null,
-  invitation: 'none',
-  foreignCert: null,
-  kazakhCert: false,
-  experience: null,
 })
 
 function visibleTexts(track: Track, locale: 'ru' | 'kk' | 'en'): [string, string][] {

@@ -1,5 +1,4 @@
-import { NEUTRAL_ANSWERS } from '@/domain/profile'
-import type { DateKey, ExamId, Invitation, Profile, StageId, Track, WorkerGroup } from '@/content/types'
+import type { DateKey, Profile, StageId, Track, WorkerGroup } from '@/content/types'
 import { CONTENT_META } from '@/content/meta'
 import { CATEGORIES } from '@/content/categories'
 import { STAGES } from '@/content/stages'
@@ -24,8 +23,6 @@ export interface Snapshot {
 
 const TRACKS: Track[] = ['bachelor', 'master', 'phd_residency', 'internship', 'science_internship']
 const WORKER_GROUP_IDS: WorkerGroup[] = ['engineer_agro', 'teacher', 'medical', 'civil', 'media', 'culture', 'judge', 'ai_user', 'nuclear']
-const INVITATIONS: Invitation[] = ['none', 'applied', 'unconditional']
-const EXAMS: ExamId[] = ['ielts', 'toefl_ibt', 'toefl_pbt', 'det', 'other']
 const DATE_KEYS: DateKey[] = ['award_date', 'study_start', 'study_end', 'return_date', 'work_start']
 
 const STAGE_IDS = new Set<string>(STAGES.map((s) => s.id))
@@ -35,7 +32,9 @@ const CHECK_IDS = new Set<string>(STAGES.flatMap((s) => s.checklist.map((i) => `
 
 /**
  * Accepts a profile only when every field matches the current content model –
- * an unknown category would otherwise crash the roadmap on the next render.
+ * an unknown category would otherwise crash the roadmap on the next render. Plans saved
+ * while the questions still asked about the invitation, certificates and experience carry
+ * those answers too; they are not asked any more and are left out, not held against the plan.
  */
 export function validProfile(value: unknown): Profile | null {
   if (!value || typeof value !== 'object') return null
@@ -44,31 +43,11 @@ export function validProfile(value: unknown): Profile | null {
   if (typeof p.category !== 'string' || !(p.category in CATEGORIES)) return null
   const category = CATEGORIES[p.category as keyof typeof CATEGORIES]
   if (category.track !== p.track) return null
-  if (!INVITATIONS.includes(p.invitation as Invitation)) return null
-  if (typeof p.kazakhCert !== 'boolean') return null
 
   const workerGroup = p.workerGroup == null ? null : WORKER_GROUP_IDS.includes(p.workerGroup as WorkerGroup) ? (p.workerGroup as WorkerGroup) : undefined
   if (workerGroup === undefined) return null
 
-  let foreignCert: Profile['foreignCert'] = null
-  if (p.foreignCert != null) {
-    const fc = p.foreignCert as Record<string, unknown>
-    if (!EXAMS.includes(fc.exam as ExamId) || typeof fc.score !== 'number' || !Number.isFinite(fc.score)) return null
-    foreignCert = { exam: fc.exam as ExamId, score: fc.score }
-  }
-
-  let experience: Profile['experience'] = null
-  if (p.experience != null) {
-    const ex = p.experience as Record<string, unknown>
-    if (typeof ex.years !== 'number' || typeof ex.continuousMonths !== 'number') return null
-    if (ex.years < 0 || ex.continuousMonths < 0) return null
-    experience = { years: ex.years, continuousMonths: ex.continuousMonths }
-  }
-
-  // the checks above keep rejecting malformed data; the answers themselves are not kept any more (see NEUTRAL_ANSWERS)
-  void foreignCert
-  void experience
-  return { track: p.track as Track, category: p.category as Profile['category'], workerGroup, ...NEUTRAL_ANSWERS }
+  return { track: p.track as Track, category: p.category as Profile['category'], workerGroup }
 }
 
 const keepKnown = (value: unknown, known: Set<string>): string[] =>

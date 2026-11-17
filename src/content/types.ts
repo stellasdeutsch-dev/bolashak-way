@@ -38,16 +38,15 @@ export type WorkerGroup =
 
 export type ExamId = 'ielts' | 'toefl_ibt' | 'toefl_pbt' | 'det' | 'other'
 
-export type Invitation = 'none' | 'applied' | 'unconditional'
-
+/**
+ * What the questions ask: the programme and the direction (with the worker group for an
+ * internship). Plans saved before also carry invitation, certificate and experience
+ * answers; the app stopped asking those, and reads such plans without them.
+ */
 export interface Profile {
   track: Track
   category: CategoryId
   workerGroup: WorkerGroup | null
-  invitation: Invitation
-  foreignCert: { exam: ExamId; score: number } | null
-  kazakhCert: boolean
-  experience: { years: number; continuousMonths: number } | null
 }
 
 /** Declarative predicate over a Profile, evaluated by domain/applicability.ts. */
@@ -59,15 +58,6 @@ export type Rule =
   | { track: Track[] }
   | { category: CategoryId[] }
   | { workerGroup: WorkerGroup[] }
-  | { invitation: Invitation[] }
-  | { hasForeignCert: boolean }
-  /** Foreign certificate meets the threshold required for the profile's category. */
-  | { foreignMeets: boolean }
-  | { kazakhCert: boolean }
-  | { experienceYears: { min: number } }
-  | { continuousMonths: { min: number } }
-  /** Profile experience satisfies the category's own requirement (years and/or continuous months). */
-  | { meetsExperience: boolean }
 
 export type ChapterId = 'prepare' | 'apply' | 'contest' | 'awarded' | 'abroad'
 
@@ -160,7 +150,6 @@ export interface Stage {
   /** App's own rough estimate of calendar time, weeks. Never an official term. */
   estimateWeeks?: [number, number]
   appliesTo?: Rule
-  autoCompleteWhen?: Rule
   /** Extra explanatory blocks shown only for matching profiles. */
   notes?: { appliesTo?: Rule; tone?: 'info' | 'warn'; text: L; source?: SourceId }[]
 }
@@ -201,8 +190,6 @@ export interface DocItem {
   title: L
   note?: L
   appliesTo?: Rule
-  /** Counts as collected when the onboarding answers already imply it. */
-  autoCompleteWhen?: Rule
   source?: SourceId
   /** Downloadable official form, if any. */
   form?: SourceId

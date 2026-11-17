@@ -3,17 +3,13 @@ import { fireEvent, render, screen, within } from '@testing-library/react'
 import { MemoryRouter, Route, Routes } from 'react-router'
 import { Documents } from '@/pages/Documents'
 import { useAppStore } from '@/store/useAppStore'
-import { documentsFor, isDocAuto } from '@/domain/documents'
+import { documentsFor } from '@/domain/documents'
 import type { Profile } from '@/content/types'
 
 const profile: Profile = {
   track: 'master',
   category: 'master_self',
   workerGroup: null,
-  invitation: 'none',
-  foreignCert: null,
-  kazakhCert: true,
-  experience: null,
 }
 
 const open = () =>
@@ -34,7 +30,7 @@ beforeEach(() => {
 
 describe('documents → PDF', () => {
   it('prints programme and direction, «Нет» before «Есть», the date and the address', () => {
-    const docs = documentsFor(profile).flatMap((g) => g.items).filter((d) => !isDocAuto(d, profile))
+    const docs = documentsFor(profile).flatMap((g) => g.items)
     const ticked = docs[0]
     useAppStore.setState({ documentsDone: [ticked.id] })
     open()

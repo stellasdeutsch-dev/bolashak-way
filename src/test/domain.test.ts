@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { ENGLISH_THRESHOLDS } from '@/content/language'
+import { ENGLISH_THRESHOLDS, LANGUAGE_GROUP_BY_CATEGORY } from '@/content/language'
 import { monthMatrix } from '@/domain/calendar'
 import { buildIcs, shiftIso } from '@/domain/ics'
 import type { CategoryId, L, Profile } from '@/content/types'
@@ -9,7 +9,7 @@ import { SOURCES } from '@/content/sources'
 import { DOCUMENTS } from '@/content/documents'
 import { FAQ } from '@/content/faq'
 import { computeProgress, applicableStages, applicableItems } from '@/domain/progress'
-import { evaluate, foreignCertMeets, experienceRequirement, meetsExperience } from '@/domain/applicability'
+import { evaluate, experienceRequirement } from '@/domain/applicability'
 import { computeDeadlines, nearestDeadline } from '@/domain/deadlines'
 import { searchAll } from '@/domain/search'
 import { staleness } from '@/domain/freshness'
@@ -17,16 +17,12 @@ import { DEADLINE_RULES } from '@/content/deadlines'
 import { KAZAKH_REQUIREMENT, LANGUAGE_NOTES } from '@/content/language'
 import { documentsFor } from '@/domain/documents'
 import { buildSnapshot, parseSnapshot } from '@/domain/exportImport'
-import { toProfile, emptyDraft, isStepComplete } from '@/domain/profile'
+import { toProfile, emptyDraft, isDraftComplete } from '@/domain/profile'
 
 const profile = (over: Partial<Profile> = {}): Profile => ({
   track: 'master',
   category: 'master_self',
   workerGroup: null,
-  invitation: 'none',
-  foreignCert: null,
-  kazakhCert: false,
-  experience: null,
   ...over,
 })
 
@@ -104,34 +100,33 @@ describe('applicability across all categories', () => {
 })
 
 describe('language thresholds', () => {
+  // The level a certificate must reach to go straight to study (level III), read from the table.
+  const straight = (category: CategoryId, exam: 'ielts' | 'toefl_ibt' = 'ielts') => {
+    const group = LANGUAGE_GROUP_BY_CATEGORY[category]
+    return group === 'none' ? null : ENGLISH_THRESHOLDS[group].find((r) => r.exam === exam)?.third
+  }
+
   it('uses IELTS 6.0 for self-admitted and 6.5 for preferential categories', () => {
-    expect(foreignCertMeets(profile({ category: 'master_self', foreignCert: { exam: 'ielts', score: 6.0 } }))).toBe(true)
-    expect(foreignCertMeets(profile({ category: 'master_medical', foreignCert: { exam: 'ielts', score: 6.0 } }))).toBe(false)
-    expect(foreignCertMeets(profile({ category: 'master_medical', foreignCert: { exam: 'ielts', score: 6.5 } }))).toBe(true)
+    expect(straight('master_self')).toBe(6)
+    expect(straight('master_medical')).toBe(6.5)
   })
 
   it('uses IELTS 5.0 for internships', () => {
-    const p = profile({ track: 'internship', category: 'internship', foreignCert: { exam: 'ielts', score: 5.0 } })
-    expect(foreignCertMeets(p)).toBe(true)
-  })
-
-  it('never claims a threshold is met for exams it cannot evaluate', () => {
-    expect(foreignCertMeets(profile({ foreignCert: { exam: 'other', score: 100 } }))).toBe(false)
+    expect(straight('internship')).toBe(5)
   })
 
   it('measures scientific internships against their own minimums (IELTS 5.0), not Order 318', () => {
-    const ns = (score: number) => profile({ track: 'science_internship', category: 'science_internship', foreignCert: { exam: 'ielts', score } })
-    expect(foreignCertMeets(ns(5))).toBe(true)
-    expect(foreignCertMeets(ns(4.5))).toBe(false)
+    expect(LANGUAGE_GROUP_BY_CATEGORY.science_internship).toBe('science')
+    expect(straight('science_internship')).toBe(5)
   })
 })
 
 describe('rule evaluation', () => {
   it('handles composite rules', () => {
-    const p = profile({ invitation: 'unconditional', kazakhCert: true })
-    expect(evaluate({ all: [{ invitation: ['unconditional'] }, { kazakhCert: true }] }, p)).toBe(true)
-    expect(evaluate({ any: [{ invitation: ['none'] }, { kazakhCert: true }] }, p)).toBe(true)
-    expect(evaluate({ not: { kazakhCert: true } }, p)).toBe(false)
+    const p = profile({ category: 'master_medical' })
+    expect(evaluate({ all: [{ track: ['master'] }, { category: ['master_medical'] }] }, p)).toBe(true)
+    expect(evaluate({ any: [{ track: ['internship'] }, { category: ['master_medical'] }] }, p)).toBe(true)
+    expect(evaluate({ not: { category: ['master_medical'] } }, p)).toBe(false)
     expect(evaluate(undefined, p)).toBe(true)
   })
 
@@ -159,7 +154,6 @@ describe('progress', () => {
     // experience are not asked, so nothing may count as done without a click.
     const p = toProfile({ ...emptyDraft(), track: 'master', category: 'master_self' })
     const r = computeProgress({ profile: p, checked: [], stagesDone: [] })
-    expect(r.stages.filter((sp) => sp.autoDone).map((sp) => sp.stage.id)).toEqual([])
     for (const id of ['kazakh', 'foreign', 'admission'] as const) expect(r.byId.get(id)!.status).not.toBe('done')
     // Only "you know your category" is answered by choosing it.
     const auto = r.stages.flatMap((sp) => sp.items.filter((i) => i.auto).map((i) => `${sp.stage.id}:${i.item.id}`))
@@ -214,27 +208,13 @@ describe('progress', () => {
 describe('onboarding draft', () => {
   it('validates the direction and keeps only the direction in the profile', () => {
     const draft = emptyDraft()
-    expect(isStepComplete(draft, 0)).toBe(false)
+    expect(isDraftComplete(draft)).toBe(false)
     draft.track = 'internship'
     draft.category = 'internship'
-    expect(isStepComplete(draft, 0)).toBe(false)
+    expect(isDraftComplete(draft)).toBe(false)
     draft.workerGroup = 'medical'
-    expect(isStepComplete(draft, 0)).toBe(true)
-
-    // answers the app no longer asks never reach the profile
-    draft.invitation = 'unconditional'
-    draft.kazakhCert = true
-    draft.hasForeignCert = true
-    draft.score = '75'
-    draft.hasExperience = true
-    draft.years = '4'
-    const p = toProfile(draft)
-    expect(p).toEqual({ track: 'internship', category: 'internship', workerGroup: 'medical', invitation: 'none', foreignCert: null, kazakhCert: false, experience: null })
-  })
-
-  it('treats a missing score as "no certificate"', () => {
-    const draft = { ...emptyDraft(), track: 'master' as const, category: 'master_self' as const, hasForeignCert: true, score: '' }
-    expect(toProfile(draft).foreignCert).toBeNull()
+    expect(isDraftComplete(draft)).toBe(true)
+    expect(toProfile(draft)).toEqual({ track: 'internship', category: 'internship', workerGroup: 'medical' })
   })
 })
 
@@ -253,46 +233,21 @@ describe('export / import', () => {
   })
 })
 
-describe('onboarding step bounds', () => {
-  it('never reports a step outside the wizard', () => {
-    // Regression: a double click used to push the wizard to "question 5 of 4" with an empty screen.
-    const clamp = (v: number) => Math.min(3, Math.max(0, v))
-    expect(clamp(4)).toBe(3)
-    expect(clamp(-1)).toBe(0)
-  })
-
-  it('validates unknown steps as incomplete', () => {
-    const draft = { ...emptyDraft(), track: 'master' as const, category: 'master_self' as const }
-    expect(isStepComplete(draft, 4)).toBe(false)
-    expect(isStepComplete(draft, -1)).toBe(false)
-  })
-})
-
 describe('experience requirements', () => {
-  it('closes the experience item once the profile satisfies the category', () => {
-    const medic = profile({ category: 'master_medical', experience: { years: 2, continuousMonths: 18 } })
-    expect(meetsExperience(medic)).toBe(true)
-    expect(experienceRequirement(medic)).toEqual({ years: 1, continuousMonths: null })
-  })
-
-  it('rejects an engineer without the required year of experience', () => {
-    expect(meetsExperience(profile({ category: 'master_engineer', experience: { years: 0, continuousMonths: 0 } }))).toBe(false)
+  it('reads the requirement of the category', () => {
+    expect(experienceRequirement(profile({ category: 'master_medical' }))).toEqual({ years: 1, continuousMonths: null })
   })
 
   it('asks AI-system and nuclear interns for 6 continuous months instead of 12', () => {
-    const ai = (months: number) =>
-      profile({ track: 'internship', category: 'internship', workerGroup: 'ai_user', experience: { years: 3, continuousMonths: months } })
-    expect(experienceRequirement(ai(6))).toEqual({ years: 3, continuousMonths: 6 })
-    expect(meetsExperience(ai(6))).toBe(true)
-    expect(meetsExperience(ai(5))).toBe(false)
+    const intern = (workerGroup: Profile['workerGroup']) => profile({ track: 'internship', category: 'internship', workerGroup })
+    expect(experienceRequirement(intern('ai_user'))).toEqual({ years: 3, continuousMonths: 6 })
+    expect(experienceRequirement(intern('nuclear'))).toEqual({ years: 3, continuousMonths: 6 })
     // A media worker on the same track still needs the full year.
-    const media = profile({ track: 'internship', category: 'internship', workerGroup: 'media', experience: { years: 3, continuousMonths: 6 } })
-    expect(meetsExperience(media)).toBe(false)
+    expect(experienceRequirement(intern('media'))).toEqual({ years: 3, continuousMonths: 12 })
   })
 
-  it('never claims experience is met for categories that do not require any', () => {
+  it('has no requirement for categories that ask for no experience', () => {
     expect(experienceRequirement(profile())).toBeNull()
-    expect(meetsExperience(profile({ experience: { years: 10, continuousMonths: 120 } }))).toBe(false)
   })
 })
 

@@ -168,10 +168,6 @@ describe('calendar page', () => {
     track: 'master',
     category: 'master_self',
     workerGroup: null,
-    invitation: 'none',
-    foreignCert: null,
-    kazakhCert: true,
-    experience: null,
   }
   const open = () =>
     render(

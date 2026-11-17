@@ -20,7 +20,6 @@ import { useI18n, formatRange, formatDate } from '@/i18n'
 import { usePageChrome } from '@/i18n/usePageChrome'
 import { ButtonLink, Callout, Card, Pill, ProgressRing } from '@/components/ui'
 import { StageIcon } from '@/components/StageIcon'
-import { EligibilityBanner } from '@/components/Eligibility'
 import s from './Roadmap.module.css'
 
 type Row =
@@ -119,9 +118,7 @@ function RoadmapTrack({ rows, currentId, nowLabel }: { rows: Row[]; currentId?: 
               </span>
               <span className={s.rowSummary}>{c(item.stage.summary)}</span>
               <span className={s.rowMeta}>
-                {item.status === 'done' && item.autoDone
-                  ? t('roadmap.autoDone')
-                  : t('roadmap.items', { done: item.requiredDone, total: item.requiredTotal })}
+                {t('roadmap.items', { done: item.requiredDone, total: item.requiredTotal })}
               </span>
             </span>
 
@@ -189,7 +186,6 @@ export function Roadmap() {
         </Callout>
       )}
 
-      <EligibilityBanner />
 
       <Card className={s.intro}>
         <div className={s.introText}>

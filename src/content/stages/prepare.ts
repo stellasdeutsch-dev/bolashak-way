@@ -152,7 +152,6 @@ export const PREPARE_STAGES: Stage[] = [
           en: 'Experience is proven by employment papers and a pension-contribution statement for the required period.',
         },
         appliesTo: { category: ['master_rural', 'master_engineer', 'master_medical', 'master_civil', 'master_nuclear', 'phd_nuclear', 'internship', 'science_internship'] },
-        autoCompleteWhen: { meetsExperience: true },
         link: 'pravila',
       },
       {
@@ -487,7 +486,6 @@ export const PREPARE_STAGES: Stage[] = [
           kk: 'B1 немесе одан жоғары деңгейлі сертификат алдыңыз.',
           en: 'You received a certificate at level B1 or higher.',
         },
-        autoCompleteWhen: { kazakhCert: true },
         link: 'prikaz318',
       },
       {
@@ -515,7 +513,6 @@ export const PREPARE_STAGES: Stage[] = [
     ],
     sources: ['prikaz318', 'pravila', 'qrt', 'kaztest'],
     estimateWeeks: [2, 8],
-    autoCompleteWhen: { kazakhCert: true },
   },
 
   {
@@ -556,7 +553,6 @@ export const PREPARE_STAGES: Stage[] = [
           kk: 'Емтихан тапсырып, жарамды сертификат алдыңыз.',
           en: 'You took the exam and hold a valid certificate.',
         },
-        autoCompleteWhen: { hasForeignCert: true },
         // Self-admitted master's and doctoral applicants: the Rules ask no certificate of them
         // (ПП 573 п. 9 пп. 3, п. 11–12) – they get the optional items below instead.
         appliesTo: { not: { category: ['master_self', 'phd_self', 'phd_nuclear', 'residency'] } },
@@ -568,7 +564,6 @@ export const PREPARE_STAGES: Stage[] = [
           kk: 'Балл санатыңыздың шегінен төмен емес.',
           en: 'Your score is at or above your category\'s threshold.',
         },
-        autoCompleteWhen: { foreignMeets: true },
         link: 'prikaz318',
         appliesTo: { not: { category: ['master_self', 'phd_self', 'phd_nuclear', 'residency'] } },
       },
@@ -580,7 +575,6 @@ export const PREPARE_STAGES: Stage[] = [
           en: 'If the university requires a language certificate for admission, you have the score it asks for. For the competition the Rules do not require one from you.',
         },
         required: false,
-        autoCompleteWhen: { hasForeignCert: true },
         link: 'pp573',
         appliesTo: { category: ['master_self', 'phd_self', 'phd_nuclear', 'residency'] },
       },
@@ -670,7 +664,6 @@ export const PREPARE_STAGES: Stage[] = [
     ],
     sources: ['prikaz318', 'pravila', 'ns_minscore'],
     estimateWeeks: [4, 20],
-    autoCompleteWhen: { foreignMeets: true },
   },
 
   {
@@ -723,7 +716,6 @@ export const PREPARE_STAGES: Stage[] = [
           kk: 'Академиялық шарттарсыз сөзсіз шақыру (unconditional offer) алдыңыз.',
           en: 'You received an unconditional offer with no academic conditions.',
         },
-        autoCompleteWhen: { invitation: ['unconditional'] },
         link: 'pravila',
       },
       {
@@ -819,6 +811,5 @@ export const PREPARE_STAGES: Stage[] = [
     sources: ['pravila', 'pp573', 'admission_guide', 'internship_program', 'ns_program'],
     estimateWeeks: [8, 24],
     appliesTo: { category: [...SELF_ADMITTED] },
-    autoCompleteWhen: { invitation: ['unconditional'] },
   },
 ]

@@ -8,10 +8,6 @@ export interface DocGroup {
   items: DocItem[]
 }
 
-/** True when the profile answers already cover this document. */
-export const isDocAuto = (doc: DocItem, profile: Profile): boolean =>
-  doc.autoCompleteWhen !== undefined && evaluate(doc.autoCompleteWhen, profile)
-
 /** Documents relevant to the profile, grouped in roadmap order. */
 export function documentsFor(profile: Profile): DocGroup[] {
   const stageOrder = applicableStages(profile).map((s) => s.id)

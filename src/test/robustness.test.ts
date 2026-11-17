@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { isIsoDate, localIso } from '@/domain/dates'
-import { sanitizeProgress } from '@/domain/exportImport'
+import { parseSnapshot, sanitizeProgress } from '@/domain/exportImport'
 
 describe('calendar dates', () => {
   it('rejects days that do not exist instead of rolling them over', () => {
@@ -29,7 +29,7 @@ describe('calendar dates', () => {
 describe('stored progress from an older content year', () => {
   it('drops a profile whose category no longer exists rather than crashing the plan', () => {
     const clean = sanitizeProgress({
-      profile: { track: 'master', category: 'master_retired', workerGroup: null, invitation: 'none', foreignCert: null, kazakhCert: true, experience: null },
+      profile: { track: 'master', category: 'master_retired', workerGroup: null },
       onboardedAt: '2025-09-01T00:00:00.000Z',
       checked: ['eligibility:citizen', 'gone:item'],
       dates: { award_date: '2026-02-31', study_start: '2026-09-01', bogus: '2026-01-01' },
@@ -38,6 +38,20 @@ describe('stored progress from an older content year', () => {
     expect(clean.onboardedAt).toBeNull()
     expect(clean.checked).not.toContain('gone:item')
     expect(clean.dates).toEqual({ study_start: '2026-09-01' })
+  })
+
+  it('reads a plan saved while the questions still asked about certificates and experience', () => {
+    // As stored by earlier versions: the answers are there, the app no longer uses them.
+    const old = {
+      profile: { track: 'internship', category: 'internship', workerGroup: 'ai_user', invitation: 'unconditional', foreignCert: { exam: 'ielts', score: 6.5 }, kazakhCert: true, experience: { years: 4, continuousMonths: 8 } },
+      onboardedAt: '2026-05-01T00:00:00.000Z',
+      checked: ['eligibility:citizen'],
+    }
+    const clean = sanitizeProgress(old)
+    expect(clean.profile).toEqual({ track: 'internship', category: 'internship', workerGroup: 'ai_user' })
+    expect(clean.checked).toEqual(['eligibility:citizen'])
+    const file = parseSnapshot(JSON.stringify({ app: 'bolashak-way', schemaVersion: 3, ...old }))
+    expect(file?.profile).toEqual({ track: 'internship', category: 'internship', workerGroup: 'ai_user' })
   })
 
   it('survives garbage in storage', () => {

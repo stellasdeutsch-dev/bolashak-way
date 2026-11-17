@@ -1,4 +1,4 @@
-import type { CategoryId, ExamId, LanguageThreshold, L, SourceId, Track } from './types'
+import type { CategoryId, LanguageThreshold, L, SourceId, Track } from './types'
 
 /**
  * English-language thresholds, Appendix 1 of Order No. 318 (as amended by the order of the
@@ -78,15 +78,6 @@ export const LANGUAGE_GROUP_BY_CATEGORY: Record<CategoryId, LanguageGroup> = {
   internship: 'internship',
   science_internship: 'science',
 }
-
-/** Score required to be sent straight to study/internship (level III). */
-export function requiredScore(group: LanguageGroup, exam: ExamId): number | null {
-  if (group === 'none' || exam === 'other') return null
-  const row = ENGLISH_THRESHOLDS[group].find((r) => r.exam === exam)
-  return row?.third ?? null
-}
-
-/** Lowest score that still allows participation (level I for preferential, else level III). */
 
 export const KAZAKH_REQUIREMENT: { text: L; source: SourceId } = {
   text: {

@@ -11,8 +11,8 @@ import type { Profile } from '@/content/types'
 
 /** Progress that must never be lost: between programmes, devices, tabs and calendars. */
 
-const master: Profile = { track: 'master', category: 'master_self', workerGroup: null, invitation: 'none', foreignCert: null, kazakhCert: false, experience: null }
-const intern: Profile = { track: 'internship', category: 'internship', workerGroup: 'teacher', invitation: 'none', foreignCert: null, kazakhCert: false, experience: null }
+const master: Profile = { track: 'master', category: 'master_self', workerGroup: null }
+const intern: Profile = { track: 'internship', category: 'internship', workerGroup: 'teacher' }
 
 const progress = (profile: Profile, checked: string[]) => ({
   profile,

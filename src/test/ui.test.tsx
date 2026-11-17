@@ -15,10 +15,6 @@ const medic: Profile = {
   track: 'master',
   category: 'master_medical',
   workerGroup: null,
-  invitation: 'none',
-  foreignCert: null,
-  kazakhCert: false,
-  experience: null,
 }
 
 const renderAt = (ui: React.ReactNode) => render(<HashRouter>{ui}</HashRouter>)
@@ -51,7 +47,7 @@ describe('onboarding flow', () => {
     fireEvent.click(screen.getByRole('button', { name: /Собрать мой план/ }))
 
     const stored = useAppStore.getState().profile
-    expect(stored).toMatchObject({ track: 'master', category: 'master_medical', invitation: 'none', foreignCert: null, kazakhCert: false, experience: null })
+    expect(stored).toMatchObject({ track: 'master', category: 'master_medical' })
     expect(screen.getByText('roadmap')).toBeInTheDocument()
   })
 
@@ -155,10 +151,10 @@ describe('search overlay', () => {
 describe('every stage renders for every category', () => {
   const sample: Profile[] = [
     medic,
-    { track: 'master', category: 'master_self', workerGroup: null, invitation: 'unconditional', foreignCert: { exam: 'ielts', score: 7 }, kazakhCert: true, experience: null },
-    { track: 'internship', category: 'internship', workerGroup: 'ai_user', invitation: 'applied', foreignCert: { exam: 'toefl_ibt', score: 60 }, kazakhCert: false, experience: { years: 3, continuousMonths: 6 } },
-    { track: 'science_internship', category: 'science_internship', workerGroup: null, invitation: 'none', foreignCert: null, kazakhCert: false, experience: { years: 5, continuousMonths: 24 } },
-    { track: 'bachelor', category: 'bachelor', workerGroup: null, invitation: 'none', foreignCert: null, kazakhCert: false, experience: null },
+    { track: 'master', category: 'master_self', workerGroup: null },
+    { track: 'internship', category: 'internship', workerGroup: 'ai_user' },
+    { track: 'science_internship', category: 'science_internship', workerGroup: null },
+    { track: 'bachelor', category: 'bachelor', workerGroup: null },
   ]
 
   // Each case renders every stage of a plan (about 17 full pages): ~2 s alone, and past the

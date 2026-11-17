@@ -9,8 +9,6 @@ export interface StageProgress {
   stage: Stage
   index: number
   status: StageStatus
-  /** Closed by the onboarding answers rather than by clicking. */
-  autoDone: boolean
   items: { item: ChecklistItem; done: boolean; auto: boolean }[]
   requiredTotal: number
   requiredDone: number
@@ -57,10 +55,9 @@ export function computeProgress({ profile, checked, stagesDone }: ProgressInput)
 
   // First pass: resolve item state and "content-complete" without the chapter lock.
   const draft = stages.map((stage, index) => {
-    const autoDone = evaluate(stage.autoCompleteWhen, profile) && stage.autoCompleteWhen !== undefined
     const items = applicableItems(stage, profile).map((item) => {
       const auto = item.autoCompleteWhen !== undefined && evaluate(item.autoCompleteWhen, profile)
-      return { item, auto, done: auto || autoDone || checkedSet.has(`${stage.id}:${item.id}`) }
+      return { item, auto, done: auto || checkedSet.has(`${stage.id}:${item.id}`) }
     })
     const required = items.filter((i) => i.item.required !== false)
     const requiredDone = required.filter((i) => i.done).length
@@ -69,13 +66,12 @@ export function computeProgress({ profile, checked, stagesDone }: ProgressInput)
     return {
       stage,
       index,
-      autoDone,
       items,
       requiredTotal: required.length,
       requiredDone,
       total: items.length,
       doneCount: items.filter((i) => i.done).length,
-      done: autoDone || manualDone || contentDone,
+      done: manualDone || contentDone,
     }
   })
 
@@ -102,7 +98,6 @@ export function computeProgress({ profile, checked, stagesDone }: ProgressInput)
       stage: d.stage,
       index: d.index,
       status,
-      autoDone: d.autoDone,
       items: d.items,
       requiredTotal: d.requiredTotal,
       requiredDone: d.requiredDone,

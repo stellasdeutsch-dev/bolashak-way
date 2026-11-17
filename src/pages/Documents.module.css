@@ -101,7 +101,7 @@
   transition: border-color 0.15s var(--ease-out);
 }
 @media (hover: hover) {
-  .row:hover:not(.rowOff) {
+  .row:hover {
     border-color: var(--line-strong);
   }
 }
@@ -110,7 +110,7 @@
   border-color: transparent;
 }
 @media (hover: hover) {
-  .rowDone:hover:not(.rowOff) {
+  .rowDone:hover {
     background: var(--success-tint);
     border-color: transparent;
   }
@@ -201,11 +201,6 @@
   gap: 6px;
 }
 
-/* Dim the box and the title, never the links: they must keep full contrast. */
-.rowOff .box,
-.rowOff .docTitle {
-  opacity: 0.72;
-}
 /* Invisible checkbox stretched over the row; links sit above it as their own targets. */
 .hit {
   position: absolute;
@@ -215,9 +210,6 @@
   border-radius: inherit;
   background: transparent;
   cursor: pointer;
-}
-.rowOff .hit {
-  cursor: default;
 }
 .above {
   position: relative;

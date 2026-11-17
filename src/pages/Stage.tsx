@@ -17,8 +17,7 @@ import type { DateKey, FaqItem, StageId, Track } from '@/content/types'
 import { computeProgress } from '@/domain/progress'
 import { computeDeadlines } from '@/domain/deadlines'
 import { DEADLINE_RULES } from '@/content/deadlines'
-import { evaluate, foreignThreshold, foreignCertMeets, experienceRequirement, meetsExperience } from '@/domain/applicability'
-import { isDocAuto } from '@/domain/documents'
+import { evaluate, experienceRequirement } from '@/domain/applicability'
 import { useAppStore } from '@/store/useAppStore'
 import { useI18n, pick, formatMonths, formatYears, formatDate } from '@/i18n'
 import { usePageChrome } from '@/i18n/usePageChrome'
@@ -40,7 +39,6 @@ const LIST_TITLE: Record<Track, Record<'specialty' | 'university', string>> = {
 }
 import { StageForms } from '@/components/Forms'
 import { formsForStage } from '@/content/forms'
-import { Meter, ScoreGauge } from '@/components/Meter'
 import { ResponsiveTable } from '@/components/ResponsiveTable'
 import s from './Stage.module.css'
 
@@ -93,61 +91,13 @@ function LanguageTable() {
   // Only the preferential table has three levels; everywhere else one threshold decides.
   const oneLevel = group !== 'preferential'
   const rows = ENGLISH_THRESHOLDS[group]
-  const th = foreignThreshold(profile)
-  const meets = foreignCertMeets(profile)
-  // The reader's own exam, so the gauge is drawn on the scale they actually sat.
-  const row = rows.find((r) => r.exam === profile.foreignCert?.exam)
-  const score = profile.foreignCert?.score ?? null
-  const gaugeStatus: 'pass' | 'partial' | 'below' | 'unknown' =
-    score === null || !row
-      ? 'unknown'
-      : row.third !== null && score >= row.third
-        ? 'pass'
-        : row.first !== null && score >= row.first
-          ? 'partial'
-          : 'below'
 
   return (
     <Card>
       <h2 className={s.sectionTitle} style={{ marginBottom: 12 }}>
         {t('stage.thresholdTable')}
       </h2>
-      {profile.foreignCert && (
-        <div className={s.scoreRow}>
-          <Pill tone="accent">
-            {t('stage.yourScore')}: {t(`exams.${profile.foreignCert.exam}`)} {profile.foreignCert.score}
-          </Pill>
-          {th && !advisory && (
-            <Pill tone={meets ? 'success' : 'warn'}>
-              {meets ? t('stage.meets') : t('stage.below')}: {t('stage.threshold')} {th.need}
-            </Pill>
-          )}
-          {th && advisory && <Pill>{t('stage.advisoryLevel', { need: th.need })}</Pill>}
-        </div>
-      )}
       {advisory && <p className={s.body} style={{ margin: '10px 0 0' }}>{t('stage.advisoryNote')}</p>}
-      {row && !advisory && (
-        <div className={s.gaugeWrap}>
-          <ScoreGauge
-            label={row.label}
-            max={row.max}
-            score={profile.foreignCert?.score ?? null}
-            marks={([row.first, row.second, row.third] as (number | null)[])
-              .map((at, i) => (at === null ? null : { at, title: t(`stage.level${i + 1}`) }))
-              .filter((m): m is { at: number; title: string } => m !== null)}
-            status={gaugeStatus}
-            passLabel={
-              gaugeStatus === 'unknown'
-                ? t('stage.gaugeNoCert')
-                : gaugeStatus === 'pass'
-                  ? t('stage.gaugeStraight')
-                  : gaugeStatus === 'partial'
-                    ? t('stage.gaugeToCourses')
-                    : t('stage.below')
-            }
-          />
-        </div>
-      )}
 
       {/* A table where it fits, one card per exam on a phone. */}
       <ResponsiveTable
@@ -155,7 +105,6 @@ function LanguageTable() {
         head={oneLevel ? [t('onboarding.exam'), t('stage.threshold')] : [t('onboarding.exam'), t('stage.level1'), t('stage.level2'), t('stage.level3')]}
         rows={rows.map((r) => ({
           key: r.exam,
-          className: profile.foreignCert?.exam === r.exam ? s.rowActive : '',
           cells: oneLevel ? [r.label, r.third ?? '–'] : [r.label, r.first ?? '–', r.second ?? '–', r.third ?? '–'],
         }))}
         wrapClassName={s.tableWrap}
@@ -359,13 +308,12 @@ function LanguageNotes() {
   )
 }
 
-/** The category's own admission requirements plus a live check of the entered experience. */
+/** The category's own admission requirements, with the experience it asks for on top. */
 function CategoryRequirements() {
   const { t, cf, locale } = useI18n()
   const profile = useAppStore((st) => st.profile)!
   const category = getCategory(profile.category)
   const req = experienceRequirement(profile)
-  const ok = meetsExperience(profile)
   const reqSources = [...new Set(category.requirements.map((r) => r.source))]
   const parts: string[] = []
   if (req?.years != null) parts.push(`${formatYears(req.years, locale)} ${t('stage.yearsTotal')}`)
@@ -375,45 +323,11 @@ function CategoryRequirements() {
     <Card>
       <div className={s.section}>
         <h2 className={s.sectionTitle}>{t('stage.categoryRequirements')}</h2>
-        {/* experience is not asked any more: the requirement is shown as it is, without a verdict */}
-        {req && !profile.experience && (
+        {req && (
           <div className={s.scoreRow}>
             <Pill tone="accent">
               {t('stage.expRequired')}: {parts.join(' · ')}
             </Pill>
-          </div>
-        )}
-        {req && profile.experience && (
-          <div className={s.scoreRow}>
-            <Pill tone="accent">
-              {t('stage.yourExperience')}:{' '}
-              {`${formatYears(profile.experience.years, locale)} ${t('stage.yearsTotal')} · ${formatMonths(profile.experience.continuousMonths, locale)} ${t('stage.monthsContinuous')}`}
-            </Pill>
-            <Pill tone={ok ? 'success' : 'warn'}>
-              {ok ? t('stage.expMeets') : t('stage.expBelow')}: {t('stage.expRequired')} {parts.join(' · ')}
-            </Pill>
-          </div>
-        )}
-        {req && profile.experience && (
-          <div className={s.meters}>
-            {req.years != null && (
-              <Meter
-                label={t('stage.expYearsMeter')}
-                have={profile.experience.years}
-                need={req.years}
-                haveLabel={formatYears(profile.experience.years, locale)}
-                needLabel={formatYears(req.years, locale)}
-              />
-            )}
-            {req.continuousMonths != null && (
-              <Meter
-                label={t('stage.expMonthsMeter')}
-                have={profile.experience.continuousMonths}
-                need={req.continuousMonths}
-                haveLabel={formatMonths(profile.experience.continuousMonths, locale)}
-                needLabel={formatMonths(req.continuousMonths, locale)}
-              />
-            )}
           </div>
         )}
 
@@ -532,7 +446,7 @@ export function StagePage() {
           </h1>
           <p className={s.heroSummary}>{c(stage.summary)}</p>
           <div className={s.heroMeta}>
-            {sp.requiredTotal > 0 && !sp.autoDone && (
+            {sp.requiredTotal > 0 && (
               <Pill tone="dark">
                 {t('roadmap.items', { done: sp.requiredDone, total: sp.requiredTotal })}
               </Pill>
@@ -541,9 +455,6 @@ export function StagePage() {
               <Pill tone="dark">
                 {t('stage.estimate')}: {stage.estimateWeeks[0]}–{stage.estimateWeeks[1]} {t('stage.weeks')}
               </Pill>
-            )}
-            {sp.autoDone && (
-              <Pill tone="dark">{t('roadmap.autoDone')}</Pill>
             )}
           </div>
         </div>
@@ -555,13 +466,6 @@ export function StagePage() {
           <br />
           {t('stage.lockedText')}
           {lockedChapter && <> {t('roadmap.lockedHint', { chapter: c(lockedChapter.title) })}.</>}
-        </Callout>
-      )}
-      {sp.autoDone && !locked && (
-        <Callout tone="info">
-          <strong>{t('stage.autoDoneTitle')}</strong>
-          <br />
-          {t('stage.autoDoneText')}
         </Callout>
       )}
 
@@ -620,7 +524,7 @@ export function StagePage() {
             )
           })}
           {/* Closing the stage belongs with its steps, not three screens further down. */}
-          {!locked && !sp.autoDone && (
+          {!locked && (
             <div className={s.closeRow}>
               <Button variant={sp.status === 'done' ? 'ghost' : 'secondary'} onClick={closeStage}>
                 {markedDone ? (
@@ -750,16 +654,14 @@ export function StagePage() {
           <div className={s.section}>
             <h2 className={s.sectionTitle}>{t('stage.documents')}</h2>
             {stageDocs.map((d) => {
-              const auto = isDocAuto(d, profile)
-              const done = auto || documentsDone.includes(d.id)
+              const done = documentsDone.includes(d.id)
               return (
                 <button
                   key={d.id}
                   className={[s.docRow, done ? s.docRowDone : ''].join(' ')}
-                  onClick={() => !auto && toggleDocument(d.id)}
+                  onClick={() => toggleDocument(d.id)}
                   role="checkbox"
                   aria-checked={done}
-                  disabled={auto}
                 >
                   <span className={[s.box, done ? s.boxDone : ''].join(' ')}>
                     <Check size={15} strokeWidth={3} aria-hidden="true" />

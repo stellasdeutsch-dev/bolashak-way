@@ -8,7 +8,7 @@ import { localIso } from '@/domain/dates'
 import { formatDate } from '@/i18n'
 import { getStageFor } from '@/domain/resolve'
 import { getSource } from '@/content/sources'
-import { documentsFor, isDocAuto } from '@/domain/documents'
+import { documentsFor } from '@/domain/documents'
 import { useAppStore } from '@/store/useAppStore'
 import { usePlanProfile } from '@/components/platform/usePlatform'
 import { useI18n } from '@/i18n'
@@ -56,11 +56,11 @@ export function Documents() {
 
   const groups = useMemo(() => documentsFor(profile), [profile])
 
-  const isDone = (id: string, auto: boolean) => auto || documentsDone.includes(id)
+  const isDone = (id: string) => documentsDone.includes(id)
   const all = groups.flatMap((g) => g.items)
-  const doneCount = all.filter((d) => isDone(d.id, isDocAuto(d, profile))).length
+  const doneCount = all.filter((d) => isDone(d.id)).length
   const visible = groups
-    .map((g) => ({ ...g, items: onlyRemaining ? g.items.filter((d) => !isDone(d.id, isDocAuto(d, profile))) : g.items }))
+    .map((g) => ({ ...g, items: onlyRemaining ? g.items.filter((d) => !isDone(d.id)) : g.items }))
     .filter((g) => g.items.length > 0)
 
   return (
@@ -99,7 +99,7 @@ export function Documents() {
 
       {visible.map((group, idx) => {
         const stage = getStageFor(group.stage, profile.track)
-        const groupDone = group.items.filter((d) => isDone(d.id, isDocAuto(d, profile))).length
+        const groupDone = group.items.filter((d) => isDone(d.id)).length
         return (
           <Card key={group.stage}>
             <div className={s.group}>
@@ -115,22 +115,19 @@ export function Documents() {
                 </span>
               </div>
               {group.items.map((d) => {
-                const auto = isDocAuto(d, profile)
-                const done = isDone(d.id, auto)
+                const done = isDone(d.id)
                 return (
-                  <div key={d.id} className={[s.row, done ? s.rowDone : '', auto ? s.rowOff : ''].join(' ')}>
+                  <div key={d.id} className={[s.row, done ? s.rowDone : ''].join(' ')}>
                     <button
                       type="button"
                       className={s.hit}
                       role="checkbox"
                       aria-checked={done}
-                      aria-disabled={auto}
                       aria-label={c(d.title)}
                       data-doc={d.id}
                       onClick={(ev) => {
-                        if (auto) return
                         if (onlyRemaining && !done) {
-                          const rows = [...(listRef.current?.querySelectorAll<HTMLElement>('[data-doc]:not([aria-disabled="true"])') ?? [])]
+                          const rows = [...(listRef.current?.querySelectorAll<HTMLElement>('[data-doc]') ?? [])]
                           const i = rows.indexOf(ev.currentTarget)
                           focusAfter.current = (rows[i + 1] ?? rows[i - 1])?.dataset.doc ?? ''
                         }
@@ -145,7 +142,6 @@ export function Documents() {
                     <span>
                       <span className={s.docTitle} aria-hidden="true">{c(d.title)}</span>
                       {d.note && <span className={s.docNote}>{c(d.note)}</span>}
-                      {auto && <span className={s.docNote}>{t('roadmap.autoDone')}</span>}
                       <span className={s.docLinks}>
                         {d.form && (
                           <a href={getSource(d.form).url} target="_blank" rel="noopener noreferrer" className={s.above}>
@@ -180,8 +176,8 @@ export function Documents() {
       {createPortal(
         <PrintSheet
           profile={profile}
-          missing={all.filter((d) => !isDone(d.id, isDocAuto(d, profile))).map((d) => c(d.title))}
-          have={all.filter((d) => isDone(d.id, isDocAuto(d, profile))).map((d) => c(d.title))}
+          missing={all.filter((d) => !isDone(d.id)).map((d) => c(d.title))}
+          have={all.filter((d) => isDone(d.id)).map((d) => c(d.title))}
           date={formatDate(localIso(new Date()), locale)}
         />,
         document.body,

@@ -17,10 +17,6 @@ const medic: Profile = {
   track: 'master',
   category: 'master_medical',
   workerGroup: null,
-  invitation: 'none',
-  foreignCert: null,
-  kazakhCert: true,
-  experience: { years: 2, continuousMonths: 18 },
 }
 const scientist: Profile = { ...medic, track: 'science_internship', category: 'science_internship' }
 

@@ -260,16 +260,7 @@ export const UI = {
     restoreFailed: { ru: 'Сохранённый план не удалось прочитать, поэтому путь начат заново. Выберите программу или загрузите копию.', kk: 'Сақталған жоспарды оқу мүмкін болмады, сондықтан жол қайта басталады. Бағдарламаны таңдаңыз немесе көшірмеңізді жүктеңіз.', en: 'Your saved plan could not be read, so the path starts over. Choose a programme or load your copy.' },
     restoreFailedAction: { ru: 'Загрузить копию в Настройках', kk: 'Баптауларда көшірмені жүктеу', en: 'Load a copy in Settings' },
   },
-  eligibility: {
-    expTitle: { ru: 'По стажу вы пока не проходите', kk: 'Өтіл бойынша әзірге сәйкес келмейсіз', en: 'You do not meet the experience requirement yet' },
-    expText: {
-      ru: 'Для категории «{category}» нужно: {need}. По вашим ответам: {have}. Готовиться можно заранее, а подать документы – когда стажа будет достаточно.',
-      kk: '«{category}» санаты үшін қажет: {need}. Жауаптарыңыз бойынша: {have}. Алдын ала дайындалуға болады, ал құжат тапсыру – өтіл жеткенде.',
-      en: 'The “{category}” category needs {need}. From your answers: {have}. You can prepare now and apply once you have enough experience.',
-    },
-    expNone: { ru: 'стажа нет', kk: 'өтіл жоқ', en: 'no work experience' },
-    expLink: { ru: 'Подробнее и изменить ответ', kk: 'Толығырақ және жауапты өзгерту', en: 'Details and change the answer' },
-  },
+
   onboarding: {
     shortMonths: { ru: '{n} мес. непрерывно', kk: '{n} ай үздіксіз', en: '{n} months continuous' },
     welcomeKicker: { ru: 'Ваш личный план', kk: 'Жеке жол картаңыз', en: 'Your personal roadmap' },
@@ -383,8 +374,6 @@ export const UI = {
     prevStage: { ru: 'Предыдущий этап', kk: 'Алдыңғы кезең', en: 'Previous stage' },
     lockedTitle: { ru: 'Этап пока заблокирован', kk: 'Кезең әзірге құлыпталған', en: 'Stage is locked for now' },
     lockedText: { ru: 'Читать можно сейчас, отмечать шаги – после предыдущих глав.', kk: 'Оқуға қазір болады, қадамдарды белгілеу – алдыңғы тараулардан кейін.', en: 'You can read it now and tick steps once the earlier chapters are done.' },
-    autoDoneTitle: { ru: 'Закрыто по вашим ответам', kk: 'Жауаптарыңыз бойынша жабылды', en: 'Closed based on your answers' },
-    autoDoneText: { ru: 'Если что-то изменилось, исправьте ответы в настройках.', kk: 'Бірдеңе өзгерсе – баптаудан жауаптарды түзетіңіз.', en: 'If something changed, update your answers in settings.' },
     statusOfficial: { ru: 'официальный источник', kk: 'ресми дереккөз', en: 'official source' },
     statusConfirmed: { ru: 'ответ администрации в чате', kk: 'әкімшіліктің чаттағы жауабы', en: 'administration answer in a chat' },
     statusPartial: { ru: 'частично требует уточнения', kk: 'ішінара нақтылауды қажет етеді', en: 'partially needs clarification' },
@@ -392,23 +381,13 @@ export const UI = {
     estimate: { ru: 'Ориентировочно', kk: 'Шамамен', en: 'Roughly' },
     weeks: { ru: 'нед.', kk: 'апта', en: 'wk' },
     allDocuments: { ru: 'Все мои документы', kk: 'Барлық құжаттарым', en: 'All my documents' },
-    yourScore: { ru: 'Ваш балл', kk: 'Сіздің балыңыз', en: 'Your score' },
     threshold: { ru: 'Порог для вашей категории', kk: 'Сіздің санатыңыз үшін шек', en: 'Threshold for your category' },
-    advisoryLevel: { ru: 'Строка приказа № 318: {need} – для сведения', kk: '№ 318 бұйрық жолы: {need} – мәлімет үшін', en: 'Order 318 row: {need} – for reference' },
     advisoryNote: {
       ru: 'Для вашей категории Правила (ПП РК № 573) не делают иностранный язык условием участия – его проверяет вуз при зачислении. Применяется ли к вам порог из приказа № 318, уточните в Центре международных программ.',
       kk: 'Сіздің санатыңыз үшін Қағидалар (ҚР ҮҚ № 573) шет тілін қатысу шарты етпейді – оны ЖОО қабылдау кезінде тексереді. № 318 бұйрықтағы шектің сізге қолданылатынын Халықаралық бағдарламалар орталығынан нақтылаңыз.',
       en: 'For your category the Rules (Government Decree No. 573) do not make a foreign language a condition of entry – the university checks it on admission. Ask the Center for International Programs whether the Order 318 threshold applies to you.',
     },
-    meets: { ru: 'Порог пройден', kk: 'Шектен өтті', en: 'Threshold met' },
-    below: { ru: 'Недобор до порога', kk: 'Шекке жетпейді', en: 'Below threshold' },
     thresholdTable: { ru: 'Пороги по английскому языку', kk: 'Ағылшын тілі бойынша шекті деңгейлер', en: 'English language thresholds' },
-    yourScoreOnScale: { ru: 'Ваш балл на шкале экзамена', kk: 'Емтихан шкаласындағы балыңыз', en: 'Your score on the exam scale' },
-    gaugeToCourses: { ru: 'Хватает на языковые курсы', kk: 'Тіл курстарына жетеді', en: 'Enough for language courses' },
-    gaugeNoCert: { ru: 'Сертификата пока нет', kk: 'Сертификат әзірге жоқ', en: 'No certificate yet' },
-    gaugeStraight: { ru: 'Хватает на прямое обучение', kk: 'Тікелей оқуға жетеді', en: 'Enough to go straight to study' },
-    expYearsMeter: { ru: 'Общий стаж', kk: 'Жалпы өтіл', en: 'Total experience' },
-    expMonthsMeter: { ru: 'Непрерывный стаж', kk: 'Үздіксіз өтіл', en: 'Continuous experience' },
     level1: { ru: 'I порог', kk: 'I шек', en: 'Level I' },
     level2: { ru: 'II порог', kk: 'II шек', en: 'Level II' },
     level3: { ru: 'III порог', kk: 'III шек', en: 'Level III' },
@@ -431,10 +410,7 @@ export const UI = {
     workBackTitle: { ru: 'Ваша отработка', kk: 'Сіздің өтеуіңіз', en: 'Your work-back obligation' },
     languageNotes: { ru: 'Особые случаи и другие языки', kk: 'Ерекше жағдайлар және басқа тілдер', en: 'Special cases and other languages' },
     kazakhTitle: { ru: 'Требование по государственному языку', kk: 'Мемлекеттік тіл бойынша талап', en: 'State language requirement' },
-    yourExperience: { ru: 'Ваш стаж', kk: 'Сіздің өтіліңіз', en: 'Your experience' },
     expRequired: { ru: 'Требуется', kk: 'Қажет', en: 'Required' },
-    expMeets: { ru: 'Стаж подходит', kk: 'Өтіл жеткілікті', en: 'Experience is sufficient' },
-    expBelow: { ru: 'Стажа не хватает', kk: 'Өтіл жетпейді', en: 'Not enough experience' },
     expNone: { ru: 'стаж не указан', kk: 'өтіл көрсетілмеген', en: 'no experience entered' },
     yearsTotal: { ru: 'общего стажа', kk: 'жалпы өтіл', en: 'total' },
     monthsContinuous: { ru: 'непрерывно по специализации', kk: 'үздіксіз мамандық бойынша', en: 'continuous in the field' },
@@ -673,13 +649,7 @@ export const UI = {
     track_science_internship_d: { ru: 'Для учёных со степенью, 3–12 месяцев', kk: 'Дәрежесі бар ғалымдарға, 3–12 ай', en: 'For scientists with a degree, 3–12 months' },
     workerGroup: { ru: 'Категория работника', kk: 'Қызметкер санаты', en: 'Worker category' },
   },
-  exams: {
-    ielts: 'IELTS',
-    toefl_ibt: 'TOEFL iBT',
-    toefl_pbt: 'TOEFL PBT / ITP',
-    det: 'Duolingo English Test',
-    other: { ru: 'Другой язык / экзамен', kk: 'Басқа тіл / емтихан', en: 'Other language / exam' },
-  },
+
 } as const
 
 type Leaf = { ru: string; kk?: string; en?: string } | string

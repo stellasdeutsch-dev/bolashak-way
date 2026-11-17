@@ -10,7 +10,7 @@ import type { Profile } from '@/content/types'
 
 /** Keyboard and screen-reader paths a mouse user never notices are broken. */
 
-const master: Profile = { track: 'master', category: 'master_self', workerGroup: null, invitation: 'none', foreignCert: null, kazakhCert: false, experience: null }
+const master: Profile = { track: 'master', category: 'master_self', workerGroup: null }
 
 beforeEach(() => {
   localStorage.clear()

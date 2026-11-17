@@ -268,10 +268,6 @@ const sample = (track: Track, category: CategoryId): Profile => ({
   track,
   category,
   workerGroup: track === 'internship' ? 'teacher' : null,
-  invitation: 'none',
-  foreignCert: null,
-  kazakhCert: false,
-  experience: null,
 })
 
 export function Journey({ platform }: { platform: PlatformMeta }) {
