@@ -64,3 +64,21 @@ describe('the requirements matrix', () => {
   })
 })
 
+describe('the platform switcher', () => {
+  it('points aria-controls only at a list that exists', () => {
+    render(
+      <HashRouter>
+        <Layout>
+          <div />
+        </Layout>
+      </HashRouter>,
+    )
+    const btn = document.querySelector<HTMLButtonElement>('button[aria-expanded]')!
+    expect(btn.getAttribute('aria-expanded')).toBe('false')
+    expect(btn.hasAttribute('aria-controls')).toBe(false)
+    fireEvent.click(btn)
+    const id = btn.getAttribute('aria-controls')!
+    expect(document.getElementById(id)).not.toBeNull()
+  })
+})
+

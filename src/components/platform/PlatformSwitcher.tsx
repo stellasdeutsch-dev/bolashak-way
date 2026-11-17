@@ -54,7 +54,8 @@ export function PlatformSwitcher() {
         className={[s.switcherBtn, active ? s.switcherBtnActive : ''].join(' ')}
         onClick={() => setOpen((v) => !v)}
         aria-expanded={open}
-        aria-controls="platform-switcher-list"
+        // Only while the list exists: pointing at a missing id is an error for screen readers.
+        aria-controls={open ? 'platform-switcher-list' : undefined}
         aria-label={active ? undefined : t('platform.choose')}
       >
         {active ? (
