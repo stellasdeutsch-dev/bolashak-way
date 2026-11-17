@@ -1,4 +1,4 @@
-import type { Locale } from '@/content/types'
+import { isLocale, type Locale } from '@/content/types'
 
 /**
  * The app is a section of the Center for International Programs site. Where that site
@@ -37,8 +37,9 @@ export function localeFromUrl(loc: { search: string; hash: string } | undefined)
   const hashQuery = loc.hash.includes('?') ? loc.hash.slice(loc.hash.indexOf('?')) : ''
   for (const query of [loc.search, hashQuery]) {
     const value = new URLSearchParams(query).get('lang')?.trim().toLowerCase()
-    if (value === 'ru' || value === 'en') return value
-    if (value === 'kk' || value === 'kz') return 'kk'
+    // the site calls Kazakh kz
+    if (value === 'kz') return 'kk'
+    if (isLocale(value)) return value
   }
   return null
 }

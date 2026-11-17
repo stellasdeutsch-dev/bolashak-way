@@ -1,12 +1,14 @@
 import { create } from 'zustand'
 import { persist, type PersistStorage, type StorageValue } from 'zustand/middleware'
-import type { DateKey, Locale, Profile, StageId } from '@/content/types'
+import { isLocale, type DateKey, type Locale, type Profile, type StageId } from '@/content/types'
 import { CONTENT_META } from '@/content/meta'
 import { sanitizeArchive, sanitizeProgress, type Archive, type Progress } from '@/domain/exportImport'
 import { localeFromUrl } from '@/domain/site'
 import { safeLocalStorage } from './safeStorage'
 
-export type ThemePref = 'system' | 'light' | 'dark'
+export const THEMES = ['system', 'light', 'dark'] as const
+export type ThemePref = (typeof THEMES)[number]
+const isTheme = (v: unknown): v is ThemePref => (THEMES as readonly unknown[]).includes(v)
 
 export interface AppState {
   schemaVersion: number
@@ -58,7 +60,7 @@ const detectLocale = (): Locale => {
   if (fromUrl) return fromUrl
   if (typeof navigator === 'undefined') return 'ru'
   const l = navigator.language.slice(0, 2).toLowerCase()
-  return l === 'kk' ? 'kk' : l === 'en' ? 'en' : 'ru'
+  return isLocale(l) ? l : 'ru'
 }
 
 const EMPTY = {
@@ -209,8 +211,8 @@ export const useAppStore = create<AppState>()(
         return {
           ...current,
           restoreFailed,
-          locale: raw.locale === 'kk' || raw.locale === 'en' || raw.locale === 'ru' ? raw.locale : current.locale,
-          theme: raw.theme === 'light' || raw.theme === 'dark' || raw.theme === 'system' ? raw.theme : current.theme,
+          locale: isLocale(raw.locale) ? raw.locale : current.locale,
+          theme: isTheme(raw.theme) ? raw.theme : current.theme,
           ...progress,
           archive,
         }

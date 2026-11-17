@@ -1,5 +1,5 @@
 import { Component, type ErrorInfo, type ReactNode } from 'react'
-import type { Locale } from '@/content/types'
+import { isLocale, type Locale } from '@/content/types'
 import { useAppStore } from '@/store/useAppStore'
 import { OfflineScreen } from './offline/OfflineGame'
 
@@ -37,7 +37,7 @@ export function isOfflineLoadError(error: unknown, online = typeof navigator ===
 function currentLocale(): Locale | null {
   try {
     const l = useAppStore.getState().locale
-    return l === 'ru' || l === 'kk' || l === 'en' ? l : null
+    return isLocale(l) ? l : null
   } catch {
     return null
   }

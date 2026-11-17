@@ -1,4 +1,4 @@
-import type { Category, CategoryId, L, Track, WorkerGroup } from './types'
+import { CATEGORY_IDS, TRACKS, type Category, type CategoryId, type L, type Track, type WorkerGroup } from './types'
 
 /**
  * All applicant categories, per п.4 and п.9–14 of the selection rules (pp573),
@@ -514,13 +514,10 @@ export const CATEGORIES: Record<CategoryId, Category> = {
   },
 }
 
-export const CATEGORIES_BY_TRACK: Record<Track, CategoryId[]> = {
-  bachelor: ['bachelor'],
-  master: ['master_self', 'master_rural', 'master_engineer', 'master_medical', 'master_civil', 'master_nuclear'],
-  phd_residency: ['phd_self', 'phd_nuclear', 'residency'],
-  internship: ['internship'],
-  science_internship: ['science_internship'],
-}
+/** Each programme's categories, in the order they are listed above. */
+export const CATEGORIES_BY_TRACK = Object.fromEntries(
+  TRACKS.map((track) => [track, CATEGORY_IDS.filter((id) => CATEGORIES[id].track === track)]),
+) as Record<Track, CategoryId[]>
 
 /**
  * Worker categories for Bolashak internships, named as the requirements page lists them

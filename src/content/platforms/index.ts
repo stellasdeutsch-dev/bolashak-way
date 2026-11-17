@@ -1,4 +1,4 @@
-import type { L, PlatformHome, PlatformSlug, StagePatch, StagePatches, Track } from '../types'
+import { PLATFORM_SLUG_IDS, type L, type PlatformHome, type PlatformSlug, type StagePatch, type StagePatches, type Track } from '../types'
 import { ACADEMIC_STAGES } from './shared'
 import { BACHELOR_HOME, BACHELOR_STAGES } from './bachelor'
 import { MASTER_HOME, MASTER_STAGES } from './master'
@@ -88,9 +88,7 @@ export const PLATFORMS: PlatformMeta[] = [
   },
 ]
 
-export const PLATFORM_SLUGS = PLATFORMS.map((p) => p.slug)
-
-export const isPlatformSlug = (s: string | undefined): s is PlatformSlug => !!s && (PLATFORM_SLUGS as string[]).includes(s)
+export const isPlatformSlug = (s: string | undefined): s is PlatformSlug => !!s && (PLATFORM_SLUG_IDS as readonly string[]).includes(s)
 
 export const getPlatform = (slug: PlatformSlug): PlatformMeta => PLATFORMS.find((p) => p.slug === slug)!
 

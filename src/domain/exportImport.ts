@@ -1,4 +1,4 @@
-import type { DateKey, Profile, StageId, Track, WorkerGroup } from '@/content/types'
+import { DATE_KEYS, TRACKS, WORKER_GROUP_IDS, type DateKey, type Profile, type StageId, type Track, type WorkerGroup } from '@/content/types'
 import { CONTENT_META } from '@/content/meta'
 import { CATEGORIES } from '@/content/categories'
 import { STAGES } from '@/content/stages'
@@ -21,9 +21,7 @@ export interface Snapshot {
   archive?: Archive
 }
 
-const TRACKS: Track[] = ['bachelor', 'master', 'phd_residency', 'internship', 'science_internship']
-const WORKER_GROUP_IDS: WorkerGroup[] = ['engineer_agro', 'teacher', 'medical', 'civil', 'media', 'culture', 'judge', 'ai_user', 'nuclear']
-const DATE_KEYS: DateKey[] = ['award_date', 'study_start', 'study_end', 'return_date', 'work_start']
+const oneOf = <T extends string>(list: readonly T[], v: unknown): v is T => (list as readonly unknown[]).includes(v)
 
 const STAGE_IDS = new Set<string>(STAGES.map((s) => s.id))
 const DOC_IDS = new Set<string>(DOCUMENTS.map((d) => d.id))
@@ -39,15 +37,15 @@ const CHECK_IDS = new Set<string>(STAGES.flatMap((s) => s.checklist.map((i) => `
 export function validProfile(value: unknown): Profile | null {
   if (!value || typeof value !== 'object') return null
   const p = value as Record<string, unknown>
-  if (!TRACKS.includes(p.track as Track)) return null
+  if (!oneOf(TRACKS, p.track)) return null
   if (typeof p.category !== 'string' || !(p.category in CATEGORIES)) return null
   const category = CATEGORIES[p.category as keyof typeof CATEGORIES]
   if (category.track !== p.track) return null
 
-  const workerGroup = p.workerGroup == null ? null : WORKER_GROUP_IDS.includes(p.workerGroup as WorkerGroup) ? (p.workerGroup as WorkerGroup) : undefined
+  const workerGroup: WorkerGroup | null | undefined = p.workerGroup == null ? null : oneOf(WORKER_GROUP_IDS, p.workerGroup) ? p.workerGroup : undefined
   if (workerGroup === undefined) return null
 
-  return { track: p.track as Track, category: p.category as Profile['category'], workerGroup }
+  return { track: p.track, category: p.category as Profile['category'], workerGroup }
 }
 
 const keepKnown = (value: unknown, known: Set<string>): string[] =>
@@ -126,7 +124,7 @@ export function sanitizeProgress(raw: unknown): Progress {
   const dates: Partial<Record<DateKey, string>> = {}
   if (data.dates && typeof data.dates === 'object') {
     for (const [k, v] of Object.entries(data.dates)) {
-      if (DATE_KEYS.includes(k as DateKey) && isIsoDate(v)) dates[k as DateKey] = v
+      if (oneOf(DATE_KEYS, k) && isIsoDate(v)) dates[k] = v
     }
   }
 

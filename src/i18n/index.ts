@@ -1,13 +1,16 @@
 import { useCallback } from 'react'
-import type { L, Locale } from '@/content/types'
+import { LOCALE_IDS, type L, type Locale } from '@/content/types'
 import { useAppStore } from '@/store/useAppStore'
 import { UI, resolveUi } from './ui'
 
-export const LOCALES: { id: Locale; label: string; native: string }[] = [
-  { id: 'ru', label: 'RU', native: 'Русский' },
-  { id: 'kk', label: 'KK', native: 'Қазақша' },
-  { id: 'en', label: 'EN', native: 'English' },
-]
+/** Each language's name in itself; a Record, so a language added to LOCALE_IDS needs one. */
+const LOCALE_NAMES: Record<Locale, { label: string; native: string }> = {
+  ru: { label: 'RU', native: 'Русский' },
+  kk: { label: 'KK', native: 'Қазақша' },
+  en: { label: 'EN', native: 'English' },
+}
+
+export const LOCALES: { id: Locale; label: string; native: string }[] = LOCALE_IDS.map((id) => ({ id, ...LOCALE_NAMES[id] }))
 
 /** Resolve a localised content string with fallback to Russian. */
 export function pick(l: L | undefined, locale: Locale): { text: string; fallback: boolean } {

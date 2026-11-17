@@ -3,40 +3,50 @@
  * `src/content/*` as typed data. No facts are hard-coded in components.
  */
 
-export type Locale = 'ru' | 'kk' | 'en'
+/*
+ * Every closed list of ids is written once, as a const array; its type is derived from it.
+ * Saved plans are checked against these arrays when they load, so a programme, language or
+ * date added here is accepted everywhere at once – and one left out is a compile error in
+ * any Record keyed by it, not a plan that silently disappears on reload.
+ */
+
+export const LOCALE_IDS = ['ru', 'kk', 'en'] as const
+export type Locale = (typeof LOCALE_IDS)[number]
+export const isLocale = (v: unknown): v is Locale => (LOCALE_IDS as readonly unknown[]).includes(v)
 
 /** Localised string. `ru` is the canonical source, other locales fall back to it. */
 export type L = { ru: string; kk?: string; en?: string }
 
-export type Track = 'bachelor' | 'master' | 'phd_residency' | 'internship' | 'science_internship'
+export const TRACKS = ['bachelor', 'master', 'phd_residency', 'internship', 'science_internship'] as const
+export type Track = (typeof TRACKS)[number]
 
-export type CategoryId =
-  | 'bachelor'
-  | 'master_self'
-  | 'master_rural'
-  | 'master_engineer'
-  | 'master_medical'
-  | 'master_civil'
-  | 'master_nuclear'
-  | 'phd_self'
-  | 'phd_nuclear'
-  | 'residency'
-  | 'internship'
-  | 'science_internship'
+/** In the order the categories are listed (content/categories.ts keeps the same order). */
+export const CATEGORY_IDS = [
+  'bachelor',
+  'master_self',
+  'master_rural',
+  'master_engineer',
+  'master_medical',
+  'master_civil',
+  'master_nuclear',
+  'phd_self',
+  'phd_nuclear',
+  'residency',
+  'internship',
+  'science_internship',
+] as const
+export type CategoryId = (typeof CATEGORY_IDS)[number]
 
 /** Worker categories admitted to Bolashak internships (bolashak.gov.kz/ru/pretendentu/pravila). */
-export type WorkerGroup =
-  | 'engineer_agro'
-  | 'teacher'
-  | 'medical'
-  | 'civil'
-  | 'media'
-  | 'culture'
-  | 'judge'
-  | 'ai_user'
-  | 'nuclear'
+export const WORKER_GROUP_IDS = ['engineer_agro', 'teacher', 'medical', 'civil', 'media', 'culture', 'judge', 'ai_user', 'nuclear'] as const
+export type WorkerGroup = (typeof WORKER_GROUP_IDS)[number]
 
-export type ExamId = 'ielts' | 'toefl_ibt' | 'toefl_pbt' | 'det' | 'other'
+export const EXAM_IDS = ['ielts', 'toefl_ibt', 'toefl_pbt', 'det', 'other'] as const
+export type ExamId = (typeof EXAM_IDS)[number]
+
+/** Which column of the language threshold table applies to a category. */
+export const LANGUAGE_GROUPS = ['preferential', 'self', 'internship', 'science', 'none'] as const
+export type LanguageGroup = (typeof LANGUAGE_GROUPS)[number]
 
 /**
  * What the questions ask: the programme and the direction (with the worker group for an
@@ -86,7 +96,8 @@ export type SourceId = string
 export type DocId = string
 
 /** User-entered anchor dates that personal deadlines are computed from. */
-export type DateKey = 'award_date' | 'study_start' | 'study_end' | 'return_date' | 'work_start'
+export const DATE_KEYS = ['award_date', 'study_start', 'study_end', 'return_date', 'work_start'] as const
+export type DateKey = (typeof DATE_KEYS)[number]
 
 export interface DeadlineRule {
   id: string
@@ -224,7 +235,7 @@ export interface Category {
   requiresInvitationAtApplication: boolean
   requiresForeignCert: boolean
   /** Which column of the language threshold table applies. */
-  languageGroup: 'preferential' | 'self' | 'internship' | 'science' | 'none'
+  languageGroup: LanguageGroup
   requirements: { text: L; source: SourceId }[]
   experience?: { years?: number; continuousMonths?: number }
   workBack: L
@@ -247,7 +258,8 @@ export interface LanguageThreshold {
 /* ─────────────  platforms  ───────────── */
 
 /** URL slug of a programme platform: /#/master, /#/science … */
-export type PlatformSlug = 'bachelor' | 'master' | 'doctorate' | 'internship' | 'science'
+export const PLATFORM_SLUG_IDS = ['bachelor', 'master', 'doctorate', 'internship', 'science'] as const
+export type PlatformSlug = (typeof PLATFORM_SLUG_IDS)[number]
 
 /**
  * What one platform says differently about a shared stage. The stage skeleton (ids,

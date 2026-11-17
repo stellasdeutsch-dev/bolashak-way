@@ -1,4 +1,5 @@
-import type { CategoryId, LanguageThreshold, L, SourceId, Track } from './types'
+import { CATEGORY_IDS, type CategoryId, type LanguageGroup, type LanguageThreshold, type L, type SourceId, type Track } from './types'
+import { CATEGORIES } from './categories'
 
 /**
  * English-language thresholds, Appendix 1 of Order No. 318 (as amended by the order of the
@@ -14,7 +15,7 @@ import type { CategoryId, LanguageThreshold, L, SourceId, Track } from './types'
  * пп. 3) and none of doctoral or residency applicants (п. 11–12), and neither package lists
  * a foreign certificate – so it must never be presented as a condition to apply.
  */
-export type LanguageGroup = 'preferential' | 'self' | 'internship' | 'science' | 'none'
+export type { LanguageGroup }
 
 export const ENGLISH_THRESHOLDS: Record<Exclude<LanguageGroup, 'none'>, LanguageThreshold[]> = {
   preferential: [
@@ -64,20 +65,8 @@ export const SCIENCE_LANGUAGES: { lang: L; level: string }[] = [
   { lang: { ru: 'Русский', kk: 'Орыс', en: 'Russian' }, level: '–' },
 ]
 
-export const LANGUAGE_GROUP_BY_CATEGORY: Record<CategoryId, LanguageGroup> = {
-  bachelor: 'none',
-  master_self: 'self',
-  master_rural: 'preferential',
-  master_engineer: 'preferential',
-  master_medical: 'preferential',
-  master_civil: 'preferential',
-  master_nuclear: 'preferential',
-  phd_self: 'self',
-  phd_nuclear: 'self',
-  residency: 'self',
-  internship: 'internship',
-  science_internship: 'science',
-}
+/** Which column of the threshold table a category reads – set on the category itself. */
+export const LANGUAGE_GROUP_BY_CATEGORY = Object.fromEntries(CATEGORY_IDS.map((id) => [id, CATEGORIES[id].languageGroup])) as Record<CategoryId, LanguageGroup>
 
 export const KAZAKH_REQUIREMENT: { text: L; source: SourceId } = {
   text: {
