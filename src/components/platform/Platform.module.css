@@ -487,7 +487,10 @@
   font-size: 13.5px;
   font-weight: 600;
   color: var(--text);
-  white-space: nowrap;
+}
+/* On the phone card the value sits right of its label and wraps there instead of being cut. */
+.catRow .matrixText {
+  text-align: right;
 }
 
 .conditions {
