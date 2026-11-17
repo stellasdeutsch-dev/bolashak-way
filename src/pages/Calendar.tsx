@@ -12,6 +12,7 @@ import { atNoon, monthMatrix } from '@/domain/calendar'
 import { localIso } from '@/domain/dates'
 import { centreDateId, overlaps, type CentreDate } from '@/domain/centreDates'
 import { useCentreDates } from '@/components/useCentreDates'
+import { DateField } from '@/components/DateField'
 import { useAppStore } from '@/store/useAppStore'
 import { useI18n } from '@/i18n'
 import { usePageChrome } from '@/i18n/usePageChrome'
@@ -55,6 +56,8 @@ export function Calendar() {
   const dayTitleRef = useRef<HTMLHeadingElement>(null)
   const openedFrom = useRef<HTMLElement | null>(null)
   const moveFocus = useRef(false)
+  // A date changed from the day card's own field: the focus stays in the field.
+  const keepFocus = useRef(false)
 
   const fmtDate = useMemo(
     () =>
@@ -157,7 +160,8 @@ export function Calendar() {
     openedFrom.current?.focus()
   }
   useEffect(() => {
-    if (openDay) dayTitleRef.current?.focus()
+    if (openDay && !keepFocus.current) dayTitleRef.current?.focus()
+    keepFocus.current = false
   }, [openDay])
   useEffect(() => {
     if (!moveFocus.current || !focusIso) return
@@ -221,8 +225,9 @@ export function Calendar() {
   }
 
   /** Moving an anchor is the only drag that is allowed to change anything. */
-  function moveAnchor(key: DateKey, iso: string) {
+  function moveAnchor(key: DateKey, iso: string, fromField = false) {
     if (dates[key] === iso) return
+    keepFocus.current = fromField
     setDate(key, iso)
     const d = new Date(atNoon(iso))
     setCursor({ year: d.getUTCFullYear(), month: d.getUTCMonth() })
@@ -252,13 +257,7 @@ export function Calendar() {
           {missingAnchors.map((key) => (
             <label key={key} className={s.missingRow}>
               <span>{t(dateLabelKey(key, profile!.track))}</span>
-              <input
-                type="date"
-                value=""
-                onChange={(ev) => {
-                  if (ev.target.value) moveAnchor(key, ev.target.value)
-                }}
-              />
+              <DateField value="" onCommit={(iso) => moveAnchor(key, iso)} />
             </label>
           ))}
         </div>
@@ -423,15 +422,9 @@ export function Calendar() {
                   <Pill tone="accent">{t('calendar.yourDate')}</Pill>
                   <label className={s.dayField}>
                     <span>{t('calendar.changeDate')}</span>
-                    <input
-                      type="date"
-                      value={e.iso}
-                      onChange={(ev) => {
-                        // An empty field is a mis-click on the picker, not "remove the date";
-                        // clearing an anchor is done deliberately on the stage screen.
-                        if (ev.target.value) moveAnchor(e.key, ev.target.value)
-                      }}
-                    />
+                    {/* Not clearable: an empty field is a mis-click on the picker, not "remove
+                        the date"; clearing an anchor is done deliberately on the stage screen. */}
+                    <DateField value={e.iso} onCommit={(iso) => moveAnchor(e.key, iso, true)} />
                   </label>
                 </div>
               ) : (

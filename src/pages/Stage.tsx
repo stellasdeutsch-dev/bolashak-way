@@ -24,6 +24,7 @@ import { useI18n, pick, formatMonths, formatYears, formatDate } from '@/i18n'
 import { usePageChrome } from '@/i18n/usePageChrome'
 import { Button, ButtonLink, Callout, Card, ConfirmDialog, FallbackBadge, Pill, SourceLink } from '@/components/ui'
 import { announce } from '@/components/announce'
+import { DateField } from '@/components/DateField'
 import { VideoList } from '@/components/Videos'
 import { AwardTimeline, ContestFlow, WorkbackTable } from '@/components/Explain'
 import { InternshipSpecialtySearch, ScienceSearch, SpecialtySearch, UniversitySearch, type SpecialtyLevel } from '@/components/ListSearch'
@@ -328,7 +329,7 @@ function DeadlinePanel({ stage }: { stage: StageId }) {
           <label key={key} className={s.dateField}>
             <span className={s.dateLabel}>{t(dateLabelKey(key, profile.track))}</span>
             <span className={s.dateRow}>
-              <input type="date" className={s.dateInput} value={dates[key] ?? ''} onChange={(e) => setDate(key, e.target.value || null)} />
+              <DateField className={s.dateInput} value={dates[key] ?? ''} clearable onCommit={(iso) => setDate(key, iso || null)} />
               {dates[key] && (
                 <Button variant="quiet" size="sm" onClick={() => setDate(key, null)}>
                   {t('deadlines.clear')}

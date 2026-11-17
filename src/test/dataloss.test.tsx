@@ -1,9 +1,11 @@
 import { beforeEach, describe, expect, it } from 'vitest'
-import { act } from '@testing-library/react'
+import { act, fireEvent, render, screen } from '@testing-library/react'
+import { MemoryRouter } from 'react-router'
 import { buildSnapshot, parseSnapshot } from '@/domain/exportImport'
 import { buildIcs } from '@/domain/ics'
 import { parseCentreDates } from '@/domain/centreDates'
 import { useAppStore } from '@/store/useAppStore'
+import { Calendar } from '@/pages/Calendar'
 import type { Profile } from '@/content/types'
 
 /** Progress that must never be lost: between programmes, devices, tabs and calendars. */
@@ -131,6 +133,30 @@ describe('the Center’s dates', () => {
     const out = parseCentreDates(feed)!
     expect(out).toHaveLength(500)
     expect(out.at(-1)!.date).toBe(feed.at(-1)!.date)
+  })
+})
+
+describe('typing a date', () => {
+  it('saves only a whole date and keeps the focus in the field', () => {
+    useAppStore.setState({ profile: master, onboardedAt: '2026-09-01T00:00:00.000Z', dates: { award_date: '2026-11-20' } })
+    render(
+      <MemoryRouter>
+        <Calendar />
+      </MemoryRouter>,
+    )
+    // open the day with the anchor date and edit it there
+    fireEvent.click(screen.getAllByRole('button', { name: /Дата решения комиссии|решени/i })[0])
+    const field = document.querySelector<HTMLInputElement>('input[type="date"][value="2026-11-20"]')!
+    field.focus()
+    // the browser reports the year as it is typed: 0002, 0020, 0202, 2026
+    for (const v of ['0002-10-03', '0020-10-03', '0202-10-03']) {
+      fireEvent.change(field, { target: { value: v } })
+      expect(useAppStore.getState().dates.award_date).toBe('2026-11-20')
+      expect(document.activeElement).toBe(field)
+    }
+    fireEvent.change(field, { target: { value: '2026-10-03' } })
+    expect(useAppStore.getState().dates.award_date).toBe('2026-10-03')
+    expect(document.activeElement).toBe(field)
   })
 })
 

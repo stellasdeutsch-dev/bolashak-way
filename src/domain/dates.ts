@@ -16,3 +16,14 @@ export function isIsoDate(value: unknown): value is string {
   const probe = new Date(Date.UTC(y, m - 1, d))
   return probe.getUTCFullYear() === y && probe.getUTCMonth() === m - 1 && probe.getUTCDate() === d
 }
+
+/**
+ * A date someone actually meant. While a year is being typed the browser already reports
+ * it – 0002, 0020, 0202 – each a valid ISO date; saving those put October 1902 or year 2
+ * into the plan. Anything outside 1900–2100 is a date still being typed.
+ */
+export function isPlausibleDate(value: unknown): value is string {
+  if (!isIsoDate(value)) return false
+  const year = Number(value.slice(0, 4))
+  return year >= 1900 && year <= 2100
+}
