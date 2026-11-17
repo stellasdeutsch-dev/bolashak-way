@@ -3,7 +3,7 @@ import { ENGLISH_THRESHOLDS, LANGUAGE_GROUP_BY_CATEGORY } from '@/content/langua
 import { monthMatrix } from '@/domain/calendar'
 import { buildIcs, shiftIso } from '@/domain/ics'
 import type { CategoryId, L, Profile } from '@/content/types'
-import { CATEGORIES, CATEGORIES_BY_TRACK } from '@/content/categories'
+import { CATEGORIES, CATEGORIES_BY_TRACK, WORKER_GROUPS } from '@/content/categories'
 import { STAGES } from '@/content/stages'
 import { SOURCES } from '@/content/sources'
 import { DOCUMENTS } from '@/content/documents'
@@ -244,6 +244,23 @@ describe('experience requirements', () => {
     expect(experienceRequirement(intern('nuclear'))).toEqual({ years: 3, continuousMonths: 6 })
     // A media worker on the same track still needs the full year.
     expect(experienceRequirement(intern('media'))).toEqual({ years: 3, continuousMonths: 12 })
+  })
+
+  it('takes the shorter continuous term from the worker-group data, not from code', () => {
+    // A new decree that moves another group to the short term changes only the data.
+    const teacher = WORKER_GROUPS.find((g) => g.id === 'teacher')!
+    const intern = profile({ track: 'internship', category: 'internship', workerGroup: 'teacher' })
+    expect(experienceRequirement(intern)?.continuousMonths).toBe(12)
+    teacher.shortMonths = 6
+    try {
+      expect(experienceRequirement(intern)?.continuousMonths).toBe(6)
+    } finally {
+      delete teacher.shortMonths
+    }
+    for (const g of WORKER_GROUPS) {
+      const req = experienceRequirement(profile({ track: 'internship', category: 'internship', workerGroup: g.id }))
+      expect(req?.continuousMonths, g.id).toBe(g.shortMonths ?? CATEGORIES.internship.experience!.continuousMonths)
+    }
   })
 
   it('has no requirement for categories that ask for no experience', () => {

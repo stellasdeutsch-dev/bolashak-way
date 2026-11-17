@@ -1,5 +1,5 @@
 import type { CategoryId, Profile, Rule } from '@/content/types'
-import { CATEGORIES } from '@/content/categories'
+import { CATEGORIES, WORKER_GROUPS } from '@/content/categories'
 
 export interface ExperienceRequirement {
   years: number | null
@@ -10,9 +10,10 @@ export interface ExperienceRequirement {
 export function experienceRequirement(profile: Profile): ExperienceRequirement | null {
   const cat = CATEGORIES[profile.category as CategoryId]
   if (!cat.experience) return null
-  let months = cat.experience.continuousMonths ?? null
-  // AI-system users and nuclear-industry interns need 6 continuous months instead of 12 (pp573 п.4 пп.6).
-  if (profile.category === 'internship' && (profile.workerGroup === 'ai_user' || profile.workerGroup === 'nuclear')) months = 6
+  // Some internship worker groups need a shorter unbroken term (pp573 п.4 пп.6); the figure
+  // lives with the group in the content, so a new decree changes data, not this code.
+  const group = profile.track === 'internship' ? WORKER_GROUPS.find((g) => g.id === profile.workerGroup) : undefined
+  const months = group?.shortMonths ?? cat.experience.continuousMonths ?? null
   return { years: cat.experience.years ?? null, continuousMonths: months }
 }
 
