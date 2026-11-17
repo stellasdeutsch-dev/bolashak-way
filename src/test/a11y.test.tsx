@@ -1,7 +1,8 @@
 import { beforeEach, describe, expect, it } from 'vitest'
-import { fireEvent, render, screen, within } from '@testing-library/react'
-import { HashRouter } from 'react-router'
+import { act, fireEvent, render, screen, within } from '@testing-library/react'
+import { HashRouter, MemoryRouter, Route, Routes } from 'react-router'
 import { Layout } from '@/components/Layout'
+import { PlatformHome } from '@/pages/PlatformHome'
 import { useAppStore } from '@/store/useAppStore'
 import type { Profile } from '@/content/types'
 
@@ -40,6 +41,26 @@ describe('the search dialog', () => {
     expect(document.activeElement).toBe(reachable[0])
     tab(true)
     expect(document.activeElement).toBe(last)
+  })
+})
+
+describe('the requirements matrix', () => {
+  it('says "yes" and "no" in words a screen reader reads', async () => {
+    const view = render(
+      <MemoryRouter initialEntries={['/master']}>
+        <Routes>
+          <Route path="/:platform" element={<PlatformHome />} />
+        </Routes>
+      </MemoryRouter>,
+    )
+    await act(async () => {
+      fireEvent.click(screen.getByRole('button', { name: /Требования/ }))
+    })
+    const table = view.container.querySelector('table')!
+    expect(within(table).getAllByText('Да').length).toBeGreaterThan(0)
+    expect(within(table).getAllByText('Нет').length).toBeGreaterThan(0)
+    // no label on an element that has no role to carry it
+    expect(table.querySelectorAll('span[aria-label]')).toHaveLength(0)
   })
 })
 

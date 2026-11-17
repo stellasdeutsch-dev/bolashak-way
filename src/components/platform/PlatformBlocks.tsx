@@ -101,14 +101,17 @@ function CellView({ cell }: { cell: MatrixCell }) {
   const { t, c } = useI18n()
   if (cell.kind === 'yes')
     return (
-      <span className={s.matrixYes} aria-label={t('common.yes')}>
+      // aria-label on a plain span is not read: the word is in the text, visually hidden.
+      <span className={s.matrixYes}>
         <Check size={14} aria-hidden="true" />
+        <span className="visually-hidden">{t('common.yes')}</span>
       </span>
     )
   if (cell.kind === 'no')
     return (
-      <span className={s.matrixNo} aria-label={t('common.no')}>
-        –
+      <span className={s.matrixNo}>
+        <span aria-hidden="true">–</span>
+        <span className="visually-hidden">{t('common.no')}</span>
       </span>
     )
   return <span className={s.matrixText}>{c(cell.text)}</span>
