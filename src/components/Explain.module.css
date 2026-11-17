@@ -47,6 +47,12 @@
 .table th.thAccent {
   color: var(--accent-ink);
 }
+/* the same column on the phone card */
+dd.tdAccent {
+  font-weight: 700;
+  color: var(--accent-ink);
+  font-variant-numeric: tabular-nums;
+}
 
 /* ── two-lane path diagram ── */
 .lanesScroll {
@@ -130,6 +136,10 @@
   border-radius: 50%;
   background: var(--steel);
 }
+.cellChapter,
+.dotNarrow {
+  display: none;
+}
 .marker {
   position: relative;
   max-width: 100%;
@@ -141,6 +151,69 @@
   text-align: center;
   color: var(--text-on-accent);
   background: var(--accent-btn);
+}
+
+/* Phones: no sideways scroll – each lane runs down the page, chapter by chapter, and the
+   rail turns vertical. The chapter heads move into the steps. */
+@media (max-width: 759.98px) {
+  .lanesScroll {
+    overflow: visible;
+    padding-bottom: 0;
+  }
+  .lanes {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    min-width: 0;
+  }
+  .laneHead,
+  .chapterHead {
+    display: none;
+  }
+  .laneRow {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    padding: 14px 0 0;
+  }
+  .laneName {
+    padding: 0 0 8px;
+  }
+  .cell {
+    justify-content: flex-start;
+    gap: 12px;
+    min-height: 40px;
+    padding-left: 2px;
+  }
+  .track {
+    left: 5px;
+    right: auto;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    height: auto;
+    margin-top: 0;
+  }
+  .cell:first-of-type .track {
+    top: 50%;
+  }
+  .cell:last-of-type .track {
+    bottom: 50%;
+  }
+  .cellChapter {
+    display: block;
+    position: relative;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-2);
+  }
+  .dotNarrow {
+    display: block;
+    background: var(--accent);
+  }
+  .marker {
+    order: 1;
+  }
 }
 
 /* ── award timeline ── */

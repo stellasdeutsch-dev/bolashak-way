@@ -41,6 +41,7 @@ const LIST_TITLE: Record<Track, Record<'specialty' | 'university', string>> = {
 import { StageForms } from '@/components/Forms'
 import { formsForStage } from '@/content/forms'
 import { Meter, ScoreGauge } from '@/components/Meter'
+import { ResponsiveTable } from '@/components/ResponsiveTable'
 import s from './Stage.module.css'
 
 function FaqRow({ item }: { item: FaqItem }) {
@@ -148,41 +149,18 @@ function LanguageTable() {
         </div>
       )}
 
-      {/* Scrolls sideways on a phone: focusable, so a keyboard can scroll it too. */}
-      <div className={s.tableWrap} tabIndex={0} role="region" aria-label={t('stage.thresholdTable')}>
-        <table className={s.table}>
-          <thead>
-            <tr>
-              <th>{t('onboarding.exam')}</th>
-              {oneLevel ? (
-                <th>{t('stage.threshold')}</th>
-              ) : (
-                <>
-                  <th>{t('stage.level1')}</th>
-                  <th>{t('stage.level2')}</th>
-                  <th>{t('stage.level3')}</th>
-                </>
-              )}
-            </tr>
-          </thead>
-          <tbody>
-            {rows.map((r) => (
-              <tr key={r.exam} className={profile.foreignCert?.exam === r.exam ? s.rowActive : ''}>
-                <td>{r.label}</td>
-                {oneLevel ? (
-                  <td>{r.third ?? '–'}</td>
-                ) : (
-                  <>
-                    <td>{r.first ?? '–'}</td>
-                    <td>{r.second ?? '–'}</td>
-                    <td>{r.third ?? '–'}</td>
-                  </>
-                )}
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+      {/* A table where it fits, one card per exam on a phone. */}
+      <ResponsiveTable
+        label={t('stage.thresholdTable')}
+        head={oneLevel ? [t('onboarding.exam'), t('stage.threshold')] : [t('onboarding.exam'), t('stage.level1'), t('stage.level2'), t('stage.level3')]}
+        rows={rows.map((r) => ({
+          key: r.exam,
+          className: profile.foreignCert?.exam === r.exam ? s.rowActive : '',
+          cells: oneLevel ? [r.label, r.third ?? '–'] : [r.label, r.first ?? '–', r.second ?? '–', r.third ?? '–'],
+        }))}
+        wrapClassName={s.tableWrap}
+        tableClassName={s.table}
+      />
       {!oneLevel && (
         <p className={s.body} style={{ marginTop: 12, fontSize: 13.5 }}>
           {t('stage.levelsNote')}
@@ -204,24 +182,13 @@ function ScienceLanguages() {
       <p className={s.body} style={{ marginTop: 16, fontSize: 13.5 }}>
         {t('stage.scienceLanguagesNote')}
       </p>
-      <div className={s.tableWrap} tabIndex={0} role="region" aria-label={t('stage.internshipLanguage')}>
-        <table className={s.table}>
-          <thead>
-            <tr>
-              <th>{t('stage.internshipLanguage')}</th>
-              <th>{t('stage.minimum')}</th>
-            </tr>
-          </thead>
-          <tbody>
-            {SCIENCE_LANGUAGES.map((r) => (
-              <tr key={r.lang.ru}>
-                <td>{c(r.lang)}</td>
-                <td>{r.level === '–' ? t('stage.notRequired') : r.level}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+      <ResponsiveTable
+        label={t('stage.internshipLanguage')}
+        head={[t('stage.internshipLanguage'), t('stage.minimum')]}
+        rows={SCIENCE_LANGUAGES.map((r) => ({ key: r.lang.ru, cells: [c(r.lang), r.level === '–' ? t('stage.notRequired') : r.level] }))}
+        wrapClassName={s.tableWrap}
+        tableClassName={s.table}
+      />
     </>
   )
 }

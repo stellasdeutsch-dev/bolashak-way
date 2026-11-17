@@ -7,38 +7,23 @@ import type { Profile, StageId, Track } from '@/content/types'
 import { evaluate } from '@/domain/applicability'
 import { useI18n } from '@/i18n'
 import { SourceLink } from '@/components/ui'
+import { ResponsiveTable } from '@/components/ResponsiveTable'
 import s from './Explain.module.css'
 
-/** A comparison table. Rows scroll sideways rather than squeezing the page. */
+/** A comparison table; on a phone each row is a card, so nothing scrolls sideways. */
 export function DataTable({ table }: { table: ExplainTable }) {
   const { c } = useI18n()
   return (
     <div className={s.block}>
-      {/* Scrolls sideways on a phone: focusable, so a keyboard can scroll it too. */}
-      <div className={s.tableWrap} tabIndex={0} role="region" aria-label={table.head.map((h) => c(h)).join(' · ')}>
-        <table className={s.table}>
-          <thead>
-            <tr>
-              {table.head.map((h, i) => (
-                <th key={i} className={i === table.accentColumn ? s.thAccent : ''}>
-                  {c(h)}
-                </th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {table.rows.map((row, ri) => (
-              <tr key={ri}>
-                {row.map((cell, ci) => (
-                  <td key={ci} className={ci === table.accentColumn ? s.tdAccent : ''}>
-                    {c(cell)}
-                  </td>
-                ))}
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+      <ResponsiveTable
+        label={table.head.map((h) => c(h)).join(' · ')}
+        head={table.head.map((h) => c(h))}
+        rows={table.rows.map((row, ri) => ({ key: String(ri), cells: row.map((cell) => c(cell)) }))}
+        wrapClassName={s.tableWrap}
+        tableClassName={s.table}
+        thClassName={(i) => (i === table.accentColumn ? s.thAccent : '')}
+        tdClassName={(i) => (i === table.accentColumn ? s.tdAccent : '')}
+      />
       <div className={s.sources}>
         {table.sources.map((src) => (
           <SourceLink key={src} id={src} />
@@ -79,16 +64,23 @@ export function PathLanes() {
                 <b>{c(lane.title)}</b>
                 <span>{c(lane.note)}</span>
               </div>
-              {CHAPTERS.map((ch) => {
+              {CHAPTERS.map((ch, i) => {
                 const here = lane.admissionAt === ch.id
                 return (
                   <div key={ch.id} className={s.cell}>
                     <span className={s.track} />
                     {here ? (
-                      <span className={s.marker}>{c(lane.admissionLabel)}</span>
+                      <>
+                        <span className={[s.dot, s.dotNarrow].join(' ')} />
+                        <span className={s.marker}>{c(lane.admissionLabel)}</span>
+                      </>
                     ) : (
                       <span className={s.dot} />
                     )}
+                    {/* On a phone the lane runs down the page and each step names its chapter. */}
+                    <span className={s.cellChapter}>
+                      {String(i + 1).padStart(2, '0')} {c(ch.title)}
+                    </span>
                   </div>
                 )
               })}
