@@ -409,10 +409,11 @@
   -webkit-overflow-scrolling: touch;
   border-radius: var(--r-md);
   border: 1px solid var(--line);
-  /* a soft fade on the right says "there is more" on narrow screens */
-  background:
-    linear-gradient(90deg, var(--surface) 30%, rgba(255, 255, 255, 0)) left / 40px 100% no-repeat local,
-    radial-gradient(farthest-side at 100% 50%, rgba(11, 18, 32, 0.12), rgba(11, 18, 32, 0)) right / 14px 100% no-repeat scroll;
+  /* The table is only shown where it fits (see the 1060px switch below). Should a large
+     text size still push it wider, the cue is plain: a visible scrollbar and the solid edge
+     of the sticky label column – no fade. */
+  scrollbar-width: thin;
+  scrollbar-color: var(--line-strong) transparent;
 }
 .compareTable {
   width: 100%;
@@ -551,13 +552,16 @@
   font-size: 14px;
   overflow-wrap: break-word;
 }
-@media (min-width: 900px) {
+/* The five columns need about 940px (their words do not break further): with the page and
+   card padding that is a 1060px window. Below it, the two-programme comparison – at 900–1050
+   the table used to scroll sideways. */
+@media (min-width: 1060px) {
   .pairPick,
   .pairTable {
     display: none;
   }
 }
-@media (max-width: 899.98px) {
+@media (max-width: 1059.98px) {
   .compareScroll {
     display: none;
   }
