@@ -1,4 +1,5 @@
 import { beforeEach, describe, expect, it } from 'vitest'
+import { act } from '@testing-library/react'
 import { buildSnapshot, parseSnapshot } from '@/domain/exportImport'
 import { useAppStore } from '@/store/useAppStore'
 import type { Profile } from '@/content/types'
@@ -61,6 +62,23 @@ describe('the backup file', () => {
     useAppStore.getState().hydrateFrom(parsed)
     // what this device already kept for other programmes stays
     expect(useAppStore.getState().archive.master?.checked).toEqual(['specialty:open_list'])
+  })
+})
+
+describe('two tabs', () => {
+  it('picks up what the other tab saved before writing its own change', async () => {
+    useAppStore.setState({ profile: master, onboardedAt: '2026-09-01T00:00:00.000Z', checked: [] })
+    // the other tab ticks a box and saves
+    const other = JSON.parse(localStorage.getItem('bolashak-way')!)
+    other.state.checked = ['eligibility:citizen']
+    localStorage.setItem('bolashak-way', JSON.stringify(other))
+    await act(async () => {
+      window.dispatchEvent(new StorageEvent('storage', { key: 'bolashak-way', storageArea: localStorage }))
+    })
+    expect(useAppStore.getState().checked).toEqual(['eligibility:citizen'])
+    // this tab now acts: both ticks are saved
+    useAppStore.getState().toggleCheck('specialty', 'open_list')
+    expect(JSON.parse(localStorage.getItem('bolashak-way')!).state.checked).toEqual(['eligibility:citizen', 'specialty:open_list'])
   })
 })
 

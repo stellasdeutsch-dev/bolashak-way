@@ -240,3 +240,13 @@ export const useAppStore = create<AppState>()(
     },
   ),
 )
+
+/**
+ * Another tab saved: take its state before this one writes. Every save is the whole state,
+ * so without this a tick made in one tab is erased by the next save of the other.
+ */
+if (typeof window !== 'undefined') {
+  window.addEventListener('storage', (e) => {
+    if (e.key === STORAGE_KEY || e.key === null) void useAppStore.persist.rehydrate()
+  })
+}
