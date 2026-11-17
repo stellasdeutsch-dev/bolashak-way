@@ -7,6 +7,9 @@ import type { SourceId } from './types'
  * shows it also shows the source link and the day the snapshot was taken.
  */
 
+/** A degree level as the priority-specialty list prints it. */
+export type DegreeLevel = 'Бакалавриат' | 'Магистратура' | 'Докторантура'
+
 export interface SpecialtyLevel {
   /** Бакалавриат | Магистратура | Докторантура, as printed. */
   level: string

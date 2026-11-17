@@ -4,6 +4,7 @@ import { dateLabelKey, platformPaths } from '@/domain/paths'
 import { Link, useParams } from 'react-router'
 import { IconArrowLeft as ArrowLeft, IconArrowRight as ArrowRight, IconCheck as Check, IconChevronDown as ChevronDown, IconAlertCircle as CircleAlert, IconExternal as ExternalLink, IconLock as Lock, IconAlertTriangle as TriangleAlert } from '@/components/icons'
 import { chaptersFor } from '@/content/platforms/chapters'
+import { platformForTrack, type PlatformMeta } from '@/content/platforms'
 import { getStageFor } from '@/domain/resolve'
 import { DOCUMENTS, docForTrack } from '@/content/documents'
 import { faqForStage } from '@/content/faq'
@@ -13,7 +14,7 @@ import { getSource } from '@/content/sources'
 import { CONTENT_META } from '@/content/meta'
 import { ENGLISH_THRESHOLDS, KAZAKH_REQUIREMENT, LANGUAGE_GROUP_BY_CATEGORY, LANGUAGE_NOTES, SCIENCE_LANGUAGES } from '@/content/language'
 import { getCategory } from '@/content/categories'
-import type { DateKey, FaqItem, StageId, Track } from '@/content/types'
+import type { DateKey, FaqItem, StageId } from '@/content/types'
 import { computeProgress } from '@/domain/progress'
 import { computeDeadlines } from '@/domain/deadlines'
 import { DEADLINE_RULES } from '@/content/deadlines'
@@ -27,15 +28,13 @@ import { DateField } from '@/components/DateField'
 import { useToday } from '@/components/useToday'
 import { VideoList } from '@/components/Videos'
 import { AwardTimeline, ContestFlow, WorkbackTable } from '@/components/Explain'
-import { InternshipSpecialtySearch, ScienceSearch, SpecialtySearch, UniversitySearch, type SpecialtyLevel } from '@/components/ListSearch'
+import { InternshipSpecialtySearch, ScienceSearch, SpecialtySearch, UniversitySearch } from '@/components/ListSearch'
 
-const LEVEL_BY_TRACK: Partial<Record<Track, SpecialtyLevel>> = { bachelor: 'Бакалавриат', master: 'Магистратура', phd_residency: 'Докторантура' }
-const LIST_TITLE: Record<Track, Record<'specialty' | 'university', UiKey>> = {
-  bachelor: { specialty: 'lists.specialtyTitle', university: 'lists.universityTitle' },
-  master: { specialty: 'lists.specialtyTitle', university: 'lists.universityTitle' },
-  phd_residency: { specialty: 'lists.specialtyTitle', university: 'lists.universityTitle' },
-  internship: { specialty: 'lists.internshipTitle', university: 'lists.internshipTitle' },
-  science_internship: { specialty: 'lists.scienceTitle', university: 'lists.scienceHostsTitle' },
+/** The heading over each kind of list; a kind without a university list has no entry for it. */
+const LIST_TITLE: Record<PlatformMeta['lists']['kind'], Partial<Record<'specialty' | 'university', UiKey>>> = {
+  degree: { specialty: 'lists.specialtyTitle', university: 'lists.universityTitle' },
+  internship: { specialty: 'lists.internshipTitle' },
+  science: { specialty: 'lists.scienceTitle', university: 'lists.scienceHostsTitle' },
 }
 import { StageForms } from '@/components/Forms'
 import { formsForStage } from '@/content/forms'
@@ -390,6 +389,9 @@ export function StagePage() {
   }
 
   const sp = progress.byId.get(stage.id)!
+  const platform = platformForTrack(profile.track)
+  const lists = platform.lists
+  const listTitle = stage.id === 'specialty' || stage.id === 'university' ? LIST_TITLE[lists.kind][stage.id] : undefined
   const chapters = chaptersFor(profile.track)
   const chapter = chapters.find((ch) => ch.id === stage.chapter)!
   const locked = sp.status === 'locked'
@@ -588,7 +590,7 @@ export function StagePage() {
         </>
       )}
       {stage.id === 'kazakh' && (
-        <Callout tone="info" source={profile.track === 'science_internship' ? 'ns_minscore' : KAZAKH_REQUIREMENT.source}>
+        <Callout tone="info" source={platform.kazakhSource}>
           <strong>{t('stage.kazakhTitle')}</strong>
           <br />
           {c(KAZAKH_REQUIREMENT.text)}
@@ -596,7 +598,7 @@ export function StagePage() {
       )}
       {stage.id === 'workback' && (
         <>
-          <Callout tone="info" source={profile.track === 'science_internship' ? 'ns_rules422' : 'pp573'}>
+          <Callout tone="info" source={platform.rulesSource}>
             <strong>{t('stage.workBackTitle')}</strong>
             <br />
             {c(getCategory(profile.category).workBack)}
@@ -632,16 +634,16 @@ export function StagePage() {
 
       {/* Each platform searches its own official list: degree specialties at its level,
           the internship list, or research directions with the hosts that take them. */}
-      {(stage.id === 'specialty' || stage.id === 'university') && !(profile.track === 'internship' && stage.id === 'university') && (
+      {listTitle && (
         <Card>
           <div className={s.section}>
-            <h2 className={s.sectionTitle}>{t(LIST_TITLE[profile.track][stage.id])}</h2>
-            {profile.track === 'science_internship' ? (
+            <h2 className={s.sectionTitle}>{t(listTitle)}</h2>
+            {lists.kind === 'science' ? (
               <ScienceSearch />
-            ) : profile.track === 'internship' ? (
+            ) : lists.kind === 'internship' ? (
               <InternshipSpecialtySearch />
             ) : stage.id === 'specialty' ? (
-              <SpecialtySearch level={LEVEL_BY_TRACK[profile.track]} />
+              <SpecialtySearch level={lists.level} />
             ) : (
               <UniversitySearch />
             )}

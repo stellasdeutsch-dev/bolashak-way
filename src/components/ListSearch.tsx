@@ -3,7 +3,7 @@ import type {
   InternshipSpecialty, PrioritySpecialty, RecommendedUniversity, ScienceArea, ScienceDirection, ScienceOrg,
 } from '@/content/lists'
 import type { SourceId } from '@/content/types'
-import { LIST_SOURCES, matches, matchingEquivalents } from '@/content/lists'
+import { LIST_SOURCES, matches, matchingEquivalents, type DegreeLevel } from '@/content/lists'
 import { useI18n, formatDate, type UiKey } from '@/i18n'
 import { SourceLink } from '@/components/ui'
 import { IconSearch as Search, IconExternal as ExternalLink, IconClose as Close } from '@/components/icons'
@@ -158,7 +158,8 @@ function More({ total }: { total: number }) {
 
 /* ── academic specialties: one level per platform ── */
 
-export type SpecialtyLevel = 'Бакалавриат' | 'Магистратура' | 'Докторантура'
+export type { DegreeLevel as SpecialtyLevel } from '@/content/lists'
+type SpecialtyLevel = DegreeLevel
 
 const LEVEL_HINT: Record<SpecialtyLevel, UiKey> = {
   Бакалавриат: 'lists.hintBachelor',

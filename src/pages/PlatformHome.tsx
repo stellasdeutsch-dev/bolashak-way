@@ -2,7 +2,7 @@ import type { ReactNode } from 'react'
 import { useParams } from 'react-router'
 import { PLATFORM_HOMES, getPlatform } from '@/content/platforms'
 import { PageFootnote } from '@/components/PageFootnote'
-import type { PlatformSlug, Track } from '@/content/types'
+import type { PlatformSlug } from '@/content/types'
 import { PLATFORM_VIDEO_IDS, VIDEOS } from '@/content/videos'
 import { evaluate } from '@/domain/applicability'
 import { platformPaths } from '@/domain/paths'
@@ -12,17 +12,11 @@ import { usePageChrome } from '@/i18n/usePageChrome'
 import { ButtonLink, Card } from '@/components/ui'
 import { VideoList } from '@/components/Videos'
 import { AwardTimeline, ContestFlow, DepartureChain, PathLanes, WorkbackTable } from '@/components/Explain'
-import { InternshipSpecialtySearch, ScienceSearch, SpecialtySearch, UniversitySearch, type SpecialtyLevel } from '@/components/ListSearch'
+import { InternshipSpecialtySearch, ScienceSearch, SpecialtySearch, UniversitySearch } from '@/components/ListSearch'
 import { Deal, Facts, Fit, More, PathOverview, Requirements } from '@/components/platform/PlatformBlocks'
 import { IconArrowRight as ArrowRight } from '@/components/icons'
 import { Glossary } from '@/components/Glossary'
 import s from './PlatformHome.module.css'
-
-const LEVEL: Partial<Record<Track, SpecialtyLevel>> = {
-  bachelor: 'Бакалавриат',
-  master: 'Магистратура',
-  phd_residency: 'Докторантура',
-}
 
 /** A numbered section, so the page reads as one walk from "is this mine" to "what I owe". */
 function Section({ n, title, text, children }: { n: number; title: string; text?: string; children: ReactNode }) {
@@ -47,6 +41,7 @@ export function PlatformHome() {
   const platform = getPlatform(slug)
   const home = PLATFORM_HOMES[slug]
   const track = platform.track
+  const lists = platform.lists
   const profile = useAppStore((st) => st.profile)
   const mine = profile?.track === track
   const paths = platformPaths(slug)
@@ -107,27 +102,27 @@ export function PlatformHome() {
           <More title={t('platform.requirementsTitle')} hint={t(`platform.requirementsText_${slug}`)}>
             <Requirements track={track} />
           </More>
-          {track === 'master' && (
+          {platform.lanes && (
             <More title={t('platform.lanesTitle')} hint={t('platform.lanesHint')}>
               <PathLanes />
             </More>
           )}
           <More title={t('platform.listsTitle')} hint={t(`platform.listsText_${slug}`)}>
             <div className={s.lists}>
-              {LEVEL[track] && (
+              {lists.kind === 'degree' && (
                 <div>
                   <span className={s.sub}>{t('lists.specialtyTitle')}</span>
-                  <SpecialtySearch level={LEVEL[track]} />
+                  <SpecialtySearch level={lists.level} />
                 </div>
               )}
-              {LEVEL[track] && (
+              {lists.kind === 'degree' && (
                 <div>
                   <span className={s.sub}>{t('lists.universityTitle')}</span>
                   <UniversitySearch />
                 </div>
               )}
-              {track === 'internship' && <InternshipSpecialtySearch />}
-              {track === 'science_internship' && <ScienceSearch />}
+              {lists.kind === 'internship' && <InternshipSpecialtySearch />}
+              {lists.kind === 'science' && <ScienceSearch />}
             </div>
           </More>
           <More title={t('platform.contestTitle')} hint={t('platform.contestText')}>

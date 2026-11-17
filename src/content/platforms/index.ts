@@ -1,5 +1,7 @@
-import { PLATFORM_SLUG_IDS, type L, type PlatformHome, type PlatformSlug, type StagePatch, type StagePatches, type Track } from '../types'
+import { PLATFORM_SLUG_IDS, type L, type PlatformHome, type PlatformSlug, type SourceId, type StagePatch, type StagePatches, type Track } from '../types'
+import type { DegreeLevel } from '../lists'
 import { ACADEMIC_STAGES } from './shared'
+import { KAZAKH_REQUIREMENT } from '../language'
 import { BACHELOR_HOME, BACHELOR_STAGES } from './bachelor'
 import { MASTER_HOME, MASTER_STAGES } from './master'
 import { DOCTORATE_HOME, DOCTORATE_STAGES } from './doctorate'
@@ -21,6 +23,18 @@ export interface PlatformMeta {
   programme: 'bolashak' | 'science'
   /** One line on who it is for, used on the chooser cards. */
   tagline: L
+  /**
+   * The official lists it searches: degree specialties at its own level together with the
+   * university list, the internship specialty list (no university list exists for
+   * internships), or research directions with the hosts that take them.
+   */
+  lists: { kind: 'degree'; level: DegreeLevel } | { kind: 'internship' } | { kind: 'science' }
+  /** The act its rules come from – cited under the work-back terms. */
+  rulesSource: SourceId
+  /** Where its Kazakh-language minimum is set. */
+  kazakhSource: SourceId
+  /** Its categories split into two lanes (self-admitted, preferential) worth drawing. */
+  lanes?: boolean
 }
 
 const BOLASHAK = 'bolashak' as const
@@ -31,6 +45,9 @@ export const PLATFORMS: PlatformMeta[] = [
     track: 'bachelor',
     icon: 'School',
     programme: BOLASHAK,
+    lists: { kind: 'degree', level: 'Бакалавриат' },
+    rulesSource: 'pp573',
+    kazakhSource: KAZAKH_REQUIREMENT.source,
     name: { ru: 'Бакалавриат', kk: 'Бакалавриат', en: "Bachelor's" },
     tagline: {
       ru: 'Для призёров международных олимпиад и конкурсов, поступивших в ведущий вуз',
@@ -43,6 +60,10 @@ export const PLATFORMS: PlatformMeta[] = [
     track: 'master',
     icon: 'GraduationCap',
     programme: BOLASHAK,
+    lists: { kind: 'degree', level: 'Магистратура' },
+    rulesSource: 'pp573',
+    kazakhSource: KAZAKH_REQUIREMENT.source,
+    lanes: true,
     name: { ru: 'Магистратура', kk: 'Магистратура', en: "Master's" },
     tagline: {
       ru: 'Самостоятельно поступившим и пяти льготным категориям: село, ИТР, медики, госслужащие, атомная отрасль',
@@ -55,6 +76,9 @@ export const PLATFORMS: PlatformMeta[] = [
     track: 'phd_residency',
     icon: 'Landmark',
     programme: BOLASHAK,
+    lists: { kind: 'degree', level: 'Докторантура' },
+    rulesSource: 'pp573',
+    kazakhSource: KAZAKH_REQUIREMENT.source,
     name: { ru: 'Докторантура и резидентура', kk: 'Докторантура және резидентура', en: 'Doctorate and residency' },
     tagline: {
       ru: 'PhD, доктор по профилю или резидентура – с приглашением из вуза Списка',
@@ -67,6 +91,9 @@ export const PLATFORMS: PlatformMeta[] = [
     track: 'internship',
     icon: 'Briefcase',
     programme: BOLASHAK,
+    lists: { kind: 'internship' },
+    rulesSource: 'pp573',
+    kazakhSource: KAZAKH_REQUIREMENT.source,
     name: { ru: 'Стажировка', kk: 'Тағылымдама', en: 'Internship' },
     tagline: {
       ru: 'До 12 месяцев за рубежом для работников девяти категорий со стажем',
@@ -79,6 +106,9 @@ export const PLATFORMS: PlatformMeta[] = [
     track: 'science_internship',
     icon: 'FlaskConical',
     programme: 'science',
+    lists: { kind: 'science' },
+    rulesSource: 'ns_rules422',
+    kazakhSource: 'ns_minscore',
     name: { ru: 'Научная стажировка', kk: 'Ғылыми тағылымдама', en: 'Scientific internship' },
     tagline: {
       ru: 'От 3 до 12 месяцев в зарубежном научном центре или вузе – для учёных со степенью',
