@@ -97,11 +97,13 @@ export const useAppStore = create<AppState>()(
       setProfile: (profile) => {
         const st = get()
         const now = new Date().toISOString()
-        if (!st.profile || st.profile.track === profile.track) {
-          set({ profile, onboardedAt: st.onboardedAt && st.profile ? st.onboardedAt : now, restoreFailed: false })
+        if (st.profile && st.profile.track === profile.track) {
+          set({ profile, onboardedAt: st.onboardedAt ?? now, restoreFailed: false })
           return
         }
-        const archive = { ...st.archive, [st.profile.track]: progressOf(st) }
+        // Ticks without a plan belong to no known programme (a plan that could not be read,
+        // a file without a profile): they must not count for the one chosen now.
+        const archive = st.profile ? { ...st.archive, [st.profile.track]: progressOf(st) } : { ...st.archive }
         const back = archive[profile.track]
         delete archive[profile.track]
         set({ ...EMPTY, ...(back ?? {}), profile, onboardedAt: back?.onboardedAt ?? now, archive, restoreFailed: false })

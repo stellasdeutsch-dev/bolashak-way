@@ -64,3 +64,19 @@ describe('the backup file', () => {
   })
 })
 
+describe('switching programme', () => {
+  it('brings back the target programme from the archive when no plan is open', () => {
+    useAppStore.setState({ profile: null, checked: ['leftover:item'], archive: { internship: progress(intern, ['eligibility:citizen']) } })
+    useAppStore.getState().setProfile(intern)
+    expect(useAppStore.getState().checked).toEqual(['eligibility:citizen'])
+    expect(useAppStore.getState().archive.internship).toBeUndefined()
+  })
+
+  it('does not count ticks of an unknown programme for a new one', () => {
+    useAppStore.setState({ profile: null, checked: ['eligibility:citizen'], stagesDone: ['eligibility'], archive: {} })
+    useAppStore.getState().setProfile(master)
+    expect(useAppStore.getState().checked).toEqual([])
+    expect(useAppStore.getState().stagesDone).toEqual([])
+  })
+})
+
