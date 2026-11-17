@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState, type ReactNode } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode, type RefObject } from 'react'
 import type {
   InternshipSpecialty, PrioritySpecialty, RecommendedUniversity, ScienceArea, ScienceDirection, ScienceOrg,
 } from '@/content/lists'
@@ -69,6 +69,7 @@ function Shell({
   onQuery,
   sources,
   takenOn,
+  inputRef,
   children,
 }: {
   placeholder: string
@@ -76,17 +77,29 @@ function Shell({
   onQuery: (v: string) => void
   sources: SourceId[]
   takenOn?: string
+  /** For a search that sends the focus back to its field from elsewhere. */
+  inputRef?: RefObject<HTMLInputElement | null>
   children: ReactNode
 }) {
   const { t, locale } = useI18n()
+  const ownRef = useRef<HTMLInputElement>(null)
+  const field = inputRef ?? ownRef
   return (
     <div className={s.wrap}>
       <label className={s.field}>
         <Search size={17} aria-hidden="true" />
         {/* type="text" with a role: iOS Safari styles type="search" with its own rounded box. */}
-        <input type="text" role="searchbox" inputMode="search" enterKeyHint="search" autoComplete="off" value={query} placeholder={placeholder} onChange={(e) => onQuery(e.target.value)} aria-label={placeholder} />
+        <input ref={field} type="text" role="searchbox" inputMode="search" enterKeyHint="search" autoComplete="off" value={query} placeholder={placeholder} onChange={(e) => onQuery(e.target.value)} aria-label={placeholder} />
         {query && (
-          <button className={s.clear} onClick={() => onQuery('')} aria-label={t('common.clear')}>
+          <button
+            className={s.clear}
+            onClick={() => {
+              onQuery('')
+              // the button goes with the text: keep the focus in the field
+              field.current?.focus()
+            }}
+            aria-label={t('common.clear')}
+          >
             <Close size={15} aria-hidden="true" />
           </button>
         )}
@@ -287,6 +300,21 @@ export function ScienceSearch() {
   const [picked, setPicked] = useState<ScienceDirection | null>(null)
   const [country, setCountry] = useState('')
   const { data: lists, failed, retry } = useLazy(active(query) || picked !== null, loadScience)
+  // Picking a direction replaces the list with the chosen one, and clearing it removes that:
+  // the focus follows to the choice, or back to the field.
+  const inputRef = useRef<HTMLInputElement>(null)
+  const pickedRef = useRef<HTMLDivElement>(null)
+  const focusPicked = useRef(false)
+  useEffect(() => {
+    if (!focusPicked.current) return
+    focusPicked.current = false
+    if (picked) pickedRef.current?.focus()
+    else inputRef.current?.focus()
+  }, [picked])
+  const pick = (d: ScienceDirection | null) => {
+    focusPicked.current = true
+    setPicked(d)
+  }
 
   const directions = useMemo(() => {
     if (!lists || !active(query) || picked) return []
@@ -320,18 +348,19 @@ export function ScienceSearch() {
       }}
       sources={['ns_priorities', 'ns_orgs_pdf']}
       takenOn={lists?.SCIENCE_TAKEN_ON}
+      inputRef={inputRef}
     >
       <p className={s.hint}>{t('lists.scienceHint')}</p>
       {failed ? <LoadError onRetry={retry} /> : !lists && active(query) && <p className={s.status}>{t('lists.loading')}</p>}
 
       {picked && (
-        <div className={s.picked}>
+        <div className={s.picked} ref={pickedRef} tabIndex={-1}>
           <span className={s.code}>{picked.code}</span>
           <span className={s.pickedText}>
             <b>{picked.name}</b>
             {area && <span>{area.name}</span>}
           </span>
-          <button className={s.clear} onClick={() => { setPicked(null); setCountry('') }} aria-label={t('common.clear')}>
+          <button className={s.clear} onClick={() => { pick(null); setCountry('') }} aria-label={t('common.clear')}>
             <Close size={15} aria-hidden="true" />
           </button>
         </div>
@@ -343,7 +372,7 @@ export function ScienceSearch() {
           <ul className={s.results}>
             {directions.slice(0, 12).map((d) => (
               <li key={d.code}>
-                <button className={[s.row, s.rowButton].join(' ')} onClick={() => setPicked(d)}>
+                <button className={[s.row, s.rowButton].join(' ')} onClick={() => pick(d)}>
                   <span className={s.rowHead}>
                     <b className={s.rowTitle}>{d.name}</b>
                     <span className={s.code}>{d.code}</span>

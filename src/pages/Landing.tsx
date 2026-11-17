@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { Link } from 'react-router'
 import { PLATFORMS, getPlatform, platformForTrack } from '@/content/platforms'
 import { COMPARE, FINDER, type FinderOption } from '@/content/platforms/compare'
@@ -173,6 +173,15 @@ function PlatformCards() {
 function Finder() {
   const { t, c } = useI18n()
   const [answers, setAnswers] = useState<Record<string, string>>({})
+  // The pressed button leaves the page with every answer: the focus goes to what replaces
+  // it – the next question or the programme found – instead of falling to the page top.
+  const askRef = useRef<HTMLDivElement>(null)
+  const moveFocus = useRef(false)
+  useEffect(() => {
+    if (!moveFocus.current) return
+    moveFocus.current = false
+    askRef.current?.querySelector<HTMLElement>('[data-finder-focus]')?.focus()
+  }, [answers])
 
   // Walk the questions along the answers given so far.
   const { path, current, result } = useMemo(() => {
@@ -195,6 +204,7 @@ function Finder() {
     // Answering an earlier question again drops everything after it.
     const idx = FINDER.findIndex((q) => q.id === qid)
     const kept = Object.fromEntries(Object.entries(answers).filter(([k]) => FINDER.findIndex((q) => q.id === k) < idx))
+    moveFocus.current = true
     setAnswers({ ...kept, [qid]: oid })
   }
 
@@ -209,7 +219,7 @@ function Finder() {
       </div>
 
       <div className={s.finderBody}>
-        <div className={s.finderAsk}>
+        <div className={s.finderAsk} ref={askRef}>
           {path.map(({ qid, option }) => (
             <button key={qid} className={s.finderDone} onClick={() => choose(qid, '')}>
               <span>{c(FINDER.find((q) => q.id === qid)!.q)}</span>
@@ -218,10 +228,12 @@ function Finder() {
           ))}
           {current && (
             <div className={s.finderQ} key={current.id}>
-              <span className={s.finderQText}>{c(current.q)}</span>
+              <span className={s.finderQText} tabIndex={-1} data-finder-focus>
+                {c(current.q)}
+              </span>
               <div className={s.finderOptions}>
                 {current.options.map((o) => (
-                  <button key={o.id} className={s.finderOption} onClick={() => choose(current.id, o.id)}>
+                  <button key={o.id} className={s.finderOption} data-finder-option onClick={() => choose(current.id, o.id)}>
                     <b>{c(o.label)}</b>
                     {o.hint && <span>{c(o.hint)}</span>}
                   </button>
@@ -230,11 +242,11 @@ function Finder() {
             </div>
           )}
           {picked && (
-            <div className={s.finderResult} data-p={picked.slug}>
+            <div className={s.finderResult} data-p={picked.slug} data-finder-result>
               <span className={s.finderResultIcon}>
                 <StageIcon name={picked.icon} size={24} />
               </span>
-              <div className={s.finderResultBody}>
+              <div className={s.finderResultBody} tabIndex={-1} data-finder-focus>
                 <span>{t('landing.finderYours')}</span>
                 <b>{c(picked.name)}</b>
                 <span className={s.finderResultTag}>{c(picked.tagline)}</span>
@@ -244,7 +256,13 @@ function Finder() {
                   {t('landing.finderGo')}
                   <ArrowRight size={15} aria-hidden="true" />
                 </ButtonLink>
-                <button className={s.finderReset} onClick={() => setAnswers({})}>
+                <button
+                  className={s.finderReset}
+                  onClick={() => {
+                    moveFocus.current = true
+                    setAnswers({})
+                  }}
+                >
                   <Reset size={14} aria-hidden="true" />
                   {t('landing.finderAgain')}
                 </button>

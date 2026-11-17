@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 import { useNavigate } from 'react-router'
 import { IconCheck as Check, IconDownload as Download, IconFileSignature as FileSignature } from '@/components/icons'
@@ -27,6 +27,17 @@ export function Documents() {
   const toggleDocument = useAppStore((st) => st.toggleDocument)
   const [onlyRemaining, setOnlyRemaining] = useState(false)
   const [justTicked, setJustTicked] = useState<string | null>(null)
+  // In "still to collect" a ticked row leaves the list: the focus moves to the row that
+  // takes its place (or the one before it), not to the top of the page.
+  const listRef = useRef<HTMLDivElement>(null)
+  const focusAfter = useRef<string | null>(null)
+  useEffect(() => {
+    const target = focusAfter.current
+    if (target === null) return
+    focusAfter.current = null
+    const el = target ? listRef.current?.querySelector<HTMLElement>(`[data-doc="${target}"]`) : null
+    ;(el ?? listRef.current?.querySelector<HTMLElement>('[data-docs-empty]'))?.focus()
+  }, [documentsDone])
   usePageChrome(t('nav.documents'))
 
   useEffect(() => {
@@ -58,7 +69,7 @@ export function Documents() {
     .filter((g) => g.items.length > 0)
 
   return (
-    <div className={s.page}>
+    <div className={s.page} ref={listRef}>
       <Card className={s.head}>
         <div className={s.headText}>
           <h1 className={`display ${s.title}`}>
@@ -85,7 +96,9 @@ export function Documents() {
 
       {visible.length === 0 && (
         <Card>
-          <p className={s.empty}>{t('documents.empty')}</p>
+          <p className={s.empty} tabIndex={-1} data-docs-empty>
+            {t('documents.empty')}
+          </p>
         </Card>
       )}
 
@@ -118,8 +131,14 @@ export function Documents() {
                       aria-checked={done}
                       aria-disabled={auto}
                       aria-label={c(d.title)}
-                      onClick={() => {
+                      data-doc={d.id}
+                      onClick={(ev) => {
                         if (auto) return
+                        if (onlyRemaining && !done) {
+                          const rows = [...(listRef.current?.querySelectorAll<HTMLElement>('[data-doc]:not([aria-disabled="true"])') ?? [])]
+                          const i = rows.indexOf(ev.currentTarget)
+                          focusAfter.current = (rows[i + 1] ?? rows[i - 1])?.dataset.doc ?? ''
+                        }
                         toggleDocument(d.id)
                         setJustTicked(done ? null : d.id)
                         announce(`${doneCount + (done ? -1 : 1)} / ${all.length} ${t('documents.collected')}`)

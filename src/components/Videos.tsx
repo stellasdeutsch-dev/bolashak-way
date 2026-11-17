@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { IconExternal as ExternalLink, IconPlay as Play } from '@/components/icons'
 import type { Locale, VideoClip, VideoItem } from '@/content/types'
 import { useI18n } from '@/i18n'
@@ -28,6 +28,13 @@ function VideoRow({ item }: { item: VideoItem }) {
   const { t, locale } = useI18n()
   const [langOverride, setLangOverride] = useState<'ru' | 'kk' | null>(null)
   const [playing, setPlaying] = useState(false)
+  // The poster button gives way to the player: the focus follows it there.
+  const frameRef = useRef<HTMLIFrameElement>(null)
+  const started = useRef(false)
+  useEffect(() => {
+    if (playing && started.current) frameRef.current?.focus()
+    started.current = false
+  }, [playing])
 
   const clip = langOverride ? (item.clips.find((cl) => cl.lang === langOverride) ?? clipFor(item, locale)) : clipFor(item, locale)
   const watchUrl = `https://www.youtube.com/watch?v=${clip.youtubeId}`
@@ -39,6 +46,7 @@ function VideoRow({ item }: { item: VideoItem }) {
         // not hand YouTube a page view for every visitor.
         <div className={s.frame}>
           <iframe
+            ref={frameRef}
             src={`https://www.youtube-nocookie.com/embed/${clip.youtubeId}?autoplay=1&rel=0`}
             title={clip.title}
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -49,7 +57,13 @@ function VideoRow({ item }: { item: VideoItem }) {
       ) : (
         // A plain navy poster instead of YouTube's thumbnail: the preview image alone would
         // tell Google about every visitor who opens the block. Nothing leaves before the click.
-        <button className={s.facade} onClick={() => setPlaying(true)} aria-label={`${t('video.play')}: ${clip.title}`}>
+        <button
+          className={s.facade}
+          onClick={() => {
+            started.current = true
+            setPlaying(true)
+          }}
+          aria-label={`${t('video.play')}: ${clip.title}`}>
           <span className={s.facadeLength} aria-hidden="true">
             {formatDuration(clip.durationSec, t)}
           </span>
