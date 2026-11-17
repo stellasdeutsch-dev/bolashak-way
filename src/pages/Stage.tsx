@@ -25,6 +25,7 @@ import { usePageChrome } from '@/i18n/usePageChrome'
 import { Button, ButtonLink, Callout, Card, ConfirmDialog, FallbackBadge, Pill, SourceLink } from '@/components/ui'
 import { announce } from '@/components/announce'
 import { DateField } from '@/components/DateField'
+import { useToday } from '@/components/useToday'
 import { VideoList } from '@/components/Videos'
 import { AwardTimeline, ContestFlow, WorkbackTable } from '@/components/Explain'
 import { InternshipSpecialtySearch, ScienceSearch, SpecialtySearch, UniversitySearch, type SpecialtyLevel } from '@/components/ListSearch'
@@ -308,6 +309,7 @@ function DeadlinePanel({ stage }: { stage: StageId }) {
   const profile = useAppStore((st) => st.profile)!
   const dates = useAppStore((st) => st.dates)
   const setDate = useAppStore((st) => st.setDate)
+  const today = useToday()
 
   const anchors = useMemo(() => {
     const seen = new Set<DateKey>()
@@ -317,7 +319,7 @@ function DeadlinePanel({ stage }: { stage: StageId }) {
     return [...seen]
   }, [stage, profile])
 
-  const due = useMemo(() => computeDeadlines(profile, dates, new Date()).filter((d) => d.rule.stage === stage), [profile, dates, stage])
+  const due = useMemo(() => computeDeadlines(profile, dates, new Date()).filter((d) => d.rule.stage === stage), [profile, dates, stage, today])
   if (anchors.length === 0) return null
 
   return (

@@ -12,6 +12,7 @@ import { atNoon, monthMatrix } from '@/domain/calendar'
 import { localIso } from '@/domain/dates'
 import { centreDateId, overlaps, type CentreDate } from '@/domain/centreDates'
 import { useCentreDates } from '@/components/useCentreDates'
+import { useToday } from '@/components/useToday'
 import { DateField } from '@/components/DateField'
 import { useAppStore } from '@/store/useAppStore'
 import { useI18n } from '@/i18n'
@@ -41,7 +42,7 @@ export function Calendar() {
   const setDate = useAppStore((st) => st.setDate)
   usePageChrome(t('nav.calendar'))
 
-  const today = localIso(new Date())
+  const today = useToday()
   const [cursor, setCursor] = useState(() => {
     const now = new Date()
     return { year: now.getFullYear(), month: now.getMonth() }
@@ -94,9 +95,10 @@ export function Calendar() {
     return keys
   }, [profile])
 
+  // `today` is a dependency on purpose: past midnight every "days left" moves by one.
   const deadlines = useMemo(
     () => (profile ? computeDeadlines(profile, dates, new Date()) : []),
-    [profile, dates],
+    [profile, dates, today],
   )
   const centre = useCentreDates(locale)
 

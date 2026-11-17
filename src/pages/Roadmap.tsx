@@ -12,6 +12,7 @@ import { CONTENT_META } from '@/content/meta'
 import type { ChapterId } from '@/content/types'
 import { computeProgress, type StageProgress } from '@/domain/progress'
 import { computeDeadlines, nearestDeadline } from '@/domain/deadlines'
+import { useToday } from '@/components/useToday'
 import { documentsFor } from '@/domain/documents'
 import { staleness } from '@/domain/freshness'
 import { useAppStore } from '@/store/useAppStore'
@@ -151,7 +152,8 @@ export function Roadmap() {
     [profile, checked, stagesDone],
   )
   const dates = useAppStore((st) => st.dates)
-  const nearest = useMemo(() => (profile ? nearestDeadline(computeDeadlines(profile, dates, new Date())) : null), [profile, dates])
+  const today = useToday()
+  const nearest = useMemo(() => (profile ? nearestDeadline(computeDeadlines(profile, dates, new Date())) : null), [profile, dates, today])
   const stale = useMemo(() => staleness(CONTENT_META, new Date()), [])
   const docCount = useMemo(() => (profile ? documentsFor(profile).reduce((n, g) => n + g.items.length, 0) : 0), [profile])
   usePageChrome(t('nav.roadmap'))

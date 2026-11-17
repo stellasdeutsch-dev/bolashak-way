@@ -1,6 +1,7 @@
-import { beforeEach, describe, expect, it } from 'vitest'
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { act, fireEvent, render, screen } from '@testing-library/react'
-import { MemoryRouter } from 'react-router'
+import { MemoryRouter, Route, Routes } from 'react-router'
+import { StagePage } from '@/pages/Stage'
 import { buildSnapshot, parseSnapshot } from '@/domain/exportImport'
 import { buildIcs } from '@/domain/ics'
 import { parseCentreDates } from '@/domain/centreDates'
@@ -160,3 +161,27 @@ describe('typing a date', () => {
   })
 })
 
+describe('a tab left open overnight', () => {
+  afterEach(() => vi.useRealTimers())
+
+  it('counts the days left from the new day once the reader is back', async () => {
+    vi.useFakeTimers({ toFake: ['Date'] })
+    vi.setSystemTime(new Date(2026, 10, 17, 23, 50))
+    useAppStore.setState({ profile: master, onboardedAt: '2026-09-01T00:00:00.000Z', dates: { award_date: '2026-11-01' } })
+    render(
+      <MemoryRouter initialEntries={['/stage/contract']}>
+        <Routes>
+          <Route path="/stage/:id" element={<StagePage />} />
+        </Routes>
+      </MemoryRouter>,
+    )
+    const before = screen.getByText(/осталось \d+ дн\./).textContent!
+    vi.setSystemTime(new Date(2026, 10, 18, 9, 0))
+    await act(async () => {
+      document.dispatchEvent(new Event('visibilitychange'))
+    })
+    const after = screen.getByText(/осталось \d+ дн\./).textContent!
+    const n = (t: string) => Number(/осталось (\d+)/.exec(t)![1])
+    expect(n(after)).toBe(n(before) - 1)
+  })
+})
