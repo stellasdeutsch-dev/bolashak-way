@@ -36,6 +36,15 @@
   border-color: transparent;
   color: #fff;
 }
+@media (hover: hover) {
+  .filter:not(.filterActive):hover {
+    color: var(--text);
+    border-color: var(--line-strong);
+  }
+  .filterActive:hover {
+    background: var(--accent-deep);
+  }
+}
 .group {
   display: flex;
   flex-direction: column;

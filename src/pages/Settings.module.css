@@ -71,6 +71,16 @@
   color: var(--text);
   box-shadow: 0 1px 3px rgba(11, 18, 32, 0.14);
 }
+/* Hover answers the pointer the same way on every item; the current one keeps its own look. */
+@media (hover: hover) {
+  .segment:not(.segmentActive):hover {
+    color: var(--text);
+    background: var(--surface-2);
+  }
+  .segmentActive:hover {
+    box-shadow: 0 1px 4px rgba(11, 18, 32, 0.22);
+  }
+}
 .profileGrid {
   display: grid;
   gap: 10px;

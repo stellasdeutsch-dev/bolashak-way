@@ -367,6 +367,15 @@
   border-color: var(--accent);
   color: #fff;
 }
+@media (hover: hover) {
+  .catChip:not(.catChipOn):hover {
+    border-color: var(--accent);
+  }
+  .catChipOn:hover {
+    background: var(--accent-deep);
+    border-color: var(--accent-deep);
+  }
+}
 .catCard {
   padding: 14px;
   border-radius: var(--r-md);
@@ -635,6 +644,16 @@
   color: var(--text);
   box-shadow: 0 1px 3px rgba(11, 18, 32, 0.14);
 }
+/* Hover answers the pointer the same way on every item; the current one keeps its own look. */
+@media (hover: hover) {
+  .laneBtn:not(.laneBtnOn):hover {
+    color: var(--text);
+    background: var(--surface-2);
+  }
+  .laneBtnOn:hover {
+    box-shadow: 0 1px 4px rgba(11, 18, 32, 0.22);
+  }
+}
 .chapters {
   list-style: none;
   margin: 0;
@@ -891,6 +910,11 @@
   font-size: 14.5px;
   font-weight: 650;
   cursor: pointer;
+}
+@media (hover: hover) {
+  .moreBtn:hover {
+    background: var(--accent-tint-2);
+  }
 }
 .moreBtn svg,
 .moreHead svg {

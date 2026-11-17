@@ -211,3 +211,8 @@
   font-weight: 600;
   font-size: 14px;
 }
+@media (hover: hover) {
+  .retry:hover {
+    background: var(--accent-tint-2);
+  }
+}

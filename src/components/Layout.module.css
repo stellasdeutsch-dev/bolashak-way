@@ -157,6 +157,16 @@
   color: var(--text);
   box-shadow: 0 1px 3px rgba(11, 18, 32, 0.14);
 }
+/* Hover answers the pointer the same way on every item; the current one keeps its own look. */
+@media (hover: hover) {
+  .langBtn:not(.langBtnActive):hover {
+    color: var(--text);
+    background: var(--surface-2);
+  }
+  .langBtnActive:hover {
+    box-shadow: 0 1px 4px rgba(11, 18, 32, 0.22);
+  }
+}
 
 .saveBanner {
   width: 100%;
@@ -210,6 +220,10 @@
 @media (hover: hover) {
   .tab:hover {
     text-decoration: none;
+    background: var(--surface-2);
+  }
+  .tab:not(.tabActive):hover {
+    color: var(--text);
   }
 }
 .tabActive {

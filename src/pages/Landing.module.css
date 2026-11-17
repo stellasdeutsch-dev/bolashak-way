@@ -294,6 +294,11 @@
   cursor: pointer;
   padding: 8px 4px;
 }
+@media (hover: hover) {
+  .finderReset:hover {
+    color: var(--text);
+  }
+}
 
 /* the tree */
 .tree {
@@ -512,6 +517,14 @@
 }
 .pairChipOn svg {
   color: #fff;
+}
+@media (hover: hover) {
+  .pairChip:not(.pairChipOn):hover {
+    background: rgba(var(--p-rgb), 0.1);
+  }
+  .pairChipOn:hover {
+    border-color: var(--text);
+  }
 }
 /* The dark theme's platform colours are bright: white on them falls under 4.5:1, navy holds. */
 :global(:root[data-theme='dark']) .pairChipOn,

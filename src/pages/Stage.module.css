@@ -228,6 +228,11 @@
   width: 100%;
   text-align: left;
 }
+@media (hover: hover) {
+  .docRow:hover:not(:disabled) {
+    background: var(--surface-3);
+  }
+}
 .docRowDone {
   background: var(--success-tint);
 }
@@ -577,6 +582,15 @@
   gap: 16px;
   padding: 18px 22px;
   min-height: 56px;
+}
+@media (hover: hover) {
+  .moreHead:hover {
+    background: var(--surface-2);
+    border-radius: var(--r-xl);
+  }
+  .more[open] .moreHead:hover {
+    border-radius: var(--r-xl) var(--r-xl) 0 0;
+  }
 }
 .moreHead::-webkit-details-marker {
   display: none;
