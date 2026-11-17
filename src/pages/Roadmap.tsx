@@ -234,7 +234,8 @@ export function Roadmap() {
         </div>
       </Card>
 
-      <div className={[s.sticky, hudHidden ? s.stickyHidden : ''].join(' ')} aria-hidden={hudHidden}>
+      {/* inert, not only aria-hidden: hidden links must not stay in the Tab order either. */}
+      <div className={[s.sticky, hudHidden ? s.stickyHidden : ''].join(' ')} aria-hidden={hudHidden} inert={hudHidden}>
         <div className={s.hud}>
           <span className={s.hudRing}>
             <ProgressRing value={progress.ratio} size={54} stroke={6} dark />
