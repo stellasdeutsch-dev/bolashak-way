@@ -50,6 +50,8 @@ export function Settings() {
           documentsDone: state.documentsDone,
           notes: state.notes,
           dates: state.dates,
+          // the other programmes too: the file is how a plan moves to another device
+          archive: state.archive,
         },
         new Date().toISOString(),
       ),

@@ -1,8 +1,8 @@
 import { create } from 'zustand'
 import { persist, createJSONStorage } from 'zustand/middleware'
-import type { DateKey, Locale, Profile, StageId, Track } from '@/content/types'
+import type { DateKey, Locale, Profile, StageId } from '@/content/types'
 import { CONTENT_META } from '@/content/meta'
-import { sanitizeProgress, type Progress } from '@/domain/exportImport'
+import { sanitizeArchive, sanitizeProgress, type Archive, type Progress } from '@/domain/exportImport'
 import { localeFromUrl } from '@/domain/site'
 import { safeLocalStorage } from './safeStorage'
 
@@ -29,7 +29,7 @@ export interface AppState {
    * across programmes, so a tick made for the master's must not count for an internship:
    * switching programme files the current progress here and brings back the target's.
    */
-  archive: Partial<Record<Track, Progress>>
+  archive: Archive
   /**
    * A saved plan was found but could not be read (damaged or from an unknown version), so
    * the reader starts over. Not stored: it is only there to tell them why.
@@ -46,7 +46,8 @@ export interface AppState {
   setNote: (stage: StageId, note: string) => void
   setDate: (key: DateKey, value: string | null) => void
   reset: () => void
-  hydrateFrom: (data: Partial<AppState>) => void
+  /** Replaces this device's progress with an imported file. A file without `archive` keeps the device's. */
+  hydrateFrom: (data: Partial<Omit<AppState, 'archive'>> & { archive?: Archive }) => void
 }
 
 /**
@@ -145,6 +146,7 @@ export const useAppStore = create<AppState>()(
           dates: data.dates ?? {},
           locale: data.locale ?? get().locale,
           theme: data.theme ?? get().theme,
+          archive: data.archive ?? get().archive,
         }),
     }),
     {
@@ -168,12 +170,8 @@ export const useAppStore = create<AppState>()(
       // older content year is cut down to what the current model understands.
       merge: (persisted, current) => {
         const raw = (persisted ?? {}) as Partial<AppState>
-        const archive: Partial<Record<Track, Progress>> = {}
-        for (const [track, value] of Object.entries(raw.archive ?? {})) {
-          const clean = sanitizeProgress(value)
-          if (clean.profile && clean.profile.track === track) archive[track as Track] = clean
-        }
         const progress = sanitizeProgress(raw)
+        const archive = sanitizeArchive(raw.archive, progress.profile?.track)
         return {
           ...current,
           restoreFailed: raw.profile != null && progress.profile === null,

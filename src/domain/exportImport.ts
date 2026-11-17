@@ -18,6 +18,8 @@ export interface Snapshot {
   documentsDone: string[]
   notes: Record<string, string>
   dates: Partial<Record<DateKey, string>>
+  /** Progress of the other programmes on this device. Absent in files from before it was saved. */
+  archive?: Archive
 }
 
 const TRACKS: Track[] = ['bachelor', 'master', 'phd_residency', 'internship', 'science_internship']
@@ -105,10 +107,28 @@ export function parseSnapshot(text: string): Snapshot | null {
     exportedAt: typeof data.exportedAt === 'string' ? data.exportedAt : '',
     competitionYear: typeof data.competitionYear === 'number' ? data.competitionYear : CONTENT_META.competitionYear,
     ...progress,
+    // An older file has no archive: leave the device's own as it is rather than wipe it.
+    ...(data.archive !== undefined ? { archive: sanitizeArchive(data.archive, progress.profile?.track) } : {}),
   }
 }
 
 export type Progress = Pick<Snapshot, 'profile' | 'onboardedAt' | 'checked' | 'stagesDone' | 'documentsDone' | 'notes' | 'dates'>
+export type Archive = Partial<Record<Track, Progress>>
+
+/**
+ * The other programmes' progress, each checked like the active one. An entry is kept only
+ * under the programme its own profile belongs to, and never for the programme that is open.
+ */
+export function sanitizeArchive(raw: unknown, activeTrack?: Track): Archive {
+  const archive: Archive = {}
+  if (!raw || typeof raw !== 'object') return archive
+  for (const [track, value] of Object.entries(raw)) {
+    if (track === activeTrack) continue
+    const clean = sanitizeProgress(value)
+    if (clean.profile && clean.profile.track === track) archive[track as Track] = clean
+  }
+  return archive
+}
 
 /**
  * Keeps only what the current content model understands. Used for imported files and
