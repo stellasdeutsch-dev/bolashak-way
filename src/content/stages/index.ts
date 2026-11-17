@@ -58,7 +58,3 @@ export const CHAPTER_ORDER: ChapterId[] = CHAPTERS.map((c) => c.id)
 export const STAGES: Stage[] = [...PREPARE_STAGES, ...APPLY_STAGES, ...CONTEST_STAGES, ...AWARDED_STAGES, ...ABROAD_STAGES]
 
 export const STAGE_BY_ID = new Map<StageId, Stage>(STAGES.map((s) => [s.id, s]))
-
-export const getStage = (id: StageId): Stage | undefined => STAGE_BY_ID.get(id)
-
-export const getChapter = (id: ChapterId): Chapter => CHAPTERS.find((c) => c.id === id)!

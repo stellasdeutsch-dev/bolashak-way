@@ -1,9 +1,9 @@
 import { useEffect, useMemo } from 'react'
-import { useMyPaths } from '@/components/platform/usePlatform'
+import { useMyPaths, usePlanProfile } from '@/components/platform/usePlatform'
 import { platformPaths } from '@/domain/paths'
 import { useHideOnScroll } from '@/components/useHideOnScroll'
 import { StepBar } from '@/components/Meter'
-import { Link, useLocation, useNavigate } from 'react-router'
+import { Link, useLocation } from 'react-router'
 import { IconArrowRight as ArrowRight, IconCheck as Check, IconChevronRight as ChevronRight, IconLock as Lock } from '@/components/icons'
 import { CHAPTERS } from '@/content/stages'
 import { chaptersFor } from '@/content/platforms/chapters'
@@ -135,37 +135,27 @@ function RoadmapTrack({ rows, currentId, nowLabel }: { rows: Row[]; currentId?: 
 
 export function Roadmap() {
   const { t, c, locale } = useI18n()
-  const navigate = useNavigate()
   const paths = useMyPaths() ?? platformPaths('master')
-  const profile = useAppStore((st) => st.profile)
+  const profile = usePlanProfile()
   const checked = useAppStore((st) => st.checked)
   const stagesDone = useAppStore((st) => st.stagesDone)
   const hudHidden = useHideOnScroll()
   const location = useLocation()
 
-  useEffect(() => {
-    if (!profile) navigate('/', { replace: true })
-  }, [profile, navigate])
-
-  const progress = useMemo(
-    () => (profile ? computeProgress({ profile, checked, stagesDone }) : null),
-    [profile, checked, stagesDone],
-  )
+  const progress = useMemo(() => computeProgress({ profile, checked, stagesDone }), [profile, checked, stagesDone])
   const dates = useAppStore((st) => st.dates)
   const today = useToday()
-  const nearest = useMemo(() => (profile ? nearestDeadline(computeDeadlines(profile, dates, new Date())) : null), [profile, dates, today])
+  const nearest = useMemo(() => nearestDeadline(computeDeadlines(profile, dates, new Date())), [profile, dates, today])
   const stale = useMemo(() => staleness(CONTENT_META, new Date()), [])
-  const docCount = useMemo(() => (profile ? documentsFor(profile).reduce((n, g) => n + g.items.length, 0) : 0), [profile])
+  const docCount = useMemo(() => documentsFor(profile).reduce((n, g) => n + g.items.length, 0), [profile])
   usePageChrome(t('nav.roadmap'))
 
   // Back from a stage ("К плану"): land on that stage's row, not at the top of the list.
   const returnTo = (location.state as { scrollTo?: string } | null)?.scrollTo
   useEffect(() => {
-    if (!returnTo || !progress) return
+    if (!returnTo) return
     document.getElementById(`node-${returnTo}`)?.scrollIntoView({ block: 'center', behavior: 'instant' })
   }, [returnTo, progress])
-
-  if (!profile || !progress) return null
 
   const category = CATEGORIES[profile.category]
   const current = progress.current

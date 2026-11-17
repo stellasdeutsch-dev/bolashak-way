@@ -227,12 +227,6 @@ export const IconChevronDown = (p: IconProps) => (
   </Svg>
 )
 
-export const IconArrowDown = (p: IconProps) => (
-  <Svg {...p}>
-    <path d="M12 4.4v15.2M5.6 13.2 12 19.6l6.4-6.4" />
-  </Svg>
-)
-
 export const IconArrowLeft = (p: IconProps) => (
   <Svg {...p}>
     <path d="M19.6 12H4.4M10.8 5.6 4.4 12l6.4 6.4" />
@@ -393,25 +387,6 @@ export const IconFlask = (p: IconProps) => (
   </Svg>
 )
 
-export const IconMailQuestion = (p: IconProps) => (
-  <Svg {...p}>
-    <F d="M2.8 5.6h14.4v9.6H2.8Z" />
-    <path d="M17.2 10.4V5.6H2.8v9.6h9.4" />
-    <path d="m3.4 6.4 6.6 4.4 6.6-4.4" />
-    <path d="M16.2 15.6c0-1 .8-1.7 1.8-1.7s1.8.7 1.8 1.7c0 1.4-1.8 1.3-1.8 2.6" />
-    <circle cx="18" cy="20.3" r=".9" fill="currentColor" stroke="none" />
-  </Svg>
-)
-
-export const IconMailX = (p: IconProps) => (
-  <Svg {...p}>
-    <F d="M2.8 5.6h14.4v9.6H2.8Z" />
-    <path d="M17.2 10.4V5.6H2.8v9.6h9.4" />
-    <path d="m3.4 6.4 6.6 4.4 6.6-4.4" />
-    <path d="m15.6 15.6 4.8 4.8M20.4 15.6l-4.8 4.8" />
-  </Svg>
-)
-
 export const IconBadgeCheck = (p: IconProps) => (
   <Svg {...p}>
     <F d="m12 2.6 2.4 2 3-.3 1 2.9 2.6 1.6-1 2.9 1 2.9-2.6 1.6-1 2.9-3-.3-2.4 2-2.4-2-3 .3-1-2.9L2 14.6l1-2.9-1-2.9 2.6-1.6 1-2.9 3 .3Z" />
@@ -420,29 +395,11 @@ export const IconBadgeCheck = (p: IconProps) => (
   </Svg>
 )
 
-export const IconBan = (p: IconProps) => (
-  <Svg {...p}>
-    <F d="M12 3.2a8.8 8.8 0 1 1 0 17.6 8.8 8.8 0 0 1 0-17.6Z" o={0.12} />
-    <circle cx="12" cy="12" r="8.8" />
-    <path d="m5.8 5.8 12.4 12.4" />
-  </Svg>
-)
-
 export const IconClock = (p: IconProps) => (
   <Svg {...p}>
     <F d="M12 3.2a8.8 8.8 0 1 1 0 17.6 8.8 8.8 0 0 1 0-17.6Z" o={0.13} />
     <circle cx="12" cy="12" r="8.8" />
     <path d="M12 6.8V12l3.6 2.2" />
-  </Svg>
-)
-
-export const IconFingerprint = (p: IconProps) => (
-  <Svg {...p}>
-    <path d="M5.2 9.4a7.6 7.6 0 0 1 13.6 0" />
-    <path d="M7.6 12.4a4.6 4.6 0 0 1 8.8 0c0 1.4-.2 2.8-.6 4.2" />
-    <path d="M12 11.4v3.2c0 1.8-.3 3.6-.9 5.2" />
-    <path d="M15.6 19.4c.5-1.2.8-2.5 1-3.8" />
-    <path d="M8.6 19.8c.7-1.6 1-3.3 1-5" />
   </Svg>
 )
 

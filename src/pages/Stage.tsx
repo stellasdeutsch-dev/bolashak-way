@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
-import { useMyPaths } from '@/components/platform/usePlatform'
+import { useMyPaths, usePlanProfile } from '@/components/platform/usePlatform'
 import { dateLabelKey, platformPaths } from '@/domain/paths'
-import { Link, useNavigate, useParams } from 'react-router'
+import { Link, useParams } from 'react-router'
 import { IconArrowLeft as ArrowLeft, IconArrowRight as ArrowRight, IconCheck as Check, IconChevronDown as ChevronDown, IconAlertCircle as CircleAlert, IconExternal as ExternalLink, IconLock as Lock, IconAlertTriangle as TriangleAlert } from '@/components/icons'
 import { chaptersFor } from '@/content/platforms/chapters'
 import { getStageFor } from '@/domain/resolve'
@@ -441,11 +441,10 @@ function CategoryRequirements() {
 
 export function StagePage() {
   const { id } = useParams<{ id: StageId }>()
-  const navigate = useNavigate()
   const paths = useMyPaths() ?? platformPaths('master')
   const { t, c, cf, locale } = useI18n()
 
-  const profile = useAppStore((st) => st.profile)
+  const profile = usePlanProfile()
   const checked = useAppStore((st) => st.checked)
   const stagesDone = useAppStore((st) => st.stagesDone)
   const documentsDone = useAppStore((st) => st.documentsDone)
@@ -458,17 +457,13 @@ export function StagePage() {
   const [justTicked, setJustTicked] = useState<string | null>(null)
 
   useEffect(() => {
-    if (!profile) navigate('/', { replace: true })
-  }, [profile, navigate])
-  useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'instant' })
   }, [id])
 
-  const progress = useMemo(() => (profile ? computeProgress({ profile, checked, stagesDone }) : null), [profile, checked, stagesDone])
-  const stage = id && profile ? getStageFor(id, profile.track) : undefined
+  const progress = useMemo(() => computeProgress({ profile, checked, stagesDone }), [profile, checked, stagesDone])
+  const stage = id ? getStageFor(id, profile.track) : undefined
   usePageChrome(stage ? cf(stage.title).text : undefined)
 
-  if (!profile || !progress) return null
   if (!stage || !progress.byId.has(stage.id)) {
     return (
       <Card>

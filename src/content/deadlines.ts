@@ -142,5 +142,3 @@ export const DEADLINE_RULES: DeadlineRule[] = [
     source: 'stipendiat_internship',
   },
 ]
-
-export const deadlinesForStage = (stage: string): DeadlineRule[] => DEADLINE_RULES.filter((r) => r.stage === stage)

@@ -1,6 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
-import { useNavigate } from 'react-router'
 import { IconCheck as Check, IconDownload as Download, IconFileSignature as FileSignature } from '@/components/icons'
 import { getCategory, WORKER_GROUPS } from '@/content/categories'
 import { platformForTrack } from '@/content/platforms'
@@ -11,6 +10,7 @@ import { getStageFor } from '@/domain/resolve'
 import { getSource } from '@/content/sources'
 import { documentsFor, isDocAuto } from '@/domain/documents'
 import { useAppStore } from '@/store/useAppStore'
+import { usePlanProfile } from '@/components/platform/usePlatform'
 import { useI18n } from '@/i18n'
 import { usePageChrome } from '@/i18n/usePageChrome'
 import { Card, ProgressRing } from '@/components/ui'
@@ -21,8 +21,7 @@ import s from './Documents.module.css'
 
 export function Documents() {
   const { t, c, locale } = useI18n()
-  const navigate = useNavigate()
-  const profile = useAppStore((st) => st.profile)
+  const profile = usePlanProfile()
   const documentsDone = useAppStore((st) => st.documentsDone)
   const toggleDocument = useAppStore((st) => st.toggleDocument)
   const [onlyRemaining, setOnlyRemaining] = useState(false)
@@ -40,9 +39,6 @@ export function Documents() {
   }, [documentsDone])
   usePageChrome(t('nav.documents'))
 
-  useEffect(() => {
-    if (!profile) navigate('/', { replace: true })
-  }, [profile, navigate])
 
   // The print sheet is only used when printed from the button; Ctrl+P keeps the page.
   useEffect(() => {
@@ -58,8 +54,7 @@ export function Documents() {
     window.print()
   }
 
-  const groups = useMemo(() => (profile ? documentsFor(profile) : []), [profile])
-  if (!profile) return null
+  const groups = useMemo(() => documentsFor(profile), [profile])
 
   const isDone = (id: string, auto: boolean) => auto || documentsDone.includes(id)
   const all = groups.flatMap((g) => g.items)

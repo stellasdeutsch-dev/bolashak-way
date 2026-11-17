@@ -40,7 +40,6 @@ export interface AppState {
   setTheme: (t: ThemePref) => void
   setProfile: (p: Profile) => void
   toggleCheck: (stage: StageId, item: string) => void
-  isChecked: (stage: StageId, item: string) => boolean
   setStageDone: (stage: StageId, done: boolean) => void
   toggleDocument: (docId: string) => void
   setNote: (stage: StageId, note: string) => void
@@ -144,7 +143,6 @@ export const useAppStore = create<AppState>()(
         const checked = get().checked
         set({ checked: checked.includes(key) ? checked.filter((k) => k !== key) : [...checked, key] })
       },
-      isChecked: (stage, item) => get().checked.includes(`${stage}:${item}`),
 
       setStageDone: (stage, done) => {
         const list = get().stagesDone

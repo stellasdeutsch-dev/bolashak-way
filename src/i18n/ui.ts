@@ -527,12 +527,6 @@ export const UI = {
       kk: 'Әр мерзімнің ұзақтығын осы құжаттар белгілейді. Қолданба тек сіздің күніңізден күндерді санайды.',
       en: 'These documents set the length of every term. The app only counts the days from your date.',
     },
-    noProfileTitle: { ru: 'Сначала соберите путь', kk: 'Алдымен жолды жинаңыз', en: 'Build your path first' },
-    noProfileText: {
-      ru: 'Сроки зависят от категории. Выберите направление, чтобы заполнить календарь.',
-      kk: 'Мерзімдер санатқа байланысты. Күнтізбені толтыру үшін бағытты таңдаңыз.',
-      en: 'The terms depend on your category. Choose your direction to fill the calendar.',
-    },
     mon: { ru: 'Пн', kk: 'Дс', en: 'Mon' },
     tue: { ru: 'Вт', kk: 'Сс', en: 'Tue' },
     wed: { ru: 'Ср', kk: 'Ср', en: 'Wed' },

@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import { useLocation } from 'react-router'
 import { getPlatform, isPlatformSlug, platformForTrack, type PlatformMeta } from '@/content/platforms'
-import type { PlatformSlug } from '@/content/types'
+import type { PlatformSlug, Profile } from '@/content/types'
 import { pathsForTrack, type PlatformPaths } from '@/domain/paths'
 import { useAppStore } from '@/store/useAppStore'
 
@@ -18,6 +18,17 @@ export function useActivePlatform(): PlatformMeta | null {
   const track = useAppStore((st) => st.profile?.track)
   if (fromRoute) return getPlatform(fromRoute)
   return track ? platformForTrack(track) : null
+}
+
+/**
+ * The reader's plan, on a page that only exists with one: everything behind
+ * <PlatformRoute gate> (roadmap, stage, documents, calendar). The gate sends a reader
+ * without a plan to the questions before such a page renders.
+ */
+export function usePlanProfile(): Profile {
+  const profile = useAppStore((st) => st.profile)
+  if (!profile) throw new Error('A plan page rendered without a plan: it belongs behind <PlatformRoute gate>.')
+  return profile
 }
 
 /** Addresses inside the reader's own platform – the one their roadmap belongs to. */
