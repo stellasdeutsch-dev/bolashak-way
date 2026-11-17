@@ -1,6 +1,6 @@
 import { FAQ } from '@/content/faq'
 import type { Locale, Profile, StageId } from '@/content/types'
-import { pick } from '@/i18n'
+import { pick } from '@/i18n/text'
 import { applicableItems, applicableStages } from './progress'
 import { documentsFor } from './documents'
 import { pathsForTrack } from './paths'
