@@ -37,6 +37,7 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm test -- --run
+      - run: npm run i18n:coverage
       - run: npm run build
       - name: Carry the /cloud build over from the published site
         run: |

@@ -57,3 +57,10 @@ for (const loc of ['kk', 'en']) {
 if (process.argv.includes('--list')) {
   for (const loc of ['kk', 'en']) console.log(`\nmissing ${loc}:\n` + missing[loc].join('\n'))
 }
+
+// A missing translation falls back to Russian on screen and passes every other check, so
+// this one has to fail: CI runs it before publishing.
+if (missing.kk.length || missing.en.length) {
+  console.error('\nMissing translations – run with --list to see them.')
+  process.exitCode = 1
+}
