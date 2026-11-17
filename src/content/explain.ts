@@ -1,4 +1,5 @@
 import type { ChapterId, L, Rule, SourceId, StageId, Track } from './types'
+import { TERMS } from './terms'
 
 /**
  * Content for the explanatory visuals: a table, a two-lane path diagram and a timeline.
@@ -153,8 +154,9 @@ export interface TimelineMark {
  */
 export function awardTimeline(track: Track): { total: number; marks: TimelineMark[]; note: L } {
   const science = track === 'science_internship'
+  const days = TERMS.contractWindowDays.value
   return {
-    total: 90,
+    total: days,
     note: science
       ? {
           ru: 'Срок считают в календарных днях со дня решения комиссии, а не со дня, когда вы о нём узнали. Если не успеваете из-за болезни, командировки или других обстоятельств, до истечения срока можно один раз попросить продление – до 90 дней с решения Комиссии по рассмотрению обращений.',
@@ -169,8 +171,8 @@ export function awardTimeline(track: Track): { total: number; marks: TimelineMar
     marks: [
       { day: 0, tone: 'start', label: { ru: 'Решение комиссии', kk: 'Комиссия шешімі', en: 'Commission decision' }, source: science ? 'ns_rules422' : 'pp573' },
       science
-        ? { day: 90, tone: 'ns', label: { ru: '90 дней – договор и два гаранта', kk: '90 күн – шарт және екі кепілгер', en: '90 days – the contract and two guarantors' }, source: 'ns_rules422' }
-        : { day: 90, tone: 'main', label: { ru: '90 дней – договор и залог или гарантия', kk: '90 күн – шарт және кепіл не кепілдік', en: '90 days – contract and pledge or guarantee' }, source: 'pp573' },
+        ? { day: days, tone: 'ns', label: { ru: '90 дней – договор и два гаранта', kk: '90 күн – шарт және екі кепілгер', en: '90 days – the contract and two guarantors' }, source: 'ns_rules422' }
+        : { day: days, tone: 'main', label: { ru: '90 дней – договор и залог или гарантия', kk: '90 күн – шарт және кепіл не кепілдік', en: '90 days – contract and pledge or guarantee' }, source: 'pp573' },
     ],
   }
 }

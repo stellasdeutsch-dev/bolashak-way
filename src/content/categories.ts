@@ -1,3 +1,4 @@
+import { TERMS } from './terms'
 import { CATEGORY_IDS, TRACKS, type Category, type CategoryId, type L, type Track, type WorkerGroup } from './types'
 
 /**
@@ -532,8 +533,8 @@ export const WORKER_GROUPS: { id: WorkerGroup; title: L; shortMonths?: number }[
   { id: 'media', title: { ru: 'Работники средств массовой информации', kk: 'Бұқаралық ақпарат құралдарының қызметкерлері', en: 'Mass media workers' } },
   { id: 'culture', title: { ru: 'Работники сферы культуры, туризма и спорта', kk: 'Мәдениет, туризм және спорт саласының қызметкерлері', en: 'Culture, tourism and sport workers' } },
   { id: 'judge', title: { ru: 'Судьи и работники судов', kk: 'Судьялар және сот қызметкерлері', en: 'Judges and court staff' } },
-  { id: 'ai_user', title: { ru: 'Пользователи системы искусственного интеллекта', kk: 'Жасанды интеллект жүйесін пайдаланушылар', en: 'AI system users' }, shortMonths: 6 },
-  { id: 'nuclear', title: { ru: 'Работники атомной отрасли', kk: 'Атом саласының қызметкерлері', en: 'Nuclear industry workers' }, shortMonths: 6 },
+  { id: 'ai_user', title: { ru: 'Пользователи системы искусственного интеллекта', kk: 'Жасанды интеллект жүйесін пайдаланушылар', en: 'AI system users' }, shortMonths: TERMS.internshipShortContinuousMonths.value },
+  { id: 'nuclear', title: { ru: 'Работники атомной отрасли', kk: 'Атом саласының қызметкерлері', en: 'Nuclear industry workers' }, shortMonths: TERMS.internshipShortContinuousMonths.value },
 ]
 
 export const getCategory = (id: CategoryId): Category => CATEGORIES[id]

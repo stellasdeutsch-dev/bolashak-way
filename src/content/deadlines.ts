@@ -1,4 +1,5 @@
 import type { DeadlineRule } from './types'
+import { TERMS } from './terms'
 
 /**
  * Official terms that start ticking from a date only the applicant knows.
@@ -9,7 +10,7 @@ export const DEADLINE_RULES: DeadlineRule[] = [
     id: 'contract',
     stage: 'contract',
     anchor: 'award_date',
-    days: 90,
+    days: TERMS.contractWindowDays.value,
     appliesTo: { not: { track: ['science_internship'] } },
     label: {
       ru: 'Заключить договор и договор залога или гарантии',
@@ -22,7 +23,7 @@ export const DEADLINE_RULES: DeadlineRule[] = [
     id: 'contract_ns',
     stage: 'contract',
     anchor: 'award_date',
-    days: 90,
+    days: TERMS.contractWindowDays.value,
     appliesTo: { track: ['science_internship'] },
     label: {
       ru: 'Заключить договор о прохождении научной стажировки',
