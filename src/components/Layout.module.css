@@ -230,11 +230,11 @@
   color: var(--accent);
 }
 
-/* The five nav labels plus the brand, search and language chips need about 1020px, and
-   the cloud build adds an account control on top of that. Below this width the row
-   overflowed and the whole page scrolled sideways, so the tab bar – which is designed
-   for exactly this – stays until there is genuinely room for the nav. */
-@media (min-width: 1080px) {
+/* With a plan open, the nav labels plus the brand, programme switcher, settings and
+   language chips need up to about 1230px (measured in ru, kk and en). Below this width
+   the row overflowed and the whole page scrolled sideways (seen at 1080–1230px), so the
+   tab bar – which is designed for exactly this – stays until there is room for the nav. */
+@media (min-width: 1280px) {
   .deskNav {
     display: flex;
   }
@@ -372,7 +372,7 @@
   color: #fff;
   font-weight: 600;
 }
-@media (min-width: 1080px) {
+@media (min-width: 1280px) {
   .updateSlot {
     bottom: 24px;
   }

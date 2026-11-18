@@ -52,7 +52,7 @@ Check, as a reader would:
 | Hidden progress bar | scroll the roadmap down at 390×844 | the bar has `inert`; its links take no focus |
 | No sideways scroll | 390×844: landing, `/#/master` with every folded block opened, stages foreign/workback/category/specialty of a rural master, `/#/master/calendar`, science foreign | no element past the viewport, no inner horizontal scroller |
 
-Also look at 834 and 1440 px after layout changes; the landing comparison table switches to the five-column view at 1060 px and must not scroll sideways on either side of that.
+Also look at 834 and 1440 px after layout changes; the landing comparison table switches to the five-column view at 1060 px and must not scroll sideways on either side of that. The header shows the full nav from 1280 px (below it, the tab bar): with a plan open, scan every width from 360 to 1440 in ru, kk and en – `scrollWidth` must equal `clientWidth` (it overflowed at 1080–1230 px before).
 
 ## 3. Refactors: same output before and after
 
